@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractUndoableTool.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: AbstractUndoableTool.java,v 1.2 2007/08/25 12:19:44 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -23,7 +23,7 @@ import org.graffiti.undo.Undoable;
 /**
  * Superclass for all tools that provide undo information for their actions.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractUndoableTool
     extends AbstractTool
@@ -39,7 +39,7 @@ public abstract class AbstractUndoableTool
 
     /** This object helps doing undo properly. */
     protected static UndoableEditSupport undoSupport;
-
+    
     //~ Methods ================================================================
 
     /**

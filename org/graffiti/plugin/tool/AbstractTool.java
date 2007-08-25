@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: AbstractTool.java,v 1.2 2007/08/25 12:19:44 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -55,11 +55,6 @@ public abstract class AbstractTool
     extends MouseInputAdapter
     implements Tool, SessionListener, SelectionListener
 {
-    //~ Static fields/initializers =============================================
-
-    /** The logger for the current class. */
-    private static final Logger logger = Logger.getLogger(AbstractTool.class.getName());
-
     //~ Instance fields ========================================================
     
     protected JComponent mouseComp=null;
@@ -87,7 +82,7 @@ public abstract class AbstractTool
 
     /** Used to display marked nodes. */
     /** Size of bullets used to display marked edges. */
-    private static final int BORDERSIZE = 10;
+    protected static final int BORDERSIZE = 10;
 
     //    private final LineBorder border = new LineBorder(java.awt.Color.RED, 4);
 
