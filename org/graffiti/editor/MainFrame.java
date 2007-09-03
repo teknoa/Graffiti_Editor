@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: MainFrame.java,v 1.2 2007/09/03 14:47:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -170,7 +170,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -549,8 +549,15 @@ public class MainFrame extends JFrame implements SessionManager,
 		GraphicsDevice gd = gs[j];
 		GraphicsConfiguration[] gc = gd.getConfigurations();
 		virtualBounds = virtualBounds.union(gc[0].getBounds());
-		int w = gc[0].getDevice().getDisplayMode().getWidth();
-		int h = gc[0].getDevice().getDisplayMode().getHeight();
+		int w, h;
+		
+		try {
+			w = gc[0].getDevice().getDisplayMode().getWidth();
+			h = gc[0].getDevice().getDisplayMode().getHeight();
+		} catch(NullPointerException npe) {
+			w = 800;
+			h = 600;
+		}
 		
 		// Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 //		int xpos = (virtualBounds.width / 2) - (getWidth() / 2);
