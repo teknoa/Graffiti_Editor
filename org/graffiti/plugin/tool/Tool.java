@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Tool.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: Tool.java,v 1.2 2007/10/08 13:47:39 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -85,6 +85,10 @@ public interface Tool
     void setPrefs(GravistoPreferences p);
 
 	public void deactivateAll();
+
+	public void preProcessImageCreation();
+
+	public void postProcessImageCreation();
 }
 
 //------------------------------------------------------------------------------
