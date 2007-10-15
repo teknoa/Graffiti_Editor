@@ -161,7 +161,7 @@ public class GravistoService {
 	 *
 	 * @return The pattern sessions.
 	 */
-	public List getPatternSessionList() {
+	public List<Session> getPatternSessionList() {
 		return patternSessions;
 	}
 
@@ -446,12 +446,20 @@ public class GravistoService {
 			System.out.println("Start algorithm: "+algorithm.getName());
 			System.out.println("	category: "+algorithm.getCategory());
 			System.out.println("	description: "+ErrorMsg.removeHTMLtags(algorithm.getDescription()));
-			System.out.println("Graph: "+graph.getName(true));
-			System.out.println("	Nodes: "+graph.getNumberOfNodes());
-			System.out.println("	Edges: "+graph.getNumberOfEdges());
-			System.out.println("Selection: "+selection.getName());
-			System.out.println("	Nodes: "+selection.getNodes().size());
-			System.out.println("	Edges: "+selection.getEdges().size());
+			if (graph==null) {
+				System.out.println("Graph: null");
+			} else {
+				System.out.println("Graph: "+graph.getName(true));
+				System.out.println("	Nodes: "+graph.getNumberOfNodes());
+				System.out.println("	Edges: "+graph.getNumberOfEdges());
+			}
+			if (selection==null) {
+				System.out.println("Selection: null");
+			} else {
+				System.out.println("Selection: "+selection.getName());
+				System.out.println("	Nodes: "+selection.getNodes().size());
+				System.out.println("	Edges: "+selection.getEdges().size());
+			}
 		}
 		
 		algorithm.attach(graph, selection);
@@ -542,8 +550,12 @@ public class GravistoService {
 				algorithm.reset();
 			}
 		} catch (PreconditionException e1) {
+			String name = algorithm.getName();
+			if (name==null) {
+				name = algorithm.getClass().getSimpleName();
+			}
 			MainFrame.showMessageDialog(
-					"<html>Can not start <i>"+algorithm.getName()+"</i>:<br><br>"+e1.getLocalizedMessage(), 
+					"<html>Can not start <i>"+name+"</i>:<br><br>"+e1.getMessage(), 
 					"Command can't be executed");
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
