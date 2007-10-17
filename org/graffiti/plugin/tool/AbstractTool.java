@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.2 2007/08/25 12:19:44 klukas Exp $
+// $Id: AbstractTool.java,v 1.3 2007/10/17 13:27:42 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -36,6 +36,7 @@ import org.graffiti.options.GravistoPreferences;
 import org.graffiti.plugin.gui.ToolButton;
 import org.graffiti.plugin.view.EdgeComponentInterface;
 import org.graffiti.plugin.view.GraphElementComponent;
+import org.graffiti.plugin.view.GraphElementComponentInterface;
 import org.graffiti.plugin.view.NodeComponentInterface;
 import org.graffiti.plugin.view.View;
 import org.graffiti.selection.Selection;
@@ -339,33 +340,18 @@ public abstract class AbstractTool
     {
         if(comp != null)
         {
-//            if(comp instanceof EdgeComponentInterface)
-//            {
-//                ((JComponent) comp).setBorder(new EdgeBorder(
-//                        java.awt.Color.ORANGE, BORDERSIZE, false));
-//            }
-//            else
-//            {
-        	if (comp instanceof EdgeComponentInterface)
-            ((JComponent) comp).setBorder(tempBorderEdge);
-        	else {
-        	   if (comp instanceof NodeComponentInterface) {
-        	   	NodeComponentInterface nci = (NodeComponentInterface)comp;
-        	   	Node n = (Node) nci.getGraphElement();
-        	   	if (AttributeHelper.hasAttribute(n, "", "url"))
-        	   		((JComponent) comp).setBorder(tempBorderLINK);
-        	   	else
-        	   		((JComponent) comp).setBorder(tempBorder);
-        	   } else
-        	   	((JComponent) comp).setBorder(tempBorder);
-        	}
-        	if (((JComponent) comp).getParent()!=null)
-        		((JComponent) comp).getParent().repaint();
-                
-//            }
-            // ((JComponent) comp).repaint();
+    	   if (comp instanceof GraphElementComponentInterface) {
+    	   	GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
+    	   	GraphElement n = (GraphElement) nci.getGraphElement();
+    	   	if (AttributeHelper.hasAttribute(n, "", "url"))
+    	   		((JComponent) comp).setBorder(tempBorderLINK);
+    	   	else
+    	   		((JComponent) comp).setBorder(tempBorder);
+    	   } else
+    	   	((JComponent) comp).setBorder(tempBorder);
+    	   if (((JComponent) comp).getParent()!=null)
+    		   ((JComponent) comp).getParent().repaint();
         }
-        // comp.getParent().repaint();
     }
 
     /**
