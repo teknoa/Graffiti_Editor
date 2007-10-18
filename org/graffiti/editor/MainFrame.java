@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.2 2007/09/03 14:47:41 klukas Exp $
+// $Id: MainFrame.java,v 1.3 2007/10/18 11:28:48 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -53,6 +53,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -170,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1229,120 +1230,107 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * finished.
 	 * @param file
 	 */
-	public void loadGraphInBackground(final File file)
+	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
 				throws IllegalAccessException, InstantiationException {
-		final String fileName = file.getName();
-		String ext = fileName.substring(fileName.lastIndexOf("."));
-
-		final InputSerializer is = ioManager.createInputSerializer(ext);
-		Thread t = new Thread(new Runnable() {
-			public void run() {
-				try {
-					showMessage("Loading graph file...",
-								MessageType.PERMANENT_INFO, 20000);
-					System.out.println("Read file: "+file.getAbsolutePath());
-					InputStream inpS = new FileInputStream(file.getAbsolutePath());
-					final Graph newGraph = is.read(inpS);
-					inpS.close();
-					System.out.println("File reading finished: "+file.getAbsolutePath());
-					newGraph.setName(file.getAbsolutePath());
-					showMessage(
-								"Graph file is loaded. Create view... (please wait)",
-								MessageType.PERMANENT_INFO, 20000);
-					newGraph.setModified(false);
-					SwingUtilities.invokeAndWait(new Runnable() {
-						public void run() {
-							System.out.println("Create view for file: "+file.getAbsolutePath());
-							EditorSession es = new EditorSession(newGraph);
-							es.setFileName(file.toURI());
-							showViewChooserDialog(es, false, true, null);
-							showMessage("Finished graph file loading",
-										MessageType.INFO, 3000);
-							System.out.println("View created for file: "+file.getAbsolutePath());
-						}
-					});
-				} catch (FileNotFoundException e) {
-					showError("File could not be loaded (" + e.getLocalizedMessage()
-								+ ")!");
-					ErrorMsg.addErrorMessage(e);
-				} catch (IOException e) {
-					showError("File could not be loaded (" + e.getLocalizedMessage()
-								+ ")!");
-					ErrorMsg.addErrorMessage(e);
-				} catch (InterruptedException e) {
-					showError("File could not be loaded (" + e.getLocalizedMessage()
-								+ ")!");
-					ErrorMsg.addErrorMessage(e);
-				} catch (InvocationTargetException e) {
-					showError("File could not be loaded (" + e.getLocalizedMessage()
-								+ ")!");
-					ErrorMsg.addErrorMessage(e);
-				} catch (Exception e) {
-					showError("File could not be loaded (Error: "
-								+ e.getLocalizedMessage() + ")!");
-					ErrorMsg.addErrorMessage(e);
-				}
-
-			}
-		});
-		t.setName("Load Graph in Background");
-		t.setPriority(Thread.MIN_PRIORITY);
-		t.start();
+		loadGraphInBackground(new File[] { file }, ae, autoSwitch);
 	}
 	
-	public void loadGraphInBackground(final File[] files, final ActionEvent ae)
+	public void loadGraphInBackground(final File[] proposedFiles, final ActionEvent ae, boolean autoSwitch)
 	throws IllegalAccessException, InstantiationException {
-	Thread t = new Thread(new Runnable() {
-	public void run() {
-		int i = 1;
-		StringBuilder errors = new StringBuilder();
-		int errcnt = 0;
-		errors.append("<html><h2>File Load - Errors: </h2>");
-		for (final File file : files)  {
-			try {
-				System.out.println("Read file: "+file.getAbsolutePath());
-					final String fileName = file.getName();
-					showMessage("Loading graph file ("+fileName+")... ["+i+"/"+files.length+"]",
-							MessageType.PERMANENT_INFO, 20000);
-					i++;
-					final Graph newGraph = getGraph(file);
-					
-					System.out.println("File reading finished: "+file.getAbsolutePath());
-					showMessage(
-								"Graph file is loaded. Create view... (please wait)",
-								MessageType.PERMANENT_INFO, 20000);
-					SwingUtilities.invokeAndWait(new Runnable() {
-						public void run() {
-							System.out.println("Create view for file: "+file.getAbsolutePath());
-							EditorSession es = new EditorSession(newGraph);
-							es.setFileName(file.toURI());
-							showViewChooserDialog(es, false, true, ae);
-							showMessage("Finished graph file loading",
-										MessageType.INFO, 3000);
-							// System.out.println("View created for file: "+file.getAbsolutePath());
-						}
-					});
-			} catch (Exception e) {
-				errcnt++;
-				errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage()
-						+ ")!");
-				ErrorMsg.addErrorMessage(e);
-			} catch(AssertionError e) {
-				errcnt++;
-				errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage()
-						+ ")!");
-				ErrorMsg.addErrorMessage(e.getMessage());
+		final ArrayList<File> files = new ArrayList<File>();
+		Thread t = new Thread(){
+			public void run() {
+				int i = 1;
+				StringBuilder errors = new StringBuilder();
+				int errcnt = 0;
+				errors.append("<html><h2>File Load - Errors: </h2>");
+				for (final File file : files)  {
+					try {
+						System.out.println("Read file: "+file.getAbsolutePath());
+						final String fileName = file.getName();
+						showMessage("Loading graph file ("+fileName+")... ["+i+"/"+files.size()+"]", MessageType.PERMANENT_INFO);
+						i++;
+						final Graph newGraph = getGraph(file);
+						System.out.println("File reading finished: "+file.getAbsolutePath());
+						SwingUtilities.invokeAndWait(new Runnable() {
+							public void run() {
+								showMessage("Graph file is loaded. Create view... (please wait)", MessageType.PERMANENT_INFO);
+								System.out.println("Create view for file: "+file.getAbsolutePath());
+								EditorSession es = new EditorSession(newGraph);
+								es.setFileName(file.toURI());
+								showViewChooserDialog(es, false, true, ae);
+								showMessage("Finished graph file loading", MessageType.INFO);
+							}
+						});
+					} catch (Exception e) {
+						errcnt++;
+						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage() + ")!");
+						ErrorMsg.addErrorMessage(e);
+					} catch(AssertionError e) {
+						errcnt++;
+						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage() + ")!");
+						ErrorMsg.addErrorMessage(e.getMessage());
+					}
+				}
+				if (errcnt>0)
+					showMessageDialogWithScrollBars(errors.toString(), "File(s) could not be loaded");
+				}
+			};
+		HashSet<File> filesToBeIgnored = new HashSet<File>();
+		for (File file : proposedFiles) {
+			EditorSession esf = null;
+			for (Session s : getSessions()) {
+				if (s instanceof EditorSession) {
+					EditorSession es = (EditorSession)s;
+					if (es.getFileName()==null)
+						continue;
+					if (es.getFileName().equals(file.toURI())) {
+						esf = es;
+						break;
+					}
+				}
 			}
+			final EditorSession fesf = esf;
+			if (!windowCheck(fesf, file.getAbsolutePath(), autoSwitch))
+				filesToBeIgnored.add(file);
 		}
-		if (errcnt>0)
-			showMessageDialogWithScrollBars(errors.toString(), "File(s) could not be loaded");
+		
+		for (File f : proposedFiles)
+			if (!filesToBeIgnored.contains(f))
+				files.add(f);
+		
+		if (files.size()>0) {
+			t.setName("Load Graphs ("+files.size()+") in Background");
+			t.setPriority(Thread.MIN_PRIORITY);
+			t.start();
+		}
 	}
-	});
-	t.setName("Load Graphs ("+files.length+") in Background");
-	t.setPriority(Thread.MIN_PRIORITY);
-	t.start();
-}
 
+	/**
+	 * @return true, if file should be loaded, false if file is already loaded
+	 */
+	private boolean windowCheck(EditorSession fesf, String fileName, boolean autoSwitch) {
+		if (fesf!=null) {
+			 if(autoSwitch || JOptionPane.showConfirmDialog(this,
+		             "<html>The graph file <i>" + fileName + "</i> is already loaded!<br><br>" +
+		             "Click 'Yes' to activate the existing graph view.<br>" +
+		             "Click 'No' to load the graph another time.</html>", "Activate existing view?",
+		             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+		     {
+		         for (GraffitiInternalFrame f : getActiveFrames()) {
+		        	 if (f.getSession()==fesf) {
+		        		 desktop.getDesktopManager().deiconifyFrame(f);
+		        		 desktop.getDesktopManager().activateFrame(f);
+		        		 MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
+		        		 return false;
+		        	 }
+		         }
+		         return true;
+		     } else
+		    	 return true;
+		} else
+			return true;
+	}
 
 	/**
 	 * Loads a graph from a file;

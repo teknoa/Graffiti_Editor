@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.2 2007/10/18 11:28:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -40,7 +40,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -112,10 +112,13 @@ public class FileSaveAsAction
             if(returnVal == JFileChooser.APPROVE_OPTION)
             {
                 File file = fc.getSelectedFile();
-         		 String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
+         		String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
                 needFile = safeFile(file, ext, getGraph());
                 if (!needFile) {
 	        		 EditorSession session = (EditorSession) mainFrame.getActiveSession();
+	        		 
+	        		 if (!file.getName().endsWith(ext))
+	        			 file = new File(file.getAbsolutePath() + ext);
 	      		     session.setFileName(file.toURI());
 	      		     
 	                 if (session!=null && session.getUndoManager()!=null)
@@ -169,30 +172,31 @@ public class FileSaveAsAction
 		 {
 		     try
 		     {
-		   	  IOManager ioManager = MainFrame.getInstance().getIoManager();
-		         OutputSerializer os = ioManager.createOutputSerializer(ext);
+		   	  	IOManager ioManager = MainFrame.getInstance().getIoManager();
+		        OutputSerializer os = ioManager.createOutputSerializer(ext);
 
-		         os.write(new FileOutputStream(file), graph);
-		         graph.setModified(false);
-		         graph.setName(file.getAbsolutePath());
+		        os.write(new FileOutputStream(file), graph);
+		        graph.setModified(false);
+		        graph.setName(file.getAbsolutePath());
+		        MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath(), MessageType.INFO);
 		     }
 		     catch(IOException ioe)
 		     {
 		         MainFrame.showMessage("Error: Could not save file.",
 		             MessageType.ERROR);
-		         ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
+		         ErrorMsg.addErrorMessage(ioe);
 		     }
 		     catch(IllegalAccessException iae)
 		     {
 		         MainFrame.showMessage("Error: Could not save file.",
 		             MessageType.ERROR);
-		         ErrorMsg.addErrorMessage(iae.getLocalizedMessage());
+		         ErrorMsg.addErrorMessage(iae);
 		     }
 		     catch(InstantiationException ie)
 		     {
 		         MainFrame.showMessage("Error: Could not save file.",
 		             MessageType.ERROR);
-		         ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
+		         ErrorMsg.addErrorMessage(ie);
 		     }
 		 }
 		return needFile;
