@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.2 2007/10/30 19:46:50 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -20,10 +20,12 @@ import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.BevelBorder;
 
 
 import org.graffiti.core.ImageBundle;
@@ -48,7 +50,7 @@ import org.graffiti.selection.Selection;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -277,6 +279,8 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		};
 		getContentPane().setLayout(new TableLayout(size));
 
+//		paramsPanel.setBorder(BorderFactory.createEtchedBorder());
+//		
 		getContentPane().add(paramsPanel, "1,1");
 		getContentPane().add(
 			TableLayout.get3Split(
@@ -298,7 +302,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 			Object... parameters) {
 		// Buttons: OK => close and return input values
 		// Cancel => close and return null
-		// Reset => set to inital values
+		// Reset => set to initial values
 		Parameter[] p = new Parameter[parameters.length / 2];
 		for (int i=0; i<p.length; i++) {
 			Object desc = parameters[i*2];

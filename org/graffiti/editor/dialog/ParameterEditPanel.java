@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.2 2007/10/30 19:46:50 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -30,6 +30,7 @@ import javax.swing.SwingConstants;
 
 
 import org.AttributeHelper;
+import org.ErrorMsg;
 import org.FolderPanel;
 import org.GuiRow;
 import org.JLabelJavaHelpLink;
@@ -45,7 +46,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -94,15 +95,26 @@ public class ParameterEditPanel extends JPanel {
 			helpL = JLabelJavaHelpLink.getHelpActionListener(helpTopic);
 		FolderPanel myPanel = new FolderPanel(title, false, false, false, helpL);
 
-		if (fillSurroundingStyle) {
-			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));
-		} else {
-			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN));
-			// myPanel.setFrameColor(getBackground(), Color.BLACK, 0, 3);
-			// myPanel.setBackground(getBackground());
-		}
+//		if (fillSurroundingStyle) {
+//			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));
+//		} else {
+//			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN));
+//			// myPanel.setFrameColor(getBackground(), Color.BLACK, 0, 3);
+//			// myPanel.setBackground(getBackground());
+//		}
+		
+		double[][] size = new double[][] {
+				{ TableLayout.FILL },
+				{ TableLayout.FILL }
+		};
+		
+		setLayout(new TableLayout(size));
+		
 		myPanel.setBackground(null);
+		
 		myPanel.setFrameColor(null, Color.BLACK, 0, 2);
+		// myPanel.setFrameColor(new Color(255, 255, 255), Color.BLACK, 0, 2);
+		
 		myPanel.setOpaque(false);
 		buildTable(selection, myPanel);
 
@@ -111,10 +123,11 @@ public class ParameterEditPanel extends JPanel {
 		myPanel.layoutRows();
 
 		if (descComponent!=null) {
-			add(TableLayout.getSplit(descComponent, myPanel, TableLayout.PREFERRED, TableLayout.PREFERRED));
+			add(TableLayout.getSplit(descComponent, myPanel, TableLayout.PREFERRED, TableLayout.PREFERRED), "0,0");
 		} else
-			add(myPanel);	
-		revalidate();
+			add(myPanel, "0,0");	
+		
+		validate();
 	}
 
 	//~ Methods ================================================================
@@ -208,6 +221,7 @@ public class ParameterEditPanel extends JPanel {
 			ToolTipHelper.addToolTip(editComp.getComponent(), parameter
 					.getDescription());
 		} catch (InstanceCreationException ice) {
+			ErrorMsg.addErrorMessage(ice);
 			throw new RuntimeException(
 					"Could not create an instance of a ValueEditComponent class. "
 							+ ice);
