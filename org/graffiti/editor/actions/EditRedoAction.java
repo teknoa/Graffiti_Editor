@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditRedoAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: EditRedoAction.java,v 1.2 2007/11/23 12:22:19 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.UndoManager;
 
 import org.graffiti.editor.MainFrame;
@@ -24,7 +25,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for redo capabilities.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EditRedoAction
     extends GraffitiAction {
@@ -63,7 +64,13 @@ public class EditRedoAction
      * @param e DOCUMENT ME!
      */
     public void actionPerformed(ActionEvent e) {
-        mainFrame.getActiveEditorSession().getUndoManager().redo();
+    	try {
+    		mainFrame.getActiveEditorSession().getUndoManager().redo();
+    	} catch(CannotRedoException cre) {
+    		MainFrame.showMessageDialog("<html>" +
+    				"Can't redo command!<br>" +
+    				"Error cause: "+cre.getMessage(), "Error");
+    	}
         mainFrame.updateActions();
     }
 

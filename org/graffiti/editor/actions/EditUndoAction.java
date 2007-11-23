@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditUndoAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: EditUndoAction.java,v 1.2 2007/11/23 12:22:20 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
+import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
 import org.graffiti.editor.MainFrame;
@@ -24,7 +25,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for undo capabilities.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class EditUndoAction
     extends GraffitiAction {
@@ -63,7 +64,13 @@ public class EditUndoAction
      * @param e DOCUMENT ME!
      */
     public void actionPerformed(ActionEvent e) {
-        mainFrame.getActiveEditorSession().getUndoManager().undo();
+    	try {
+	        mainFrame.getActiveEditorSession().getUndoManager().undo();
+    	} catch(CannotUndoException cue) {
+    		MainFrame.showMessageDialog("<html>" +
+    				"Can't undo command!<br>" +
+    				"Error cause: " + cue.getMessage(), "Error");
+    	}
         mainFrame.updateActions();
     }
 
