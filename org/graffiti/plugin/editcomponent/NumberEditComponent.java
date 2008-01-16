@@ -5,9 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NumberEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: NumberEditComponent.java,v 1.2 2008/01/16 10:38:45 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
+
+import java.awt.Dimension;
 
 import info.clearthought.layout.TableLayout;
 
@@ -61,6 +63,10 @@ public abstract class NumberEditComponent
         JComponent defaultResult = spinner.getComponent();
         if (displayable.getIcon()!=null) {
        	 JComponent jc = displayable.getIcon();
+       	 if (defaultResult!=null)
+       		 defaultResult.setPreferredSize(new Dimension(defaultResult.getMinimumSize().width, defaultResult.getPreferredSize().height));
+       	 if (defaultResult!=null)
+       		 defaultResult.setMinimumSize(new Dimension(0, defaultResult.getMinimumSize().height));
        	 JPanel jp = (JPanel) TableLayout.getSplit(jc, defaultResult, TableLayout.PREFERRED, TableLayout.FILL);
        	 jp.setOpaque(false);
        	 return jp;
