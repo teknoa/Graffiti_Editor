@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.3 2007/10/18 11:28:48 klukas Exp $
+// $Id: MainFrame.java,v 1.4 2008/01/24 16:47:17 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1169,7 +1169,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @param file File containing the graph;
 	 */
-	public void loadGraph(InputStream inputStream, String fileName, URI uri) {
+	public Graph loadGraph(InputStream inputStream, String fileName, URI uri) {
 		String ext = fileName.substring(fileName.lastIndexOf("."));
 //		System.out.println("Load graph file " + fileName + " URI:" + uri.toASCIIString());
 		try {
@@ -1177,13 +1177,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (is == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. InputSerializer is NULL.");
-				return;
+				return null;
 			}
 			Graph g = is.read(inputStream);
 			if (g == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. File loader result is NULL.");
-				return;
+				return null;
 			}
 			g.setName(fileName);
 			g.setModified(false);
@@ -1193,10 +1193,12 @@ public class MainFrame extends JFrame implements SessionManager,
 							.addErrorMessage("Graph "
 										+ fileName
 										+ " could not be loaded. Editor session could not be created from graph (EditorSession=NULL).");
-				return;
+				return null;
 			}
 			es.setFileName(uri);
 			showViewChooserDialog(es, false, true, null);
+			
+			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
 			JOptionPane
 						.showMessageDialog(null, sBundle.getString("fileFormatError")
@@ -1216,9 +1218,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						+ " could not be loaded. InstantiationException<br>"
 						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
 		}
-		//        {
-		//            showError("Could not load graph file. Error: "+e1.getMessage());
-		//        }
+		return null;
 	}
 
 	/**
