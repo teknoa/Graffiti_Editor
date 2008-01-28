@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.5 2008/01/26 19:39:53 klukas Exp $
+// $Id: MainFrame.java,v 1.6 2008/01/28 10:18:57 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3039,6 +3039,27 @@ public class MainFrame extends JFrame implements SessionManager,
 				if (title!=null && title.toUpperCase().contains(string.toUpperCase()))
 					return true;
 			}
+		}
+		return false;
+	}
+
+	public boolean lookUpAndSwitchToNamedSession(String fileName) {
+		Set<EditorSession> validSessions = new HashSet<EditorSession>();
+		for (EditorSession es : getEditorSessions()) {
+			if (es.getFileName().toString().endsWith(fileName) ||
+				es.getFileName().toString().replaceAll("%20", " ").endsWith(fileName))
+				validSessions.add(es);
+		}
+		if (validSessions.size()==1) {
+			EditorSession es = validSessions.iterator().next();
+			 for (GraffitiInternalFrame f : getActiveFrames()) {
+	        	 if (f.getSession()==es) {
+	        		 desktop.getDesktopManager().deiconifyFrame(f);
+	        		 desktop.getDesktopManager().activateFrame(f);
+	        		 MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
+	        		 return true;
+	        	 }
+	         }
 		}
 		return false;
 	}
