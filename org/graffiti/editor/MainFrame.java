@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.6 2008/01/28 10:18:57 klukas Exp $
+// $Id: MainFrame.java,v 1.7 2008/02/09 13:28:26 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3046,7 +3046,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	public boolean lookUpAndSwitchToNamedSession(String fileName) {
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileName().toString().endsWith(fileName) ||
+			if (es.getFileName()!=null && es.getFileName().toString().endsWith(fileName) ||
 				es.getFileName().toString().replaceAll("%20", " ").endsWith(fileName))
 				validSessions.add(es);
 		}
