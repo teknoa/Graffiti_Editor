@@ -5,41 +5,34 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.2 2008/01/08 15:08:45 klukas Exp $
+// $Id: PasteAction.java,v 1.3 2008/02/10 22:04:42 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.StringBufferInputStream;
 import java.io.StringReader;
-
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import org.AttributeHelper;
 import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.event.ListenerManager;
-
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.graph.Node;
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.SelectionAction;
-import org.graffiti.plugin.algorithm.NodePosition;
 import org.graffiti.plugin.io.InputSerializer;
-import org.graffiti.plugin.io.OutputSerializer;
-import org.graffiti.plugin.view.MessageListener;
 import org.graffiti.selection.Selection;
 
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -48,6 +41,8 @@ public class PasteAction extends SelectionAction {
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
+	
+	private static final int pasteOffset = 50;
 
 	/**
 	 * Constructs a new popup action.
@@ -68,6 +63,8 @@ public class PasteAction extends SelectionAction {
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
+	
+	HashMap<String, Integer> pasteHash2Offset = new HashMap<String, Integer>();
 
 	/**
 	 * Executes this action.
@@ -78,9 +75,11 @@ public class PasteAction extends SelectionAction {
 		String gml = ClipboardService.readFromClipboardAsText();
 		boolean isGMLformat = true;
 		if (!(gml!=null && gml.startsWith("graph ["))) {
-			// MainFrame.showMessageDialog("Clipboard data not in graph-gml format. Can not proceed.", "Information");
-			// return;
 			isGMLformat = false;
+		}
+		if (gml==null) {
+			MainFrame.showMessageDialog("Clipboard data could not be read. Can not proceed.", "Information");
+			return;
 		}
 
 		String ext = "gml";
@@ -88,7 +87,7 @@ public class PasteAction extends SelectionAction {
 		try {
 			InputSerializer is = ioManager.createInputSerializer("." + ext);
 			Graph newGraph = new AdjListGraph(new ListenerManager());
-			if (isGMLformat)
+			if (isGMLformat) 
 				is.read(new StringReader(gml), newGraph);
 			else {
 				gml = ErrorMsg.stringReplace(gml, "\r", "");
@@ -103,14 +102,24 @@ public class PasteAction extends SelectionAction {
 					y+=100;
 				}
 			}
-		   	newGraph.setModified(false);
 		   	Graph workGraph = getGraph();
 		   	boolean showGraphInNewView = false;
 		   	if (workGraph==null) {
 		   		workGraph = new AdjListGraph();
 		   		showGraphInNewView = true;
 		   	}
-		   	Collection<GraphElement> newElements = workGraph.addGraph(newGraph);
+
+			String hashCode = gml.hashCode()+"§"+workGraph.hashCode(); 
+			
+			if (!pasteHash2Offset.containsKey(hashCode))
+				pasteHash2Offset.put(hashCode, 0);
+			pasteHash2Offset.put(hashCode, pasteHash2Offset.get(hashCode)+pasteOffset);
+			int off = pasteHash2Offset.get(hashCode);
+			AttributeHelper.moveGraph(newGraph, off, off);
+
+			newGraph.setModified(false);
+
+			Collection<GraphElement> newElements = workGraph.addGraph(newGraph);
 		   	Selection sel  = getSelection();
 		   	if (sel==null) sel = new Selection();
 		   	sel.clear();
@@ -122,8 +131,7 @@ public class PasteAction extends SelectionAction {
 		   	} else {
 		   		MainFrame.getInstance().showGraph(workGraph, e);
 		   	}
-		      mainFrame.getActiveEditorSession().getSelectionModel()
-	         .selectionChanged();
+		      mainFrame.getActiveEditorSession().getSelectionModel().selectionChanged();
 		} catch (Exception err) {
 			ErrorMsg.addErrorMessage(err);
 		}

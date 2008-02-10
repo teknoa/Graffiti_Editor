@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.7 2008/02/09 13:28:26 klukas Exp $
+// $Id: MainFrame.java,v 1.8 2008/02/10 22:04:42 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1359,7 +1359,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	public Graph getGraph(File file) throws Exception {
 		final String fileName = file.getName();
 		Graph newGraph;
-		String ext = fileName.substring(fileName.lastIndexOf("."));
+		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 		InputSerializer is = ioManager.createInputSerializer(ext);
 		if (ext.equalsIgnoreCase(".NET")) {
 			Graph tempGraph = new AdjListGraph(new ListenerManager());
