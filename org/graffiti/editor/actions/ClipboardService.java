@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.AttributeHelper;
 import org.ErrorMsg;
 
 public class ClipboardService {
@@ -52,9 +53,15 @@ public class ClipboardService {
 		  }
 
 	static String mimeType = "text/plain; charset=UTF-8";
+	static String macMimeType = "text/plain";
 
 	public static void writeToClipboardAsText(String writeMe) {
-		Transferable transferableText = new TextTransferable(mimeType, writeMe);
+		Transferable transferableText;
+		if (ErrorMsg.isMac())
+			transferableText = new TextTransferable(macMimeType, writeMe);
+		else
+			transferableText = new TextTransferable(mimeType, writeMe);
+		
 		systemClipboard.setContents(transferableText, null);
 	}
 	
@@ -102,16 +109,19 @@ public class ClipboardService {
 	 * @return The String-Content of the Clipboard or NULL if no
 	 * content or content of the wrong type is available. 
 	 */
+	@SuppressWarnings("deprecation")
 	public static String readFromClipboardAsText() {
 		for (DataFlavor df : systemClipboard.getAvailableDataFlavors()) {
 			System.out.println("MIME: "+df.getMimeType());
-			if (df.getMimeType().startsWith("text/")) {
+			if (df.getMimeType().startsWith("text/plain")) {
 				Object o;
 				try {
 					o = systemClipboard.getData(df);
 					if (o instanceof StringBufferInputStream) {
 						StringBufferInputStream si = (StringBufferInputStream)o;
-						String charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
+						String charSet="";
+						if (df.getMimeType().contains("charset="))
+							charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
 						ArrayList<Integer> values = new ArrayList<Integer>();
 						int c;
 					    while((c = si.read()) != -1)
@@ -119,12 +129,19 @@ public class ClipboardService {
 					    byte[] bytes = new byte[values.size()];
 					    for (int i=0; i<bytes.length; i++)
 					    	bytes[i] = values.get(i).byteValue();
-					    String ress = new String(bytes, charSet);
+					    String ress;
+					    if (charSet.length()>0)
+					    	ress = new String(bytes, charSet);
+					    else
+					    	ress = new String(bytes);
 						return ress;
 					}
 					if (o instanceof ByteBuffer) {
 						ByteBuffer bb = (ByteBuffer)o;
-						String charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
+						String charSet= "";
+						if (df.getMimeType().contains("charset="))
+							charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
+					
 						ArrayList<Byte> values = new ArrayList<Byte>();
 						int c;
 					    while(bb.remaining()>0)
@@ -132,9 +149,14 @@ public class ClipboardService {
 					    byte[] bytes = new byte[values.size()];
 					    for (int i=0; i<bytes.length; i++)
 					    	bytes[i] = values.get(i).byteValue();
-					    String ress = new String(bytes, charSet);
+					    String ress;
+					    if (charSet.length()>0)
+					    	ress = new String(bytes, charSet);
+					    else
+					    	ress = new String(bytes);
 						return ress;
 					}
+					System.out.println("Not implemented: handling of "+o.getClass().getCanonicalName()+" class");
 				} catch (UnsupportedFlavorException e) {
 					ErrorMsg.addErrorMessage(e);
 				} catch (IOException e) {
