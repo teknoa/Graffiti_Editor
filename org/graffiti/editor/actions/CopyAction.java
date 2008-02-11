@@ -5,13 +5,16 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CopyAction.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: CopyAction.java,v 1.2 2008/02/11 13:44:38 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -32,12 +35,13 @@ import org.graffiti.help.HelpContext;
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.SelectionAction;
 import org.graffiti.plugin.io.OutputSerializer;
+import org.graffiti.plugin.io.SupportsWriterOutput;
 import org.graffiti.selection.Selection;
 
 /**
  * Represents a graph element copy action.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CopyAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -130,7 +134,6 @@ public class CopyAction extends SelectionAction {
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			StringBuffer sb = new StringBuffer();
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			Collection<Node> selNodes = selection.getNodes();
 			if (selNodes.size()>0 && selNodes.size()!=sourceGraph.getNumberOfNodes()) {
 				CollectionAttribute ca = sourceGraph.getAttributes();
@@ -166,8 +169,16 @@ public class CopyAction extends SelectionAction {
 	            }            
 			} else
 				resultGraph = sourceGraph;
-			os.write(baos, resultGraph);
-			ClipboardService.writeToClipboardAsText(baos.toString());
+			if (os instanceof SupportsWriterOutput) {
+				StringWriter sw = new StringWriter();
+				((SupportsWriterOutput)os).write(sw, resultGraph);
+				ClipboardService.writeToClipboardAsText(sw.toString());
+				
+			} else {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				os.write(baos, resultGraph);
+				ClipboardService.writeToClipboardAsText(baos.toString());
+			}
 			MainFrame.showMessage(resultGraph.getNumberOfNodes()
 					+" node(s) and "
 					+resultGraph.getNumberOfEdges()
