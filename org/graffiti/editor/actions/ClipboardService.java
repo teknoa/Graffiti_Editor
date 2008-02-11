@@ -111,57 +111,75 @@ public class ClipboardService {
 	 */
 	@SuppressWarnings("deprecation")
 	public static String readFromClipboardAsText() {
+		DataFlavor pref = null;
 		for (DataFlavor df : systemClipboard.getAvailableDataFlavors()) {
 			System.out.println("MIME: "+df.getMimeType());
-			if (df.getMimeType().startsWith("text/plain")) {
-				Object o;
-				try {
-					o = systemClipboard.getData(df);
-					if (o instanceof StringBufferInputStream) {
-						StringBufferInputStream si = (StringBufferInputStream)o;
-						String charSet="";
-						if (df.getMimeType().contains("charset="))
-							charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
-						ArrayList<Integer> values = new ArrayList<Integer>();
-						int c;
-					    while((c = si.read()) != -1)
-					        values.add(c);
-					    byte[] bytes = new byte[values.size()];
-					    for (int i=0; i<bytes.length; i++)
-					    	bytes[i] = values.get(i).byteValue();
-					    String ress;
-					    if (charSet.length()>0)
-					    	ress = new String(bytes, charSet);
-					    else
-					    	ress = new String(bytes);
-						return ress;
-					}
-					if (o instanceof ByteBuffer) {
-						ByteBuffer bb = (ByteBuffer)o;
-						String charSet= "";
-						if (df.getMimeType().contains("charset="))
-							charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
-					
-						ArrayList<Byte> values = new ArrayList<Byte>();
-						int c;
-					    while(bb.remaining()>0)
-					        values.add(bb.get());
-					    byte[] bytes = new byte[values.size()];
-					    for (int i=0; i<bytes.length; i++)
-					    	bytes[i] = values.get(i).byteValue();
-					    String ress;
-					    if (charSet.length()>0)
-					    	ress = new String(bytes, charSet);
-					    else
-					    	ress = new String(bytes);
-						return ress;
-					}
-					System.out.println("Not implemented: handling of "+o.getClass().getCanonicalName()+" class");
-				} catch (UnsupportedFlavorException e) {
-					ErrorMsg.addErrorMessage(e);
-				} catch (IOException e) {
-					ErrorMsg.addErrorMessage(e);
+			if (df.getMimeType().startsWith("text/plain") && df.getMimeType().contains("UTF-8")) {
+				pref = df;
+			}
+		}
+		if (pref!=null) {
+			return processData(pref);
+		}
+		for (DataFlavor df : systemClipboard.getAvailableDataFlavors()) {
+			return processData(df);
+		}
+		return null;
+	}
+
+
+	private static String processData(DataFlavor df) {
+		if (df.getMimeType().startsWith("text/plain")) {
+			Object o;
+			try {
+				System.out.println("READING MIME: "+df.getMimeType());
+				o = systemClipboard.getData(df);
+				if (o instanceof StringBufferInputStream) {
+					System.out.println("(StringBufferInputStream)");
+					StringBufferInputStream si = (StringBufferInputStream)o;
+					String charSet="";
+					if (df.getMimeType().contains("charset="))
+						charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
+					ArrayList<Integer> values = new ArrayList<Integer>();
+					int c;
+				    while((c = si.read()) != -1)
+				        values.add(c);
+				    byte[] bytes = new byte[values.size()];
+				    for (int i=0; i<bytes.length; i++)
+				    	bytes[i] = values.get(i).byteValue();
+				    String ress;
+				    if (charSet.length()>0)
+				    	ress = new String(bytes, charSet);
+				    else
+				    	ress = new String(bytes);
+					return ress;
 				}
+				if (o instanceof ByteBuffer) {
+					System.out.println("(ByteBufferInputStream)");
+					ByteBuffer bb = (ByteBuffer)o;
+					String charSet= "";
+					if (df.getMimeType().contains("charset="))
+						charSet = df.getMimeType().substring(df.getMimeType().indexOf("charset=")+"charset=".length());
+				
+					ArrayList<Byte> values = new ArrayList<Byte>();
+					int c;
+				    while(bb.remaining()>0)
+				        values.add(bb.get());
+				    byte[] bytes = new byte[values.size()];
+				    for (int i=0; i<bytes.length; i++)
+				    	bytes[i] = values.get(i).byteValue();
+				    String ress;
+				    if (charSet.length()>0)
+				    	ress = new String(bytes, charSet);
+				    else
+				    	ress = new String(bytes);
+					return ress;
+				}
+				System.out.println("Not implemented: handling of "+o.getClass().getCanonicalName()+" class");
+			} catch (UnsupportedFlavorException e) {
+				ErrorMsg.addErrorMessage(e);
+			} catch (IOException e) {
+				ErrorMsg.addErrorMessage(e);
 			}
 		}
 		return null;
