@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.2 2007/10/18 11:28:48 klukas Exp $
+// $Id: EditorSession.java,v 1.3 2008/02/21 10:19:26 klukas Exp $
 
 package org.graffiti.session;
 
@@ -13,12 +13,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.undo.UndoManager;
 
+import org.AttributeHelper;
+import org.ErrorMsg;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
@@ -30,7 +33,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * @see org.graffiti.session.Session
  */
@@ -242,6 +245,14 @@ public class EditorSession
     public void actionPerformed(ActionEvent e)
     {
     }
+
+	public void setFileName(String name) throws URISyntaxException {
+		if (name==null) {
+			this.fileName = null;
+		}
+		name = name.replaceAll(" ", "%20");
+		fileName = new URI(name);
+	}
 }
 
 //------------------------------------------------------------------------------

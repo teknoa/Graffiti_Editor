@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.8 2008/02/10 22:04:42 klukas Exp $
+// $Id: MainFrame.java,v 1.9 2008/02/21 10:19:26 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1229,6 +1229,45 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		return null;
 	}
+	
+	public Graph getGraph(InputStream inputStream, String fileName, URI uri) {
+		String ext = fileName.substring(fileName.lastIndexOf("."));
+//		System.out.println("Load graph file " + fileName + " URI:" + uri.toASCIIString());
+		try {
+			InputSerializer is = ioManager.createInputSerializer(ext);
+			if (is == null) {
+				ErrorMsg.addErrorMessage("Graph " + fileName
+							+ " could not be loaded. InputSerializer is NULL.");
+				return null;
+			}
+			Graph g = is.read(inputStream);
+			if (g == null) {
+				ErrorMsg.addErrorMessage("Graph " + fileName
+							+ " could not be loaded. File loader result is NULL.");
+				return null;
+			}
+			g.setName(fileName);
+			g.setModified(false);
+			return g;
+		} catch (org.graffiti.plugin.io.ParserException e1) {
+			ErrorMsg.addErrorMessage(sBundle.getString("fileFormatError").replaceAll("\\[err\\]", e1.getLocalizedMessage())+" /// "+
+									sBundle.getString("fileFormatErrorTitle"));
+		} catch (IOException e) {
+			ErrorMsg.addErrorMessage("Graph " + fileName
+						+ " could not be loaded. IO Exception<br>"
+						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+		} catch (IllegalAccessException e) {
+			ErrorMsg.addErrorMessage("Graph " + fileName
+						+ " could not be loaded. IllegalAccessException<br>"
+						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+		} catch (InstantiationException e) {
+			ErrorMsg.addErrorMessage("Graph " + fileName
+						+ " could not be loaded. InstantiationException<br>"
+						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+		}
+		return null;
+	}
+
 
 	/**
 	 * Loads a graph in the background (using a background thread).
@@ -1386,11 +1425,21 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void showGraph(final Graph g, final ActionEvent e) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			EditorSession es = new EditorSession(g);
+			try {
+				es.setFileName(g.getName(true));
+			} catch(Exception err) {
+				ErrorMsg.addErrorMessage(err);
+			}
 			showViewChooserDialog(es, false, true, e);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
 					EditorSession es = new EditorSession(g);
+					try {
+						es.setFileName(g.getName(true));
+					} catch(Exception err) {
+						ErrorMsg.addErrorMessage(err);
+					}
 					showViewChooserDialog(es, false, true, e);
 				}});
 		}
@@ -3044,13 +3093,16 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	public boolean lookUpAndSwitchToNamedSession(String fileName) {
+		if (fileName.indexOf("/")>0) {
+			fileName = fileName.substring(fileName.lastIndexOf("/")+"/".length());
+		}
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileName()!=null && es.getFileName().toString().endsWith(fileName) ||
-				es.getFileName().toString().replaceAll("%20", " ").endsWith(fileName))
+			if (es.getFileName()!=null && (es.getFileName().toString().endsWith(fileName) ||
+				es.getFileName().toString().replaceAll("%20", " ").endsWith(fileName)))
 				validSessions.add(es);
 		}
-		if (validSessions.size()==1) {
+		if (validSessions.size()>=1) {
 			EditorSession es = validSessions.iterator().next();
 			 for (GraffitiInternalFrame f : getActiveFrames()) {
 	        	 if (f.getSession()==es) {
