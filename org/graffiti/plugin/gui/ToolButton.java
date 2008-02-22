@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: ToolButton.java,v 1.2 2008/02/22 13:13:56 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -18,6 +18,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 
+import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.plugin.tool.Tool;
 
@@ -25,7 +26,7 @@ import org.graffiti.plugin.tool.Tool;
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:48 $
+ * @version $Revision: 1.2 $ $Date: 2008/02/22 13:13:56 $
  */
 public class ToolButton
     extends GraffitiToggleButton
@@ -56,6 +57,8 @@ public class ToolButton
     }
     
     public static void checkStatusForAllToolButtons() {
+    	if (!ErrorMsg.isAppLoadingCompleted())
+    		return;
     	for (Iterator it=knownTools.iterator(); it.hasNext(); ) {
     		ToolButton t = (ToolButton) it.next();
     		// System.out.println(t.tool.isActive());
