@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponent.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: AttributeComponent.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
 
 package org.graffiti.plugin.view;
 
 import java.awt.Point;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.graffiti.attributes.Attribute;
@@ -18,10 +19,10 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AttributeComponent
-    extends JPanel
+    extends JComponent
     implements GraffitiViewComponent
 {
     //~ Methods ================================================================

@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponent.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: GraphElementComponent.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
 
 package org.graffiti.plugin.view;
 
 import java.awt.Graphics;
 
+import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import org.graffiti.graphics.GraphicAttributeConstants;
@@ -18,10 +19,10 @@ import org.graffiti.graphics.GraphicAttributeConstants;
 /**
  * Class that shares common members for all GraphElementComponents.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class GraphElementComponent
-    extends JPanel
+    extends JComponent
     implements GraffitiViewComponent, GraphicAttributeConstants,
         GraphElementComponentInterface
 {

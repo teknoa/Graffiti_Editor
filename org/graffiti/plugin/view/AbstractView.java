@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: AbstractView.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -36,7 +36,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -175,7 +175,7 @@ public abstract class AbstractView
     /**
      * @see org.graffiti.plugin.view.View#getComponentElementMap()
      */
-    public Map getComponentElementMap()
+    public Map<GraphElement, GraphElementComponent> getComponentElementMap()
     {
         return this.graphElementComponents;
     }
