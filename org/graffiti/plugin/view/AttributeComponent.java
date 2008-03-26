@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponent.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
+// $Id: AttributeComponent.java,v 1.3 2008/03/26 15:11:44 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -19,7 +19,7 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AttributeComponent
     extends JComponent
@@ -73,6 +73,10 @@ public abstract class AttributeComponent
      */
     public abstract void recreate()
         throws ShapeNotFoundException;
+    
+    public void highlight(boolean value) {
+    	
+    }
 }
 
 //------------------------------------------------------------------------------

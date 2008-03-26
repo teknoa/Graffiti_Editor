@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DesktopMenuManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: DesktopMenuManager.java,v 1.2 2008/03/26 15:11:44 klukas Exp $
 
 package org.graffiti.util;
 
@@ -43,7 +43,7 @@ import org.graffiti.session.EditorSession;
  * actions for arranging the frames are added to the menu.
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+ * @version $Revision: 1.2 $ $Date: 2008/03/26 15:11:44 $
  */
 public class DesktopMenuManager
     implements MenuListener
@@ -339,7 +339,7 @@ public class DesktopMenuManager
      * associated frame
      *
      * @author Michael Forster
-     * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+     * @version $Revision: 1.2 $ $Date: 2008/03/26 15:11:44 $
      */
     class FrameMenuItem
         extends JRadioButtonMenuItem
@@ -368,12 +368,15 @@ public class DesktopMenuManager
         public void actionPerformed(ActionEvent event)
         {
             JDesktopPane parent = (JDesktopPane) frame.getParent();
-            parent.getDesktopManager().activateFrame(frame);
+            if (parent==null) {
+            	MainFrame.showMessageDialog("Window can't be activated. Internal error: frame-parent (JDesktopPane) is NULL.", "Error");
+            } else {
+            	parent.getDesktopManager().activateFrame(frame);
+            }
             try {
 				frame.setSelected(true);
-			} catch (PropertyVetoException e1) {
-				e1.printStackTrace();
-				ErrorMsg.addErrorMessage(e1.getLocalizedMessage());
+			} catch (Exception e1) {
+				ErrorMsg.addErrorMessage(e1);
 			}
         }
     }

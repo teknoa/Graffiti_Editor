@@ -5,14 +5,15 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.1 2007/06/14 09:36:50 klukas Exp $
+// $Id: AbstractAttributeComponent.java,v 1.2 2008/03/26 15:11:44 klukas Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.1 2007/06/14 09:36:50 klukas Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.2 2008/03/26 15:11:44 klukas Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
 import java.awt.Point;
+import java.awt.event.MouseListener;
 
 import org.graffiti.attributes.Attribute;
 
@@ -24,7 +25,7 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractAttributeComponent
     extends AttributeComponent

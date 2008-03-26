@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.3 2007/10/17 13:27:42 klukas Exp $
+// $Id: AbstractTool.java,v 1.4 2008/03/26 15:11:44 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -18,6 +18,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Logger;
 
 import javax.swing.JComponent;
@@ -34,6 +35,7 @@ import org.graffiti.graph.GraphElement;
 import org.graffiti.graph.Node;
 import org.graffiti.options.GravistoPreferences;
 import org.graffiti.plugin.gui.ToolButton;
+import org.graffiti.plugin.view.AttributeComponent;
 import org.graffiti.plugin.view.EdgeComponentInterface;
 import org.graffiti.plugin.view.GraphElementComponent;
 import org.graffiti.plugin.view.GraphElementComponentInterface;
@@ -341,12 +343,17 @@ public abstract class AbstractTool
         if(comp != null)
         {
     	   if (comp instanceof GraphElementComponentInterface) {
-    	   	GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
-    	   	GraphElement n = (GraphElement) nci.getGraphElement();
-    	   	if (AttributeHelper.hasAttribute(n, "", "url"))
-    	   		((JComponent) comp).setBorder(tempBorderLINK);
-    	   	else
-    	   		((JComponent) comp).setBorder(tempBorder);
+	    	   	GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
+	    	   	GraphElement n = (GraphElement) nci.getGraphElement();
+	    	   	if (AttributeHelper.hasAttribute(n, "", "url"))
+	    	   		((JComponent) comp).setBorder(tempBorderLINK);
+	    	   	else
+	    	   		((JComponent) comp).setBorder(tempBorder);
+	    	   	
+	    	   	List<AttributeComponent> acc = getAttributeCompsForElem(n);
+	    	   	for (AttributeComponent ac : acc) {
+	    	   		ac.highlight(true);
+	    	   	}
     	   } else
     	   	((JComponent) comp).setBorder(tempBorder);
     	   if (((JComponent) comp).getParent()!=null)
@@ -441,6 +448,11 @@ public abstract class AbstractTool
         {
             unDisplayAsMarked((EdgeComponentInterface) comp);
         }
+        GraphElement ge = comp.getGraphElement();
+	   	List<AttributeComponent> acc = getAttributeCompsForElem(ge);
+	   	for (AttributeComponent ac : acc) {
+	   		ac.highlight(false);
+	   	}
     }
 
     /**
@@ -448,7 +460,7 @@ public abstract class AbstractTool
      *
      * @param comp DOCUMENT ME!
      */
-    public void unDisplayAsMarked(NodeComponentInterface comp)
+    private void unDisplayAsMarked(NodeComponentInterface comp)
     {
         if(comp != null && ((JComponent) comp).getBorder()!=empty)
         {
@@ -463,7 +475,7 @@ public abstract class AbstractTool
      *
      * @param comp DOCUMENT ME!
      */
-    public void unDisplayAsMarked(EdgeComponentInterface comp)
+    private void unDisplayAsMarked(EdgeComponentInterface comp)
     {
         if(comp != null && ((JComponent) comp).getBorder()!=empty)
         {
@@ -532,6 +544,26 @@ public abstract class AbstractTool
         } else
             return new LinkedList<GraphElementComponent>();
     }
+    
+    protected List<AttributeComponent> getAttributeCompsForElem(GraphElement ge)
+    {
+        if(session != null)
+        {
+            List<View> views = session.getViews();
+
+            List<AttributeComponent> comps = new LinkedList<AttributeComponent>();
+
+            for(View view : views) {
+            	Set<AttributeComponent> acc = view.getAttributeComponentsForElement(ge);
+            	if (acc!=null)
+            		comps.addAll(acc);
+            }
+
+            return comps;
+        } else
+            return new LinkedList<AttributeComponent>();
+    }
+
 
     /**
      * Used method <code>getComponentForElement</code> from the views of the

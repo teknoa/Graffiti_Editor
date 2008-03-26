@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
+// $Id: AbstractView.java,v 1.3 2008/03/26 15:11:44 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -36,7 +36,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -72,6 +72,8 @@ public abstract class AbstractView
      * <code>GraphElementComponent</code>.
      */
     protected HashMap<GraphElement, GraphElementComponent> graphElementComponents;
+    
+    protected HashMap<GraphElement, Set<AttributeComponent>> graphElementAttributeComponents;
 
     /**
      * Contains MessageListeners which are interesting for messages  generated
@@ -96,6 +98,7 @@ public abstract class AbstractView
     public AbstractView()
     {
         this.graphElementComponents = new HashMap<GraphElement, GraphElementComponent>();
+        this.graphElementAttributeComponents = new HashMap<GraphElement,Set<AttributeComponent>>();
         this.messageListeners = new HashSet<MessageListener>();
         this.viewName = extractName();
     }
@@ -106,6 +109,7 @@ public abstract class AbstractView
     
     public void clearGraphElementComponentMap() {
     	graphElementComponents.clear();
+    	graphElementAttributeComponents.clear();
     }
     
     public Map<GraphElement, GraphElementComponent> getGraphElementComponentMap() {
@@ -114,7 +118,14 @@ public abstract class AbstractView
     
     public void removeGraphElementComponent(GraphElement ge) {
     	graphElementComponents.remove(ge);
+    	graphElementAttributeComponents.remove(ge);
     }
+    
+    public Set<AttributeComponent> getAttributeComponentsForElement(GraphElement ge) {
+    	return graphElementAttributeComponents.get(ge);
+    }
+    
+
 
     /**
      * Constructs a new <code>GraffitiView</code> for the specified

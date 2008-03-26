@@ -5,13 +5,15 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: View.java,v 1.2 2008/03/26 15:11:44 klukas Exp $
 
 package org.graffiti.plugin.view;
 
 import java.awt.dnd.Autoscroll;
 import java.awt.geom.AffineTransform;
+import java.util.Collection;
 import java.util.Map;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -26,7 +28,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -62,6 +64,9 @@ public interface View
      *         <code>GraphELement</code>.
      */
     public GraphElementComponent getComponentForElement(GraphElement ge);
+    
+    public Set<AttributeComponent> getAttributeComponentsForElement(GraphElement ge);
+    
 
     /**
      * Sets the graph of the view to the specified value.
