@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.4 2008/03/26 15:11:44 klukas Exp $
+// $Id: AbstractTool.java,v 1.5 2008/03/27 15:38:00 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -448,11 +448,16 @@ public abstract class AbstractTool
         {
             unDisplayAsMarked((EdgeComponentInterface) comp);
         }
-        GraphElement ge = comp.getGraphElement();
-	   	List<AttributeComponent> acc = getAttributeCompsForElem(ge);
-	   	for (AttributeComponent ac : acc) {
-	   		ac.highlight(false);
-	   	}
+        if (comp!=null) {
+	        GraphElement ge = comp.getGraphElement();
+	        if (ge!=null) {
+			   	List<AttributeComponent> acc = getAttributeCompsForElem(ge);
+			   	if (acc!=null)
+			   	for (AttributeComponent ac : acc) {
+			   		ac.highlight(false);
+			   	}
+	        }
+        }
     }
 
     /**
