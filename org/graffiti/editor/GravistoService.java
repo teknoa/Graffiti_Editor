@@ -484,8 +484,8 @@ public class GravistoService {
 							desc = null;
 						}
 					}
-					paramDialog = new DefaultParameterDialog(getMainFrame()
-							.getEditComponentManager(), getMainFrame(), parameters,
+					paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
+							getMainFrame(), parameters,
 							selection, algorithm.getName(), algorithm.getDescription(), desc);
 				}
 
