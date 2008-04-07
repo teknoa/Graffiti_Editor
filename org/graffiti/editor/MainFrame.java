@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.9 2008/02/21 10:19:26 klukas Exp $
+// $Id: MainFrame.java,v 1.10 2008/04/07 12:02:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -171,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1703,7 +1703,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						menuToSort.remove(menuToSort.getItem(startPoint));
 				}
 			} catch(Exception e) {
-				ErrorMsg.addErrorMessage(e);
+				// ErrorMsg.addErrorMessage(e);
 			}
 		}
 		// search the first one in the remaining list 
