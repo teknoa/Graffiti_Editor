@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.3 2008/03/26 15:11:44 klukas Exp $
+// $Id: AbstractView.java,v 1.4 2008/04/22 19:43:44 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -36,7 +36,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -73,7 +73,7 @@ public abstract class AbstractView
      */
     protected HashMap<GraphElement, GraphElementComponent> graphElementComponents;
     
-    protected HashMap<GraphElement, Set<AttributeComponent>> graphElementAttributeComponents;
+    protected HashMap<GraphElement, Set<AttributeComponent>> graphElementAttributeComponents = new HashMap<GraphElement,Set<AttributeComponent>>();
 
     /**
      * Contains MessageListeners which are interesting for messages  generated
@@ -98,7 +98,6 @@ public abstract class AbstractView
     public AbstractView()
     {
         this.graphElementComponents = new HashMap<GraphElement, GraphElementComponent>();
-        this.graphElementAttributeComponents = new HashMap<GraphElement,Set<AttributeComponent>>();
         this.messageListeners = new HashSet<MessageListener>();
         this.viewName = extractName();
     }
