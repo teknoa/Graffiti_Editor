@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.5 2008/06/02 07:31:57 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.6 2008/06/02 07:52:58 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -42,7 +42,7 @@ import com.sun.xml.internal.ws.util.StringUtils;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -118,7 +118,7 @@ public class FileSaveAsAction
         	if (n!=null && n.length()>0 && on.equals(n) && new File(n).canWrite())
         		fc.setSelectedFile(new File(n));
         	else
-        		fc.setSelectedFile(null);
+        		fc.setSelectedFile(new File(getGraph().getName(false).trim()));
         } catch(Exception err) {
         	// empty
         }
