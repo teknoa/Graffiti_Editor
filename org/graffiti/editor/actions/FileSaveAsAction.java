@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.6 2008/06/02 07:52:58 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.7 2008/06/09 12:57:31 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -37,12 +37,10 @@ import org.graffiti.plugin.io.OutputSerializer;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.SessionManager;
 
-import com.sun.xml.internal.ws.util.StringUtils;
-
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
