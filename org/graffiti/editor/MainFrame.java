@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.10 2008/04/07 12:02:53 klukas Exp $
+// $Id: MainFrame.java,v 1.11 2008/06/18 08:57:35 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -37,6 +37,7 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -171,7 +172,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2219,6 +2220,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		activeSession.setActiveView(newView);
 		viewManager.viewChanged(newView);
 	}
+	
+
 
 	/**
 	 * Sets the accel key of the given item.  The accel key information is

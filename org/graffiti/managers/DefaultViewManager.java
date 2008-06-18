@@ -5,10 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultViewManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: DefaultViewManager.java,v 1.2 2008/06/18 08:57:35 klukas Exp $
 
 package org.graffiti.managers;
 
+import java.awt.geom.AffineTransform;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +27,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Manages a list of view types.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultViewManager
     implements ViewManager
