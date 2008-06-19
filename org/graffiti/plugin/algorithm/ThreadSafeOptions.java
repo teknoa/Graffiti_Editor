@@ -8,6 +8,7 @@
 
 package org.graffiti.plugin.algorithm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -18,7 +19,7 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ThreadSafeOptions
 {
@@ -102,7 +103,7 @@ public class ThreadSafeOptions
      * which saves/caches the information about pattern type and number for
      * all nodes of a graph
      */
-    public Vector nodeArray;
+    public ArrayList nodeArray;
 
     /**
      * Used for search from Node to NodeCacheEntry (which includes the Node)

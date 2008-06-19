@@ -202,8 +202,8 @@ public class GravistoService {
 	 *         <code>Graph</code>. If no patterns are loaded or available,
 	 *         this method returns an empty <code>Vector</code>.
 	 */
-	public Vector<Graph> getPatternGraphs() {
-		Vector<Graph> result = new Vector<Graph>();
+	public ArrayList<Graph> getPatternGraphs() {
+		ArrayList<Graph> result = new ArrayList<Graph>();
 		if (patternSessions != null) {
 			for (int i = 0; i < patternSessions.size(); i++) {
 				if (patternSessions.get(i) != null) {
