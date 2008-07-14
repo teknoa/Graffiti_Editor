@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.11 2008/06/18 08:57:35 klukas Exp $
+// $Id: MainFrame.java,v 1.12 2008/07/14 10:56:33 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -81,6 +81,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
@@ -127,11 +128,13 @@ import org.graffiti.managers.DefaultAlgorithmManager;
 import org.graffiti.managers.DefaultIOManager;
 import org.graffiti.managers.DefaultModeManager;
 import org.graffiti.managers.DefaultToolManager;
+import org.graffiti.managers.DefaultURLattributeActionManager;
 import org.graffiti.managers.DefaultViewManager;
 import org.graffiti.managers.EditComponentManager;
 import org.graffiti.managers.IOManager;
 import org.graffiti.managers.ModeManager;
 import org.graffiti.managers.ToolManager;
+import org.graffiti.managers.URLattributeActionManager;
 import org.graffiti.managers.ViewManager;
 import org.graffiti.managers.pluginmgr.PluginDescription;
 import org.graffiti.managers.pluginmgr.PluginManager;
@@ -172,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -287,6 +290,9 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	/** The manager for IO serializers. */
 	private IOManager ioManager;
+	
+	/** The manager for URL attribute actions (load map, view URL, ...). */
+	private URLattributeActionManager urlAttributeActionManager;
 
 	/** The <code>ImageBundle</code> of the main frame. */
 	private ImageBundle iBundle = ImageBundle.getInstance();
@@ -426,6 +432,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		ioManager = new DefaultIOManager();
 		attributeComponentManager = new AttributeComponentManager();
 		editComponentManager = new EditComponentManager();
+		urlAttributeActionManager = new DefaultURLattributeActionManager();
 
 		pluginmgr.addPluginManagerListener(viewManager);
 		pluginmgr.addPluginManagerListener(toolManager);
@@ -434,6 +441,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		pluginmgr.addPluginManagerListener(ioManager);
 		pluginmgr.addPluginManagerListener(attributeComponentManager);
 		pluginmgr.addPluginManagerListener(editComponentManager);
+		pluginmgr.addPluginManagerListener(urlAttributeActionManager);
 
 		ioManager.addListener(this);
 		viewManager.addListener(this);
@@ -3117,6 +3125,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	         }
 		}
 		return false;
+	}
+
+	public URLattributeActionManager getActionManager() {
+		return urlAttributeActionManager;
 	}
 }
 
