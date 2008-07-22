@@ -5,19 +5,20 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ComboBoxEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ComboBoxEditComponent.java,v 1.2 2008/07/22 08:40:57 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 
+import org.AttributeHelper;
 import org.graffiti.plugin.Displayable;
 
 /**
  * Displays a combo box to let the user choose from several possibilities.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ComboBoxEditComponent
     extends AbstractValueEditComponent
