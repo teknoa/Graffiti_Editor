@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.2 2008/08/04 09:42:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -57,7 +57,7 @@ public class GraffitiInternalFrame
         this.setResizable(true);
         this.setIconifiable(true);
         
-        this.setFocusable(false);
+        // this.setFocusable(false);
         setFocusTraversalPolicyProvider(true);
         setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
 

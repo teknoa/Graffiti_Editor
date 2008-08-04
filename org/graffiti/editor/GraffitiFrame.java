@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.2 2008/08/04 09:42:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -59,10 +59,8 @@ public class GraffitiFrame
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public final void windowClosing(final WindowEvent event) {
-              // detach();
             	MainFrame.getInstance().setActiveSession(internalFrame.getSession(), internalFrame.getView());
             	MainFrame.getInstance().fileClose.actionPerformed(new ActionEvent(this, 1, "close"));
-            	//DetachableRootPane.getDetachAlgorithm().execute();
             }
 
  				@Override

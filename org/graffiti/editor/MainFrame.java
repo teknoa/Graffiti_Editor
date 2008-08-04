@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.12 2008/07/14 10:56:33 klukas Exp $
+// $Id: MainFrame.java,v 1.13 2008/08/04 09:42:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -382,8 +382,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	private Timer timerCheckActiveProgressPanels;
 
 	private DesktopMenuManager desktopMenuManager;
-
-	public boolean detachedStatus = false;
 
 	//~ Constructors ===========================================================
 
@@ -1112,10 +1110,12 @@ public class MainFrame extends JFrame implements SessionManager,
 			frame.setVisible(true);
 			desktop.add(frame);
 
-			// GravistoService.getInstance().framesDeselect();
+			GravistoService.getInstance().framesDeselect();
 			Java_1_5_compatibility.setComponentZorder(desktop, frame);
+			
 			try {
 				frame.setSelected(true);
+				
 			} catch (PropertyVetoException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
@@ -1473,6 +1473,9 @@ public class MainFrame extends JFrame implements SessionManager,
 		addAlgorithmMenuItems(plugin);
 		addExtensionMenuItems(plugin);
 
+		if (plugin.isViewListener())
+			viewManager.addViewListener((ViewListener)plugin);
+		
 		// Registers all plugins that are session listeners.
 		checkSelectionListener(plugin);
 

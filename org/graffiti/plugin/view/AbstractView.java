@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.4 2008/04/22 19:43:44 klukas Exp $
+// $Id: AbstractView.java,v 1.5 2008/08/04 09:42:41 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -36,7 +36,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -734,7 +734,7 @@ public abstract class AbstractView
      * Method <code>informMessageListener</code> informs all registered message
      * listener about a new message having to be displayed.
      *
-     * @param message a new mesage having to be displayed
+     * @param message a new message having to be displayed
      * @param type a type of the new message (e.g. ERROR or INFO)
      */
     protected void informMessageListener(String message, MessageType type)

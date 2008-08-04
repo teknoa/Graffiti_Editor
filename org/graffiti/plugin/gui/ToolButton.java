@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.2 2008/02/22 13:13:56 klukas Exp $
+// $Id: ToolButton.java,v 1.3 2008/08/04 09:42:41 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -26,7 +26,7 @@ import org.graffiti.plugin.tool.Tool;
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.2 $ $Date: 2008/02/22 13:13:56 $
+ * @version $Revision: 1.3 $ $Date: 2008/08/04 09:42:41 $
  */
 public class ToolButton
     extends GraffitiToggleButton
@@ -70,7 +70,7 @@ public class ToolButton
      	for (Iterator it=knownTools.iterator(); it.hasNext(); ) {
      		ToolButton t = (ToolButton) it.next();
      		 if (t.tool.isActive())
-     			 t.requestFocus();
+     			 t.requestFocusInWindow();
      	}
      }
 
