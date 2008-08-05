@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.13 2008/08/04 09:42:41 klukas Exp $
+// $Id: MainFrame.java,v 1.14 2008/08/05 15:24:29 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1406,7 +1406,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	
 	public Graph getGraph(File file) throws Exception {
 		final String fileName = file.getName();
-		Graph newGraph;
+		Graph newGraph = null;
 		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 		InputSerializer is = ioManager.createInputSerializer(ext);
 		if (ext.equalsIgnoreCase(".NET")) {
@@ -1414,12 +1414,18 @@ public class MainFrame extends JFrame implements SessionManager,
 			is.read(file.getAbsolutePath(), tempGraph);
 			newGraph = tempGraph;
 		} else {
-			InputStream inpS = new FileInputStream(file.getAbsolutePath());
-			newGraph = is.read(inpS);
-			inpS.close();
+			if (is!=null) {
+				InputStream inpS = new FileInputStream(file.getAbsolutePath());
+				newGraph = is.read(inpS);
+				inpS.close();
+			} else {
+				showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
+			}
 		}
-		newGraph.setName(file.getAbsolutePath());
-		newGraph.setModified(false);
+		if (newGraph!=null) {
+			newGraph.setName(file.getAbsolutePath());
+			newGraph.setModified(false);
+		}
 		return newGraph;
 	}
 	
@@ -2141,7 +2147,13 @@ public class MainFrame extends JFrame implements SessionManager,
 					return createInternalFrame(defaultView, session.getGraph().getName(),
 								returnScrollPane);
 				} else {
-					JScrollPane jsp = createInternalFrame(defaultView, session.getGraph().getName(), session, returnScrollPane);
+					Graph g = session.getGraph();
+					String name = null;
+					if (g!=null)
+						name = g.getName();
+					if (name==null)
+						name = "[NULL]";
+					JScrollPane jsp = createInternalFrame(defaultView, name, session, returnScrollPane);
 					return jsp;
 				}
 			} else {
