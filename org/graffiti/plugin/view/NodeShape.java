@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeShape.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: NodeShape.java,v 1.2 2008/08/06 15:12:21 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -46,6 +46,10 @@ public interface NodeShape
      */
     public void buildShape(NodeGraphicAttribute graphics)
         throws ShapeNotFoundException;
+    
+    public int shapeWidthCorrection();
+    
+    public int shapeHeightCorrection();
 }
 
 //------------------------------------------------------------------------------
