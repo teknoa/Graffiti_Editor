@@ -5,9 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewTypeChooser.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: ViewTypeChooser.java,v 1.2 2008/08/13 14:40:27 klukas Exp $
 
 package org.graffiti.editor;
+
+import info.clearthought.layout.TableLayout;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -25,6 +27,7 @@ import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -44,7 +47,7 @@ import org.graffiti.core.StringBundle;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ViewTypeChooser
     extends JDialog
@@ -81,6 +84,8 @@ public class ViewTypeChooser
 
     /** The selected view in the list. */
     private int selectedView = -1;
+    
+    private boolean internalFrame = true;
 
     //~ Constructors ===========================================================
 
@@ -118,10 +123,22 @@ public class ViewTypeChooser
 
         buttonsPanel.add(ok);
         buttonsPanel.add(cancel);
+        
+        final JCheckBox frameCheckbox = new JCheckBox("Create internal frame (default)");
+        frameCheckbox.setSelected(true);
+        frameCheckbox.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				internalFrame = frameCheckbox.isSelected();
+			}});
 
 		getContentPane().add(FolderPanel.getBorderedComponent(description, 5, 5, 5, 5), BorderLayout.NORTH);
         getContentPane().add(FolderPanel.getBorderedComponent(scrolledList, 5, 5, 0, 5), BorderLayout.CENTER);
-        getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
+        getContentPane().add(
+        		TableLayout.getSplitVertical(
+        				frameCheckbox, 
+        				buttonsPanel, 
+        				TableLayout.PREFERRED, TableLayout.PREFERRED), BorderLayout.SOUTH);
 
         ok.setEnabled(false);
 
@@ -155,6 +172,10 @@ public class ViewTypeChooser
     public int getSelectedView()
     {
         return selectedView;
+    }
+    
+    public boolean createInternalFrame() {
+    	return internalFrame;
     }
 
     /**
@@ -318,7 +339,7 @@ public class ViewTypeChooser
     /**
      * Renders the view names for their displaying without class path.
      *
-     * @version $Revision: 1.1 $
+     * @version $Revision: 1.2 $
      */
     class NameListCellRenderer
         extends JLabel

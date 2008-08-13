@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ArrowShape.java,v 1.2 2008/02/09 19:03:53 klukas Exp $
+// $Id: ArrowShape.java,v 1.3 2008/08/13 14:40:38 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -16,7 +16,7 @@ import java.awt.geom.Point2D;
  * DOCUMENT ME!
  * 
  * @author $Author: klukas $
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public interface ArrowShape extends Shape {
 	// ~ Methods
@@ -33,7 +33,7 @@ public interface ArrowShape extends Shape {
 
 	/**
 	 * Sets this arrow to the target point and rotates it according to the line
-	 * given by the conenction between points target and other.
+	 * given by the connection between points target and other.
 	 * 
 	 * @param target
 	 *            the point where the arrow should be put

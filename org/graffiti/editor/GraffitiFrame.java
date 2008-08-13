@@ -5,9 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.2 2008/08/04 09:42:41 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.3 2008/08/13 14:40:27 klukas Exp $
 
 package org.graffiti.editor;
+
+import info.clearthought.layout.TableLayout;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
@@ -56,11 +58,15 @@ public class GraffitiFrame
         super();
         // Ensure that however the window is closed, it actually causes this
         // detach() method to be fired instead.
+        
+        final GraffitiFrame thisFrame = this;
+        
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public final void windowClosing(final WindowEvent event) {
-            	MainFrame.getInstance().setActiveSession(internalFrame.getSession(), internalFrame.getView());
-            	MainFrame.getInstance().fileClose.actionPerformed(new ActionEvent(this, 1, "close"));
+            	MainFrame.getInstance().removeDetachedFrame(thisFrame);
+            	setVisible(false);
+            	dispose();
             }
 
  				@Override
@@ -78,6 +84,13 @@ public class GraffitiFrame
         super.setTitle(internalFrame.getTitle());
         this.frameNumber = internalFrame.getFrameNumber();
         this.initTitle = internalFrame.getInitTitle();
+        
+        setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
+        
+        add(view.getViewComponent(), "0,0");
+        
+        validate();
+        pack();
     }
     
     

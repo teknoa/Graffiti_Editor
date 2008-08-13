@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.14 2008/08/05 15:24:29 klukas Exp $
+// $Id: MainFrame.java,v 1.15 2008/08/13 14:40:27 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2144,8 +2144,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (alwaysUseDefaultView) {
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
-					return createInternalFrame(defaultView, session.getGraph().getName(),
-								returnScrollPane);
+					return createInternalFrame(defaultView, session.getGraph().getName(), returnScrollPane);
 				} else {
 					Graph g = session.getGraph();
 					String name = null;
@@ -2157,21 +2156,40 @@ public class MainFrame extends JFrame implements SessionManager,
 					return jsp;
 				}
 			} else {
-				ViewTypeChooser viewChooser = new ViewTypeChooser(this, sBundle
-							.getString("viewchooser.title")+" ("+session.getGraph().getNumberOfNodes()+" nodes, "+session.getGraph().getNumberOfEdges()+" edges)", viewManager.getViewDescriptions());
+				ViewTypeChooser viewChooser = new ViewTypeChooser(this, 
+						sBundle.getString("viewchooser.title")+
+						" ("+session.getGraph().getNumberOfNodes()+
+						" nodes, "+session.getGraph().getNumberOfEdges()+
+						" edges)", viewManager.getViewDescriptions());
 	
 				// The user did not select a view.
 				if (viewChooser.getSelectedView() == -1) { return null; }
 	
 				String selectedView = views[viewChooser.getSelectedView()];
 	
-				if (selectedView != null) {
-					if (sessions.contains(session)) {
-						return createInternalFrame(selectedView, session.getGraph().getName(), returnScrollPane);
-					} else {
-						return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane);
+				if (viewChooser.createInternalFrame()) {
+					if (selectedView != null) {
+						if (sessions.contains(session)) {
+							return createInternalFrame(selectedView, session.getGraph().getName(), returnScrollPane);
+						} else {
+							return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane);
+						}
+					} 
+				} else {
+					View view;
+					try {
+						view = viewManager.createView(selectedView);
+						view.setAttributeComponentManager(this.attributeComponentManager);
+						view.setGraph(session.getGraph());
+						GraffitiInternalFrame gif = new GraffitiInternalFrame((EditorSession)session, view, session.getGraph().getName());
+						GraffitiFrame gf = new GraffitiFrame(gif);
+						gf.setVisible(true);
+						addDetachedFrame(gf);
+					} catch (InstanceCreationException e1) {
+						ErrorMsg.addErrorMessage(e1);
 					}
 				}
+				
 			}
 		}
 
