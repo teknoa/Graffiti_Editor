@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.16 2008/08/14 08:44:44 klukas Exp $
+// $Id: MainFrame.java,v 1.17 2008/08/14 09:07:20 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1107,7 +1107,17 @@ public class MainFrame extends JFrame implements SessionManager,
 				frame.getContentPane().add(view.getViewComponent());
 			// frame.setResizable(true);
 			frame.pack();
+			
+			boolean maxx = false;
+
+			JInternalFrame currentFrame = desktop.getSelectedFrame();
+			
+			if (!returnGraffitiFrame && (currentFrame == null || currentFrame.isMaximum())) {
+				maxx = true;
+			}
+			
 			GravistoService.getInstance().framesDeselect();
+
 			if (!returnGraffitiFrame) {
 				frame.setVisible(true);
 				desktop.add(frame);
@@ -1121,9 +1131,8 @@ public class MainFrame extends JFrame implements SessionManager,
 				ErrorMsg.addErrorMessage(e1);
 			}
 			// maximize view at beginning
-			JInternalFrame currentFrame = desktop.getSelectedFrame();
 
-			if (!returnGraffitiFrame && (currentFrame == null || currentFrame.isMaximum())) {
+			if (maxx) {
 				try {
 					frame.setMaximum(true);
 				} catch (PropertyVetoException pve) {
