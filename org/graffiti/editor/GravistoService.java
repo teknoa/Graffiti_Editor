@@ -217,7 +217,7 @@ public class GravistoService {
 	/**
 	 * Adds a new internal frame to the list of pattern editor frames.
 	 * Can be used by the method <code>isEditorFrameSelected</code> 
-	 * for the decission, whether a given frame is a editor frame or
+	 * for the decision, whether a given frame is a editor frame or
 	 * a pattern editor frame.  
 	 *
 	 * @param frame New pattern editor frame.

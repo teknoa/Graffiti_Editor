@@ -5,17 +5,19 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.3 2008/08/13 14:40:27 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.4 2008/08/14 08:44:44 klukas Exp $
 
 package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -66,11 +68,15 @@ public class GraffitiFrame
             public final void windowClosing(final WindowEvent event) {
             	MainFrame.getInstance().removeDetachedFrame(thisFrame);
             	setVisible(false);
+            	MainFrame.getInstance().frameClosing(internalFrame.getSession(), internalFrame.getView());
             	dispose();
             }
 
  				@Override
  				public void windowActivated(WindowEvent e) {
+ 					MainFrame.getInstance().setActiveSession(session, view);
+ 	 				session.setActiveView(view);
+ 					
  					GravistoService.getInstance().framesDeselect();
  					super.windowActivated(e);
  					for (InternalFrameListener ifl : internalFrame.getInternalFrameListeners()) {
@@ -87,7 +93,15 @@ public class GraffitiFrame
         
         setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
         
-        add(view.getViewComponent(), "0,0");
+        if (view.putInScrollPane()) {
+	        JScrollPane jsp = new JScrollPane(view.getViewComponent());
+	        view.getViewComponent().getParent().setBackground(Color.WHITE);
+	        add(jsp, "0,0");
+        } else {
+	        add(view.getViewComponent(), "0,0");
+        }
+        
+        setIconImage(MainFrame.getInstance().getIconImage());
         
         validate();
         pack();
@@ -97,7 +111,8 @@ public class GraffitiFrame
 
     //~ Methods ================================================================
 
-    /**
+
+	/**
      * Returns the session this frame is opened in.
      *
      * @return the session this frame is opened in.

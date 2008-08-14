@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.15 2008/08/13 14:40:27 klukas Exp $
+// $Id: MainFrame.java,v 1.16 2008/08/14 08:44:44 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -198,7 +198,7 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	private static final long serialVersionUID = 1L;
 
-	/** The size of an internal frame for first dispaying. */
+	/** The size of an internal frame for first displaying. */
 	public static final Dimension PREFERRED_INTERNALFRAME_SIZE = new Dimension(
 				1000, 1000);
 
@@ -983,8 +983,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public JScrollPane createInternalFrame(String viewName,
 				String newFrameTitle, boolean returnScrollpane) {
-		return createInternalFrame(viewName, newFrameTitle, activeSession,
-					returnScrollpane);
+		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, activeSession,
+					returnScrollpane, false);
 	}
 
 	/**
@@ -995,15 +995,15 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param newFrameTitle the title for the frame, if <code>null</code> or
 	 *        the empty String no title will be set.
 	 * @param session a new session.
-	 * @param returnScrollPane DOCUMENT ME!
+	 * @param returnScrollPane A scrollpane or a graffitiinternalframe
 	 *
 	 * @return DOCUMENT ME!
 	 *
 	 * @throws RuntimeException DOCUMENT ME!
 	 */
-	public JScrollPane createInternalFrame(String viewName,
+	public Object createInternalFrame(String viewName,
 				String newFrameTitle, EditorSession session,
-				boolean returnScrollPane) {
+				boolean returnScrollPane, boolean returnGraffitiFrame) {
 		
 		View view;
 		try {
@@ -1107,11 +1107,12 @@ public class MainFrame extends JFrame implements SessionManager,
 				frame.getContentPane().add(view.getViewComponent());
 			// frame.setResizable(true);
 			frame.pack();
-			frame.setVisible(true);
-			desktop.add(frame);
-
 			GravistoService.getInstance().framesDeselect();
-			Java_1_5_compatibility.setComponentZorder(desktop, frame);
+			if (!returnGraffitiFrame) {
+				frame.setVisible(true);
+				desktop.add(frame);
+				Java_1_5_compatibility.setComponentZorder(desktop, frame);
+			}
 			
 			try {
 				frame.setSelected(true);
@@ -1122,7 +1123,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			// maximize view at beginning
 			JInternalFrame currentFrame = desktop.getSelectedFrame();
 
-			if (true || (currentFrame == null) || currentFrame.isMaximum()) {
+			if (!returnGraffitiFrame && (currentFrame == null || currentFrame.isMaximum())) {
 				try {
 					frame.setMaximum(true);
 				} catch (PropertyVetoException pve) {
@@ -1139,7 +1140,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (scrollPane == null) {
 			ErrorMsg.addErrorMessage("Error: ScrollPane for graph is NULL");
 		}
-		return scrollPane;
+		if (returnGraffitiFrame)
+			return frame;
+		else
+			return scrollPane;
 	}
 
 	/**
@@ -2129,7 +2133,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				return createInternalFrame(views[0], session.getGraph().getName(),
 							returnScrollPane);
 			} else {
-				JScrollPane jsp = createInternalFrame(views[0], session.getGraph().getName(), session, returnScrollPane);
+				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], session.getGraph().getName(), session, returnScrollPane, false);
 				return jsp;
 			}
 		} else {
@@ -2152,7 +2156,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						name = g.getName();
 					if (name==null)
 						name = "[NULL]";
-					JScrollPane jsp = createInternalFrame(defaultView, name, session, returnScrollPane);
+					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name, session, returnScrollPane, false);
 					return jsp;
 				}
 			} else {
@@ -2172,22 +2176,14 @@ public class MainFrame extends JFrame implements SessionManager,
 						if (sessions.contains(session)) {
 							return createInternalFrame(selectedView, session.getGraph().getName(), returnScrollPane);
 						} else {
-							return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane);
+							return (JScrollPane)createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane, false);
 						}
 					} 
 				} else {
-					View view;
-					try {
-						view = viewManager.createView(selectedView);
-						view.setAttributeComponentManager(this.attributeComponentManager);
-						view.setGraph(session.getGraph());
-						GraffitiInternalFrame gif = new GraffitiInternalFrame((EditorSession)session, view, session.getGraph().getName());
-						GraffitiFrame gf = new GraffitiFrame(gif);
-						gf.setVisible(true);
-						addDetachedFrame(gf);
-					} catch (InstanceCreationException e1) {
-						ErrorMsg.addErrorMessage(e1);
-					}
+					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session.getGraph().getName(), session, false, true); 
+					GraffitiFrame gf = new GraffitiFrame(gif);
+					gf.setVisible(true);
+					addDetachedFrame(gf);
 				}
 				
 			}
@@ -2767,29 +2763,14 @@ public class MainFrame extends JFrame implements SessionManager,
 			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
 						.getSession();
 
-			// remove this view only if there are other open views
 			if (session.getViews().size() >= 2) {
-				// System.out.println("CLOSE VIEW");
-				f.getView().close();
-				session.removeView(f.getView());
-				viewFrameMapper.remove(f.getView());
 				activeFrames.remove(f);
-				zoomListeners.remove(f.getView());
-			} else {
-				// System.out.println("CLOSE SESSION");
-				// remove the session if we are closing the last view
-				f.getView().close();
-
-				MainFrame.getInstance().removeSession(session);
-
-				fireSessionChanged(null);
-				activeSession = null;
 			}
+			View view = f.getView();
+			
+			frameClosing(session, view);
 
-			// the update mechanism after the close of the last session
-			// still has some bugs...
-			updateActions();
-
+			
 			super.internalFrameClosed(e);
 		}
 
@@ -3162,6 +3143,29 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	public URLattributeActionManager getActionManager() {
 		return urlAttributeActionManager;
+	}
+
+	public void frameClosing(EditorSession session, View view) {
+		// remove this view only if there are other open views
+		if (session.getViews().size() >= 2) {
+			// System.out.println("CLOSE VIEW");
+			view.close();
+			session.removeView(view);
+			viewFrameMapper.remove(view);
+			zoomListeners.remove(view);
+		} else {
+			// System.out.println("CLOSE SESSION");
+			// remove the session if we are closing the last view
+			view.close();
+
+			MainFrame.getInstance().removeSession(session);
+
+			fireSessionChanged(null);
+			activeSession = null;
+		}
+		// the update mechanism after the close of the last session
+		// still has some bugs...
+		updateActions();
 	}
 }
 
