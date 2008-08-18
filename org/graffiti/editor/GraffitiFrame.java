@@ -5,14 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.4 2008/08/14 08:44:44 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.5 2008/08/18 14:40:13 klukas Exp $
 
 package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Color;
-import java.awt.event.ActionEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
