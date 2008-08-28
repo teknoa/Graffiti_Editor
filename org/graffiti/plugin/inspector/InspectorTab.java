@@ -5,13 +5,17 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.1 2007/06/14 09:36:49 klukas Exp $
+// $Id: InspectorTab.java,v 1.2 2008/08/28 09:51:46 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
 import javax.swing.JComponent;
 
+import org.graffiti.event.AttributeEvent;
 import org.graffiti.event.AttributeListener;
+import org.graffiti.event.TransactionEvent;
+import org.graffiti.plugin.view.View;
+import org.graffiti.session.Session;
 import org.graffiti.session.SessionListener;
 
 /**
@@ -23,7 +27,6 @@ import org.graffiti.session.SessionListener;
  */
 public abstract class InspectorTab
     extends JComponent
-    implements AttributeListener
 {
     //~ Instance fields ========================================================
 
@@ -60,6 +63,13 @@ public abstract class InspectorTab
     {
         return this.title;
     }
+
+	@Override
+	public String getName() {
+		return getTitle();
+	}
+
+	public abstract boolean visibleForView(View v);
 }
 
 //------------------------------------------------------------------------------
