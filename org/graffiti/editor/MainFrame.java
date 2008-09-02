@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.18 2008/08/28 09:51:46 klukas Exp $
+// $Id: MainFrame.java,v 1.19 2008/09/02 11:30:23 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -175,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -554,26 +554,28 @@ public class MainFrame extends JFrame implements SessionManager,
 		GraphicsDevice[] gs = ge.getScreenDevices();
 		Rectangle virtualBounds = new Rectangle();
 		int j = 0;
-		GraphicsDevice gd = gs[j];
-		GraphicsConfiguration[] gc = gd.getConfigurations();
-		virtualBounds = virtualBounds.union(gc[0].getBounds());
-		int w, h;
+//		GraphicsDevice gd = gs[j];
+//		GraphicsConfiguration[] gc = gd.getConfigurations();
+//		virtualBounds = virtualBounds.union(gc[0].getBounds());
+//		int w, h;
+//		
+//		try {
+//			w = gc[0].getDevice().getDisplayMode().getWidth();
+//			h = gc[0].getDevice().getDisplayMode().getHeight();
+//		} catch(NullPointerException npe) {
+//			w = 800;
+//			h = 600;
+//		}
+//		
+//		// Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
+////		int xpos = (virtualBounds.width / 2) - (getWidth() / 2);
+////		int ypos = (virtualBounds.height / 2) - (getHeight() / 2);
+//		int xpos = (w / 2) - (getWidth() / 2);
+//		int ypos = (h / 2) - (getHeight() / 2);
+//
+//		setLocation(xpos, ypos);
 		
-		try {
-			w = gc[0].getDevice().getDisplayMode().getWidth();
-			h = gc[0].getDevice().getDisplayMode().getHeight();
-		} catch(NullPointerException npe) {
-			w = 800;
-			h = 600;
-		}
-		
-		// Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-//		int xpos = (virtualBounds.width / 2) - (getWidth() / 2);
-//		int ypos = (virtualBounds.height / 2) - (getHeight() / 2);
-		int xpos = (w / 2) - (getWidth() / 2);
-		int ypos = (h / 2) - (getHeight() / 2);
-
-		setLocation(xpos, ypos);
+		setLocationByPlatform(true);
 
 		// just for debugging - rs
 //		System.err.println("entries in the guiMap:");
