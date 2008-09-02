@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.19 2008/09/02 11:30:23 klukas Exp $
+// $Id: MainFrame.java,v 1.20 2008/09/02 14:43:01 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -18,6 +18,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
@@ -175,7 +176,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2202,6 +2203,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				} else {
 					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session.getGraph().getName(), session, false, true); 
 					GraffitiFrame gf = new GraffitiFrame(gif);
+					gf.setExtendedState(Frame.MAXIMIZED_BOTH);
 					gf.setVisible(true);
 					addDetachedFrame(gf);
 				}
