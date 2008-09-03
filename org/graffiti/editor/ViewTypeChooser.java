@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewTypeChooser.java,v 1.2 2008/08/13 14:40:27 klukas Exp $
+// $Id: ViewTypeChooser.java,v 1.3 2008/09/03 10:40:08 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -47,7 +47,7 @@ import org.graffiti.core.StringBundle;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ViewTypeChooser
     extends JDialog
@@ -127,7 +127,6 @@ public class ViewTypeChooser
         final JCheckBox frameCheckbox = new JCheckBox("Create internal frame (default)");
         frameCheckbox.setSelected(true);
         frameCheckbox.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				internalFrame = frameCheckbox.isSelected();
 			}});
@@ -339,7 +338,7 @@ public class ViewTypeChooser
     /**
      * Renders the view names for their displaying without class path.
      *
-     * @version $Revision: 1.2 $
+     * @version $Revision: 1.3 $
      */
     class NameListCellRenderer
         extends JLabel
