@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultViewManager.java,v 1.2 2008/06/18 08:57:35 klukas Exp $
+// $Id: DefaultViewManager.java,v 1.3 2008/09/04 09:54:50 klukas Exp $
 
 package org.graffiti.managers;
 
 import java.awt.geom.AffineTransform;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -27,7 +28,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Manages a list of view types.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultViewManager
     implements ViewManager
@@ -40,10 +41,10 @@ public class DefaultViewManager
     //~ Instance fields ========================================================
 
     /** Contains the list of listeners. */
-    private List listeners;
+    private LinkedHashSet listeners;
 
     /** Contains the list of listeners. */
-    private List viewListeners;
+    private LinkedHashSet<ViewListener> viewListeners;
 
     /** Contains the class names of the available views. */
     private List<String> views;
@@ -56,8 +57,8 @@ public class DefaultViewManager
     public DefaultViewManager()
     {
         views = new LinkedList<String>();
-        listeners = new LinkedList();
-        viewListeners = new LinkedList();
+        listeners = new LinkedHashSet();
+        viewListeners = new LinkedHashSet();
     }
 
     //~ Methods ================================================================
@@ -195,9 +196,8 @@ public class DefaultViewManager
      */
     public void viewChanged(View newView)
     {
-        for(Iterator it = viewListeners.iterator(); it.hasNext();)
-        {
-            ((ViewListener) it.next()).viewChanged(newView);
+        for(ViewListener vl : viewListeners) {
+            vl.viewChanged(newView);
         }
     }
 

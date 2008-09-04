@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.20 2008/09/02 14:43:01 klukas Exp $
+// $Id: MainFrame.java,v 1.21 2008/09/04 09:54:50 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -120,6 +120,7 @@ import org.graffiti.editor.actions.RedrawViewAction;
 import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.actions.SelectAllAction;
 import org.graffiti.editor.actions.ViewNewAction;
+import org.graffiti.event.AttributeListener;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
@@ -138,6 +139,7 @@ import org.graffiti.managers.ToolManager;
 import org.graffiti.managers.URLattributeActionManager;
 import org.graffiti.managers.ViewManager;
 import org.graffiti.managers.pluginmgr.PluginDescription;
+import org.graffiti.managers.pluginmgr.PluginEntry;
 import org.graffiti.managers.pluginmgr.PluginManager;
 import org.graffiti.managers.pluginmgr.PluginManagerException;
 import org.graffiti.managers.pluginmgr.PluginManagerListener;
@@ -153,6 +155,8 @@ import org.graffiti.plugin.gui.GraffitiContainer;
 import org.graffiti.plugin.gui.ModeToolbar;
 import org.graffiti.plugin.gui.PluginPanel;
 import org.graffiti.plugin.gui.ToolButton;
+import org.graffiti.plugin.inspector.InspectorPlugin;
+import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.io.InputSerializer;
 import org.graffiti.plugin.io.OutputSerializer;
 import org.graffiti.plugin.mode.Mode;
@@ -176,7 +180,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -654,8 +658,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				ErrorMsg.addErrorMessage(e);
 			}
 		}
-		if (activeSession!=s)
-			fireSessionChanged(s);
+		fireSessionChanged(s);
 		activeSession = (EditorSession) s;
 	}
 
@@ -898,7 +901,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			}
 		}
 	}
-
+	
 	/**
 	 * Adds the given session to the list of sessions.
 	 *
@@ -1488,6 +1491,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		updateActions();
 	}
 
+	InspectorPlugin inspectorPlugin = null;
+	
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
 	 *
@@ -1507,11 +1512,38 @@ public class MainFrame extends JFrame implements SessionManager,
 		checkSelectionListener(plugin);
 
 		if (plugin.needsEditComponents()) {
-			((NeedEditComponents) plugin).setEditComponentMap(editComponentManager
-						.getEditComponents());
+			((NeedEditComponents) plugin).setEditComponentMap(editComponentManager.getEditComponents());
+		}
+		
+		if (plugin instanceof InspectorPlugin) {
+			if (inspectorPlugin!=null) {
+				ErrorMsg.addErrorMessage("Tried to load more than one InpsectorPlugin!");
+			} else {
+				inspectorPlugin = (InspectorPlugin) plugin;
+				for (PluginEntry p : pluginmgr.getPluginEntries()) {
+					if (p.getPlugin()!=null && p.getPlugin() instanceof EditorPlugin) {
+						EditorPlugin ep = (EditorPlugin) p.getPlugin();
+						if (ep!=plugin) {
+							processTabs(ep);
+						}
+					}
+				}
+			}
+		}
+		if (plugin instanceof EditorPlugin) {
+			EditorPlugin ep = (EditorPlugin) plugin;
+			processTabs(ep);
 		}
 
 		updateActions();
+	}
+
+	private void processTabs(EditorPlugin ep) {
+		if (ep.getInspectorTabs()!=null) {
+			for (InspectorTab it : ep.getInspectorTabs()) {
+				inspectorPlugin.addTab(it);
+			}
+		}
 	}
 
 	/**
@@ -3189,6 +3221,13 @@ public class MainFrame extends JFrame implements SessionManager,
 		// the update mechanism after the close of the last session
 		// still has some bugs...
 		updateActions();
+	}
+
+	@Override
+	public void setVisible(boolean b) {
+		if (b)
+			fireSessionChanged(activeSession);
+		super.setVisible(b);
 	}
 }
 

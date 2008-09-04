@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorPluginAdapter.java,v 1.1 2007/06/14 09:36:49 klukas Exp $
+// $Id: EditorPluginAdapter.java,v 1.2 2008/09/04 09:54:47 klukas Exp $
 
 package org.graffiti.plugin;
 
@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.graffiti.plugin.gui.GraffitiComponent;
+import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.mode.Mode;
 import org.graffiti.plugin.tool.Tool;
 import org.graffiti.plugin.view.GraffitiShape;
@@ -47,6 +48,9 @@ public class EditorPluginAdapter
 
     /** The tools the plugin provides. */
     public Tool[] tools;
+    
+    /** The InspectorTabs the plugin provides. */
+    protected InspectorTab[] tabs;
 
     //~ Constructors ===========================================================
 
@@ -135,6 +139,10 @@ public class EditorPluginAdapter
     public Map getValueEditComponents()
     {
         return this.valueEditComponents;
+    }
+    
+    public InspectorTab[] getInspectorTabs() {
+    	return tabs;
     }
 }
 
