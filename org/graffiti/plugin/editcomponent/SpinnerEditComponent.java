@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SpinnerEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: SpinnerEditComponent.java,v 1.2 2008/09/04 11:54:46 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -33,18 +33,18 @@ import org.graffiti.plugin.parameter.IntegerParameter;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SpinnerEditComponent
     extends AbstractValueEditComponent
 {
     //~ Instance fields ========================================================
 
-    /** The default step witdh for floating point numbers. */
+    /** The default step width for floating point numbers. */
     private final Double DEFAULT_STEP = new Double(0.5d);
 
     /** The spinner component used. */
-    private JSpinner spinner;
+    private JSpinner jSpinner;
 
     //~ Constructors ===========================================================
 
@@ -63,8 +63,7 @@ public class SpinnerEditComponent
             disp instanceof LongAttribute || disp instanceof ShortAttribute ||
             disp instanceof IntegerParameter)
         {
-            model = new SpinnerNumberModel(new Integer(0), null, null,
-                    new Integer(1));
+            model = new SpinnerNumberModel(new Integer(0), null, null, new Integer(1));
         }
         else
         {
@@ -72,12 +71,12 @@ public class SpinnerEditComponent
                     DEFAULT_STEP);
         }
 
-        this.spinner = new JSpinner(model);
+        this.jSpinner = new JSpinner(model);
 
         //        this.spinner = new JSpinner();
          // this.spinner.setBorder(BorderFactory.createEmptyBorder());
         
-        spinner.setOpaque(false);
+        jSpinner.setOpaque(false);
 
         //this.spinner.setSize(100, 40);
         //this.spinner.setMinimumSize(new Dimension(40, 10));
@@ -95,20 +94,10 @@ public class SpinnerEditComponent
      */
     public JComponent getComponent()
     {
-        //				JPanel panel = new JPanel();
-        //				panel.add(this.spinner);
-        //				panel.setSize(100, 40);
-        //				panel.setMinimumSize(new Dimension(40, 10));
-        //				panel.setPreferredSize(new Dimension(100, 40));
-        //				this.spinner.setSize(100, 40);
-        this.spinner.setMinimumSize(new Dimension(0, 30));
-        this.spinner.setPreferredSize(new Dimension(50, 30));
-        this.spinner.setMaximumSize(new Dimension(2000, 30));
-
-        //        this.spinner.setSize(new Dimension(100, 30));
-        return this.spinner;
-
-        //				return panel;
+        jSpinner.setMinimumSize(new Dimension(0, 30));
+        jSpinner.setPreferredSize(new Dimension(50, 30));
+        jSpinner.setMaximumSize(new Dimension(2000, 30));
+        return jSpinner;
     }
 
     /**
@@ -118,35 +107,7 @@ public class SpinnerEditComponent
      */
     public void setDisplayable(Displayable disp)
     {
-        ////		if (this.displayable != attr) {
         this.displayable = disp;
-
-        ////	        SpinnerNumberModel model = new SpinnerNumberModel();
-        //			SpinnerNumberModel model = (SpinnerNumberModel)this.spinner.getModel();
-        //
-        ////			Object oldValue = spinner.getValue();
-        ////			SpinnerNumberModel model; 
-        ////	        // if attr contains a whole number use step width 1
-        //	        if (attr instanceof IntegerAttribute
-        //	            || attr instanceof ByteAttribute
-        //	            || attr instanceof LongAttribute
-        //	            || attr instanceof ShortAttribute
-        //			    || attr instanceof IntegerParameter) {
-        //
-        //				model.setStepSize(new Integer(1));
-        ////				model = new SpinnerNumberModel
-        ////					(new Integer(0), null, null, new Integer(1));
-        //////	            model.setStepSize(new Integer(1));
-        //	        } else {
-        ////				model = new SpinnerNumberModel
-        ////					(new Double(0d), null, null, DEFAULT_STEP);
-        //	   	        model.setStepSize(DEFAULT_STEP);
-        //	        }
-        //////	        model.setValue(attr.getValue());
-        ////			this.spinner.setModel(model);
-        ////			model.setValue(oldValue);
-        ////		}
-        //		this.spinner.setValue(disp.getValue());
     }
 
     /**
@@ -155,26 +116,21 @@ public class SpinnerEditComponent
      */
     public void setEditFieldValue()
     {
-        //		((JTextField)this.spinner.getEditor()).setText("");
         if(showEmpty)
         {
-            ((JSpinner.DefaultEditor) this.spinner.getEditor()).getTextField()
-             .setText(EMPTY_STRING);
+            ((JSpinner.DefaultEditor) this.jSpinner.getEditor()).getTextField().setText(EMPTY_STRING);
         }
         else
         {
-            spinner.setValue(this.displayable.getValue());
+            jSpinner.setValue(this.displayable.getValue());
 
-            ChangeEvent ce = new ChangeEvent(spinner);
+            ChangeEvent ce = new ChangeEvent(jSpinner);
 
-            for(int i = 0; i < spinner.getChangeListeners().length; i++)
+            for(int i = 0; i < jSpinner.getChangeListeners().length; i++)
             {
-            	// System.out.println("LISTENER INFORMED: "+ce.toString());
-                spinner.getChangeListeners()[i].stateChanged(ce);
+                jSpinner.getChangeListeners()[i].stateChanged(ce);
             }
         }
-
-        //		this.setEnabled(!this.showEmpty);
     }
 
     /*
@@ -185,8 +141,6 @@ public class SpinnerEditComponent
         if(this.showEmpty != showEmpty)
         {
             super.setShowEmpty(showEmpty);
-
-            //			this.setEditFieldValue();
         }
 
         this.setEditFieldValue();
@@ -198,61 +152,66 @@ public class SpinnerEditComponent
      */
     public void setValue()
     {
-        //System.out.println("attrvalue = " + this.displayable.getValue() + "spinnervalue = " + this.spinner.getValue());
-        try
-        {
-        	if (spinner.getEditor()!=null && spinner.getEditor() instanceof NumberEditor) {
-	        	NumberEditor ne = (NumberEditor) spinner.getEditor();
-	        	String txt = ne.getTextField().getText();
-	        	try {
-		        	if (txt.startsWith("*")) {
-		        		Double p = Double.parseDouble(txt.substring("*".length()));
-		        		if (this.displayable.getValue() instanceof Double) {
-		        			this.displayable.setValue((Double)this.displayable.getValue()*p);
-			        		return;
-		        		} else
-		        		if (this.displayable.getValue() instanceof Integer) {
-		        			this.displayable.setValue((int)((Integer)this.displayable.getValue()*p));
-			        		return;
-		        		}
-		        	} else
-		        	if (txt.startsWith("/")) {
-		        		Double p = Double.parseDouble(txt.substring("/".length()));
-		        		if (this.displayable.getValue() instanceof Double) {
-		        			this.displayable.setValue((Double)this.displayable.getValue()/p);
-			        		return;
-		        		} else
-		        		if (this.displayable.getValue() instanceof Integer) {
-		        			this.displayable.setValue((int)((Integer)this.displayable.getValue()/p));
-			        		return;
-		        		}
-		        	} else
-		        	if (txt.startsWith("+")) {
-		        		Double p = Double.parseDouble(txt.substring("+".length()));
-		        		if (this.displayable.getValue() instanceof Double) {
-		        			this.displayable.setValue((Double)this.displayable.getValue()+p);
-			        		return;
-		        		} else
-		        		if (this.displayable.getValue() instanceof Integer) {
-		        			this.displayable.setValue((int)((Integer)this.displayable.getValue()+p));
-			        		return;
-		        		}
-		        	}
-		        		
-	        	} catch(NumberFormatException nfe) {
-	        		//
+     	if (jSpinner.getEditor()!=null && jSpinner.getEditor() instanceof NumberEditor) {
+        	NumberEditor ne = (NumberEditor) jSpinner.getEditor();
+        	String txt = ne.getTextField().getText();
+        	try {
+        		if (txt.equals(EMPTY_STRING)) {
+        			return;
+        		}
+	        	if (txt.startsWith("*")) {
+	        		Double p = Double.parseDouble(txt.substring("*".length()));
+	        		if (this.displayable.getValue() instanceof Double) {
+	        			this.displayable.setValue((Double)this.displayable.getValue()*p);
+		        		return;
+	        		} else
+	        		if (this.displayable.getValue() instanceof Integer) {
+	        			this.displayable.setValue((int)((Integer)this.displayable.getValue()*p));
+		        		return;
+	        		}
+	        	} else
+	        	if (txt.startsWith("/")) {
+	        		Double p = Double.parseDouble(txt.substring("/".length()));
+	        		if (this.displayable.getValue() instanceof Double) {
+	        			this.displayable.setValue((Double)this.displayable.getValue()/p);
+		        		return;
+	        		} else
+	        		if (this.displayable.getValue() instanceof Integer) {
+	        			this.displayable.setValue((int)((Integer)this.displayable.getValue()/p));
+		        		return;
+	        		}
+	        	} else
+	        	if (txt.startsWith("+")) {
+	        		Double p = Double.parseDouble(txt.substring("+".length()));
+	        		if (this.displayable.getValue() instanceof Double) {
+	        			this.displayable.setValue((Double)this.displayable.getValue()+p);
+		        		return;
+	        		} else
+	        		if (this.displayable.getValue() instanceof Integer) {
+	        			this.displayable.setValue((int)((Integer)this.displayable.getValue()+p));
+		        		return;
+	        		}
 	        	}
+	        		
+        	} catch(NumberFormatException nfe) {
+        		//
         	}
-            spinner.commitEdit();
-
-            if(!this.displayable.getValue().equals(this.spinner.getValue()))
-                this.displayable.setValue(this.spinner.getValue());
-        }
-        catch(ParseException e)
-        {
-            // this is by the way an other way to say:
-            // if spinner.getValue().equals("---") { don't change anything }
-        }
+    	}
+        try {
+        	NumberEditor ne = (NumberEditor) jSpinner.getEditor();
+        	String txt1 = ne.getTextField().getText();
+        	System.out.println("A: "+txt1);
+			jSpinner.commitEdit();
+        	String txt2 = ne.getTextField().getText();
+        	System.out.println("B: "+txt2);
+	        System.out.println(this.displayable.getValue()+" <-?-> "+this.jSpinner.getValue());
+	        if(!this.displayable.getValue().equals(this.jSpinner.getValue()))
+	            this.displayable.setValue(this.jSpinner.getValue());
+        	String txt3 = ne.getTextField().getText();
+        	System.out.println("C: "+txt3);
+		} catch (ParseException e) {
+			// input not parsable
+		}
     }
 }
 

@@ -5,9 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ValueEditComponent.java,v 1.2 2008/09/04 11:54:46 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
+
+import java.util.Collection;
 
 import javax.swing.JComponent;
 
@@ -113,6 +115,8 @@ public interface ValueEditComponent
      * really different otherwise too many events will be sent.
      */
     public void setValue();
+    
+    public void setValue(Collection<Displayable> attributes);
 }
 
 //------------------------------------------------------------------------------

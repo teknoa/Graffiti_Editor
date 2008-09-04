@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ComboBoxEditComponent.java,v 1.2 2008/07/22 08:40:57 klukas Exp $
+// $Id: ComboBoxEditComponent.java,v 1.3 2008/09/04 11:54:46 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -18,7 +18,7 @@ import org.graffiti.plugin.Displayable;
 /**
  * Displays a combo box to let the user choose from several possibilities.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ComboBoxEditComponent
     extends AbstractValueEditComponent
@@ -107,8 +107,7 @@ public class ComboBoxEditComponent
 
         if(this.comboBox.getItemAt(0).equals(EMPTY_STRING))
         {
-            this.displayable.setValue(comboValue[this.comboBox.getSelectedIndex() -
-                1]);
+            this.displayable.setValue(comboValue[this.comboBox.getSelectedIndex() - 1]);
         }
         else
         {

@@ -1,5 +1,7 @@
 package org.graffiti.plugin.editcomponent;
 
+import java.util.Collection;
+
 import javax.swing.JComponent;
 
 import org.graffiti.event.AttributeEvent;
@@ -239,6 +241,13 @@ public class JComponentParameterEditor implements ValueEditComponent {
 	public void preUndirectedEdgeRemoved(NodeEvent e) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setValue(Collection<Displayable> attributes) {
+		for (Displayable d : attributes) {
+			setDisplayable(d);
+			setValue();
+		}
 	}
 
 }

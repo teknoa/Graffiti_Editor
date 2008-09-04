@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NumberEditComponent.java,v 1.2 2008/01/16 10:38:45 klukas Exp $
+// $Id: NumberEditComponent.java,v 1.3 2008/09/04 11:54:46 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -33,7 +33,7 @@ public abstract class NumberEditComponent
     //~ Instance fields ========================================================
 
     /** The gui element of this component. */
-    protected SpinnerEditComponent spinner;
+    protected SpinnerEditComponent spinnerEditComponent;
 
     //~ Constructors ===========================================================
 
@@ -45,7 +45,7 @@ public abstract class NumberEditComponent
     protected NumberEditComponent(Displayable disp)
     {
         super(disp);
-        spinner = new SpinnerEditComponent(disp);
+        spinnerEditComponent = new SpinnerEditComponent(disp);
     }
 
     //~ Methods ================================================================
@@ -60,7 +60,7 @@ public abstract class NumberEditComponent
     public JComponent getComponent()
     {
    	  // System.out.println(displayable.getName());
-        JComponent defaultResult = spinner.getComponent();
+        JComponent defaultResult = spinnerEditComponent.getComponent();
         if (displayable.getIcon()!=null) {
        	 JComponent jc = displayable.getIcon();
        	 if (defaultResult!=null)
@@ -83,7 +83,9 @@ public abstract class NumberEditComponent
     public void setDisplayable(Displayable attr)
     {
         this.displayable = attr;
-        spinner.setDisplayable(attr);
+        spinnerEditComponent.setDisplayable(attr);
+    	System.out.println(spinnerEditComponent+"");
+
     }
 
     /**
@@ -92,7 +94,7 @@ public abstract class NumberEditComponent
      */
     public void setEditFieldValue()
     {
-        spinner.setEditFieldValue();
+        spinnerEditComponent.setEditFieldValue();
     }
 
     /*
@@ -101,7 +103,7 @@ public abstract class NumberEditComponent
     public void setEnabled(boolean enabled)
     {
         super.setEnabled(enabled);
-        spinner.setEnabled(enabled);
+        spinnerEditComponent.setEnabled(enabled);
     }
 
     /*
@@ -111,7 +113,7 @@ public abstract class NumberEditComponent
     {
         super.setShowEmpty(showEmpty);
         this.showEmpty = showEmpty;
-        spinner.setShowEmpty(showEmpty);
+        spinnerEditComponent.setShowEmpty(showEmpty);
     }
 
     /**
@@ -121,7 +123,8 @@ public abstract class NumberEditComponent
      */
     public void setValue()
     {
-        spinner.setValue();
+    	System.out.println(spinnerEditComponent+"");
+        spinnerEditComponent.setValue();
     }
 }
 

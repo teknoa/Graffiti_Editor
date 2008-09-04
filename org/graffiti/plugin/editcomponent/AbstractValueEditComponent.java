@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractValueEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: AbstractValueEditComponent.java,v 1.2 2008/09/04 11:54:46 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -116,10 +116,10 @@ public abstract class AbstractValueEditComponent
      */
     public void postAttributeChanged(AttributeEvent e)
     {
-        if(e.getAttribute().equals(this.displayable))
-        {
-            setEditFieldValue();
-        }
+//        if(e.getAttribute().equals(this.displayable))
+//        {
+//        	setEditFieldValue();
+//        }
     }
 
     /**
