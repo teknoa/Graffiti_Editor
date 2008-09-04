@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NumberEditComponent.java,v 1.3 2008/09/04 11:54:46 klukas Exp $
+// $Id: NumberEditComponent.java,v 1.4 2008/09/04 14:52:24 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -84,8 +84,6 @@ public abstract class NumberEditComponent
     {
         this.displayable = attr;
         spinnerEditComponent.setDisplayable(attr);
-    	System.out.println(spinnerEditComponent+"");
-
     }
 
     /**
@@ -123,7 +121,7 @@ public abstract class NumberEditComponent
      */
     public void setValue()
     {
-    	System.out.println(spinnerEditComponent+"");
+//    	System.out.println(spinnerEditComponent+"");
         spinnerEditComponent.setValue();
     }
 }

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SpinnerEditComponent.java,v 1.2 2008/09/04 11:54:46 klukas Exp $
+// $Id: SpinnerEditComponent.java,v 1.3 2008/09/04 14:52:24 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -33,7 +33,7 @@ import org.graffiti.plugin.parameter.IntegerParameter;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SpinnerEditComponent
     extends AbstractValueEditComponent
@@ -199,16 +199,16 @@ public class SpinnerEditComponent
     	}
         try {
         	NumberEditor ne = (NumberEditor) jSpinner.getEditor();
-        	String txt1 = ne.getTextField().getText();
-        	System.out.println("A: "+txt1);
+//        	String txt1 = ne.getTextField().getText();
+//        	System.out.println("A: "+txt1);
 			jSpinner.commitEdit();
-        	String txt2 = ne.getTextField().getText();
-        	System.out.println("B: "+txt2);
-	        System.out.println(this.displayable.getValue()+" <-?-> "+this.jSpinner.getValue());
+//        	String txt2 = ne.getTextField().getText();
+//        	System.out.println("B: "+txt2);
+//	        System.out.println(this.displayable.getValue()+" <-?-> "+this.jSpinner.getValue());
 	        if(!this.displayable.getValue().equals(this.jSpinner.getValue()))
 	            this.displayable.setValue(this.jSpinner.getValue());
-        	String txt3 = ne.getTextField().getText();
-        	System.out.println("C: "+txt3);
+//        	String txt3 = ne.getTextField().getText();
+//        	System.out.println("C: "+txt3);
 		} catch (ParseException e) {
 			// input not parsable
 		}
