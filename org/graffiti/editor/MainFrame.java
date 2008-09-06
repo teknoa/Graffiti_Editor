@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.21 2008/09/04 09:54:50 klukas Exp $
+// $Id: MainFrame.java,v 1.22 2008/09/06 15:54:33 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -38,6 +38,8 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.beans.PropertyVetoException;
 import java.io.File;
@@ -180,7 +182,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1096,8 +1098,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		//        this.addSession(session);
 		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(),
-					ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		// JViewport jvp = new JViewport();
 		// jvp.setBackground(Color.ORANGE);
 		
@@ -1106,6 +1108,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 
+		scrollPane.setWheelScrollingEnabled(false);
+		
 		if (!returnScrollPane) {
 
 			//        this.fireSessionChanged(session);
@@ -1130,7 +1134,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			GravistoService.getInstance().framesDeselect();
 
 			if (!returnGraffitiFrame) {
-				frame.setVisible(true);
+    			frame.setVisible(true);
 				desktop.add(frame);
 				Java_1_5_compatibility.setComponentZorder(desktop, frame);
 			}
@@ -3227,6 +3231,28 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void setVisible(boolean b) {
 		if (b)
 			fireSessionChanged(activeSession);
+
+		Runtime r = Runtime.getRuntime();
+		if (r.maxMemory()/1024/1024<512) {
+            int divisor=1024;
+            String memoryConfig = "Used/free/max memory: " + 
+            	((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
+			  		"/" + (r.freeMemory()/divisor/divisor) +"/<u>"+(r.maxMemory()/divisor/divisor)+"</u> MB &lt;-- possible problem detected";
+            MainFrame.showMessageDialog("<html>" +
+            		"Low memory configuration detected!<br><br>" +
+            		"The current memory configuration (see bottom of this dialog window)<br>" +
+            		"may cause severe performance problems and yield to unrecoverable<br>" +
+            		"out of memory exceptions and thus to unexpected program failures.<br>" +
+            		"Please check developer information on how to modify Java memory<br>" +
+            		"configuration. If you are not a software developer, please inform the<br>" +
+            		"main developer of the VANTED system about this problem.<br>" +
+            		"This message should not appear in case the program is started using<br>" +
+            		"the provided launch configurations (Java WebStart or command line<br>" +
+            		"based launch scripts).<br><br>" +
+            		"Please close the application and fix this problem before proceeding.<br><br>" +
+            		memoryConfig, ReleaseInfo.getRunningReleaseStatus()+" Information");
+        }
+		
 		super.setVisible(b);
 	}
 }
