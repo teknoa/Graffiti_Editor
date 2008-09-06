@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.22 2008/09/06 15:54:33 klukas Exp $
+// $Id: MainFrame.java,v 1.23 2008/09/06 19:19:03 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -19,9 +19,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.IllegalComponentStateException;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
@@ -38,9 +35,6 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.awt.geom.AffineTransform;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -49,7 +43,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -57,7 +50,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +76,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
@@ -96,7 +87,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
-
 
 import org.ErrorMsg;
 import org.Java_1_5_compatibility;
@@ -122,7 +112,6 @@ import org.graffiti.editor.actions.RedrawViewAction;
 import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.actions.SelectAllAction;
 import org.graffiti.editor.actions.ViewNewAction;
-import org.graffiti.event.AttributeListener;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
@@ -182,7 +171,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -315,9 +304,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private HashMap<String,JMenuItem> categoriesForAlgorithms = new HashMap<String,JMenuItem>();
 
-	/** DOCUMENT ME! */
-	private JMenu windowMenu;
-
 	/** Container for toolbars at the left of the main frame. */
 	private JPanel leftToolBarPanel;
 
@@ -390,6 +376,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	private DesktopMenuManager desktopMenuManager;
 
+	private JMenuBar storedMenuBar;
+
 	//~ Constructors ===========================================================
 
 	/**
@@ -411,10 +399,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	public MainFrame(PluginManager pluginmgr, GravistoPreferences prefs,
 				JPanel progressPanel, boolean showVantedHelp) {
 		super();
-		if (instance != null) {
-			System.err.println("Only one MainFrame instance is allowed. Application is shut down.");
-			System.exit(1);
-		}
+//		if (instance != null) {
+//			System.err.println("Only one MainFrame instance is allowed. Application is shut down.");
+//			System.exit(1);
+//		}
 		instance = this;
 
 		this.setTitle(sBundle.getString("name") + " "
@@ -439,6 +427,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		editComponentManager = new EditComponentManager();
 		urlAttributeActionManager = new DefaultURLattributeActionManager();
 
+		pluginmgr.addPluginManagerListener(this);
 		pluginmgr.addPluginManagerListener(viewManager);
 		pluginmgr.addPluginManagerListener(toolManager);
 		pluginmgr.addPluginManagerListener(algorithmManager);
@@ -465,9 +454,6 @@ public class MainFrame extends JFrame implements SessionManager,
 		// initialize map of gui components and create menu bar
 		guiMap = new Hashtable<String,Object>();
 
-		// create and set the menu bar
-		setJMenuBar(createMenuBar());
-
 		// the editor's status bar
 		statusBar = new StatusBar(sBundle);
 		statusBar.setBorder(null);
@@ -479,19 +465,14 @@ public class MainFrame extends JFrame implements SessionManager,
 			setHelpIntroduction();
 		} 
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
-		getContentPane().setBackground(null);
+//		getContentPane().setBackground(null);
 		
 
 		// create the desktop
 		// desktop = new JDesktopPane();
 		desktop = new JDesktopPane();
-		// desktop.setBackground(new Color(240, 240, 240));
 		desktop.setBackground(null);
 		desktop.setOpaque(false);
-		// desktop.setBackground(this.getForeground());
-		// desktop.setBorder(BorderFactory.createLoweredBevelBorder());
-		// new MaximizeManager(desktop, getJMenuBar());
-		desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
 		
 		// create a panel, which will contain the views for plugins
 		pluginPanel = new PluginPanel();
@@ -502,10 +483,6 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
 			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0,0));
-			// jSplitPane_pluginPanelAndProgressView = new JMyProgressSplitPane(JSplitPane.VERTICAL_SPLIT, pluginPanel, progressPanel);
-			// jSplitPane_pluginPanelAndProgressView.setBorder(null);
-			// jSplitPane_pluginPanelAndProgressView.setContinuousLayout(true);
-			// jSplitPane_pluginPanelAndProgressView.setDividerSize(0);
 			vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop,
 						jSplitPane_pluginPanelAndProgressView);
 		} else {
@@ -523,31 +500,36 @@ public class MainFrame extends JFrame implements SessionManager,
 		// vertSplitter.setDividerSize(5);
 		// vertSplitter.setBackground(null);
 		// vertSplitter.setOpaque(false);
-		getContentPane().add(vertSplitter, BorderLayout.CENTER);
+		if (ReleaseInfo.isRunningAsApplet())
+			getContentPane().add(desktop, BorderLayout.CENTER);
+		else
+			getContentPane().add(vertSplitter, BorderLayout.CENTER);
 
-		// top toolbars
-//		topToolBarPanel = new JPanel();
-//		topToolBarPanel.setLayout(new SingleFiledLayout(SingleFiledLayout.ROW));
-		
-//		guiMap.put("toolbarPanel", topToolBarPanel);
-//		getContentPane().add(topToolBarPanel, BorderLayout.NORTH);
-		
 		JToolBar toolBar = createToolBar();
-		// toolBar.setBorder(null);
-		// toolBar.setBackground(null);
-		// toolBar.setOpaque(false);
-		// toolBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.BOTH);
+
 		guiMap.put("toolbarPanel", toolBar);
 		guiMap.put("defaultToolbar", toolBar);
-		getContentPane().add(toolBar, BorderLayout.NORTH);
+		
+		// create and set the menu bar
+		
+		JMenu windowMenu = createMenu("window");
+		if (ReleaseInfo.isRunningAsApplet()) {
+			JMenuBar jmb = createMenuBar(windowMenu);
+			storedMenuBar = jmb;
+//			getContentPane().add(TableLayout.getSplitVertical(jmb, toolBar, TableLayout.PREFERRED, TableLayout.PREFERRED),
+//					BorderLayout.NORTH);
+			getContentPane().add(toolBar, BorderLayout.NORTH);
+		} else {
+			setJMenuBar(createMenuBar(windowMenu));
+			desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
+			getContentPane().add(toolBar, BorderLayout.NORTH);
+		}
 
 		// left toolbars
 		leftToolBarPanel = new JPanel();
 		// leftToolBarPanel.setLayout(new BoxLayout(leftToolBarPanel, BoxLayout.Y_AXIS));
 		leftToolBarPanel.setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.CENTER, 2));
 		getContentPane().add(leftToolBarPanel, BorderLayout.WEST);
-//		leftToolBarPanel.setBackground(null);
-//		leftToolBarPanel.setBorder(null);
 		
 		// window settings like position and size
 		setSize(uiPrefs.getInt("sizeWidth", SIZE_WIDTH), uiPrefs.getInt(
@@ -555,54 +537,20 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		setSize(900, 700);
 		
-		/* Center the frame */
-		GraphicsEnvironment ge = GraphicsEnvironment
-				.getLocalGraphicsEnvironment();
-		GraphicsDevice[] gs = ge.getScreenDevices();
-		Rectangle virtualBounds = new Rectangle();
-		int j = 0;
-//		GraphicsDevice gd = gs[j];
-//		GraphicsConfiguration[] gc = gd.getConfigurations();
-//		virtualBounds = virtualBounds.union(gc[0].getBounds());
-//		int w, h;
-//		
-//		try {
-//			w = gc[0].getDevice().getDisplayMode().getWidth();
-//			h = gc[0].getDevice().getDisplayMode().getHeight();
-//		} catch(NullPointerException npe) {
-//			w = 800;
-//			h = 600;
-//		}
-//		
-//		// Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
-////		int xpos = (virtualBounds.width / 2) - (getWidth() / 2);
-////		int ypos = (virtualBounds.height / 2) - (getHeight() / 2);
-//		int xpos = (w / 2) - (getWidth() / 2);
-//		int ypos = (h / 2) - (getHeight() / 2);
-//
-//		setLocation(xpos, ypos);
-		
-		setLocationByPlatform(true);
+		if (!ReleaseInfo.isRunningAsApplet())
+			setLocationByPlatform(true);
 
-		// just for debugging - rs
-//		System.err.println("entries in the guiMap:");
-//		for (Iterator itr = guiMap.keySet().iterator(); itr.hasNext();) {
-//			System.err.println(itr.next());
-//		}
-		// register the main frame to the plugin manager.
-		pluginmgr.addPluginManagerListener(this);
 
-		this.addComponentListener(this);
+		addComponentListener(this);
 
-		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		if (!ReleaseInfo.isRunningAsApplet())
+			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		getContentPane().validate();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				addStatusPanel(null);
 			}});
 		
-		// Color fullTransparent = new Color(1.0f, 1.0f, 1.0f, 1.0f); 
-		setBackground(null); 
 	}
 
 	//~ Methods ================================================================
@@ -857,9 +805,7 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (component instanceof JToolBar) {
 				JToolBar jt = (JToolBar)component;
-				jt.setFloatable(false);
-				// ((JToolBar)container).setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-				// System.out.println(component.toString());
+				jt.setFloatable(true);
 			}
 			
 			container.add(component);
@@ -1107,9 +1053,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.getViewport().setBackground(Color.WHITE);
-
 		scrollPane.setWheelScrollingEnabled(false);
-		
+
 		if (!returnScrollPane) {
 
 			//        this.fireSessionChanged(session);
@@ -1134,7 +1079,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			GravistoService.getInstance().framesDeselect();
 
 			if (!returnGraffitiFrame) {
-    			frame.setVisible(true);
+				frame.setVisible(true);
 				desktop.add(frame);
 				Java_1_5_compatibility.setComponentZorder(desktop, frame);
 			}
@@ -1504,6 +1449,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param desc the description of the new plugin.
 	 */
 	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
+		
+		System.out.println("Plugin added: "+desc.getMain());
+		
 		processEditorPlugin(plugin);
 
 		addAlgorithmMenuItems(plugin);
@@ -1693,6 +1641,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (cat == null) {
 			cat = "menu.plugin";
 		}
+		
+		System.out.println("Adding "+item.getText()+" to "+cat);
 
 		if (guiMap.containsKey(cat) && guiMap.get(cat) instanceof JMenu) {
 			JMenu targetNativeMenu = (JMenu) guiMap.get(cat);
@@ -1736,6 +1686,13 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (pmp != null) sortFrom = pmp.intValue();
 		sortMenuItems(pluginMenu, sortFrom);
 		validate();
+	}
+
+	public JMenuBar getJMenuBar() {
+		JMenuBar res = super.getJMenuBar();
+		if (res==null)
+			res = storedMenuBar;
+		return res;
 	}
 
 	/**
@@ -1794,7 +1751,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					firstItem = menuItems.get(im);
 				}
 			}
-			// add the smalles from the memo-list
+			// add the smallest from the memo-list
 			menuToSort.add(firstItem);
 			// remove from memo-list
 			menuItems.remove(firstItem);
@@ -2433,7 +2390,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return the menu bar.
 	 */
-	private JMenuBar createMenuBar() {
+	private JMenuBar createMenuBar(JMenu windowMenu) {
 		JMenuBar menuBar = new JMenuBar();
 		
 //		menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.SINGLE);
@@ -2570,14 +2527,13 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else
 			pluginMenu.putClientProperty("pluginMenuPosition", new Integer(0));
 
-		windowMenu = createMenu("window");
 		windowMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem",
 				new Boolean(false));
 		windowMenu.putClientProperty("pluginMenuAddAfter", new Boolean(false));
 		// windowMenu.add(redrawCmd);
 		menuBar.add(windowMenu);
 		
-		menuBar.setBorderPainted(false);
+		// menuBar.setBorderPainted(false);
 
 		return menuBar;
 	}
@@ -2709,38 +2665,26 @@ public class MainFrame extends JFrame implements SessionManager,
 	private JToolBar createToolBar() {
 		final JToolBar mainToolBar = new JToolBar();
 		
-		// mainToolBar.setOpaque(false);
-		
-		mainToolBar.setLayout(new SingleFiledLayout(SingleFiledLayout.ROW, SingleFiledLayout.CENTER, 2));
-
 		JToolBar toolBar = new JToolBar("Standard Commands");
 		
-		toolBar.setFloatable(false);
-		
-		toolBar.setLayout(new SingleFiledLayout(SingleFiledLayout.ROW, SingleFiledLayout.FULL, 0));
-
 		toolBar.add(createToolBarButton(newGraph));
 		toolBar.add(createToolBarButton(fileOpen));
 		toolBar.addSeparator();
 		toolBar.add(createToolBarButton(fileSave));
 		toolBar.add(createToolBarButton(fileSaveAs));
 
-		//              toolBar.add(createToolBarButton(fileSaveAll)); TODO
 		toolBar.addSeparator();
-		toolBar.add(createToolBarButton(editCut));
-		toolBar.add(createToolBarButton(editCopy));
-		toolBar.add(createToolBarButton(editPaste));
-		toolBar.addSeparator();
+		if (!ReleaseInfo.isRunningAsApplet()) {
+			toolBar.add(createToolBarButton(editCut));
+			toolBar.add(createToolBarButton(editCopy));
+			toolBar.add(createToolBarButton(editPaste));
+			toolBar.addSeparator();
+		}
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 		
-		// toolBar.setBorder(BorderFactory.createEmptyBorder(0,10,0,0));
-		
 		mainToolBar.add(toolBar);
 		
-		// mainToolBar.setBorder(BorderFactory.createEmptyBorder(0,0,0,0));
-		
-		// mainToolBar.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
 		return mainToolBar;
 	}
 
@@ -3231,6 +3175,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void setVisible(boolean b) {
 		if (b)
 			fireSessionChanged(activeSession);
+		super.setVisible(b);
+		
 
 		Runtime r = Runtime.getRuntime();
 		if (r.maxMemory()/1024/1024<512) {
@@ -3252,8 +3198,6 @@ public class MainFrame extends JFrame implements SessionManager,
             		"Please close the application and fix this problem before proceeding.<br><br>" +
             		memoryConfig, ReleaseInfo.getRunningReleaseStatus()+" Information");
         }
-		
-		super.setVisible(b);
 	}
 }
 

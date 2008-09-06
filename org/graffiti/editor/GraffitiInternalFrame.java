@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.3 2008/08/13 14:40:27 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.4 2008/09/06 19:19:03 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -17,6 +17,7 @@ import javax.swing.JRootPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
+import org.ReleaseInfo;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
@@ -80,10 +81,12 @@ public class GraffitiInternalFrame
         frameNumber = session.getViews().size() + 1;
         setTitle(title);
         setListener();
-        // if (!view.putInScrollPane()) {
-	        setOpaque(true);
-	        setBackground(Color.WHITE);
-        // }
+
+//	        setOpaque(true);
+//	        setBackground(Color.WHITE);
+	        
+	    // if (ReleaseInfo.isRunningAsApplet())
+	    	
     }
 
     //~ Methods ================================================================

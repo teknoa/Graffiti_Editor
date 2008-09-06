@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiToolbar.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraffitiToolbar.java,v 1.2 2008/09/06 19:19:03 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -47,8 +47,6 @@ public class GraffitiToolbar
         this.id = name;
         this.preferredComponent = "toolbarPanel";
 
-        setFloatable(true);
-        // setBorder(null);
     }
 
     //~ Methods ================================================================
