@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.23 2008/09/06 19:19:03 klukas Exp $
+// $Id: MainFrame.java,v 1.24 2008/09/10 10:57:00 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -60,6 +60,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -81,7 +82,10 @@ import javax.swing.KeyStroke;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
@@ -171,7 +175,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -473,13 +477,16 @@ public class MainFrame extends JFrame implements SessionManager,
 		desktop = new JDesktopPane();
 		desktop.setBackground(null);
 		desktop.setOpaque(false);
+		desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		
 		// create a panel, which will contain the views for plugins
 		pluginPanel = new PluginPanel();
 		pluginPanel.setBorder(null);
 		pluginPanel.setLayout(new BoxLayout(pluginPanel, BoxLayout.Y_AXIS));
 		guiMap.put(pluginPanel.getId(), pluginPanel);
-
+		
+		UIManager.put("SplitPaneDivider.border",new EmptyBorder(0,0,0,0));
+		
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
 			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0,0));
@@ -491,9 +498,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		this.progressPanel = progressPanel;
 
-		// vertSplitter.setContinuousLayout(true);
+		vertSplitter.setContinuousLayout(true);
 		// vertSplitter.setOneTouchExpandable(true);
-		// vertSplitter.setBorder(null);
+		vertSplitter.setBorder(null);
+		vertSplitter.setDividerSize(4);
 		
 		vertSplitter.setDividerLocation(uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
 		
@@ -805,7 +813,7 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (component instanceof JToolBar) {
 				JToolBar jt = (JToolBar)component;
-				jt.setFloatable(true);
+				jt.setFloatable(false); 
 			}
 			
 			container.add(component);
@@ -2666,7 +2674,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		final JToolBar mainToolBar = new JToolBar();
 		
 		JToolBar toolBar = new JToolBar("Standard Commands");
-		
+		toolBar.setFloatable(false);
 		toolBar.add(createToolBarButton(newGraph));
 		toolBar.add(createToolBarButton(fileOpen));
 		toolBar.addSeparator();
