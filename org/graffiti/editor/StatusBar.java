@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.2 2008/01/24 10:16:32 klukas Exp $
+// $Id: StatusBar.java,v 1.3 2008/09/11 13:38:43 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -57,7 +57,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class StatusBar
     extends JPanel
@@ -400,7 +400,7 @@ public class StatusBar
                         if(isShowing())
                         {
                         	// FIXED, CK: This avoids flickering
-                            if (statusLine.getText().equals(status))
+                            if (status==null || statusLine==null || statusLine.getText().equals(status))
                             	clear();
                         }
                     }

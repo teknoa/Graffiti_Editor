@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.8 2008/06/19 07:25:38 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.9 2008/09/11 13:38:43 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -40,7 +40,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -167,7 +167,7 @@ public class FileSaveAsAction
 		 }
 		 else
 		 {
-		     ext = fileName.substring(fileName.lastIndexOf("."));
+		     ext = FileSaveAction.getFileExt(fileName);
 		 }
 
 		 //System.err.println(fileName);
@@ -204,20 +204,17 @@ public class FileSaveAsAction
 		     }
 		     catch(IOException ioe)
 		     {
-		         MainFrame.showMessage("Error: Could not save file.",
-		             MessageType.ERROR);
+		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
 		         ErrorMsg.addErrorMessage(ioe);
 		     }
 		     catch(IllegalAccessException iae)
 		     {
-		         MainFrame.showMessage("Error: Could not save file.",
-		             MessageType.ERROR);
+		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
 		         ErrorMsg.addErrorMessage(iae);
 		     }
 		     catch(InstantiationException ie)
 		     {
-		         MainFrame.showMessage("Error: Could not save file.",
-		             MessageType.ERROR);
+		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
 		         ErrorMsg.addErrorMessage(ie);
 		     }
 		 }

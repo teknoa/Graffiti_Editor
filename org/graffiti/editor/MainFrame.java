@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.24 2008/09/10 10:57:00 klukas Exp $
+// $Id: MainFrame.java,v 1.25 2008/09/11 13:38:43 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -58,6 +58,7 @@ import java.util.Vector;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
+import java.util.zip.GZIPInputStream;
 
 import javax.swing.Action;
 import javax.swing.BorderFactory;
@@ -175,7 +176,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1386,19 +1387,28 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	public Graph getGraph(File file) throws Exception {
-		final String fileName = file.getName();
+		String fileName = file.getName();
 		Graph newGraph = null;
 		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+		boolean gz = false;
+		if (fileName.toLowerCase().endsWith(".gz")) {
+			fileName = fileName.substring(0, fileName.length()-".gz".length());
+			ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+			gz = true;
+		}
 		InputSerializer is = ioManager.createInputSerializer(ext);
-		if (ext.equalsIgnoreCase(".NET")) {
+		if (ext.equalsIgnoreCase(".net")) {
 			Graph tempGraph = new AdjListGraph(new ListenerManager());
 			is.read(file.getAbsolutePath(), tempGraph);
 			newGraph = tempGraph;
 		} else {
 			if (is!=null) {
-				InputStream inpS = new FileInputStream(file.getAbsolutePath());
-				newGraph = is.read(inpS);
-				inpS.close();
+				InputStream inputStream = new FileInputStream(file.getAbsolutePath());
+				if (gz)
+					newGraph = is.read(new GZIPInputStream(inputStream));
+				else
+					newGraph = is.read(inputStream);
+				inputStream.close();
 			} else {
 				showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
 			}
@@ -1411,7 +1421,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	public void saveGraphAs(Graph graph, String fileName) throws Exception {
-		String ext = fileName.substring(fileName.lastIndexOf("."));
+		String ext = FileSaveAction.getFileExt(fileName);
 		OutputSerializer os = ioManager.createOutputSerializer(ext);
 		OutputStream outpS = new FileOutputStream(fileName);
 		os.write(outpS, graph);
@@ -1458,7 +1468,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
 		
-		System.out.println("Plugin added: "+desc.getMain());
+		// System.out.println("Plugin added: "+desc.getMain());
 		
 		processEditorPlugin(plugin);
 
@@ -1501,7 +1511,14 @@ public class MainFrame extends JFrame implements SessionManager,
 	private void processTabs(EditorPlugin ep) {
 		if (ep.getInspectorTabs()!=null) {
 			for (InspectorTab it : ep.getInspectorTabs()) {
-				inspectorPlugin.addTab(it);
+				if (inspectorPlugin==null) {
+					// ErrorMsg.addErrorMessage("Inspector Plugin not available. Can't add side-panel tabs.");
+				} else {
+					if (it==null)
+						ErrorMsg.addErrorMessage("Plugin "+ep.getClass().getCanonicalName()+" contains InspectorTab with value NULL!");
+					else
+						inspectorPlugin.addTab(it);
+				}
 			}
 		}
 	}
@@ -1650,7 +1667,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			cat = "menu.plugin";
 		}
 		
-		System.out.println("Adding "+item.getText()+" to "+cat);
+		// System.out.println("Adding "+item.getText()+" to "+cat);
 
 		if (guiMap.containsKey(cat) && guiMap.get(cat) instanceof JMenu) {
 			JMenu targetNativeMenu = (JMenu) guiMap.get(cat);

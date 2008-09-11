@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAction.java,v 1.2 2007/10/18 11:28:48 klukas Exp $
+// $Id: FileSaveAction.java,v 1.3 2008/09/11 13:38:43 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class FileSaveAction
     extends GraffitiAction
@@ -194,7 +194,7 @@ public class FileSaveAction
      *
      * @return Returns file extension from a given filename.
      */
-    private String getFileExt(String fileName)
+    public static String getFileExt(String fileName)
     {
         String workName;
 
@@ -218,8 +218,15 @@ public class FileSaveAction
         }
         else
         {
-            String extension = workName.substring(lastDot + 1);
-
+        	boolean gz = false; 
+        	if (workName.toUpperCase().endsWith(".GZ")) {
+        		workName = workName.substring(0, workName.length()-".gz".length());
+        		gz = true;
+        	}
+            lastDot = workName.lastIndexOf('.');
+            String extension = workName.substring(lastDot);
+            if (gz)
+            	extension = extension+".gz";
             return extension;
         }
     }
