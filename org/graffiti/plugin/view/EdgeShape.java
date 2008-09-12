@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EdgeShape.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: EdgeShape.java,v 1.2 2008/09/12 11:08:18 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -17,7 +17,7 @@ import org.graffiti.graphics.EdgeGraphicAttribute;
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface EdgeShape
     extends GraphElementShape
@@ -28,7 +28,7 @@ public interface EdgeShape
      * The allowed distance of a mouse click from an edge where the edge is
      * still selected.
      */
-    public static final double CLICK_TOLERANCE = 7.0d;
+    public static final double CLICK_TOLERANCE = 3.0d;
 
     //~ Methods ================================================================
 

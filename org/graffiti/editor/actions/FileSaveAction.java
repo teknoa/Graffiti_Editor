@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAction.java,v 1.3 2008/09/11 13:38:43 klukas Exp $
+// $Id: FileSaveAction.java,v 1.4 2008/09/12 11:08:43 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FileSaveAction
     extends GraffitiAction
@@ -157,12 +157,14 @@ public class FileSaveAction
         {
             try
             {
-                OutputSerializer os = ioManager.createOutputSerializer("." +
-                        ext);
-
-                os.write(new FileOutputStream(file), getGraph());
-                getGraph().setModified(false);
-                MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath(), MessageType.INFO);
+                OutputSerializer os = ioManager.createOutputSerializer(ext);
+                if (os==null) {
+                	MainFrame.showMessageDialog("Unknown outputserializer for file extension "+ext, "Error");
+                } else {
+	                os.write(new FileOutputStream(file), getGraph());
+	                getGraph().setModified(false);
+	                MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath(), MessageType.INFO);
+                }
             }
             catch(IOException ioe)
             {
