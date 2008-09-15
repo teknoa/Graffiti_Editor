@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.2 2007/10/30 19:46:50 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.3 2008/09/15 15:14:27 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -50,7 +50,7 @@ import org.graffiti.selection.Selection;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -110,17 +110,17 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object description, boolean okOnly) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly);
+			String algorithmName, Object description, boolean okOnly, boolean noButton) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly, noButton);
 	}
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object descriptionOrComponent, JComponent descComponent) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false);
+		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false);
 	}	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean okOnly) {
+			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean okOnly, boolean noButton) {
 		super(parent, true);
 		String description = "";
 		if (descriptionOrComponent instanceof String)
@@ -158,7 +158,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 		getRootPane().setDefaultButton(ok);
 
-		defineLayout(okOnly);
+		defineLayout(okOnly, noButton);
 		addListeners();
 
 		pack();
@@ -271,7 +271,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	/**
 	 * Defines the layout of this dialog.
 	 */
-	private void defineLayout(boolean okOnly) {
+	private void defineLayout(boolean okOnly, boolean noButton) {
 		double border = 8d;
 		double[][] size = {
 			new double[] { border, TableLayout.FILL, border },
@@ -282,6 +282,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 //		paramsPanel.setBorder(BorderFactory.createEtchedBorder());
 //		
 		getContentPane().add(paramsPanel, "1,1");
+		if (!noButton)
 		getContentPane().add(
 			TableLayout.get3Split(
 				ok, new JLabel(), okOnly ? null:cancel, TableLayout.PREFERRED, border, TableLayout.PREFERRED),
@@ -374,6 +375,12 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 			if (((String)description).length()<=0)
 				description = null;
 		}
+		boolean noButton = (description!=null && description instanceof String && ((String)description).startsWith("[]"));
+		if (noButton) {
+			description = ((String)description).substring("[]".length());
+			if (((String)description).length()<=0)
+				description = null;
+		}
 		if (description!=null && description instanceof String) {
 			if (((String)description).indexOf("<")>=0
 					&& ((String)description).indexOf(">")>=0
@@ -388,7 +395,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 							MainFrame.getInstance().getActiveEditorSession().
 								getSelectionModel().getActiveSelection() : null
 					), 
-					title, description, okOnly);
+					title, description, okOnly, noButton);
 		if (paramDialog.isOkSelected()) {
 			Parameter[] pe = paramDialog.getEditedParameters();
 			Object[] result = new Object[pe.length];
