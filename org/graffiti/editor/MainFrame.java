@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.25 2008/09/11 13:38:43 klukas Exp $
+// $Id: MainFrame.java,v 1.26 2008/09/16 14:46:56 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -176,7 +176,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.25 $
+ * @version $Revision: 1.26 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3198,31 +3198,38 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	@Override
 	public void setVisible(boolean b) {
-		if (b)
-			fireSessionChanged(activeSession);
 		super.setVisible(b);
 		
-
-		Runtime r = Runtime.getRuntime();
-		if (r.maxMemory()/1024/1024<512) {
-            int divisor=1024;
-            String memoryConfig = "Used/free/max memory: " + 
-            	((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
-			  		"/" + (r.freeMemory()/divisor/divisor) +"/<u>"+(r.maxMemory()/divisor/divisor)+"</u> MB &lt;-- possible problem detected";
-            MainFrame.showMessageDialog("<html>" +
-            		"Low memory configuration detected!<br><br>" +
-            		"The current memory configuration (see bottom of this dialog window)<br>" +
-            		"may cause severe performance problems and yield to unrecoverable<br>" +
-            		"out of memory exceptions and thus to unexpected program failures.<br>" +
-            		"Please check developer information on how to modify Java memory<br>" +
-            		"configuration. If you are not a software developer, please inform the<br>" +
-            		"main developer of the VANTED system about this problem.<br>" +
-            		"This message should not appear in case the program is started using<br>" +
-            		"the provided launch configurations (Java WebStart or command line<br>" +
-            		"based launch scripts).<br><br>" +
-            		"Please close the application and fix this problem before proceeding.<br><br>" +
-            		memoryConfig, ReleaseInfo.getRunningReleaseStatus()+" Information");
-        }
+		try {
+			Runtime r = Runtime.getRuntime();
+			if (r.maxMemory()/1024/1024<512) {
+	            int divisor=1024;
+	            String memoryConfig = "Used/free/max memory: " + 
+	            	((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
+				  		"/" + (r.freeMemory()/divisor/divisor) +"/<u>"+(r.maxMemory()/divisor/divisor)+"</u> MB &lt;-- possible problem detected";
+	            MainFrame.showMessageDialog("<html>" +
+	            		"Low memory configuration detected!<br><br>" +
+	            		"The current memory configuration (see bottom of this dialog window)<br>" +
+	            		"may cause severe performance problems and yield to unrecoverable<br>" +
+	            		"out of memory exceptions and thus to unexpected program failures.<br>" +
+	            		"Please check developer information on how to modify Java memory<br>" +
+	            		"configuration. If you are not a software developer, please inform the<br>" +
+	            		"main developer of the VANTED system about this problem.<br>" +
+	            		"This message should not appear in case the program is started using<br>" +
+	            		"the provided launch configurations (Java WebStart or command line<br>" +
+	            		"based launch scripts).<br><br>" +
+	            		"Please close the application and fix this problem before proceeding.<br><br>" +
+	            		memoryConfig, ReleaseInfo.getRunningReleaseStatus()+" Information");
+	        }
+		} catch(Exception e) {
+			ErrorMsg.addErrorMessage(e);
+		}
+		try {
+			if (b)
+				fireSessionChanged(activeSession);
+		} catch(Exception e) {
+			ErrorMsg.addErrorMessage(e);
+		}
 	}
 }
 
