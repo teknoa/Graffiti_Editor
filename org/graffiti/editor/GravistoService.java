@@ -486,7 +486,7 @@ public class GravistoService {
 					}
 					paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
 							getMainFrame(), parameters,
-							selection, algorithm.getName(), algorithm.getDescription(), desc);
+							selection, ErrorMsg.removeHTMLtags(algorithm.getName()), algorithm.getDescription(), desc);
 				}
 
 				// TODO load and save the preferences for this algorithm
@@ -531,7 +531,7 @@ public class GravistoService {
 					&& SwingUtilities.isEventDispatchThread()) {
 				int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
 						algorithm.getDescription(), 
-						algorithm.getName(), 
+						ErrorMsg.removeHTMLtags(algorithm.getName()), 
 						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
 				if (res==JOptionPane.CANCEL_OPTION) {
 					stop = true;
