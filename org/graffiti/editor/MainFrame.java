@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.26 2008/09/16 14:46:56 klukas Exp $
+// $Id: MainFrame.java,v 1.27 2008/09/18 14:14:23 morla Exp $
 
 package org.graffiti.editor;
 
@@ -176,7 +176,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.26 $
+ * @version $Revision: 1.27 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3231,6 +3231,16 @@ public class MainFrame extends JFrame implements SessionManager,
 			ErrorMsg.addErrorMessage(e);
 		}
 	}
+	
+	public View createExternalFrame(String viewClassName, EditorSession session) {
+		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, session.getGraph().getName(), session, false, true);
+		GraffitiFrame gf = new GraffitiFrame(gif);
+		gf.setExtendedState(Frame.MAXIMIZED_BOTH);
+		gf.setVisible(true);
+		MainFrame.getInstance().addDetachedFrame(gf);
+		return gif.getView();
+	}
+	
 }
 
 //------------------------------------------------------------------------------
