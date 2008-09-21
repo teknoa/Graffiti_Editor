@@ -19,7 +19,7 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ThreadSafeOptions
 {
@@ -368,5 +368,17 @@ public class ThreadSafeOptions
 		  if (runStatus==3)
 		  	return "finished";
 		  return "status error";
+	}
+	
+	private int iv = 0;
+
+	public synchronized void addInt(int i) {
+		iv += i;
+	}    
+	public synchronized void setInt(int i) {
+		iv = i;
+	}    
+	public synchronized int getInt() {
+		return iv;
 	}    
 }
