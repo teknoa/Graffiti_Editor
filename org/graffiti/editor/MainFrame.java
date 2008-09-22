@@ -5,11 +5,10 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.28 2008/09/22 08:36:09 klukas Exp $
+// $Id: MainFrame.java,v 1.29 2008/09/22 12:41:45 klukas Exp $
 
 package org.graffiti.editor;
 
-import info.clearthought.layout.SingleFiledLayout;
 import info.clearthought.layout.TableLayout;
 import info.clearthought.layout.TableLayoutConstants;
 
@@ -77,6 +76,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -176,7 +176,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.28 $
+ * @version $Revision: 1.29 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -309,11 +309,11 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private HashMap<String,JMenuItem> categoriesForAlgorithms = new HashMap<String,JMenuItem>();
 
-	/** Container for toolbars at the left of the main frame. */
-	private JPanel leftToolBarPanel;
-
-	/** Container for toolbars at the top of the main frame. */
-	private JPanel topToolBarPanel;
+//	/** Container for toolbars at the left of the main frame. */
+//	private JPanel leftToolBarPanel;
+//
+//	/** Container for toolbars at the top of the main frame. */
+//	private JPanel topToolBarPanel;
 	
 	/** The split pane between the center and the pluginPanel. */
 	private JSplitPane vertSplitter;
@@ -335,7 +335,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * Contains a mapping between the identifiers of gui-components and the
 	 * corresponding gui-component.
 	 */
-	private Map<String,Object> guiMap = new HashMap<String,Object>();
+	private Map<String,JComponent> guiMap = new HashMap<String,JComponent>();
 
 	/** The mode manager. */
 	private ModeManager modeManager;
@@ -457,7 +457,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		createActions();
 
 		// initialize map of gui components and create menu bar
-		guiMap = new Hashtable<String,Object>();
+		guiMap = new Hashtable<String,JComponent>();
 
 		// the editor's status bar
 		statusBar = new StatusBar(sBundle);
@@ -527,18 +527,18 @@ public class MainFrame extends JFrame implements SessionManager,
 			storedMenuBar = jmb;
 //			getContentPane().add(TableLayout.getSplitVertical(jmb, toolBar, TableLayout.PREFERRED, TableLayout.PREFERRED),
 //					BorderLayout.NORTH);
-			getContentPane().add(toolBar, BorderLayout.NORTH);
+			getContentPane().add(toolBar, BorderLayout.PAGE_START);
 		} else {
 			setJMenuBar(createMenuBar(windowMenu));
 			desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
-			getContentPane().add(toolBar, BorderLayout.NORTH);
+			getContentPane().add(toolBar, BorderLayout.PAGE_START);
 		}
 
-		// left toolbars
-		leftToolBarPanel = new JPanel();
-		// leftToolBarPanel.setLayout(new BoxLayout(leftToolBarPanel, BoxLayout.Y_AXIS));
-		leftToolBarPanel.setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.CENTER, 2));
-		getContentPane().add(leftToolBarPanel, BorderLayout.WEST);
+//		// left toolbars
+//		leftToolBarPanel = new JPanel();
+//		// leftToolBarPanel.setLayout(new BoxLayout(leftToolBarPanel, BoxLayout.Y_AXIS));
+//		leftToolBarPanel.setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.CENTER, 2));
+//		getContentPane().add(leftToolBarPanel, BorderLayout.WEST);
 		
 		// window settings like position and size
 		setSize(uiPrefs.getInt("sizeWidth", SIZE_WIDTH), uiPrefs.getInt(
@@ -787,7 +787,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			// if the component is itself a container, then add it to the guiMap
 			if (component instanceof GraffitiContainer) {
 				GraffitiContainer con = (GraffitiContainer) component;
-				guiMap.put(con.getId(), con);
+				guiMap.put(con.getId(), (JComponent)con);
 			}
 
 			// if the component is a ToolButton, the represented tool has to be
@@ -814,10 +814,18 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (component instanceof JToolBar) {
 				JToolBar jt = (JToolBar)component;
-				jt.setFloatable(false); 
-			}
-			
-			container.add(component);
+				jt.setFloatable(false);
+				try {
+					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
+					toolbar.addSeparator();
+					for (Component jc : jt.getComponents())
+						toolbar.add(jc);
+					toolbar.validate();
+				} catch(Exception e) {
+					container.add(component);
+				}
+			} else 
+				container.add(component);
 			container.validate();
 
 			if (container.getParent() instanceof JSplitPane) {
@@ -1569,8 +1577,9 @@ public class MainFrame extends JFrame implements SessionManager,
 				ModeToolbar mtb = new ModeToolbar(modes[i]);
 
 				guiMap.put(mtb.getId(), mtb);
-				leftToolBarPanel.add(mtb);
-				mtb.setVisible(false);
+				getContentPane().add(mtb, BorderLayout.WEST);
+//				leftToolBarPanel.add(mtb);
+//				mtb.setVisible(false);
 			}
 		}
 
@@ -1930,11 +1939,11 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (oldMode != null) {
 				ModeToolbar oldtb = (ModeToolbar) guiMap.get(oldMode.getId());
-				oldtb.setVisible(false);
+//				oldtb.setVisible(false);
 				getContentPane().validate();
 			}
 
-			// removing the old sesion from undoSupport
+			// removing the old session from undoSupport
 			undoSupport.removeUndoableEditListener(activeSession.getUndoManager());
 
 			// removing the MainFrame from undoSupport
@@ -1962,7 +1971,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				}
 
 				ModeToolbar newtb = ((ModeToolbar) (guiMap.get(newMode.getId())));
-				newtb.setVisible(true);
+//				newtb.setVisible(true);
 				getContentPane().validate();
 				// registering the new activeTool with the views of the new session
 				t = newtb.getActiveTool();
@@ -2283,10 +2292,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return the active <code>Tool</code>.
 	 */
 	Tool getActiveTool() {
-		if (activeSession != null) { return ((ModeToolbar) guiMap
-					.get(activeSession.getActiveMode().getId())).getActiveTool(); }
-
-		return null;
+		if (activeSession != null) { 
+			return ((ModeToolbar) guiMap.get(activeSession.getActiveMode().getId())).getActiveTool(); 
+		} else
+			return null;
 	}
 
 	/**
@@ -2574,11 +2583,11 @@ public class MainFrame extends JFrame implements SessionManager,
 					"message.dialog.title"));
 	}
 	
-	public Object getGUIcomponentFromMap(String id) {
+	public JComponent getGUIcomponentFromMap(String id) {
 		return guiMap.get(id);
 	}
 	
-	public void setGUIcomponent(String id, Object o)
+	public void setGUIcomponent(String id, JComponent o)
 	{
 		if (guiMap.containsKey(id))
 			guiMap.remove(id);
@@ -2689,10 +2698,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return the toolbar for the editor.
 	 */
 	private JToolBar createToolBar() {
-		final JToolBar mainToolBar = new JToolBar();
+		final JToolBar toolBar = new JToolBar();
 		
-		JToolBar toolBar = new JToolBar("Standard Commands");
-		toolBar.setFloatable(false);
 		toolBar.add(createToolBarButton(newGraph));
 		toolBar.add(createToolBarButton(fileOpen));
 		toolBar.addSeparator();
@@ -2709,9 +2716,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 		
-		mainToolBar.add(toolBar);
-		
-		return mainToolBar;
+		return toolBar;
 	}
 
 	/**

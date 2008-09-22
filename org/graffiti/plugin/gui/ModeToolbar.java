@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ModeToolbar.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: ModeToolbar.java,v 1.2 2008/09/22 12:41:34 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -20,10 +20,10 @@ import org.graffiti.plugin.tool.Tool;
 
 /**
  * This toolbar is designed to be used as a representation of
- * <code>ogr.graffiti.plugin.mode.Modey</code>. It handles toolbuttons in a
+ * <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
  * special way.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  * @see org.graffiti.plugin.mode.Mode
  */

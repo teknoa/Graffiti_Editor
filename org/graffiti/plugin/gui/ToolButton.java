@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.3 2008/08/04 09:42:41 klukas Exp $
+// $Id: ToolButton.java,v 1.4 2008/09/22 12:41:35 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -26,7 +26,7 @@ import org.graffiti.plugin.tool.Tool;
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.3 $ $Date: 2008/08/04 09:42:41 $
+ * @version $Revision: 1.4 $ $Date: 2008/09/22 12:41:35 $
  */
 public class ToolButton
     extends GraffitiToggleButton
@@ -38,7 +38,7 @@ public class ToolButton
     private Tool tool;
     
     private static List knownTools = new LinkedList();
-    private static List knownToolBars = new LinkedList();    
+    private static List<ModeToolbar> knownToolBars = new LinkedList<ModeToolbar>();    
 
     //~ Constructors ===========================================================
 
