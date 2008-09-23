@@ -2,6 +2,7 @@ package org.graffiti.editor;
 
 import java.awt.Component;
 import java.beans.PropertyVetoException;
+import java.io.File;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -567,6 +568,34 @@ public class GravistoService {
 	 */
 	public void removeFrame(GraffitiInternalFrame frame) {
 		frames.remove(frame);
+	}
+	
+	private static ArrayList<String> fileNames = new ArrayList<String>();
+	
+	public void loadFile(String fileName) {
+		synchronized (fileNames) {
+			fileNames.add(fileName);
+		}
+		if (ErrorMsg.isAppLoadingCompleted()) {
+			loadFiles();
+		}
+	}
+	
+	public static void loadFiles() {
+		ArrayList<File> toDo = new ArrayList<File>();
+		synchronized (fileNames) {
+			for (String f : fileNames) {
+				File ft = new File(f);
+				if (ft.exists() && ft.canRead())
+					toDo.add(ft);
+			}
+			fileNames.clear();
+		}
+		try {
+			MainFrame.getInstance().loadGraphInBackground(toDo.toArray(new File[] {}), null, true);
+		} catch (Exception e) {
+			ErrorMsg.addErrorMessage(e);
+		}
 	}
 }
 

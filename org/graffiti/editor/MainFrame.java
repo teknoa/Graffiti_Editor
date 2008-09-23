@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.29 2008/09/22 12:41:45 klukas Exp $
+// $Id: MainFrame.java,v 1.30 2008/09/23 14:38:13 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -54,6 +54,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
@@ -176,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1283,10 +1285,37 @@ public class MainFrame extends JFrame implements SessionManager,
 		loadGraphInBackground(new File[] { file }, ae, autoSwitch);
 	}
 	
+	final ExecutorService loader = Executors.newFixedThreadPool(1);
+	
 	public void loadGraphInBackground(final File[] proposedFiles, final ActionEvent ae, boolean autoSwitch)
 	throws IllegalAccessException, InstantiationException {
 		final ArrayList<File> files = new ArrayList<File>();
-		Thread t = new Thread(){
+		
+		HashSet<File> filesToBeIgnored = new HashSet<File>();
+		for (File file : proposedFiles) {
+			EditorSession esf = null;
+			for (Session s : getSessions()) {
+				if (s instanceof EditorSession) {
+					EditorSession es = (EditorSession)s;
+					if (es.getFileName()==null)
+						continue;
+					if (es.getFileName().equals(file.toURI())) {
+						esf = es;
+						break;
+					}
+				}
+			}
+			final EditorSession fesf = esf;
+			if (!windowCheck(fesf, file.getAbsolutePath(), autoSwitch))
+				filesToBeIgnored.add(file);
+		}
+		
+		for (File f : proposedFiles)
+			if (!filesToBeIgnored.contains(f))
+				files.add(f);
+		
+		if (files.size()>0)
+		loader.submit(new Runnable() {
 			public void run() {
 				int i = 1;
 				StringBuilder errors = new StringBuilder();
@@ -1323,35 +1352,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				if (errcnt>0)
 					showMessageDialogWithScrollBars(errors.toString(), "File(s) could not be loaded");
 				}
-			};
-		HashSet<File> filesToBeIgnored = new HashSet<File>();
-		for (File file : proposedFiles) {
-			EditorSession esf = null;
-			for (Session s : getSessions()) {
-				if (s instanceof EditorSession) {
-					EditorSession es = (EditorSession)s;
-					if (es.getFileName()==null)
-						continue;
-					if (es.getFileName().equals(file.toURI())) {
-						esf = es;
-						break;
-					}
-				}
-			}
-			final EditorSession fesf = esf;
-			if (!windowCheck(fesf, file.getAbsolutePath(), autoSwitch))
-				filesToBeIgnored.add(file);
-		}
-		
-		for (File f : proposedFiles)
-			if (!filesToBeIgnored.contains(f))
-				files.add(f);
-		
-		if (files.size()>0) {
-			t.setName("Load Graphs ("+files.size()+") in Background");
-			t.setPriority(Thread.MIN_PRIORITY);
-			t.start();
-		}
+			});
 	}
 
 	/**
