@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.30 2008/09/23 14:38:13 klukas Exp $
+// $Id: MainFrame.java,v 1.31 2008/09/24 09:00:59 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -178,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.30 $
+ * @version $Revision: 1.31 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -987,8 +987,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		View view;
 		try {
 			if (viewManager == null) {
-				ErrorMsg
-							.addErrorMessage("Could not create frame for graph. viewManager is NULL");
+				ErrorMsg.addErrorMessage("Could not create frame for graph. viewManager is NULL");
 				return null;
 			}
 			view = viewManager.createView(viewName);
@@ -999,13 +998,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		// try {
 			if (session == null) {
-				ErrorMsg
-							.addErrorMessage("Could not create frame for graph. Session is NULL");
+				ErrorMsg.addErrorMessage("Could not create frame for graph. Session is NULL");
 				return null;
 			} else {
 				if (session.getGraph() == null) {
-					ErrorMsg
-								.addErrorMessage("Could not create frame for graph. Session-Graph is NULL");
 					return null;
 				} /*else
 					session.getGraph().addAttributeConsumer(view);*/
