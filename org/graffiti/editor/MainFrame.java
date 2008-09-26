@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.31 2008/09/24 09:00:59 klukas Exp $
+// $Id: MainFrame.java,v 1.32 2008/09/26 15:32:13 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -178,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.31 $
+ * @version $Revision: 1.32 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -478,10 +478,13 @@ public class MainFrame extends JFrame implements SessionManager,
 		// create the desktop
 		// desktop = new JDesktopPane();
 		desktop = new JDesktopPane();
-		desktop.setBackground(null);
-		desktop.setOpaque(false);
-		desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
-		
+		if (!ErrorMsg.isMac()) {
+			desktop.setBackground(null);
+			desktop.setOpaque(false);
+			desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+		} else {
+			desktop.setBackground(new JPanel().getBackground().darker());
+		}
 		// create a panel, which will contain the views for plugins
 		pluginPanel = new PluginPanel();
 		pluginPanel.setBorder(null);
@@ -796,8 +799,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			// added to the mode this ToolButton likes to be in
 			if (component instanceof ToolButton) {
 				ToolButton tb = (ToolButton) component;
-				modeManager.getMode(tb.getPreferredComponent()).addTool(
-							tb.getTool());
+				modeManager.getMode(tb.getPreferredComponent()).addTool(tb.getTool());
 
 				// if the tool provides undo information the undoSupport has 
 				// to be set.
@@ -820,8 +822,14 @@ public class MainFrame extends JFrame implements SessionManager,
 				try {
 					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
 					toolbar.addSeparator();
-					for (Component jc : jt.getComponents())
+					for (Component jc : jt.getComponents()) {
+						if (jc instanceof JButton) {
+							JButton jjjbbb = (JButton)jc;
+							if (jjjbbb.getIcon()!=null)
+								jjjbbb.setBorderPainted(false);
+						}
 						toolbar.add(jc);
+					}
 					toolbar.validate();
 				} catch(Exception e) {
 					container.add(component);
@@ -2696,7 +2704,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private JToolBar createToolBar() {
 		final JToolBar toolBar = new JToolBar();
-		
 		toolBar.add(createToolBarButton(newGraph));
 		toolBar.add(createToolBarButton(fileOpen));
 		toolBar.addSeparator();
@@ -2725,6 +2732,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private JButton createToolBarButton(GraffitiAction action) {
 		JButton button = new JButton(action);
+		button.setBorderPainted(false);
 		button.setText(sBundle.getString("toolbar." + action.getName()));
 		button.setToolTipText(sBundle.getString("toolbar." + action.getName()
 					+ ".tooltip"));
