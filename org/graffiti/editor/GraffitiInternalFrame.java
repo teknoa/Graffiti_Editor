@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.6 2008/09/26 16:17:37 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.7 2008/09/26 16:30:12 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -180,14 +180,16 @@ public class GraffitiInternalFrame
    	 this.initTitle = title;
         String frameTitle = title + " - view " + frameNumber;
         super.setTitle(frameTitle);
-        if (startTitle==null)
-        	startTitle = MainFrame.getInstance().getTitle();
-        
-        if (isSelected())
-        if (getBorder()==null) {
-        	MainFrame.getInstance().setTitle(startTitle+" - "+frameTitle);
-        } else
-        	MainFrame.getInstance().setTitle(startTitle);
+        if (ErrorMsg.isMac()) {
+	        if (startTitle==null)
+	        	startTitle = MainFrame.getInstance().getTitle();
+	        
+	        if (isSelected())
+	        if (getBorder()==null) {
+	        	MainFrame.getInstance().setTitle(startTitle+" - "+frameTitle);
+	        } else
+	        	MainFrame.getInstance().setTitle(startTitle);
+        }
     }
 
     @Override
