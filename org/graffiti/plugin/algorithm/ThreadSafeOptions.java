@@ -19,7 +19,7 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ThreadSafeOptions
 {
@@ -36,7 +36,7 @@ public class ThreadSafeOptions
      */
     public boolean doCopyPatternLayout = false;
     
-    public boolean doMultiplyByNodeDegree = false;
+    public boolean doMultiplyByNodeDegree = true;
     
     public boolean doRemoveAllBends = true;
 
