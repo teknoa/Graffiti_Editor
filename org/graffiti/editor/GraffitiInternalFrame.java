@@ -5,15 +5,17 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.5 2008/09/26 15:32:13 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.6 2008/09/26 16:17:37 klukas Exp $
 
 package org.graffiti.editor;
 
 import java.awt.Color;
 import java.awt.ContainerOrderFocusTraversalPolicy;
+import java.awt.event.ContainerEvent;
 
 import javax.swing.JInternalFrame;
 import javax.swing.JRootPane;
+import javax.swing.border.Border;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -45,6 +47,8 @@ public class GraffitiInternalFrame
     private int frameNumber;
 
 	private String initTitle;
+	
+	Border b = null;
 
     //~ Constructors ===========================================================
 
@@ -62,11 +66,38 @@ public class GraffitiInternalFrame
         // this.setFocusable(false);
         setFocusTraversalPolicyProvider(true);
         setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
+
+        b = getBorder();
+     //   setBorder(null);
         
         GravistoService.getInstance().addFrame(this);
     }
     
-    /**
+    
+    
+    @Override
+	public void doLayout() {
+		super.doLayout();
+		if (isMaximum() && getBorder()!=null) {
+			setBorder(null);
+			doLayout();
+		}
+		if (!isMaximum && getBorder()==null) {
+			setBorder(b);
+			doLayout();
+		}
+	}
+
+
+
+	@Override
+	protected void processContainerEvent(ContainerEvent e) {
+		super.processContainerEvent(e);
+	}
+
+
+
+	/**
      * Constructor that sets the session, as well as the title.
      *
      * @param session the session this frame is in.
@@ -136,6 +167,8 @@ public class GraffitiInternalFrame
     {
         return session;
     }
+    
+    public static String startTitle = null;
 
     /**
      * Sets the title of this frame and its associated button and menu button.
@@ -146,8 +179,15 @@ public class GraffitiInternalFrame
     {
    	 this.initTitle = title;
         String frameTitle = title + " - view " + frameNumber;
-
         super.setTitle(frameTitle);
+        if (startTitle==null)
+        	startTitle = MainFrame.getInstance().getTitle();
+        
+        if (isSelected())
+        if (getBorder()==null) {
+        	MainFrame.getInstance().setTitle(startTitle+" - "+frameTitle);
+        } else
+        	MainFrame.getInstance().setTitle(startTitle);
     }
 
     @Override

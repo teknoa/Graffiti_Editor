@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.32 2008/09/26 15:32:13 klukas Exp $
+// $Id: MainFrame.java,v 1.33 2008/09/26 16:17:37 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -178,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.32 $
+ * @version $Revision: 1.33 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -412,11 +412,7 @@ public class MainFrame extends JFrame implements SessionManager,
 //		}
 		instance = this;
 
-		this.setTitle(sBundle.getString("name") + " "
-					+ sBundle.getString("version") + " "
-					+ sBundle.getString("version.Release") + "."
-					+ sBundle.getString("version.Major") + "."
-					+ sBundle.getString("version.Minor"));
+		this.setTitle(getDefaultFrameTitle());
 
 		this.sessionListeners = new HashSet<SessionListener>();
 		this.selectionListeners = new HashSet<SelectionListener>();
@@ -565,6 +561,14 @@ public class MainFrame extends JFrame implements SessionManager,
 				addStatusPanel(null);
 			}});
 		
+	}
+
+	public String getDefaultFrameTitle() {
+		return sBundle.getString("name") + " "
+					+ sBundle.getString("version") + " "
+					+ sBundle.getString("version.Release") + "."
+					+ sBundle.getString("version.Major") + "."
+					+ sBundle.getString("version.Minor");
 	}
 
 	//~ Methods ================================================================
@@ -825,8 +829,11 @@ public class MainFrame extends JFrame implements SessionManager,
 					for (Component jc : jt.getComponents()) {
 						if (jc instanceof JButton) {
 							JButton jjjbbb = (JButton)jc;
-							if (jjjbbb.getIcon()!=null)
+							if (jjjbbb.getIcon()!=null) {
 								jjjbbb.setBorderPainted(false);
+								jjjbbb.setOpaque(false);
+								jjjbbb.setBackground(null);
+							}
 						}
 						toolbar.add(jc);
 					}
@@ -1068,8 +1075,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		//        this.addSession(session);
 		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(),
-					ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
-					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+					ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		// JViewport jvp = new JViewport();
 		// jvp.setBackground(Color.ORANGE);
 		
@@ -2026,6 +2033,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		for (GraffitiInternalFrame frame : getActiveFrames()) {
 			frame.setTitle(frame.getSession().getGraph().getName());
 			boolean mod = frame.getSession().getGraph().isModified();
+			if (frame.getBorder()!=null)
 			frame.putClientProperty("windowModified", mod);
 			if (mod)
 				oneModified = true;
@@ -2720,6 +2728,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 		
+		toolBar.setFloatable(false);
+		
 		return toolBar;
 	}
 
@@ -2733,6 +2743,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	private JButton createToolBarButton(GraffitiAction action) {
 		JButton button = new JButton(action);
 		button.setBorderPainted(false);
+		
+		button.setOpaque(false);
+		button.setBackground(null);
+
 		button.setText(sBundle.getString("toolbar." + action.getName()));
 		button.setToolTipText(sBundle.getString("toolbar." + action.getName()
 					+ ".tooltip"));
@@ -2992,7 +3006,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			for (GraffitiInternalFrame frame : getActiveFrames()) {
 				frame.setTitle(frame.getSession().getGraph().getName());
 				boolean mod = frame.getSession().getGraph().isModified();
-				frame.putClientProperty("windowModified", mod);
+				if (frame.getBorder()!=null)
+					frame.putClientProperty("windowModified", mod);
 				if (mod)
 					oneModified = true;
 			}

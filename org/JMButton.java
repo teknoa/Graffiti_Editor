@@ -1,6 +1,7 @@
 package org;
 
 import javax.swing.JButton;
+import javax.swing.UIManager;
 
 import org.AttributeHelper;
 import org.ErrorMsg;
@@ -11,13 +12,15 @@ import org.ErrorMsg;
 public class JMButton extends JButton {
 	private static final long serialVersionUID = 4853578108818002186L;
 
+	private static boolean nativeLookAndFeelActive = UIManager.getLookAndFeel().isNativeLookAndFeel();
+	
 	public JMButton(String text) {
 		super(text);
 		mySetText(text);
 	}
 
 	private void mySetText(String text) {
-		if (ErrorMsg.isMac()) {
+		if (ErrorMsg.isMac() && nativeLookAndFeelActive) {
 			if (text!=null && (text.contains("<br>") || text.contains("<small>"))) {
 				text = ErrorMsg.stringReplace(text, "<br>", " ");
 				text = ErrorMsg.stringReplace(text, "  ", " ");
