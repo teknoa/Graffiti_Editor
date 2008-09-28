@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewNewAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: ViewNewAction.java,v 1.2 2008/09/28 16:45:25 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -73,7 +73,7 @@ public class ViewNewAction
 
             if(dv != null)
             {
-                mainFrame.createInternalFrame(dv, "", false);
+                mainFrame.createInternalFrame(dv, "", false, false);
             }
             else
             {

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileNewAction.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: FileNewAction.java,v 1.2 2008/09/28 16:45:25 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -24,7 +24,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class FileNewAction
     extends GraffitiAction
@@ -77,7 +77,7 @@ public class FileNewAction
 
         if(dv != null)
         {
-            mainFrame.createInternalFrame(dv, "", false);
+            mainFrame.createInternalFrame(dv, "", false, false);
         }
         else
         {

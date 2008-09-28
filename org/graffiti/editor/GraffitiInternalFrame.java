@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.7 2008/09/26 16:30:12 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.8 2008/09/28 16:45:26 klukas Exp $
 
 package org.graffiti.editor;
 
 import java.awt.Color;
 import java.awt.ContainerOrderFocusTraversalPolicy;
+import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 
 import javax.swing.JInternalFrame;
@@ -66,6 +67,8 @@ public class GraffitiInternalFrame
         // this.setFocusable(false);
         setFocusTraversalPolicyProvider(true);
         setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
+        
+        setPreferredSize(new Dimension(320, 200));
 
         b = getBorder();
      //   setBorder(null);
@@ -104,12 +107,15 @@ public class GraffitiInternalFrame
      * @param view DOCUMENT ME!
      * @param title the title of this internal frame.
      */
-    public GraffitiInternalFrame(final EditorSession session, final View view, String title)
+    public GraffitiInternalFrame(final EditorSession session, final View view, String title, boolean otherViewWillBeClosed)
     {
         this();
         this.session = session;
         this.view = view;
-        frameNumber = session.getViews().size() + 1;
+        if (otherViewWillBeClosed)
+        	frameNumber = session.getViews().size();
+        else
+        	frameNumber = session.getViews().size() + 1;
         setTitle(title);
         setListener();
 

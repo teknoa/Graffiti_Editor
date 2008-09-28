@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.33 2008/09/26 16:17:37 klukas Exp $
+// $Id: MainFrame.java,v 1.34 2008/09/28 16:45:26 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -34,6 +34,8 @@ import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -175,10 +177,11 @@ import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
 
+
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.33 $
+ * @version $Revision: 1.34 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -289,7 +292,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	private GraffitiAction viewNew;
 
 	/** The listener for the internal frames. */
-	private GraffitiInternalFrameListener graffitiInternalFrameListener;
+	private GraffitiFrameListener graffitiFrameListener;
 
 	/** The manager for IO serializers. */
 	private IOManager ioManager;
@@ -413,7 +416,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		instance = this;
 
 		this.setTitle(getDefaultFrameTitle());
-
+		GraffitiInternalFrame.startTitle = getDefaultFrameTitle(); 
 		this.sessionListeners = new HashSet<SessionListener>();
 		this.selectionListeners = new HashSet<SelectionListener>();
 		this.zoomListeners = new HashSet<ZoomListener>();
@@ -446,7 +449,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		undoSupport = new UndoableEditSupport();
 
 		//undoSupport.addUndoableEditListener(this);
-		graffitiInternalFrameListener = new GraffitiInternalFrameListener(this);
+		graffitiFrameListener = new GraffitiFrameListener(this);
 
 		this.pluginmgr = pluginmgr;
 
@@ -475,9 +478,9 @@ public class MainFrame extends JFrame implements SessionManager,
 		// desktop = new JDesktopPane();
 		desktop = new JDesktopPane();
 		if (!ErrorMsg.isMac()) {
-			desktop.setBackground(null);
-			desktop.setOpaque(false);
-			desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
+			desktop.setBackground(Color.LIGHT_GRAY);
+			desktop.setOpaque(true);
+//			desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
 		} else {
 			desktop.setBackground(new JPanel().getBackground().darker());
 		}
@@ -822,7 +825,6 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (component instanceof JToolBar) {
 				JToolBar jt = (JToolBar)component;
-				jt.setFloatable(false);
 				try {
 					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
 					toolbar.addSeparator();
@@ -975,9 +977,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return DOCUMENT ME!
 	 */
 	public JScrollPane createInternalFrame(String viewName,
-				String newFrameTitle, boolean returnScrollpane) {
+				String newFrameTitle, boolean returnScrollpane, boolean otherViewWillBeClosed) {
 		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, activeSession,
-					returnScrollpane, false);
+					returnScrollpane, false, otherViewWillBeClosed);
 	}
 	
 
@@ -997,7 +999,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public Object createInternalFrame(String viewName,
 				String newFrameTitle, EditorSession session,
-				boolean returnScrollPane, boolean returnGraffitiFrame) {
+				boolean returnScrollPane, boolean returnGraffitiFrame,
+				boolean otherViewWillBeClosed) {
 		
 		View view;
 		try {
@@ -1011,34 +1014,26 @@ public class MainFrame extends JFrame implements SessionManager,
 						+ ". Error: " + e.getLocalizedMessage());
 			return null;
 		}
-		// try {
-			if (session == null) {
-				ErrorMsg.addErrorMessage("Could not create frame for graph. Session is NULL");
-				return null;
-			} else {
-				if (session.getGraph() == null) {
-					return null;
-				} /*else
-					session.getGraph().addAttributeConsumer(view);*/
-			}
-		/*} catch (UnificationException e2) {
-			ErrorMsg.addErrorMessage("Could not create view " + viewName
-						+ ". UnificationException: " + e2.getLocalizedMessage());
+		
+		if (session == null) {
+			ErrorMsg.addErrorMessage("Could not create frame for graph. Session is NULL");
 			return null;
-		}*/
+		} else {
+			if (session.getGraph() == null)
+				return null;
+		}
+
 		view.setAttributeComponentManager(this.attributeComponentManager);
 
-		String modeName = "org.graffiti.plugins.modes.defaultEditMode"; // uiPrefs.get("standardMode", "org.graffiti.plugins.modes.defaultEditMode");
+		String modeName = "org.graffiti.plugins.modes.defaultEditMode";
 		session.changeActiveMode(modeManager.getMode(modeName));
 
 		GraffitiInternalFrame frame = null;
 
 		if (!returnScrollPane) {
-			frame = new GraffitiInternalFrame(session, view, newFrameTitle);
-			frame.addInternalFrameListener(graffitiInternalFrameListener);
+			frame = new GraffitiInternalFrame(session, view, newFrameTitle, otherViewWillBeClosed);
+			frame.addInternalFrameListener(graffitiFrameListener);
 		}
-
-		// view.addMessageListener(this);
 
 		if (session == activeSession) {
 			view.setGraph(activeSession.getGraph());
@@ -1077,26 +1072,18 @@ public class MainFrame extends JFrame implements SessionManager,
 		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(),
 					ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 					ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
-		// JViewport jvp = new JViewport();
-		// jvp.setBackground(Color.ORANGE);
-		
-		// scrollPane.setViewport(jvp);
+
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
 		scrollPane.getViewport().setBackground(Color.WHITE);
 		scrollPane.setWheelScrollingEnabled(false);
 
 		if (!returnScrollPane) {
-
-			//        this.fireSessionChanged(session);
-//			int sizeX = 640;
-//			int sizeY = 480;
-//			frame.setPreferredSize(new Dimension(sizeX, sizeY));
 			if (view.putInScrollPane())
 				frame.getContentPane().add(scrollPane);
 			else
 				frame.getContentPane().add(view.getViewComponent());
-			// frame.setResizable(true);
+
 			frame.pack();
 			
 			boolean maxx = false;
@@ -1263,20 +1250,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			g.setModified(false);
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
-			ErrorMsg.addErrorMessage(sBundle.getString("fileFormatError").replaceAll("\\[err\\]", e1.getLocalizedMessage())+" /// "+
-									sBundle.getString("fileFormatErrorTitle"));
+			ErrorMsg.addErrorMessage(e1);
 		} catch (IOException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. IO Exception<br>"
-						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+			ErrorMsg.addErrorMessage(e);
 		} catch (IllegalAccessException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. IllegalAccessException<br>"
-						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+			ErrorMsg.addErrorMessage(e);
 		} catch (InstantiationException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. InstantiationException<br>"
-						+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+			ErrorMsg.addErrorMessage(e);
 		}
 		return null;
 	}
@@ -2193,9 +2173,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else if (viewManager.getViewNames().length == 1) {
 			if (sessions.contains(session)) {
 				return createInternalFrame(views[0], session.getGraph().getName(),
-							returnScrollPane);
+							returnScrollPane, false);
 			} else {
-				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], session.getGraph().getName(), session, returnScrollPane, false);
+				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], 
+						session.getGraph().getName(), session, returnScrollPane, false, false);
 				return jsp;
 			}
 		} else {
@@ -2210,7 +2191,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (alwaysUseDefaultView) {
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
-					return createInternalFrame(defaultView, session.getGraph().getName(), returnScrollPane);
+					return createInternalFrame(defaultView, session.getGraph().getName(), 
+							returnScrollPane, false);
 				} else {
 					Graph g = session.getGraph();
 					String name = null;
@@ -2218,7 +2200,8 @@ public class MainFrame extends JFrame implements SessionManager,
 						name = g.getName();
 					if (name==null)
 						name = "[NULL]";
-					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name, session, returnScrollPane, false);
+					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name, 
+							session, returnScrollPane, false, false);
 					return jsp;
 				}
 			} else {
@@ -2236,13 +2219,18 @@ public class MainFrame extends JFrame implements SessionManager,
 				if (viewChooser.createInternalFrame()) {
 					if (selectedView != null) {
 						if (sessions.contains(session)) {
-							return createInternalFrame(selectedView, session.getGraph().getName(), returnScrollPane);
+							return createInternalFrame(selectedView, session.getGraph().getName(),
+									returnScrollPane, false);
 						} else {
-							return (JScrollPane)createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane, false);
+							return (JScrollPane)createInternalFrame(selectedView, 
+									session.getGraph().getName(), session, returnScrollPane, 
+									false, false);
 						}
 					} 
 				} else {
-					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session.getGraph().getName(), session, false, true); 
+					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
+							selectedView, session.getGraph().getName(), session, 
+							false, true, false); 
 					GraffitiFrame gf = new GraffitiFrame(gif);
 					gf.setExtendedState(Frame.MAXIMIZED_BOTH);
 					gf.setVisible(true);
@@ -2712,6 +2700,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private JToolBar createToolBar() {
 		final JToolBar toolBar = new JToolBar();
+		
 		toolBar.add(createToolBarButton(newGraph));
 		toolBar.add(createToolBarButton(fileOpen));
 		toolBar.addSeparator();
@@ -2728,7 +2717,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 		
-		toolBar.setFloatable(false);
+		toolBar.setFloatable(true);
 		
 		return toolBar;
 	}
@@ -2781,11 +2770,11 @@ public class MainFrame extends JFrame implements SessionManager,
 	/**
 	 * Listener for the internal frames.
 	 */
-	class GraffitiInternalFrameListener extends InternalFrameAdapter {
+	class GraffitiFrameListener extends InternalFrameAdapter implements WindowListener {
 
 		MainFrame mainFrame;
 
-		public GraffitiInternalFrameListener(MainFrame mainFrame) {
+		public GraffitiFrameListener(MainFrame mainFrame) {
 			this.mainFrame = mainFrame;
 		}
 
@@ -2795,16 +2784,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		public void internalFrameActivated(InternalFrameEvent e) {
 			super.internalFrameActivated(e);
 
-			GraffitiInternalFrame iframe = (GraffitiInternalFrame) e
-						.getInternalFrame();
-			EditorSession frameSession = iframe.getSession();
-
-			if (frameSession != activeSession) {
-				fireSessionChanged(frameSession);
-				fireViewChanged(iframe.getView());
-			} else {
-				fireViewChanged(iframe.getView());
-			}
+			GraffitiInternalFrame iframe = (GraffitiInternalFrame) e.getInternalFrame();
+			graffitiFrameActivated(iframe.getSession(), iframe.getView());
 		}
 
 		/**
@@ -2819,10 +2800,9 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (session.getViews().size() >= 2) {
 				activeFrames.remove(f);
 			}
-			View view = f.getView();
-			
-			frameClosing(session, view);
+			frameClosing(session, f.getView());
 
+			setTitle(GraffitiInternalFrame.startTitle);
 			
 			super.internalFrameClosed(e);
 		}
@@ -2831,14 +2811,44 @@ public class MainFrame extends JFrame implements SessionManager,
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
 		 */
 		public void internalFrameClosing(InternalFrameEvent e) {
-			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
-						.getSession();
-
-			// super.internalFrameClosing(e);
-			//mainFrame.removeSession(mainFrame.getActiveSession(), false);
 			mainFrame.updateActions();
 		}
 
+		@Override
+		public void windowActivated(WindowEvent e) {
+			GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
+			graffitiFrameActivated(iframe.getSession(), iframe.getView());
+		}
+
+		private void graffitiFrameActivated(EditorSession session, View view) {
+			if (session != activeSession) {
+				fireSessionChanged(session);
+				fireViewChanged(view);
+			} else {
+				fireViewChanged(view);
+			}
+		}
+
+		public void windowClosed(WindowEvent e) {
+			GraffitiFrame f = (GraffitiFrame) e.getWindow();
+			EditorSession session = f.getSession();
+
+			if (session.getViews().size() >= 2) {
+				detachedFrames.remove(f);
+			}
+			frameClosing(session, f.getView());
+
+			setTitle(GraffitiInternalFrame.startTitle);
+		}
+
+		public void windowClosing(WindowEvent e) {
+			mainFrame.updateActions();
+		}
+
+		public void windowDeactivated(WindowEvent e) { }
+		public void windowDeiconified(WindowEvent e) { }
+		public void windowIconified(WindowEvent e) { }
+		public void windowOpened(WindowEvent e) { }
 	}
 
 	public void closeGravisto() {
@@ -3258,17 +3268,19 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 	}
 	
-	public View createExternalFrame(String viewClassName, EditorSession session) {
-		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, session.getGraph().getName(), session, false, true);
+	public View createExternalFrame(String viewClassName, EditorSession session,
+			boolean otherViewWillBeClosed) {
+		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
+				session.getGraph().getName(), session, false, true, otherViewWillBeClosed);
 		GraffitiFrame gf = new GraffitiFrame(gif);
-		gf.setExtendedState(Frame.MAXIMIZED_BOTH);
+		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
 		MainFrame.getInstance().addDetachedFrame(gf);
 		return gif.getView();
 	}
 
-	public View createInternalFrame(String viewClassName, EditorSession session) {
-		createInternalFrame(viewClassName, session.getGraph().getName(), session, false, false);
+	public View createInternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed) {
+		createInternalFrame(viewClassName, session.getGraph().getName(), session, false, false, otherViewWillBeClosed);
 		return activeSession.getActiveView();
 	}
 }
