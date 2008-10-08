@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditContainer.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ValueEditContainer.java,v 1.2 2008/10/08 17:26:54 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -16,7 +16,7 @@ import org.graffiti.plugin.editcomponent.ValueEditComponent;
 /**
  * <code>ValueEditContainer</code> is an interface for an arbitrary  component
  * containing a set of <code>ValueEditComponent</code>s. A class implementing
- * this interface can be used either within a dialog or within a seperate
+ * this interface can be used either within a dialog or within a separate
  * frame etc.
  *
  * @see org.graffiti.plugin.editcomponent.ValueEditComponent
