@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.3 2008/10/09 13:01:01 klukas Exp $
+// $Id: InspectorTab.java,v 1.4 2008/10/09 14:34:58 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -18,6 +18,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import org.ErrorMsg;
+import org.graffiti.editor.GravistoService;
+import org.graffiti.editor.MainFrame;
 import org.graffiti.event.AttributeEvent;
 import org.graffiti.event.AttributeListener;
 import org.graffiti.event.TransactionEvent;

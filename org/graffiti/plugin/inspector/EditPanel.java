@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditPanel.java,v 1.1 2007/06/14 09:36:49 klukas Exp $
+// $Id: EditPanel.java,v 1.2 2008/10/09 14:34:58 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -25,7 +25,7 @@ import org.graffiti.event.ListenerManager;
 /**
  * Represents the edit panel in the inspector.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class EditPanel
     extends JPanel {
@@ -33,12 +33,6 @@ public abstract class EditPanel
 
     /** a reference to the map between old and new graph elements */
     public Map geMap;
-
-    /**
-     * Reference to the UndoableEditSupport contained in the MainFrame and
-     * needed for undo operations.
-     */
-    public UndoableEditSupport undoSupport;
 
     //~ Methods ================================================================
 
@@ -80,17 +74,6 @@ public abstract class EditPanel
      */
     public void setGraphElementMap(Map geMap) {
         this.geMap = geMap;
-    }
-
-    /**
-     * Sets <code>UndoableEditSupport</code> for undo operations inside of edit
-     * panels.
-     *
-     * @param undoSupport a <code>UndoableEditSupport</code> object  contained
-     *        in the MainFrame.
-     */
-    public void setUndoSupport(UndoableEditSupport undoSupport) {
-        this.undoSupport = undoSupport;
     }
 }
 
