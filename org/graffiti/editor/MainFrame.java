@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.36 2008/10/08 17:26:54 klukas Exp $
+// $Id: MainFrame.java,v 1.37 2008/10/09 13:01:01 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -157,6 +157,7 @@ import org.graffiti.plugin.gui.PluginPanel;
 import org.graffiti.plugin.gui.ToolButton;
 import org.graffiti.plugin.inspector.InspectorPlugin;
 import org.graffiti.plugin.inspector.InspectorTab;
+import org.graffiti.plugin.inspector.SubtabHostTab;
 import org.graffiti.plugin.io.InputSerializer;
 import org.graffiti.plugin.io.OutputSerializer;
 import org.graffiti.plugin.mode.Mode;
@@ -181,7 +182,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.36 $
+ * @version $Revision: 1.37 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1522,6 +1523,10 @@ public class MainFrame extends JFrame implements SessionManager,
 				}
 			}
 		}
+	}
+	
+	public InspectorPlugin getInspectorPlugin() {
+		return inspectorPlugin;
 	}
 
 	/**
@@ -3281,6 +3286,23 @@ public class MainFrame extends JFrame implements SessionManager,
 	public View createInternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, session.getGraph().getName(), session, false, false, otherViewWillBeClosed);
 		return activeSession.getActiveView();
+	}
+
+	public void showAndHighlightSidePanelTab(String title, boolean cycle) {
+		for (InspectorTab it : getInspectorPlugin().getTabs()) {
+			if (it.getTitle().equals(title)) {
+				it.focusAndHighlight(null, true, cycle);
+			} else {
+				if (it instanceof SubtabHostTab) {
+					SubtabHostTab sh = (SubtabHostTab)it;
+					for (InspectorTab it2 : sh.getTabs()) {
+						if (it2.getTitle().equals(title)) {
+							it.focusAndHighlight(it2, true, cycle);
+						}
+					}
+				} 
+			}
+		}
 	}
 }
 
