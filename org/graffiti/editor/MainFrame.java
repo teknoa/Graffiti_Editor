@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.37 2008/10/09 13:01:01 klukas Exp $
+// $Id: MainFrame.java,v 1.38 2008/10/09 15:16:57 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -182,7 +182,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.37 $
+ * @version $Revision: 1.38 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2078,7 +2078,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (type == MessageType.PERMANENT_INFO)
 			time = Integer.MAX_VALUE;
 		else
-			time = 30000;
+			time = 10000;
 		synchronized(syncStatus) {
 			if (message==null && lastStatusMessage==null) return;
 			if (message!=null && message.equals(lastStatusMessage)) return;

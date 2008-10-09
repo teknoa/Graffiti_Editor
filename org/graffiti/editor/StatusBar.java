@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.4 2008/10/08 17:26:54 klukas Exp $
+// $Id: StatusBar.java,v 1.5 2008/10/09 15:16:57 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -57,7 +57,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class StatusBar
     extends JPanel
@@ -390,8 +390,13 @@ public class StatusBar
      * @param status the message to display in the status bar.
      * @param timeMillis DOCUMENT ME!
      */
-    public synchronized void showError(final String status, int timeMillis)
+    public synchronized void showError(final String val, int timeMillis)
     {
+    	final String status;
+    	if (val==null)
+    		status="";
+    	else
+    		status = val;
         Timer timer = new Timer(0,
                 new ActionListener()
                 {
@@ -399,6 +404,8 @@ public class StatusBar
                     {
                         if(isShowing())
                         {
+                        	if (statusLine.getText()==null)
+                        		statusLine.setText("");
                         	// FIXED, CK: This avoids flickering
                             if (status==null || statusLine==null || statusLine.getText().equals(status))
                             	clear();
@@ -430,8 +437,13 @@ public class StatusBar
      * @param message the message to display in the status bar.
      * @param timeMillis DOCUMENT ME!
      */
-    public synchronized void showInfo(final String message, int timeMillis)
+    public synchronized void showInfo(final String val, int timeMillis)
     {
+    	final String message;
+    	if (val==null)
+    		message="";
+    	else
+    		message=val;
         Timer timer = new Timer(timeMillis,
                 new ActionListener()
                 {
@@ -440,10 +452,9 @@ public class StatusBar
                         if(isShowing())
                         {
                         	// FIXED, CK: This avoids flickering
-                            if (statusLine!=null && 
-                            			statusLine.getText()!=null &&
-													message!=null &&
-														statusLine.getText().equals(message))
+                        	if (statusLine!=null && statusLine.getText()==null)
+                        		statusLine.setText("");
+                            if (statusLine!=null && statusLine.getText()!=null && message!=null && statusLine.getText().equals(message))
                             	clear();
                         }
                     }
@@ -586,7 +597,11 @@ public class StatusBar
 	}
 	
 	public String getCurrentText() {
-		return statusLine.getText();
+		String res = statusLine.getText();
+		if (res!=null)
+			return res;
+		else
+			return "";
 	}
 }
 
