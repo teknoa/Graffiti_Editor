@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ComboBoxEditComponent.java,v 1.4 2008/10/08 17:26:54 klukas Exp $
+// $Id: ComboBoxEditComponent.java,v 1.5 2008/10/09 15:40:05 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -31,7 +31,7 @@ import org.graffiti.plugin.Displayable;
 /**
  * Displays a combo box to let the user choose from several possibilities.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ComboBoxEditComponent
     extends AbstractValueEditComponent
@@ -146,7 +146,9 @@ public class ComboBoxEditComponent
 					path = path.substring(0, path.lastIndexOf("."));
 				String attributeName = attr.getId();
 				
+				boolean isShapeSearch = false;
 				if (attributeName.equals("shape")) {
+					isShapeSearch = true;
 					if (search instanceof String)
 						search = AttributeHelper.getShapeClassFromShapeName((String)search);
 				}
@@ -159,6 +161,13 @@ public class ComboBoxEditComponent
 						continue;
 					if (val.equals(search))
 						select.add(ge);
+					else {
+						if (isShapeSearch && val!=null && val instanceof String) {
+							val = AttributeHelper.getShapeClassFromShapeName((String)val);
+							if (val!=null && val.equals(search))
+								select.add(ge);
+						}
+					}
 				}
 				MainFrame.getInstance().getActiveEditorSession().getSelectionModel().getActiveSelection().addAll(select);
 				MainFrame.getInstance().getActiveEditorSession().getSelectionModel().selectionChanged();
