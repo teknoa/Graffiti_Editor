@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.38 2008/10/09 15:16:57 klukas Exp $
+// $Id: MainFrame.java,v 1.39 2008/10/13 08:45:15 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -182,7 +182,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.38 $
+ * @version $Revision: 1.39 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3242,7 +3242,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		try {
 			Runtime r = Runtime.getRuntime();
-			if (r.maxMemory()/1024/1024<512) {
+			if (r.maxMemory()/1024/1024<400) {
 	            int divisor=1024;
 	            String memoryConfig = "Used/free/max memory: " + 
 	            	((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
