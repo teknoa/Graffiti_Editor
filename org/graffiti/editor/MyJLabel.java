@@ -21,7 +21,6 @@ public class MyJLabel extends JLabel {
 	public MyJLabel(String text) {
 		super();
 		setText(text);
-		setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		KeyStroke statusHotkey = KeyStroke.getKeyStroke(
 			    KeyEvent.VK_F2, 0, false);
@@ -31,7 +30,8 @@ public class MyJLabel extends JLabel {
 
 				public void actionPerformed(ActionEvent e) {
 			      setEnabled(false); // stop any other events from interfering
-			      MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
+			      if (fullText!=null && fullText.length()>0)
+			    	  MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 			      setEnabled(true);
 			    }
 			  };
@@ -43,7 +43,8 @@ public class MyJLabel extends JLabel {
 	    this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
-				MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
+				if (fullText!=null && fullText.length()>0)
+					MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 			}
 
 			public void mousePressed(MouseEvent e) {

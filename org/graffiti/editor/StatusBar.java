@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.5 2008/10/09 15:16:57 klukas Exp $
+// $Id: StatusBar.java,v 1.6 2008/10/14 08:09:36 klukas Exp $
 
 package org.graffiti.editor;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -19,36 +20,29 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.AttributeHelper;
 import org.ErrorMsg;
 import org.graffiti.core.StringBundle;
-
 import org.graffiti.event.GraphEvent;
 import org.graffiti.event.GraphListener;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.event.TransactionEvent;
 import org.graffiti.graph.Node;
-
 import org.graffiti.selection.Selection;
 import org.graffiti.selection.SelectionEvent;
 import org.graffiti.selection.SelectionListener;
-
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.Session;
 import org.graffiti.session.SessionListener;
@@ -57,7 +51,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class StatusBar
     extends JPanel
@@ -140,6 +134,8 @@ public class StatusBar
         add(statusLine, c);
 
         nodesLabel = new JLabel(" ");
+        nodesLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        
 //        nodesLabel.addActionListener(new ActionListener() {
 //			public void actionPerformed(ActionEvent e) {
 //			}});
@@ -161,7 +157,8 @@ public class StatusBar
                 BorderFactory.createLoweredBevelBorder(), nodesLabel.getBorder()));*/
         nodesLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 
-        edgesLabel = new JLabel(" ");  
+        edgesLabel = new JLabel(" ");
+        edgesLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
         edgesLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				processRightClick(e, false);
@@ -560,7 +557,7 @@ public class StatusBar
     }
 
 	private void processRightClick(MouseEvent e, final boolean processNodesTrue_otherwiseEdges) {
-		if (SwingUtilities.isRightMouseButton(e) || SwingUtilities.isLeftMouseButton(e)) {
+		if (true) { // SwingUtilities.isRightMouseButton(e) || SwingUtilities.isLeftMouseButton(e)) {
 			JPopupMenu popup = new JPopupMenu();
 			JMenuItem selAll = new JMenuItem("Select All");
 			selAll.addActionListener(new ActionListener() {
