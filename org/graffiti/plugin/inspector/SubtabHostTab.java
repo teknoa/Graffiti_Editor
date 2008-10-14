@@ -91,7 +91,12 @@ public class SubtabHostTab extends InspectorTab
 	}
 
 	public void sessionDataChanged(Session s) {
-		// empty
+		for (InspectorTab tab : subtabs) {
+			if (tab instanceof SessionListener) {
+				SessionListener sl = (SessionListener) tab;
+				sl.sessionDataChanged(s);
+			}
+		}
 	}
 
 	public void viewChanged(View v) {

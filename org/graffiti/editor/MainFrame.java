@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.39 2008/10/13 08:45:15 klukas Exp $
+// $Id: MainFrame.java,v 1.40 2008/10/14 02:55:39 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -182,7 +182,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.39 $
+ * @version $Revision: 1.40 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1152,6 +1152,13 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void fireSessionChanged(Session session) {
 		for (Iterator it = this.sessionListeners.iterator(); it.hasNext();) {
 			((SessionListener) it.next()).sessionChanged(session);
+		}
+	}
+	
+	public void fireSelectionChanged(Session session) {
+		for (Iterator it = this.selectionListeners.iterator(); it.hasNext();) {
+			((SelectionListener) it.next()).selectionChanged(
+					new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
 		}
 	}
 
@@ -2828,6 +2835,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (session != activeSession) {
 				fireSessionChanged(session);
 				fireViewChanged(view);
+				fireSelectionChanged(session);
 			} else {
 				fireViewChanged(view);
 			}
