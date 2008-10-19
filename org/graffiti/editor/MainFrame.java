@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.40 2008/10/14 02:55:39 klukas Exp $
+// $Id: MainFrame.java,v 1.41 2008/10/19 08:42:48 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -135,6 +136,7 @@ import org.graffiti.managers.DefaultViewManager;
 import org.graffiti.managers.EditComponentManager;
 import org.graffiti.managers.IOManager;
 import org.graffiti.managers.ModeManager;
+import org.graffiti.managers.MyInputStreamCreator;
 import org.graffiti.managers.ToolManager;
 import org.graffiti.managers.URLattributeActionManager;
 import org.graffiti.managers.ViewManager;
@@ -182,7 +184,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.40 $
+ * @version $Revision: 1.41 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1186,17 +1188,17 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @param file File containing the graph;
 	 */
-	public Graph loadGraph(InputStream inputStream, String fileName, URI uri) {
+	public Graph loadGraph(String fileName, URL url) {
 		String ext = fileName.substring(fileName.lastIndexOf("."));
-//		System.out.println("Load graph file " + fileName + " URI:" + uri.toASCIIString());
 		try {
-			InputSerializer is = ioManager.createInputSerializer(ext);
+			MyInputStreamCreator ic = new MyInputStreamCreator(url);
+			InputSerializer is = ioManager.createInputSerializer(ic, ext);
 			if (is == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. InputSerializer is NULL.");
 				return null;
 			}
-			Graph g = is.read(inputStream);
+			Graph g = is.read(ic.getNewInputStream());
 			if (g == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. File loader result is NULL.");
@@ -1206,13 +1208,16 @@ public class MainFrame extends JFrame implements SessionManager,
 			g.setModified(false);
 			EditorSession es = new EditorSession(g);
 			if (es == null) {
-				ErrorMsg
-							.addErrorMessage("Graph "
+				ErrorMsg.addErrorMessage("Graph "
 										+ fileName
 										+ " could not be loaded. Editor session could not be created from graph (EditorSession=NULL).");
 				return null;
 			}
-			es.setFileName(uri);
+			try {
+				es.setFileName(url.toURI());
+			} catch(Exception e) {
+				ErrorMsg.addErrorMessage(e);
+			}
 			showViewChooserDialog(es, false, true, null);
 			
 			return g;
@@ -1238,17 +1243,17 @@ public class MainFrame extends JFrame implements SessionManager,
 		return null;
 	}
 	
-	public Graph getGraph(InputStream inputStream, String fileName, URI uri) {
+	public Graph getGraph(String fileName, URL url) {
 		String ext = fileName.substring(fileName.lastIndexOf("."));
-//		System.out.println("Load graph file " + fileName + " URI:" + uri.toASCIIString());
 		try {
-			InputSerializer is = ioManager.createInputSerializer(ext);
+			MyInputStreamCreator ic = new MyInputStreamCreator(url);
+			InputSerializer is = ioManager.createInputSerializer(ic, ext);
 			if (is == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. InputSerializer is NULL.");
 				return null;
 			}
-			Graph g = is.read(inputStream);
+			Graph g = is.read(ic.getNewInputStream());
 			if (g == null) {
 				ErrorMsg.addErrorMessage("Graph " + fileName
 							+ " could not be loaded. File loader result is NULL.");
@@ -1405,19 +1410,17 @@ public class MainFrame extends JFrame implements SessionManager,
 			ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 			gz = true;
 		}
-		InputSerializer is = ioManager.createInputSerializer(ext);
 		if (ext.equalsIgnoreCase(".net")) {
 			Graph tempGraph = new AdjListGraph(new ListenerManager());
+			InputSerializer is = ioManager.createInputSerializer(null, ext);
 			is.read(file.getAbsolutePath(), tempGraph);
 			newGraph = tempGraph;
 		} else {
+			InputSerializer is;
+			MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
+			is = ioManager.createInputSerializer(inputStream, ext);
 			if (is!=null) {
-				InputStream inputStream = new FileInputStream(file.getAbsolutePath());
-				if (gz)
-					newGraph = is.read(new GZIPInputStream(inputStream));
-				else
-					newGraph = is.read(inputStream);
-				inputStream.close();
+				newGraph = is.read(inputStream.getNewInputStream());
 			} else {
 				showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
 			}

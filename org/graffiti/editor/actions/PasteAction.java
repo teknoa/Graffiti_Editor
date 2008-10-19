@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.3 2008/02/10 22:04:42 klukas Exp $
+// $Id: PasteAction.java,v 1.4 2008/10/19 08:42:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -32,7 +32,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -85,7 +85,7 @@ public class PasteAction extends SelectionAction {
 		String ext = "gml";
 		IOManager ioManager = MainFrame.getInstance().getIoManager();
 		try {
-			InputSerializer is = ioManager.createInputSerializer("." + ext);
+			InputSerializer is = ioManager.createInputSerializer(null, "." + ext);
 			Graph newGraph = new AdjListGraph(new ListenerManager());
 			if (isGMLformat) 
 				is.read(new StringReader(gml), newGraph);
