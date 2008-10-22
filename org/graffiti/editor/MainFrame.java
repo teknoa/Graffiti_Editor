@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.41 2008/10/19 08:42:48 klukas Exp $
+// $Id: MainFrame.java,v 1.42 2008/10/22 14:01:32 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -184,7 +184,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.41 $
+ * @version $Revision: 1.42 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -495,15 +495,18 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		UIManager.put("SplitPaneDivider.border",new EmptyBorder(0,0,0,0));
 		
+		JComponent sidepanel;
+		
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
 			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0,0));
-			vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop,
-						jSplitPane_pluginPanelAndProgressView);
+			sidepanel = jSplitPane_pluginPanelAndProgressView;
 		} else {
-			vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop,
-						pluginPanel);
+			sidepanel = pluginPanel;
 		}
+		JToolBar jtb = new JToolBar("Inspector", JToolBar.VERTICAL);
+		jtb.add(sidepanel);
+		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, jtb);
 		this.progressPanel = progressPanel;
 
 		vertSplitter.setContinuousLayout(true);
