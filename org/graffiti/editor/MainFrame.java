@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.42 2008/10/22 14:01:32 klukas Exp $
+// $Id: MainFrame.java,v 1.43 2008/10/23 08:43:14 morla Exp $
 
 package org.graffiti.editor;
 
@@ -85,6 +85,7 @@ import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
@@ -96,6 +97,8 @@ import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.plaf.basic.BasicToolBarUI;
+//import javax.swing.plaf.basic.BasicToolBarUI.DragWindow;
 import javax.swing.undo.UndoableEditSupport;
 
 import org.ErrorMsg;
@@ -184,7 +187,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.42 $
+ * @version $Revision: 1.43 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -504,8 +507,13 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else {
 			sidepanel = pluginPanel;
 		}
+		
+		//puts the sidepanel in a JToolbar which can be resized in detached form
 		JToolBar jtb = new JToolBar("Inspector", JToolBar.VERTICAL);
+		jtb.setUI(new ResizeableToolbarUI());
 		jtb.add(sidepanel);
+		
+		
 		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, jtb);
 		this.progressPanel = progressPanel;
 
@@ -3318,7 +3326,14 @@ public class MainFrame extends JFrame implements SessionManager,
 			}
 		}
 	}
+
+	public void setSidePanel(JToolBar component, int width) {
+		vertSplitter.setRightComponent(component);
+		vertSplitter.validate();
+		vertSplitter.setDividerLocation(vertSplitter.getWidth()-width); // uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
+	}
 }
+
 
 //------------------------------------------------------------------------------
 //   end of file
