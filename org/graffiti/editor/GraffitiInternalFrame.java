@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.8 2008/09/28 16:45:26 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.9 2008/10/27 22:26:32 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -81,6 +81,7 @@ public class GraffitiInternalFrame
     @Override
 	public void doLayout() {
 		super.doLayout();
+		/*
 		if (isMaximum() && getBorder()!=null) {
 			setBorder(null);
 			doLayout();
@@ -89,6 +90,7 @@ public class GraffitiInternalFrame
 			setBorder(b);
 			doLayout();
 		}
+		*/
 	}
 
 

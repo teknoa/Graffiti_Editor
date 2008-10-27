@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.43 2008/10/23 08:43:14 morla Exp $
+// $Id: MainFrame.java,v 1.44 2008/10/27 22:28:00 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -31,11 +31,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
@@ -93,10 +97,13 @@ import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.plaf.ToolBarUI;
 import javax.swing.plaf.basic.BasicToolBarUI;
 //import javax.swing.plaf.basic.BasicToolBarUI.DragWindow;
 import javax.swing.undo.UndoableEditSupport;
@@ -187,7 +194,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.43 $
+ * @version $Revision: 1.44 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -498,7 +505,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		UIManager.put("SplitPaneDivider.border",new EmptyBorder(0,0,0,0));
 		
-		JComponent sidepanel;
+		final JComponent sidepanel;
 		
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
@@ -509,12 +516,31 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		
 		//puts the sidepanel in a JToolbar which can be resized in detached form
-		JToolBar jtb = new JToolBar("Inspector", JToolBar.VERTICAL);
-		jtb.setUI(new ResizeableToolbarUI());
-		jtb.add(sidepanel);
+//		final JToolBar jtb = new JToolBar("Inspector", JToolBar.VERTICAL);
+//		final ToolBarUI uuii = new ResizeableToolbarUI();
+//		jtb.setUI(uuii);
+//		jtb.addAncestorListener(new AncestorListener() {
+//			public void ancestorAdded(AncestorEvent event) {
+//				// TODO Auto-generated method stub
+//				JDialog parentDialog = (JDialog) ErrorMsg.findParentComponent(sidepanel, JDialog.class);
+//				if (parentDialog!=null) {
+//					parentDialog.setResizable(true);
+//				}
+//			}
+//
+//			@Override
+//			public void ancestorMoved(AncestorEvent event) {
+//				// TODO Auto-generated method stub
+//			}
+//
+//			@Override
+//			public void ancestorRemoved(AncestorEvent event) {
+//				// TODO Auto-generated method stub
+//			}});
+//		jtb.add(sidepanel);
+//		jtb.validate();
 		
-		
-		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, jtb);
+		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, sidepanel);
 		this.progressPanel = progressPanel;
 
 		vertSplitter.setContinuousLayout(true);
@@ -843,14 +869,14 @@ public class MainFrame extends JFrame implements SessionManager,
 					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
 					toolbar.addSeparator();
 					for (Component jc : jt.getComponents()) {
-						if (jc instanceof JButton) {
-							JButton jjjbbb = (JButton)jc;
-							if (jjjbbb.getIcon()!=null) {
-								jjjbbb.setBorderPainted(false);
-								jjjbbb.setOpaque(false);
-								jjjbbb.setBackground(null);
-							}
-						}
+//						if (jc instanceof JButton) {
+//							JButton jjjbbb = (JButton)jc;
+//							if (jjjbbb.getIcon()!=null) {
+//								jjjbbb.setBorderPainted(false);
+//								jjjbbb.setOpaque(false);
+//								jjjbbb.setBackground(null);
+//							}
+//						}
 						toolbar.add(jc);
 					}
 					toolbar.validate();
@@ -859,7 +885,6 @@ public class MainFrame extends JFrame implements SessionManager,
 				}
 			} else 
 				container.add(component);
-			container.validate();
 
 			if (container.getParent() instanceof JSplitPane) {
 				// adjust divider location
@@ -876,9 +901,9 @@ public class MainFrame extends JFrame implements SessionManager,
 					container.setMinimumSize(container.getPreferredSize());
 				}
 			}
+			container.revalidate();
 		} else {
-			// TODO: intelligente Fallunterscheidung bzgl des ?bergebenen 
-			// components -  also bei JMenuItem neues Menu anlegen usw
+			ErrorMsg.addErrorMessage("Don't know where to put component "+component+" with target id "+id);
 		}
 	}
 
