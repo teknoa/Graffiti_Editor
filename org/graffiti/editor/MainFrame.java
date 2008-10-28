@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.44 2008/10/27 22:28:00 klukas Exp $
+// $Id: MainFrame.java,v 1.45 2008/10/28 08:48:19 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -194,7 +194,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.44 $
+ * @version $Revision: 1.45 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -869,14 +869,14 @@ public class MainFrame extends JFrame implements SessionManager,
 					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
 					toolbar.addSeparator();
 					for (Component jc : jt.getComponents()) {
-//						if (jc instanceof JButton) {
-//							JButton jjjbbb = (JButton)jc;
-//							if (jjjbbb.getIcon()!=null) {
-//								jjjbbb.setBorderPainted(false);
-//								jjjbbb.setOpaque(false);
-//								jjjbbb.setBackground(null);
-//							}
-//						}
+						if (jc instanceof JButton) {
+							JButton jjjbbb = (JButton)jc;
+							if (jjjbbb.getIcon()!=null) {
+								jjjbbb.setBorderPainted(false);
+								jjjbbb.setOpaque(false);
+								jjjbbb.setBackground(null);
+							}
+						}
 						toolbar.add(jc);
 					}
 					toolbar.validate();
