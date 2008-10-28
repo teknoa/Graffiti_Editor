@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.45 2008/10/28 08:48:19 klukas Exp $
+// $Id: MainFrame.java,v 1.46 2008/10/28 21:56:39 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -31,24 +31,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.HierarchyEvent;
-import java.awt.event.HierarchyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,10 +60,8 @@ import java.util.concurrent.Executors;
 import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
-import java.util.zip.GZIPInputStream;
 
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -85,27 +77,19 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
-import javax.swing.RootPaneContainer;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.EtchedBorder;
-import javax.swing.event.AncestorEvent;
-import javax.swing.event.AncestorListener;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
-import javax.swing.plaf.ToolBarUI;
-import javax.swing.plaf.basic.BasicToolBarUI;
-//import javax.swing.plaf.basic.BasicToolBarUI.DragWindow;
 import javax.swing.undo.UndoableEditSupport;
 
 import org.ErrorMsg;
@@ -194,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.45 $
+ * @version $Revision: 1.46 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -318,6 +302,10 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	/** The desktop pane for the internal frames. */
 	private JDesktopPane desktop;
+	
+	public JComponent sidepanel;
+	
+
 
 	/** The main frame's menu entries. */
 	private JMenu pluginMenu;
@@ -505,8 +493,6 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		UIManager.put("SplitPaneDivider.border",new EmptyBorder(0,0,0,0));
 		
-		final JComponent sidepanel;
-		
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
 			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0,0));
@@ -515,38 +501,15 @@ public class MainFrame extends JFrame implements SessionManager,
 			sidepanel = pluginPanel;
 		}
 		
-		//puts the sidepanel in a JToolbar which can be resized in detached form
-//		final JToolBar jtb = new JToolBar("Inspector", JToolBar.VERTICAL);
-//		final ToolBarUI uuii = new ResizeableToolbarUI();
-//		jtb.setUI(uuii);
-//		jtb.addAncestorListener(new AncestorListener() {
-//			public void ancestorAdded(AncestorEvent event) {
-//				// TODO Auto-generated method stub
-//				JDialog parentDialog = (JDialog) ErrorMsg.findParentComponent(sidepanel, JDialog.class);
-//				if (parentDialog!=null) {
-//					parentDialog.setResizable(true);
-//				}
-//			}
-//
-//			@Override
-//			public void ancestorMoved(AncestorEvent event) {
-//				// TODO Auto-generated method stub
-//			}
-//
-//			@Override
-//			public void ancestorRemoved(AncestorEvent event) {
-//				// TODO Auto-generated method stub
-//			}});
-//		jtb.add(sidepanel);
-//		jtb.validate();
-		
 		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, sidepanel);
 		this.progressPanel = progressPanel;
 
 		vertSplitter.setContinuousLayout(true);
-		// vertSplitter.setOneTouchExpandable(true);
-		vertSplitter.setBorder(null);
-		vertSplitter.setDividerSize(4);
+		
+		//vertSplitter.setOneTouchExpandable(true);
+
+		//vertSplitter.setBorder(null);
+		//vertSplitter.setDividerSize(4);
 		
 		vertSplitter.setDividerLocation(uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
 		
@@ -604,6 +567,12 @@ public class MainFrame extends JFrame implements SessionManager,
 				addStatusPanel(null);
 			}});
 		
+	}
+	
+	public void hideSidePanel() {
+		getContentPane().remove(vertSplitter);
+		getContentPane().add(desktop, BorderLayout.CENTER);
+		validate();
 	}
 
 	public String getDefaultFrameTitle() {
