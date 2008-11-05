@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.46 2008/10/28 21:56:39 klukas Exp $
+// $Id: MainFrame.java,v 1.47 2008/11/05 08:56:29 morla Exp $
 
 package org.graffiti.editor;
 
@@ -178,7 +178,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.46 $
+ * @version $Revision: 1.47 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1043,9 +1043,9 @@ public class MainFrame extends JFrame implements SessionManager,
 			frame.addInternalFrameListener(graffitiFrameListener);
 		}
 
-		if (session == activeSession) {
-			view.setGraph(activeSession.getGraph());
-		}
+//		if (session == activeSession) {
+//			view.setGraph(activeSession.getGraph());
+//		}
 
 		ListenerManager lm = session.getGraph().getListenerManager();
 		lm.addDelayedAttributeListener(view); // lm.addAllTimeAttributeListener(view);
