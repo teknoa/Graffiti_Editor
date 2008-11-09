@@ -22,7 +22,12 @@ public class ClipboardService {
 	}
 	
 	public static String readFromClipboardAsText() {
-		Transferable clipboardContents = getSystemClipboard().getContents(null);
+		Transferable clipboardContents = null;
+		try {
+			clipboardContents = getSystemClipboard().getContents(null);
+		} catch (Exception e) {
+			ErrorMsg.addErrorMessage(e);
+		}
 		if (clipboardContents==null)
 			return null;
 		if (clipboardContents.isDataFlavorSupported(DataFlavor.stringFlavor))
