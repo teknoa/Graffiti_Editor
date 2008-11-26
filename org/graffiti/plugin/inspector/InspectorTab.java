@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.4 2008/10/09 14:34:58 klukas Exp $
+// $Id: InspectorTab.java,v 1.5 2008/11/26 14:33:05 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
@@ -51,6 +52,8 @@ public abstract class InspectorTab
      * title of the tab.
      */
     protected String title;
+
+	private ImageIcon icon;
 
     //~ Methods ================================================================
 
@@ -156,6 +159,14 @@ public abstract class InspectorTab
 			getEditPanel().setEditComponentMap(valueEditComponents);
 			getEditPanel().setGraphElementMap(map);
 		}
+	}
+
+	public void setIcon(ImageIcon icon) {
+		this.icon = icon;
+	}
+
+	public ImageIcon getIcon() {
+		return icon;
 	}
 }
 

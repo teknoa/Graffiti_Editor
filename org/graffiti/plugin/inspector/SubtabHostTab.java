@@ -99,7 +99,7 @@ public class SubtabHostTab extends InspectorTab
 		}
 	}
 
-	public void viewChanged(View v) {
+	public synchronized void viewChanged(View v) {
 		for (InspectorTab tab : subtabs) {
 			if (!tab.visibleForView(v)) {
 				int idx = hc.indexOfTab(tab.getName());

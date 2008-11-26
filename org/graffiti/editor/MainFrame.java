@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.48 2008/11/09 19:40:29 klukas Exp $
+// $Id: MainFrame.java,v 1.49 2008/11/26 14:33:04 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -17,6 +17,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Frame;
 import java.awt.IllegalComponentStateException;
 import java.awt.Rectangle;
@@ -178,7 +179,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.48 $
+ * @version $Revision: 1.49 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1530,8 +1531,11 @@ public class MainFrame extends JFrame implements SessionManager,
 				} else {
 					if (it==null)
 						ErrorMsg.addErrorMessage("Plugin "+ep.getClass().getCanonicalName()+" contains InspectorTab with value NULL!");
-					else
+					else {
+						if (isAddon(ep))
+							it.setIcon(ep.getIcon());
 						inspectorPlugin.addTab(it);
+					}
 				}
 			}
 		}
@@ -1647,14 +1651,26 @@ public class MainFrame extends JFrame implements SessionManager,
 				algorithmActions.add(action);
 				String cat = a.getCategory();
 				JMenuItem menu = new JMenuItem(action);
-				if (a.showMenuIcon())
+				if (isAddon(plugin) || a.showMenuIcon())
 					menu.setIcon(plugin.getIcon());
 				if (a.getAcceleratorKeyStroke()!=null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
+				
 				addMenuItemForAlgorithmOrExtension(menu, cat);
 				// menu items are now in alphabetic list
 			}
 		}
+	}
+
+	private boolean isAddon(GenericPlugin plugin) {
+		for (PluginEntry pe : pluginmgr.getPluginEntries()) {
+			if (pe.getPlugin()==plugin) {
+				if (pe.getDescription().isAddon()) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
