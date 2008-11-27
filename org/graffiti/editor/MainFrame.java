@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.49 2008/11/26 14:33:04 klukas Exp $
+// $Id: MainFrame.java,v 1.50 2008/11/27 10:40:14 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -179,7 +179,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.49 $
+ * @version $Revision: 1.50 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1806,8 +1806,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		while (menuItems.size() > 0) {
 			JMenuItem firstItem = menuItems.get(0);
 			for (int im = 0; im < menuItems.size(); im++) {
-				if (menuItems.get(im).getText().compareToIgnoreCase(
-							firstItem.getText()) <= 0) {
+				if (getText(menuItems.get(im)).compareToIgnoreCase(
+							getText(firstItem)) <= 0) {
 					firstItem = menuItems.get(im);
 				}
 			}
@@ -1816,6 +1816,15 @@ public class MainFrame extends JFrame implements SessionManager,
 			// remove from memo-list
 			menuItems.remove(firstItem);
 		}
+	}
+
+	private String getText(JMenuItem menuItem) {
+		if (menuItem.getIcon()!=null) {
+			String lbl = menuItem.getText();
+			lbl = "ZZZ"+menuItem.getIcon().toString()+lbl;
+			return lbl;
+		} else
+			return menuItem.getText();
 	}
 
 	/**
