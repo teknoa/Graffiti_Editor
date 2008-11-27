@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.50 2008/11/27 10:40:14 klukas Exp $
+// $Id: MainFrame.java,v 1.51 2008/11/27 20:12:06 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -152,6 +152,7 @@ import org.graffiti.plugin.gui.GraffitiContainer;
 import org.graffiti.plugin.gui.ModeToolbar;
 import org.graffiti.plugin.gui.PluginPanel;
 import org.graffiti.plugin.gui.ToolButton;
+import org.graffiti.plugin.inspector.ContainsTabbedPane;
 import org.graffiti.plugin.inspector.InspectorPlugin;
 import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.inspector.SubtabHostTab;
@@ -179,7 +180,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.50 $
+ * @version $Revision: 1.51 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3327,20 +3328,38 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	public void showAndHighlightSidePanelTab(String title, boolean cycle) {
+		boolean found = false;
 		for (InspectorTab it : getInspectorPlugin().getTabs()) {
 			if (it.getTitle().equals(title)) {
 				it.focusAndHighlight(null, true, cycle);
+				found = true;
 			} else {
 				if (it instanceof SubtabHostTab) {
 					SubtabHostTab sh = (SubtabHostTab)it;
 					for (InspectorTab it2 : sh.getTabs()) {
 						if (it2.getTitle().equals(title)) {
 							it.focusAndHighlight(it2, true, cycle);
+							found = true;
 						}
 					}
-				} 
+				} else {
+					if (it instanceof ContainsTabbedPane) {
+						ContainsTabbedPane sh = (ContainsTabbedPane)it;
+						for (int idx = 0; idx<sh.getTabbedPane().getTabCount(); idx++) {
+							String t = sh.getTabbedPane().getTitleAt(idx);
+							if (t.equals(title)) {
+								JComponent c = (JComponent)sh.getTabbedPane().getComponentAt(idx);
+								InspectorTab.focusAndHighlightComponent(c, title, 
+										null, true, cycle);
+								found = true;
+							}
+						}
+					} 
+				}
 			}
 		}
+		if (!found)
+			System.err.println("Internal Error: side panel "+title+" not found!");
 	}
 
 	public void setSidePanel(JToolBar component, int width) {

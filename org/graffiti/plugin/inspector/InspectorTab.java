@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.5 2008/11/26 14:33:05 klukas Exp $
+// $Id: InspectorTab.java,v 1.6 2008/11/27 20:12:06 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -147,6 +147,74 @@ public abstract class InspectorTab
 				}};
 			Thread t = new Thread(r);
 			t.setName(getName());
+			t.start();
+			return;
+		}
+	}
+	
+	public static void focusAndHighlightComponent(final JComponent thisss, final String title, final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
+		final int time = 800;
+		JTabbedPane tp = (JTabbedPane) thisss.getParent();
+		if (tp!=null) {
+			tp.setSelectedComponent(thisss);
+			final Border oldB = thisss.getBorder();
+
+			if (whenFinishedHighlight!=null)
+				whenFinishedHighlight.focusAndHighlight(null, false, cycleChildren);
+			if (highlight)
+				thisss.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), title));
+			thisss.repaint();
+			Runnable r = new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(time);
+					} catch (InterruptedException e) {
+						ErrorMsg.addErrorMessage(e);
+					}
+					if (highlight)
+						thisss.setBorder(oldB);
+					thisss.repaint();
+					if (whenFinishedHighlight!=null) {
+						whenFinishedHighlight.focusAndHighlight(null, highlight, cycleChildren);
+						if (whenFinishedHighlight instanceof ContainsTabbedPane) {
+							ContainsTabbedPane sh = (ContainsTabbedPane)whenFinishedHighlight;
+							if (cycleChildren) {
+								cycleHighlight(whenFinishedHighlight,
+										highlight, oldB, sh);
+							}
+						}
+					} else {
+						if (cycleChildren && thisss instanceof SubtabHostTab) {
+							SubtabHostTab sh = (SubtabHostTab) thisss;
+							cycleHighlight(sh,
+									highlight, oldB, sh);
+						}
+					}
+				}
+
+				private void cycleHighlight(
+						final InspectorTab tab,
+						final boolean highlight, final Border oldB,
+						ContainsTabbedPane sh) {
+					if (highlight)
+						tab.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), tab.getTitle()));
+					tab.repaint();
+					JTabbedPane jtp = sh.getTabbedPane();
+					for (int i = 0; i<jtp.getTabCount(); i++) {
+						jtp.setSelectedIndex(i);
+						try {
+							Thread.sleep(time/jtp.getTabCount());
+						} catch (InterruptedException e) {
+							ErrorMsg.addErrorMessage(e);
+						}
+					}
+					jtp.setSelectedIndex(0);
+					if (highlight)
+						tab.setBorder(oldB);
+					tab.repaint();
+				}};
+			Thread t = new Thread(r);
+			t.setName(title);
 			t.start();
 			return;
 		}
