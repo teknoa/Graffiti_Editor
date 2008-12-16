@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.3 2008/09/15 15:14:27 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.4 2008/12/16 09:19:14 belau Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -28,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 
 
+import org.AttributeHelper;
+import org.ErrorMsg;
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.MainFrame;
@@ -50,7 +52,7 @@ import org.graffiti.selection.Selection;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -137,6 +139,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 		// setTitle("Set algorithm parameters");
 		setTitle(algorithmName);
+		
 		setSize(420, 320);
 		setResizable(true);//false
 		setLocationRelativeTo(parent);
@@ -301,6 +304,9 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	
 	public static Object[] getInput(Object description, String title,
 			Object... parameters) {
+		
+		title = ErrorMsg.removeHTMLtags(title);
+		
 		// Buttons: OK => close and return input values
 		// Cancel => close and return null
 		// Reset => set to initial values
