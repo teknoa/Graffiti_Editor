@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.51 2008/11/27 20:12:06 klukas Exp $
+// $Id: MainFrame.java,v 1.52 2009/01/08 14:19:02 morla Exp $
 
 package org.graffiti.editor;
 
@@ -180,7 +180,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.51 $
+ * @version $Revision: 1.52 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1121,7 +1121,6 @@ public class MainFrame extends JFrame implements SessionManager,
 				try {
 					frame.setMaximum(true);
 				} catch (PropertyVetoException pve) {
-					// should not happen
 					ErrorMsg.addErrorMessage(pve);
 				}
 			}
@@ -1222,7 +1221,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			} catch(Exception e) {
 				ErrorMsg.addErrorMessage(e);
 			}
-			showViewChooserDialog(es, false, true, null);
+			showViewChooserDialog(es, false, null);
 			
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
@@ -1294,8 +1293,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	final ExecutorService loader = Executors.newFixedThreadPool(1);
-	
 	public void loadGraphInBackground(final File[] proposedFiles, final ActionEvent ae, boolean autoSwitch)
+	
 	throws IllegalAccessException, InstantiationException {
 		final ArrayList<File> files = new ArrayList<File>();
 		
@@ -1343,7 +1342,7 @@ public class MainFrame extends JFrame implements SessionManager,
 								System.out.println("Create view for file: "+file.getAbsolutePath());
 								EditorSession es = new EditorSession(newGraph);
 								es.setFileName(file.toURI());
-								showViewChooserDialog(es, false, true, ae);
+								showViewChooserDialog(es, false, ae);
 								showMessage("Finished graph file loading", MessageType.INFO);
 							}
 						});
@@ -1443,8 +1442,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		os.write(outpS, graph);
 		outpS.close();
 	}
-
+	
 	public void showGraph(final Graph g, final ActionEvent e) {
+		showGraph(g, e, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
+	}
+
+	public void showGraph(final Graph g, final ActionEvent e, final LoadSetting interaction) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			EditorSession es = new EditorSession(g);
 			try {
@@ -1452,7 +1455,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			} catch(Exception err) {
 				ErrorMsg.addErrorMessage(err);
 			}
-			showViewChooserDialog(es, false, true, e);
+			showViewChooserDialog(es, false, e, interaction);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -1462,7 +1465,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					} catch(Exception err) {
 						ErrorMsg.addErrorMessage(err);
 					}
-					showViewChooserDialog(es, false, true, e);
+					showViewChooserDialog(es, false, e, interaction);
 				}});
 		}
 	}
@@ -2043,11 +2046,11 @@ public class MainFrame extends JFrame implements SessionManager,
 			}
 
 			this.activeSession = (EditorSession) s;
-			updateActions();
-		} else {
-			//            System.out.println("Deactivating tools");
-			// TODO what do we have to do here? (jf)
-		}
+		} else
+			this.activeSession = null;
+
+		updateActions();
+		
 		if (lastActive != null) {
 			lastActive.activate();
 			ToolButton.checkStatusForAllToolButtons();
@@ -2063,6 +2066,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		getRootPane().putClientProperty("windowModified", oneModified);
 	}
+	
+	
 
 	/**
 	 * Invoked when the session data changed.
@@ -2186,8 +2191,16 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean alwaysUseDefaultView, ActionEvent ae) {
-		return showViewChooserDialog(activeSession, returnScrollpane, alwaysUseDefaultView, ae);
+	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean useDefaultViewForSmallGraphs, ActionEvent ae) {
+		if (useDefaultViewForSmallGraphs)
+			return showViewChooserDialog(activeSession, returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
+		else
+			return showViewChooserDialog(activeSession, returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_ALWAYS);
+	}
+	
+	public JScrollPane showViewChooserDialog(EditorSession session,
+			boolean returnScrollPane, ActionEvent e) {
+		return showViewChooserDialog(session, returnScrollPane, e, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
 	}
 
 	/**
@@ -2199,11 +2212,12 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param session the session in which to open the new view.
 	 * @param returnScrollPane DOCUMENT ME!
 	 * @param e 
+	 * @param interaction 
 	 *
 	 * @return DOCUMENT ME!
 	 */
 	public JScrollPane showViewChooserDialog(EditorSession session,
-				boolean returnScrollPane, boolean alwaysUseDefaultView, ActionEvent e) {
+				boolean returnScrollPane, ActionEvent e, LoadSetting interaction) {
 		if (viewManager == null) {
 			ErrorMsg.addErrorMessage("Error: View Manager is NULL");
 		}
@@ -2224,14 +2238,19 @@ public class MainFrame extends JFrame implements SessionManager,
 			}
 		} else {
 			if (ReleaseInfo.getRunningReleaseStatus()!=Release.KGML_EDITOR) {
-				if (alwaysUseDefaultView && session.getGraph()!=null &&
+				if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY && session.getGraph()!=null &&
 						( (session.getGraph().getNumberOfNodes()+session.getGraph().getNumberOfEdges()>1000)
 								|| ((e!=null && (e.getModifiers() & ActionEvent.SHIFT_MASK)==ActionEvent.SHIFT_MASK)) 
 						)
 								)
-					alwaysUseDefaultView = false; // show view chooser dialog in case the graph size is large
-			}
-			if (alwaysUseDefaultView) {
+					interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view chooser dialog in case the graph size is large
+			} 
+			if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
+				interaction=LoadSetting.VIEW_CHOOSER_NEVER;
+			
+			// from here on only VIEW_CHOOSER_ALWAYS or VIEW_CHOOSER_NEVER_ALWAYS_DEFAULT should be set
+			
+			if (interaction==LoadSetting.VIEW_CHOOSER_NEVER) {
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
 					return createInternalFrame(defaultView, session.getGraph().getName(), 
@@ -2248,6 +2267,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					return jsp;
 				}
 			} else {
+				// interaction is VIEW_CHOOSER_ALWAYS
 				ViewTypeChooser viewChooser = new ViewTypeChooser(this, 
 						sBundle.getString("viewchooser.title")+
 						" ("+session.getGraph().getNumberOfNodes()+
@@ -2873,6 +2893,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 
 		public void windowClosed(WindowEvent e) {
+			// closing external frame ...
 			GraffitiFrame f = (GraffitiFrame) e.getWindow();
 			EditorSession session = f.getSession();
 
@@ -3254,14 +3275,13 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	public void frameClosing(EditorSession session, View view) {
 		// remove this view only if there are other open views
-		if (session.getViews().size() >= 2) {
+		if (session.getViews().size() > 1) {
 			// System.out.println("CLOSE VIEW");
 			view.close();
 			session.removeView(view);
 			viewFrameMapper.remove(view);
 			zoomListeners.remove(view);
 		} else {
-			// System.out.println("CLOSE SESSION");
 			// remove the session if we are closing the last view
 			view.close();
 
@@ -3270,9 +3290,10 @@ public class MainFrame extends JFrame implements SessionManager,
 			fireSessionChanged(null);
 			activeSession = null;
 		}
+		
 		// the update mechanism after the close of the last session
 		// still has some bugs...
-		updateActions();
+		updateActions();		
 	}
 
 	@Override
@@ -3322,8 +3343,24 @@ public class MainFrame extends JFrame implements SessionManager,
 		return gif.getView();
 	}
 
+	public View createExternalFrame(String viewClassName, String framename, EditorSession session,
+			boolean otherViewWillBeClosed) {
+		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
+				framename, session, false, true, otherViewWillBeClosed);
+		GraffitiFrame gf = new GraffitiFrame(gif);
+		gf.addWindowListener(graffitiFrameListener);
+		gf.setVisible(true);
+		MainFrame.getInstance().addDetachedFrame(gf);
+		return gif.getView();
+	}
+	
 	public View createInternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, session.getGraph().getName(), session, false, false, otherViewWillBeClosed);
+		return activeSession.getActiveView();
+	}
+	
+	public View createInternalFrame(String viewClassName, String newFrameTitle, EditorSession session, boolean otherViewWillBeClosed) {
+		createInternalFrame(viewClassName, newFrameTitle, session, false, false, otherViewWillBeClosed);
 		return activeSession.getActiveView();
 	}
 
