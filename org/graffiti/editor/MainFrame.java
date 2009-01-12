@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.52 2009/01/08 14:19:02 morla Exp $
+// $Id: MainFrame.java,v 1.53 2009/01/12 11:21:09 morla Exp $
 
 package org.graffiti.editor;
 
@@ -37,13 +37,19 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -78,6 +84,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -175,12 +182,13 @@ import org.graffiti.session.SessionManager;
 import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
+import org.graffiti.util.Queue;
 
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.52 $
+ * @version $Revision: 1.53 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -391,6 +399,10 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	private JMenuBar storedMenuBar;
 
+	//for the recentfilelist
+	private RecentEntry[] recentfileslist;
+	private Component vanishedseparator;
+	private File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt");
 	//~ Constructors ===========================================================
 
 	/**
@@ -568,7 +580,6 @@ public class MainFrame extends JFrame implements SessionManager,
 			public void run() {
 				addStatusPanel(null);
 			}});
-		
 	}
 	
 	public void hideSidePanel() {
@@ -1344,6 +1355,10 @@ public class MainFrame extends JFrame implements SessionManager,
 								es.setFileName(file.toURI());
 								showViewChooserDialog(es, false, ae);
 								showMessage("Finished graph file loading", MessageType.INFO);
+								
+								if(file.exists())
+									refreshRecentFilesMenuItems(file);
+								
 							}
 						});
 					} catch (Exception e) {
@@ -1362,6 +1377,40 @@ public class MainFrame extends JFrame implements SessionManager,
 			});
 	}
 
+		
+		private void refreshRecentFilesMenuItems(final File file) {
+						
+			vanishedseparator.setVisible(true);
+			//check if entry already in list
+			int pos=5;
+			for(int i=4;i>=0;i--) 
+				if(file.toString().equalsIgnoreCase(recentfileslist[i].getToolTipText()))
+					pos=i;
+			for(int j=Math.min(pos,4);j>0;j--) 
+				recentfileslist[j].setNewData(recentfileslist[j-1]);
+			recentfileslist[0].setNewData(new RecentEntry(file,true));
+
+			//save recentfile-list in textfile
+			if(!recentlist.exists())
+				try {
+					recentlist.createNewFile();
+				} catch (IOException e1) {
+					ErrorMsg.addErrorMessage(e1);
+				}			
+			String content= new String("");
+			for(JMenuItem jmi : recentfileslist) 
+				if(jmi.getToolTipText()!=null)
+					content+=jmi.getToolTipText()+System.getProperty("line.separator");
+			try {
+				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
+						recentlist)));
+				out.print(content);
+				out.close();
+			} catch (IOException e) {
+				ErrorMsg.addErrorMessage(e);
+			}
+		}
+		
 	/**
 	 * @return true, if file should be loaded, false if file is already loaded
 	 */
@@ -1478,6 +1527,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	InspectorPlugin inspectorPlugin = null;
+
 	
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
@@ -2507,11 +2557,56 @@ public class MainFrame extends JFrame implements SessionManager,
 		fileMenu.add(createMenuItem(fileSaveAs));
 
 		fileMenu.addSeparator();
+
+		//get recentfile-list from previous run(s)
+		if(!recentlist.exists())
+			try {
+				recentlist.createNewFile();
+			} catch (IOException e1) {
+				ErrorMsg.addErrorMessage(e1);
+			}			
+		
+		String[] sb = {"","","","",""};
+		int cnt=0;
+		
+		try{
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt"))));
+			String s;
+			while ((s = in.readLine()) != null && cnt<5) {
+				sb[cnt++]=s;
+			}
+			in.close();
+		} catch (IOException e1) {
+			ErrorMsg.addErrorMessage(e1);
+			e1.printStackTrace();
+		}
+		
+		fileMenu.addSeparator();
+		vanishedseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount()-1);
+		if(cnt>0&&!sb[0].equalsIgnoreCase(""))
+			vanishedseparator.setVisible(true);
+		else
+			vanishedseparator.setVisible(false);
+						
+			
+		recentfileslist = new RecentEntry[5];
+		
+		recentfileslist[0] = new RecentEntry(sb[0],cnt>0);
+		fileMenu.add(recentfileslist[0]);
+		recentfileslist[1] = new RecentEntry(sb[1],cnt>1);
+		fileMenu.add(recentfileslist[1]);
+		recentfileslist[2] = new RecentEntry(sb[2],cnt>2);
+		fileMenu.add(recentfileslist[2]);
+		recentfileslist[3] = new RecentEntry(sb[3],cnt>3);
+		fileMenu.add(recentfileslist[3]);
+		recentfileslist[4] = new RecentEntry(sb[4],cnt>4);
+		fileMenu.add(recentfileslist[4]);
+		
 		fileMenu.addSeparator();
 
 		fileMenu.add(createMenuItem(fileClose));
 		fileMenu.add(createMenuItem(fileExit));
-
+		
 		// plugin menu entries will be added after position 7
 		// the default commands like open file, save file etc. should be the first
 		// menu items
@@ -2868,13 +2963,15 @@ public class MainFrame extends JFrame implements SessionManager,
 			setTitle(GraffitiInternalFrame.startTitle);
 			
 			super.internalFrameClosed(e);
+
+			mainFrame.updateActions();
 		}
 
 		/* (non-Javadoc)
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
 		 */
 		public void internalFrameClosing(InternalFrameEvent e) {
-			mainFrame.updateActions();
+			// empty
 		}
 
 		public void windowActivated(WindowEvent e) {
@@ -2900,13 +2997,15 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (session.getViews().size() >= 2) {
 				detachedFrames.remove(f);
 			}
-			frameClosing(session, f.getView());
 
 			setTitle(GraffitiInternalFrame.startTitle);
+			mainFrame.updateActions();
 		}
 
 		public void windowClosing(WindowEvent e) {
-			mainFrame.updateActions();
+			// GraffitiFrame f = (GraffitiFrame) e.getWindow();
+			// EditorSession session = f.getSession();
+			// frameClosing(session, f.getView());
 		}
 
 		public void windowDeactivated(WindowEvent e) { }
