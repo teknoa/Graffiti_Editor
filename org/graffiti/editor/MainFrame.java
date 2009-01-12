@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.53 2009/01/12 11:21:09 morla Exp $
+// $Id: MainFrame.java,v 1.54 2009/01/12 14:50:43 morla Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.53 $
+ * @version $Revision: 1.54 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -643,9 +643,9 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (!gif.isVisible())
 				continue;
 			try {
-				if (gif.getSession()!=s)
-					gif.setSelected(false);
-				else if (targetView!=null && gif.getView()!=targetView)
+				if (gif.getSession()==s && targetView!=null && gif.getView()==targetView)
+					gif.setSelected(true);
+				else
 					gif.setSelected(false);
 			} catch (PropertyVetoException e) {
 				ErrorMsg.addErrorMessage(e);
@@ -961,24 +961,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void componentMoved(ComponentEvent e) {
 	}
 
-	/**
-	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
-	 */
-	public void componentResized(ComponentEvent e) {
-		for (GraffitiInternalFrame frame : activeFrames) {
-			if (frame.isMaximum()) {
-//				frame.setBounds(0, 0, desktop.getWidth(), desktop.getHeight());
-//				pack();
-
-				//                try {
-				//                    frame.setMaximum(false);
-				//                  frame.setMaximum(true);
-				//                } catch (PropertyVetoException pve) {
-				//                    // does not matter if not allowed
-				//                }
-			}
-		}
-	}
 
 	/**
 	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
@@ -2955,9 +2937,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
 						.getSession();
 
-			if (session.getViews().size() >= 2) {
-				activeFrames.remove(f);
-			}
+			activeFrames.remove(f);
+
 			frameClosing(session, f.getView());
 
 			setTitle(GraffitiInternalFrame.startTitle);
@@ -3000,12 +2981,11 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			setTitle(GraffitiInternalFrame.startTitle);
 			mainFrame.updateActions();
+			
 		}
 
 		public void windowClosing(WindowEvent e) {
-			// GraffitiFrame f = (GraffitiFrame) e.getWindow();
-			// EditorSession session = f.getSession();
-			// frameClosing(session, f.getView());
+			
 		}
 
 		public void windowDeactivated(WindowEvent e) { }
@@ -3383,16 +3363,24 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
-
 			MainFrame.getInstance().removeSession(session);
-
-			fireSessionChanged(null);
-			activeSession = null;
 		}
-		
-		// the update mechanism after the close of the last session
-		// still has some bugs...
+		fireSessionChanged(null);
+		activeSession = null;
+
 		updateActions();		
+
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				if (desktop.getAllFrames()!=null && desktop.getAllFrames().length>0) {
+					try {
+						desktop.getAllFrames()[0].setSelected(true);
+					} catch (PropertyVetoException e) {
+						ErrorMsg.addErrorMessage(e);
+					}
+				}
+			}});
+
 	}
 
 	@Override
@@ -3502,6 +3490,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		vertSplitter.setRightComponent(component);
 		vertSplitter.validate();
 		vertSplitter.setDividerLocation(vertSplitter.getWidth()-width); // uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
+	}
+
+	public void componentResized(ComponentEvent arg0) {
+		// empty
 	}
 }
 
