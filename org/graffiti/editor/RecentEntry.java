@@ -43,7 +43,7 @@ public class RecentEntry extends JMenuItem {
 		return new Action() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-						MainFrame.getInstance().loadGraphInBackground(file, null, true);
+						MainFrame.getInstance().loadGraphInBackground(file, null, false);
 					} catch (IllegalAccessException e1) {
 						e1.printStackTrace();
 					} catch (InstantiationException e1) {
