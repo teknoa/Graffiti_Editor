@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.54 2009/01/12 14:50:43 morla Exp $
+// $Id: MainFrame.java,v 1.55 2009/01/16 09:50:40 morla Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.54 $
+ * @version $Revision: 1.55 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -401,7 +401,7 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	//for the recentfilelist
 	private RecentEntry[] recentfileslist;
-	private Component vanishedseparator;
+	private Component enclosingseparator;
 	private File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt");
 	//~ Constructors ===========================================================
 
@@ -1362,7 +1362,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		private void refreshRecentFilesMenuItems(final File file) {
 						
-			vanishedseparator.setVisible(true);
+			enclosingseparator.setVisible(true);
 			//check if entry already in list
 			int pos=5;
 			for(int i=4;i>=0;i--) 
@@ -2564,17 +2564,20 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		
 		fileMenu.addSeparator();
-		vanishedseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount()-1);
+		enclosingseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount()-1);
 		if(cnt>0&&!sb[0].equalsIgnoreCase(""))
-			vanishedseparator.setVisible(true);
+			enclosingseparator.setVisible(true);
 		else
-			vanishedseparator.setVisible(false);
+			enclosingseparator.setVisible(false);
 						
 			
 		recentfileslist = new RecentEntry[5];
 		
 		recentfileslist[0] = new RecentEntry(sb[0],cnt>0);
 		fileMenu.add(recentfileslist[0]);
+//		recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
+//		        KeyEvent.VK_1, ActionEvent.C));
+
 		recentfileslist[1] = new RecentEntry(sb[1],cnt>1);
 		fileMenu.add(recentfileslist[1]);
 		recentfileslist[2] = new RecentEntry(sb[2],cnt>2);
