@@ -5,11 +5,13 @@ import java.beans.PropertyChangeListener;
 import java.io.File;
 
 import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.JMenuItem;
 
 public class RecentEntry extends JMenuItem {
+	private static final long serialVersionUID = 1L;
 
-	public RecentEntry(String data, boolean visible) {
+	public RecentEntry(String data, boolean visible, Icon icon) {
 		super();
 		if(!data.equalsIgnoreCase("")) {
 			setAction(generateNewAction(new File(data)));
@@ -17,14 +19,16 @@ public class RecentEntry extends JMenuItem {
 			setToolTipText(data);
 			setVisible(visible);
 		} else setVisible(false);
+		setIcon(icon);
 	}
 	
-	public RecentEntry(File data, boolean visible) {
+	public RecentEntry(File data, boolean visible, Icon icon) {
 		super();
 		setAction(generateNewAction(data));
 		setText(data.getName());
 		setToolTipText(data.getAbsolutePath());
 		setVisible(visible);
+		setIcon(icon);
 	}
 	
 	public RecentEntry(RecentEntry from) {
@@ -37,6 +41,7 @@ public class RecentEntry extends JMenuItem {
 		setText(from.getText());
 		setToolTipText(from.getToolTipText());
 		setVisible(from.isVisible());
+		setIcon(from.getIcon());
 	}
 	
 	private Action generateNewAction(final File file) {

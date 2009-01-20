@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.55 2009/01/16 09:50:40 morla Exp $
+// $Id: MainFrame.java,v 1.56 2009/01/20 16:24:02 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.55 $
+ * @version $Revision: 1.56 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1320,7 +1320,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				int i = 1;
 				StringBuilder errors = new StringBuilder();
 				int errcnt = 0;
-				errors.append("<html><h2>File Load - Errors: </h2>");
+				errors.append("<html><h3>File Load - Errors: </h3>");
 				for (final File file : files)  {
 					try {
 						System.out.println("Read file: "+file.getAbsolutePath());
@@ -1345,12 +1345,10 @@ public class MainFrame extends JFrame implements SessionManager,
 						});
 					} catch (Exception e) {
 						errcnt++;
-						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage() + ")!");
-						ErrorMsg.addErrorMessage(e);
+						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded. Error: " + e.getLocalizedMessage() + "");
 					} catch(AssertionError e) {
 						errcnt++;
-						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded (" + e.getLocalizedMessage() + ")!");
-						ErrorMsg.addErrorMessage(e.getMessage());
+						errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded. Error: " + e.getLocalizedMessage() + "");
 					}
 				}
 				if (errcnt>0)
@@ -1370,7 +1368,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					pos=i;
 			for(int j=Math.min(pos,4);j>0;j--) 
 				recentfileslist[j].setNewData(recentfileslist[j-1]);
-			recentfileslist[0].setNewData(new RecentEntry(file,true));
+			recentfileslist[0].setNewData(new RecentEntry(file,true, iBundle.getImageIcon("menu.file.open.icon")));
 
 			//save recentfile-list in textfile
 			if(!recentlist.exists())
@@ -2573,18 +2571,18 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 		recentfileslist = new RecentEntry[5];
 		
-		recentfileslist[0] = new RecentEntry(sb[0],cnt>0);
+		recentfileslist[0] = new RecentEntry(sb[0],cnt>0, iBundle.getImageIcon("menu.file.open.icon"));
 		fileMenu.add(recentfileslist[0]);
 //		recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
 //		        KeyEvent.VK_1, ActionEvent.C));
 
-		recentfileslist[1] = new RecentEntry(sb[1],cnt>1);
+		recentfileslist[1] = new RecentEntry(sb[1],cnt>1, iBundle.getImageIcon("menu.file.open.icon"));
 		fileMenu.add(recentfileslist[1]);
-		recentfileslist[2] = new RecentEntry(sb[2],cnt>2);
+		recentfileslist[2] = new RecentEntry(sb[2],cnt>2, iBundle.getImageIcon("menu.file.open.icon"));
 		fileMenu.add(recentfileslist[2]);
-		recentfileslist[3] = new RecentEntry(sb[3],cnt>3);
+		recentfileslist[3] = new RecentEntry(sb[3],cnt>3, iBundle.getImageIcon("menu.file.open.icon"));
 		fileMenu.add(recentfileslist[3]);
-		recentfileslist[4] = new RecentEntry(sb[4],cnt>4);
+		recentfileslist[4] = new RecentEntry(sb[4],cnt>4, iBundle.getImageIcon("menu.file.open.icon"));
 		fileMenu.add(recentfileslist[4]);
 		
 		fileMenu.addSeparator();
