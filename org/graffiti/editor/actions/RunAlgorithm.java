@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RunAlgorithm.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: RunAlgorithm.java,v 1.2 2009/01/27 14:35:11 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,11 +20,13 @@ import org.graffiti.managers.EditComponentManager;
 
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.algorithm.Algorithm;
+import org.graffiti.plugin.algorithm.EditorAlgorithm;
+import org.graffiti.plugin.view.View3D;
 
 /**
  * Runs an algorithm.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RunAlgorithm
     extends GraffitiAction
@@ -77,7 +79,21 @@ public class RunAlgorithm
      */
     public boolean isEnabled()
     {
-        return mainFrame.isSessionActive();
+    	if (!mainFrame.isSessionActive())
+    		return false;
+    	
+    	if (algorithm instanceof EditorAlgorithm) {
+    		// editor algorithm can decide by himself whether to be active for view
+    		EditorAlgorithm ea = (EditorAlgorithm)algorithm;
+    		return ea.activeForView(mainFrame.getActiveSession().getActiveView());
+    	} else {
+    		// "normal" algorithm
+    		boolean threeDviewActive = mainFrame.getActiveSession().getActiveView() instanceof View3D;
+    		if (threeDviewActive)
+    			return false;
+    		else
+    			return true;
+    	}
     }
 
     /**

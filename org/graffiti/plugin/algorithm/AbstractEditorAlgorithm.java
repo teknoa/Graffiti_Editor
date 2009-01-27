@@ -5,19 +5,21 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: AbstractEditorAlgorithm.java,v 1.2 2009/01/27 14:34:44 morla Exp $
 
 package org.graffiti.plugin.algorithm;
 
 import org.graffiti.editor.dialog.ParameterDialog;
 
+import org.graffiti.plugin.view.View;
+import org.graffiti.plugin.view.View3D;
 import org.graffiti.selection.Selection;
 
 /**
  * DOCUMENT ME!
  *
- * @author $Author: klukas $
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:47 $
+ * @author $Author: morla $
+ * @version $Revision: 1.2 $ $Date: 2009/01/27 14:34:44 $
  */
 public abstract class AbstractEditorAlgorithm
     extends AbstractAlgorithm
@@ -32,6 +34,16 @@ public abstract class AbstractEditorAlgorithm
     {
         return null;
     }
+
+	public boolean activeForView(View v) {
+		if (v==null)
+			return false;
+		if (v!=null && !(v instanceof View3D))
+			return true;
+		return false;
+	}
+    
+   
 }
 
 //------------------------------------------------------------------------------
