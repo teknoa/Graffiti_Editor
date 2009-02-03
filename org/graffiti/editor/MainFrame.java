@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.56 2009/01/20 16:24:02 klukas Exp $
+// $Id: MainFrame.java,v 1.57 2009/02/03 14:25:26 morla Exp $
 
 package org.graffiti.editor;
 
@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Frame;
 import java.awt.IllegalComponentStateException;
+import java.awt.Menu;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -83,6 +84,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
@@ -96,10 +98,12 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
+import javax.swing.event.MenuListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
 
+import org.AttributeHelper;
 import org.ErrorMsg;
 import org.Java_1_5_compatibility;
 import org.Release;
@@ -188,7 +192,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.56 $
+ * @version $Revision: 1.57 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -214,8 +218,25 @@ public class MainFrame extends JFrame implements SessionManager,
 	/** The size of an internal frame for first displaying. */
 	public static final Dimension PREFERRED_INTERNALFRAME_SIZE = new Dimension(
 				1000, 1000);
+	
+	private static HideOrDeactivateMenu hideDeactivateSwitch = HideOrDeactivateMenu.DISABLE_INACTIVE_MENUITEMS;
 
 	//~ Instance fields ========================================================
+
+	public static HideOrDeactivateMenu getHideDeactivateSwitch() {
+		return hideDeactivateSwitch;
+	}
+
+	public static void setHideDeactivateSwitch(
+			HideOrDeactivateMenu hideDeactivateSwitch) {
+		MainFrame.hideDeactivateSwitch = hideDeactivateSwitch;
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+//				upda
+//				vielleicht neue session werfen
+			}
+		});
+	}
 
 	/**
 	 * The preferences of the editor's main frame. (e.g.: position and size of
@@ -1684,13 +1705,38 @@ public class MainFrame extends JFrame implements SessionManager,
 
 				algorithmActions.add(action);
 				String cat = a.getCategory();
-				JMenuItem menu = new JMenuItem(action);
+				final String myKey = "jMenuParent";
+				JMenuItem menu = new JMenuItem(action) {
+					private static final long serialVersionUID = 8398436010665548408L;
+
+					public void setEnabled(boolean b) {
+						super.setEnabled(b);
+						if (getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU)
+							setVisible(b);
+
+						if (getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_MENU_IF_ALL_DISABLED||
+								getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU) {
+						JMenu parent = (JMenu) getClientProperty(myKey);
+							if (parent!=null) {
+								boolean childVisible = false;
+								for(Component c : parent.getMenuComponents()) {
+									if (c.isEnabled()) {
+										childVisible = true;
+										break;
+									}
+								}	
+								parent.setVisible(childVisible);
+							}
+						}
+					}
+				};
 				if (isAddon(plugin) || a.showMenuIcon())
 					menu.setIcon(plugin.getIcon());
 				if (a.getAcceleratorKeyStroke()!=null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
 				
-				addMenuItemForAlgorithmOrExtension(menu, cat);
+				JMenu target = addMenuItemForAlgorithmOrExtension(menu, cat);
+				menu.putClientProperty(myKey, target);
 				// menu items are now in alphabetic list
 			}
 		}
@@ -1731,10 +1777,12 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param action
 	 * @param cat
 	 */
-	public void addMenuItemForAlgorithmOrExtension(JMenuItem item, String cat) {
+	public JMenu addMenuItemForAlgorithmOrExtension(JMenuItem item, String cat) {
 		if (cat == null) {
 			cat = "menu.plugin";
 		}
+		
+		JMenu result = null;
 		
 		// System.out.println("Adding "+item.getText()+" to "+cat);
 
@@ -1752,6 +1800,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						.getClientProperty("pluginMenuPosition");
 			if (pmp != null) addAfter = pmp.intValue();
 			targetNativeMenu.add(item, addAfter);
+			result = targetNativeMenu;
 		} else {
 			JMenu targetMenu;
 
@@ -1773,6 +1822,7 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			targetMenu.add(item);
 			sortMenuItems(targetMenu, 0);
+			result = targetMenu;
 		}
 		int sortFrom = 0;
 		Integer pmp = (Integer) pluginMenu
@@ -1780,6 +1830,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (pmp != null) sortFrom = pmp.intValue();
 		sortMenuItems(pluginMenu, sortFrom);
 		validate();
+		return result;
 	}
 
 	public JMenuBar getJMenuBar() {
@@ -2807,6 +2858,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		String actionName = action.getName();
 		
 		JMenuItem item = new JMenuItem(action);
+		
 		item.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				SwingUtilities.invokeLater(new Runnable() {
@@ -3496,6 +3548,23 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void componentResized(ComponentEvent arg0) {
 		// empty
 	}
+	
+	public enum HideOrDeactivateMenu {
+		/**
+		 * All deactivated menuitems will still be shown (standard behaviour).
+		 */
+		DISABLE_INACTIVE_MENUITEMS,
+		/**
+		 * If all menuitems of a menu are deactivated hide the menu.
+		 */
+		HIDE_MENU_IF_ALL_DISABLED,
+		/**
+		 * All deactivated menuitems will also not be shown.
+		 */
+		HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU;
+	}
+	
+	
 }
 
 
