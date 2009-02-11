@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.57 2009/02/03 14:25:26 morla Exp $
+// $Id: MainFrame.java,v 1.58 2009/02/11 14:27:50 morla Exp $
 
 package org.graffiti.editor;
 
@@ -38,6 +38,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
@@ -192,7 +193,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.57 $
+ * @version $Revision: 1.58 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -232,8 +233,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		MainFrame.hideDeactivateSwitch = hideDeactivateSwitch;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-//				upda
-//				vielleicht neue session werfen
+				GraffitiAction.updateAllActions();
 			}
 		});
 	}
@@ -1700,13 +1700,13 @@ public class MainFrame extends JFrame implements SessionManager,
 					// System.out.println("Skip Layouter: "+a.getName());
 					continue; // skip layout algorithms
 				}
-				Action action = new RunAlgorithm(a.getClass().getName(), a
-							.getName(), this, editComponentManager, a);
+				final RunAlgorithm action = new RunAlgorithm(a.getClass().getName(), a.getName(), this, editComponentManager, a);
 
+				
 				algorithmActions.add(action);
 				String cat = a.getCategory();
 				final String myKey = "jMenuParent";
-				JMenuItem menu = new JMenuItem(action) {
+				final JMenuItem menu = new JMenuItem(action) {
 					private static final long serialVersionUID = 8398436010665548408L;
 
 					public void setEnabled(boolean b) {
@@ -1730,6 +1730,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						}
 					}
 				};
+
 				if (isAddon(plugin) || a.showMenuIcon())
 					menu.setIcon(plugin.getIcon());
 				if (a.getAcceleratorKeyStroke()!=null)

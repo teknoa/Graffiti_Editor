@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: GraffitiAction.java,v 1.2 2009/02/11 14:27:50 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -25,7 +25,7 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class GraffitiAction
     extends AbstractAction {
@@ -89,19 +89,15 @@ public abstract class GraffitiAction
     }
 
     /**
-     * Basically very strange. But it helps getting around the problem that
-     * buttons are not activated after the corresponding action has been
-     * installed and activated.
-     *
      * @see javax.swing.AbstractAction#setEnabled(boolean)
      */
-    public void setEnabled(boolean newValue) {
-        if(this.enabled && !newValue) {
-            super.setEnabled(false);
-        } else if(newValue) {
-            super.setEnabled(false);
-            super.setEnabled(true);
-        }
+    public void setEnabled(boolean enableNow) {
+    	// needs to be called once with opposite value, so that menu items and buttons
+    	// are correctly informed about the new state, otherwise optimization kicks in
+    	// and buttons and menu items are not informed about call to this method
+		if (isEnabled()==enableNow)
+			super.setEnabled(!enableNow);
+		super.setEnabled(enableNow);
     }
 
     /**

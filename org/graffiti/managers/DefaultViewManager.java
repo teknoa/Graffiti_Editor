@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultViewManager.java,v 1.3 2008/09/04 09:54:50 klukas Exp $
+// $Id: DefaultViewManager.java,v 1.4 2009/02/11 14:27:50 morla Exp $
 
 package org.graffiti.managers;
 
@@ -28,7 +28,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Manages a list of view types.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DefaultViewManager
     implements ViewManager
@@ -143,18 +143,7 @@ public class DefaultViewManager
     public View createView(String name)
         throws InstanceCreationException
     {
-    	//System.err.println("Create view "+name);
-   	 //System.err.flush();
-        if(views.contains(name))
-        {
-      	  //logger.info("creating view: " + name);
-
-            return (View) InstanceLoader.createInstance(name);
-        }
-        else
-        {
-            return null;
-        }
+        return (View) InstanceLoader.createInstance(name);
     }
 
     /*
