@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.58 2009/02/11 14:27:50 morla Exp $
+// $Id: MainFrame.java,v 1.59 2009/02/24 10:36:20 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.58 $
+ * @version $Revision: 1.59 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -3563,6 +3563,16 @@ public class MainFrame extends JFrame implements SessionManager,
 		 * All deactivated menuitems will also not be shown.
 		 */
 		HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU;
+	}
+
+	public void warnUserAboutFileSaveProblem(Exception ioe) {
+		MainFrame.showMessageDialog(
+    			"<html>Saving file caused and error ("+ioe.getMessage()+"),<br>" +
+    			"To avoid data loss, try saving the file in a different format,<br>" +
+    			"as a different file in a different place.<br>" +
+    			"Consider to print the graph view, to avoid complete loss<br>" +
+    			"of information.", 
+    			"Error");
 	}
 	
 	

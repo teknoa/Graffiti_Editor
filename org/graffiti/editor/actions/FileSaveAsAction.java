@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.9 2008/09/11 13:38:43 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.10 2009/02/24 10:36:20 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -40,7 +40,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -202,20 +202,10 @@ public class FileSaveAsAction
 			        MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath(), MessageType.INFO);
 		        }
 		     }
-		     catch(IOException ioe)
+		     catch(Exception ioe)
 		     {
-		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
 		         ErrorMsg.addErrorMessage(ioe);
-		     }
-		     catch(IllegalAccessException iae)
-		     {
-		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
-		         ErrorMsg.addErrorMessage(iae);
-		     }
-		     catch(InstantiationException ie)
-		     {
-		         MainFrame.showMessage("Error: Could not save file.", MessageType.ERROR);
-		         ErrorMsg.addErrorMessage(ie);
+		         MainFrame.getInstance().warnUserAboutFileSaveProblem(ioe);
 		     }
 		 }
 		return needFile;
