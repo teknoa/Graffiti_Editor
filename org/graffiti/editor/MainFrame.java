@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.60 2009/02/24 11:41:53 morla Exp $
+// $Id: MainFrame.java,v 1.61 2009/02/24 13:15:15 morla Exp $
 
 package org.graffiti.editor;
 
@@ -17,10 +17,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.IllegalComponentStateException;
-import java.awt.Menu;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -38,8 +36,6 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.beans.PropertyVetoException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -85,9 +81,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
@@ -99,12 +93,10 @@ import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
-import javax.swing.event.MenuListener;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
 
-import org.AttributeHelper;
 import org.ErrorMsg;
 import org.Java_1_5_compatibility;
 import org.Release;
@@ -187,13 +179,12 @@ import org.graffiti.session.SessionManager;
 import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
-import org.graffiti.util.Queue;
 
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.60 $
+ * @version $Revision: 1.61 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -573,6 +564,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else {
 			setJMenuBar(createMenuBar(windowMenu));
 			desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
+			addSessionListener(desktopMenuManager);
 			getContentPane().add(toolBar, BorderLayout.PAGE_START);
 		}
 
@@ -1067,7 +1059,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		lm.addDelayedGraphListener(statusBar); 
 
 		view.setGraph(session.getGraph());
-		
+				
 		session.addView(view);
 		session.setActiveView(view);
 
@@ -1971,6 +1963,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		session.getGraph().getListenerManager().transactionStarted(this);
 		session.getGraph().clear();
 		session.getGraph().getListenerManager().transactionFinished(this);
+		
 		activeSession = null;
 		
 		List<View> views = new LinkedList<View>();

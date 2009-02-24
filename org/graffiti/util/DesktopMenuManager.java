@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DesktopMenuManager.java,v 1.2 2008/03/26 15:11:44 klukas Exp $
+// $Id: DesktopMenuManager.java,v 1.3 2009/02/24 13:15:16 morla Exp $
 
 package org.graffiti.util;
 
@@ -33,6 +33,8 @@ import org.ErrorMsg;
 import org.graffiti.editor.GraffitiInternalFrame;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.session.EditorSession;
+import org.graffiti.session.Session;
+import org.graffiti.session.SessionListener;
 
 /**
  * Manages menu entries for the internal frames contained in a desktop pane. A
@@ -43,10 +45,10 @@ import org.graffiti.session.EditorSession;
  * actions for arranging the frames are added to the menu.
  *
  * @author Michael Forster
- * @version $Revision: 1.2 $ $Date: 2008/03/26 15:11:44 $
+ * @version $Revision: 1.3 $ $Date: 2009/02/24 13:15:16 $
  */
 public class DesktopMenuManager
-    implements MenuListener
+    implements MenuListener, SessionListener
 {
     //~ Instance fields ========================================================
 
@@ -171,7 +173,8 @@ public class DesktopMenuManager
     /**
      * Remove all created menu entries.
      */
-    private void clearMenu()
+    @SuppressWarnings("unchecked")
+	private void clearMenu()
     {
         for(Iterator it = windowItems.iterator(); it.hasNext();)
         {
@@ -241,9 +244,9 @@ public class DesktopMenuManager
     }
 
     /**
-     * Calculate the smalles minimum size of all frames.
+     * Calculate the smallest minimum size of all frames.
      *
-     * @return the smalles minimum size of all frames
+     * @return the smallest minimum size of all frames
      */
     private Dimension minimumFrameSize()
     {
@@ -339,7 +342,7 @@ public class DesktopMenuManager
      * associated frame
      *
      * @author Michael Forster
-     * @version $Revision: 1.2 $ $Date: 2008/03/26 15:11:44 $
+     * @version $Revision: 1.3 $ $Date: 2009/02/24 13:15:16 $
      */
     class FrameMenuItem
         extends JRadioButtonMenuItem
@@ -380,6 +383,14 @@ public class DesktopMenuManager
 			}
         }
     }
+
+	public void sessionChanged(Session s) {
+		clearMenu();
+	}
+
+	public void sessionDataChanged(Session s) {
+		// empty
+	}
 }
 
 //------------------------------------------------------------------------------

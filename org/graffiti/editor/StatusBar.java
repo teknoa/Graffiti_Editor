@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.6 2008/10/14 08:09:36 klukas Exp $
+// $Id: StatusBar.java,v 1.7 2009/02/24 13:15:15 morla Exp $
 
 package org.graffiti.editor;
 
@@ -51,7 +51,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class StatusBar
     extends JPanel
@@ -330,7 +330,7 @@ public class StatusBar
             }
             catch(ListenerNotFoundException lnfe)
             {
-                lnfe.printStackTrace();
+                ErrorMsg.addErrorMessage(lnfe);
             }
         }
 

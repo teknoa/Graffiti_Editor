@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.10 2008/10/27 22:41:46 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.11 2009/02/24 13:15:15 morla Exp $
 
 package org.graffiti.editor;
 
@@ -22,6 +22,8 @@ import javax.swing.event.InternalFrameListener;
 
 import org.ErrorMsg;
 import org.ReleaseInfo;
+import org.graffiti.event.ListenerManager;
+import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
@@ -140,6 +142,16 @@ public class GraffitiInternalFrame
 
  			public void internalFrameClosed(InternalFrameEvent e) {
  				GravistoService.getInstance().framesDeselect();
+ 				
+ 				ListenerManager lm = session.getGraph().getListenerManager();
+ 				try {
+					lm.removeAttributeListener(view);
+	 				lm.removeEdgeListener(view);
+	 				lm.removeNodeListener(view);
+	 				lm.removeGraphListener(view);
+				} catch (ListenerNotFoundException err) {
+					ErrorMsg.addErrorMessage(err);
+				} 
  			}
 
  			public void internalFrameIconified(InternalFrameEvent e) {

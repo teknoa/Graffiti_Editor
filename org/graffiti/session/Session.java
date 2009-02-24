@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Session.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: Session.java,v 1.2 2009/02/24 13:15:16 morla Exp $
 
 package org.graffiti.session;
 
@@ -52,8 +52,8 @@ public class Session
     /** The graph object of this session. */
     protected Graph graph;
 
-    /** The constraint checker of the graph. */
-    protected GraphConstraintChecker constraintChecker;
+//    /** The constraint checker of the graph. */
+//    protected GraphConstraintChecker constraintChecker;
 
     /** The list of views (class names of the views) of this session. */
     protected List<View> views;
@@ -93,7 +93,7 @@ public class Session
         algorithmManager = new DefaultAlgorithmManager();
 
         this.views = new LinkedList<View>();
-        this.constraintChecker = new GraphConstraintChecker(graph, this);
+//        this.constraintChecker = new GraphConstraintChecker(graph, this);
     }
 
     //~ Methods ================================================================
@@ -285,16 +285,16 @@ public class Session
         views.remove(view);
     }
 
-    /**
-     * Checks whether the graph satisfies all the constraints.
-     *
-     * @throws UnsatisfiedConstraintException if there es a constraint which is
-     *         not satisfied.
-     */
-    public void validateConstraints()
-    {
-        constraintChecker.checkConstraints();
-    }
+//    /**
+//     * Checks whether the graph satisfies all the constraints.
+//     *
+//     * @throws UnsatisfiedConstraintException if there es a constraint which is
+//     *         not satisfied.
+//     */
+//    public void validateConstraints()
+//    {
+//        constraintChecker.checkConstraints();
+//    }
 
 	@Override
 	public String toString() {
