@@ -5,13 +5,17 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.7 2008/09/21 13:30:21 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.8 2009/02/24 11:41:53 morla Exp $
 
 package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
 
 import java.awt.Color;
+import java.awt.Frame;
+import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,6 +24,8 @@ import javax.swing.JScrollPane;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
+import org.ErrorMsg;
+import org.graffiti.plugin.view.CustomFullscreenView;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
@@ -48,20 +54,20 @@ public class GraffitiFrame
 	private int frameNumber;
 
 	private String initTitle;
-
+	
     //~ Constructors ===========================================================
 
     /**
      * Constructs a new <code>GraffitiInternalFrame</code>.
      */
-    public GraffitiFrame(final org.graffiti.editor.GraffitiInternalFrame internalFrame)
+    public GraffitiFrame(final org.graffiti.editor.GraffitiInternalFrame internalFrame, boolean fullscreen)
     {
         super();
         // Ensure that however the window is closed, it actually causes this
         // detach() method to be fired instead.
         
         final GraffitiFrame thisFrame = this;
-        
+
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
             public final void windowClosing(final WindowEvent event) {
@@ -83,6 +89,23 @@ public class GraffitiFrame
  					}
  				}
           });
+        
+        if(fullscreen) {
+			this.setUndecorated(true);
+//			setAlwaysOnTop(true);
+			this.addKeyListener(new KeyListener() {
+	    		public void keyTyped(KeyEvent e) {}
+	    		public void keyReleased(KeyEvent e) {}
+	    		public void keyPressed(KeyEvent e) {
+	    			if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+	//    				fullscreenenabled1.setSelected(false);
+	    				detachOrAttachActiveFrame(false);
+	    			}
+	    		}
+	    	});
+        	setVisible(true);
+        	setExtendedState(Frame.MAXIMIZED_BOTH);
+        }        
         
         this.session = internalFrame.getSession();
         this.view = internalFrame.getView();
@@ -108,6 +131,7 @@ public class GraffitiFrame
         
         validate();
         pack();
+
     }
     
     
@@ -150,6 +174,39 @@ public class GraffitiFrame
     String frameTitle = title + " - view " + frameNumber;
     super.setTitle(frameTitle);
 	}
+	
+	public static void detachOrAttachActiveFrame(boolean fullscreen) {
+		EditorSession es = MainFrame.getInstance().getActiveEditorSession(); 
+		View view = es.getActiveView();
+		if (view instanceof CustomFullscreenView){
+			CustomFullscreenView cv = (CustomFullscreenView)view;
+			cv.enterOrExitFullscreenViewMode(fullscreen);
+		} else {
+			try {
+				GraffitiInternalFrame gif = (GraffitiInternalFrame) 
+					ErrorMsg.findParentComponent(
+						view.getViewComponent(),
+						GraffitiInternalFrame.class);
+				if (gif!=null) {
+					MainFrame.getInstance().createExternalFrame(
+							view.getClass().getCanonicalName(), es, true,fullscreen);
+					gif.doDefaultCloseAction();
+				} else {
+					GraffitiFrame gf = (GraffitiFrame) 
+						ErrorMsg.findParentComponent(
+							view.getViewComponent(),
+							GraffitiFrame.class);
+					gf.setVisible(false);
+					gf.dispose();
+					MainFrame.getInstance().createInternalFrame(
+							view.getClass().getCanonicalName(), es, true);
+				}
+			} catch(Exception err) {
+				ErrorMsg.addErrorMessage(err);
+			}
+		}
+	}
+	
 }
 
 //------------------------------------------------------------------------------

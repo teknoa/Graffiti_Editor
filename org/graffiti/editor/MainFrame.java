@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.59 2009/02/24 10:36:20 klukas Exp $
+// $Id: MainFrame.java,v 1.60 2009/02/24 11:41:53 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import org.graffiti.util.Queue;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.59 $
+ * @version $Revision: 1.60 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2376,7 +2376,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
 							selectedView, session.getGraph().getName(), session, 
 							false, true, false); 
-					GraffitiFrame gf = new GraffitiFrame(gif);
+					GraffitiFrame gf = new GraffitiFrame(gif,false);
 					gf.setExtendedState(Frame.MAXIMIZED_BOTH);
 					gf.setVisible(true);
 					addDetachedFrame(gf);
@@ -3474,21 +3474,20 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	public View createExternalFrame(String viewClassName, EditorSession session,
-			boolean otherViewWillBeClosed) {
-		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
-				session.getGraph().getName(), session, false, true, otherViewWillBeClosed);
-		GraffitiFrame gf = new GraffitiFrame(gif);
-		gf.addWindowListener(graffitiFrameListener);
-		gf.setVisible(true);
-		MainFrame.getInstance().addDetachedFrame(gf);
-		return gif.getView();
+			boolean otherViewWillBeClosed, boolean fullscreen) {
+		return createExternalFrame(viewClassName, null, session, otherViewWillBeClosed,fullscreen);
 	}
 
 	public View createExternalFrame(String viewClassName, String framename, EditorSession session,
-			boolean otherViewWillBeClosed) {
-		GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
+			boolean otherViewWillBeClosed, boolean fullscreen) {
+		GraffitiInternalFrame gif;
+		if(framename==null)
+			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
+					session.getGraph().getName(), session, false, true, otherViewWillBeClosed);
+		else
+			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
 				framename, session, false, true, otherViewWillBeClosed);
-		GraffitiFrame gf = new GraffitiFrame(gif);
+		GraffitiFrame gf = new GraffitiFrame(gif,fullscreen);
 		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
 		MainFrame.getInstance().addDetachedFrame(gf);
@@ -3564,7 +3563,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		 */
 		HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU;
 	}
-
+	
 	public void warnUserAboutFileSaveProblem(Exception ioe) {
 		MainFrame.showMessageDialog(
     			"<html>Saving file caused and error ("+ioe.getMessage()+"),<br>" +
@@ -3574,8 +3573,10 @@ public class MainFrame extends JFrame implements SessionManager,
     			"of information.", 
     			"Error");
 	}
-	
-	
+	public void copyBufferInFrame(JFrame cloneframe) {
+		if (cloneframe!=null&&cloneframe.getGraphics()!=null)
+				super.paint(cloneframe.getGraphics());
+	}
 }
 
 
