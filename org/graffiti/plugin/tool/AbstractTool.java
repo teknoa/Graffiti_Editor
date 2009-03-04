@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.5 2008/03/27 15:38:00 klukas Exp $
+// $Id: AbstractTool.java,v 1.6 2009/03/04 16:32:09 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -330,6 +330,9 @@ public abstract class AbstractTool
             displayAsMarked((GraphElementComponent) (it.next()));
         }
     }
+    
+	protected boolean avoidHighlight = false;
+
 
     /**
      * Display a component in a special way distinguished from the way
@@ -340,6 +343,8 @@ public abstract class AbstractTool
      */
     public void highlight(Component comp)
     {
+    	if (avoidHighlight)
+    		return;
         if(comp != null)
         {
     	   if (comp instanceof GraphElementComponentInterface) {
