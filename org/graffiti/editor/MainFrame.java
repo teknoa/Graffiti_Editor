@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.61 2009/02/24 13:15:15 morla Exp $
+// $Id: MainFrame.java,v 1.62 2009/03/04 12:23:37 morla Exp $
 
 package org.graffiti.editor;
 
@@ -184,7 +184,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.61 $
+ * @version $Revision: 1.62 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -910,13 +910,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void addSelectionListener(SelectionListener sl) {
 		this.selectionListeners.add(sl);
 
-		for (Iterator it = getSessions().iterator(); it.hasNext();) {
-			try {
-				EditorSession eSession = (EditorSession) it.next();
-				eSession.getSelectionModel().addSelectionListener(sl);
-			} catch (ClassCastException cce) {
-				// ok: non-editor sessions have no selection model
-			}
+		for (EditorSession es : getEditorSessions()) {
+			es.getSelectionModel().addSelectionListener(sl);
 		}
 	}
 	
@@ -1351,8 +1346,7 @@ public class MainFrame extends JFrame implements SessionManager,
 								showViewChooserDialog(es, false, ae);
 								showMessage("Finished graph file loading", MessageType.INFO);
 								
-								if(file.exists())
-									refreshRecentFilesMenuItems(file);
+								addNewRecentFileMenuItem(file);
 								
 							}
 						});
@@ -1371,8 +1365,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 		
-		private void refreshRecentFilesMenuItems(final File file) {
-						
+		public void addNewRecentFileMenuItem(final File file) {
+			if(!file.exists())
+				return;
 			enclosingseparator.setVisible(true);
 			//check if entry already in list
 			int pos=5;
@@ -1913,13 +1908,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void removeSelectionListener(SelectionListener sl) {
 		this.selectionListeners.remove(sl);
 
-		for (Iterator it = getSessions().iterator(); it.hasNext();) {
-			try {
-				EditorSession eSession = (EditorSession) it.next();
-				eSession.getSelectionModel().removeSelectionListener(sl);
-			} catch (ClassCastException cce) {
-				// ok: non-editor sessions have no selection model
-			}
+		for (EditorSession es : getEditorSessions()) {
+			es.getSelectionModel().removeSelectionListener(sl);
 		}
 	}
 
