@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.63 2009/03/11 09:04:38 morla Exp $
+// $Id: MainFrame.java,v 1.64 2009/03/17 22:33:09 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -67,6 +67,7 @@ import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.prefs.Preferences;
 
 import javax.swing.Action;
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -96,6 +97,8 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
 import javax.swing.undo.UndoableEditSupport;
+
+import net.iharder.dnd.FileDrop;
 
 import org.ErrorMsg;
 import org.Java_1_5_compatibility;
@@ -179,12 +182,13 @@ import org.graffiti.session.SessionManager;
 import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
+import org.w3c.dom.Document;
 
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.63 $
+ * @version $Revision: 1.64 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -441,7 +445,7 @@ public class MainFrame extends JFrame implements SessionManager,
 //			System.exit(1);
 //		}
 		instance = this;
-
+		
 		this.setTitle(getDefaultFrameTitle());
 		GraffitiInternalFrame.startTitle = getDefaultFrameTitle(); 
 		this.sessionListeners = new HashSet<SessionListener>();
@@ -1470,6 +1474,31 @@ public class MainFrame extends JFrame implements SessionManager,
 			newGraph.setModified(false);
 		}
 		return newGraph;
+	}
+	
+	public boolean isInputSerializerKnown(File file) {
+		String fileName = file.getName();
+		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+		boolean gz = false;
+		if (fileName.toLowerCase().endsWith(".gz")) {
+			fileName = fileName.substring(0, fileName.length()-".gz".length());
+			ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+			gz = true;
+		}
+		try {
+			if (ext.equalsIgnoreCase(".net")) {
+				InputSerializer is;
+					is = ioManager.createInputSerializer(null, ext);
+				return is!=null;
+			} else {
+				InputSerializer is;
+				MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
+				is = ioManager.createInputSerializer(inputStream, ext);
+				return is!=null;
+			}
+		} catch (Exception e) {
+			return false;
+		}
 	}
 	
 	public void saveGraphAs(Graph graph, String fileName) throws Exception {
@@ -2870,7 +2899,33 @@ public class MainFrame extends JFrame implements SessionManager,
 		return item;
 	}
 
-	/**
+	 public void installDragNDropForGraphFiles(final JButton target) {
+		  target.setToolTipText("Drag & Drop supported");
+			FileDrop.Listener fdl = new FileDrop.Listener() {
+				public void filesDropped(File[] files) {
+					GravistoService.getInstance().loadFiles(files);
+				}
+			};
+			
+			Runnable dragdetected =  new Runnable() {
+				public void run() {
+					MainFrame.showMessage("<html><b>Drag &amp; Drop action detected:</b> release mouse button to load graph file", MessageType.PERMANENT_INFO);
+					target.setBorderPainted(true);
+					target.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
+				}
+			};
+			
+			Runnable dragenddetected =  new Runnable() {
+				public void run() {
+					MainFrame.showMessage("Drag & Drop action canceled", MessageType.INFO);
+					target.setBorderPainted(false);
+				}
+			};
+			new FileDrop(target, fdl, dragdetected, dragenddetected);
+		}
+	 
+	 
+	 /**
 	 * Creates the editor's tool bar.
 	 *
 	 * @return the toolbar for the editor.
@@ -2879,7 +2934,19 @@ public class MainFrame extends JFrame implements SessionManager,
 		final JToolBar toolBar = new JToolBar();
 		
 		toolBar.add(createToolBarButton(newGraph));
-		toolBar.add(createToolBarButton(fileOpen));
+
+		final JButton toolbarButtonFileOpen;
+		toolbarButtonFileOpen = createToolBarButton(fileOpen);
+		toolbarButtonFileOpen.setToolTipText("<html>"+toolbarButtonFileOpen.getToolTipText()+"<br>Drag & Drop supported");
+		
+		ErrorMsg.addOnApploadingFinishedAction(new Runnable() {
+			public void run() {
+				installDragNDropForGraphFiles(toolbarButtonFileOpen);
+			}});
+		
+
+		
+		toolBar.add(toolbarButtonFileOpen);
 		toolBar.addSeparator();
 		toolBar.add(createToolBarButton(fileSave));
 		toolBar.add(createToolBarButton(fileSaveAs));

@@ -30,7 +30,7 @@ public class MyJLabel extends JLabel {
 
 				public void actionPerformed(ActionEvent e) {
 			      setEnabled(false); // stop any other events from interfering
-			      if (fullText!=null && fullText.length()>0)
+			      if (fullText!=null && fullText.trim().length()>0)
 			    	  MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 			      setEnabled(true);
 			    }
@@ -43,7 +43,7 @@ public class MyJLabel extends JLabel {
 	    this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
-				if (fullText!=null && fullText.length()>0)
+				if (fullText!=null && fullText.trim().length()>0)
 					MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 			}
 

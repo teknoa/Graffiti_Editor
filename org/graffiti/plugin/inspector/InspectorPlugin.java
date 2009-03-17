@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorPlugin.java,v 1.1 2007/06/14 09:36:49 klukas Exp $
+// $Id: InspectorPlugin.java,v 1.2 2009/03/17 22:33:09 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -47,6 +47,8 @@ public interface InspectorPlugin
      *        <code>InspectorPlugin</code>.
      */
     public void addTab(InspectorTab tab);
+
+	public void setSelectedTab(InspectorTab tab);
 }
 
 //------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.6 2008/11/27 20:12:06 klukas Exp $
+// $Id: InspectorTab.java,v 1.7 2009/03/17 22:33:09 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -84,8 +84,13 @@ public abstract class InspectorTab
 
 	public abstract boolean visibleForView(View v);
 
+	private boolean currentlyHighlight = false;
+	
 	public void focusAndHighlight(final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
+		if (currentlyHighlight)
+			return;
+		currentlyHighlight = true;
 		JTabbedPane tp = (JTabbedPane) getParent();
 		if (tp!=null) {
 			tp.setSelectedComponent(this);
@@ -99,28 +104,32 @@ public abstract class InspectorTab
 			Runnable r = new Runnable() {
 				public void run() {
 					try {
-						Thread.sleep(time);
-					} catch (InterruptedException e) {
-						ErrorMsg.addErrorMessage(e);
-					}
-					if (highlight)
-						fit.setBorder(oldB);
-					fit.repaint();
-					if (whenFinishedHighlight!=null) {
-						whenFinishedHighlight.focusAndHighlight(null, highlight, cycleChildren);
-						if (whenFinishedHighlight instanceof ContainsTabbedPane) {
-							ContainsTabbedPane sh = (ContainsTabbedPane)whenFinishedHighlight;
-							if (cycleChildren) {
-								cycleHighlight(whenFinishedHighlight,
+						try {
+							Thread.sleep(time);
+						} catch (InterruptedException e) {
+							ErrorMsg.addErrorMessage(e);
+						}
+						if (highlight)
+							fit.setBorder(oldB);
+						fit.repaint();
+						if (whenFinishedHighlight!=null) {
+							whenFinishedHighlight.focusAndHighlight(null, highlight, cycleChildren);
+							if (whenFinishedHighlight instanceof ContainsTabbedPane) {
+								ContainsTabbedPane sh = (ContainsTabbedPane)whenFinishedHighlight;
+								if (cycleChildren) {
+									cycleHighlight(whenFinishedHighlight,
+											highlight, oldB, sh);
+								}
+							}
+						} else {
+							if (cycleChildren && fit instanceof SubtabHostTab) {
+								SubtabHostTab sh = (SubtabHostTab) fit;
+								cycleHighlight(sh,
 										highlight, oldB, sh);
 							}
 						}
-					} else {
-						if (cycleChildren && fit instanceof SubtabHostTab) {
-							SubtabHostTab sh = (SubtabHostTab) fit;
-							cycleHighlight(sh,
-									highlight, oldB, sh);
-						}
+					} finally {
+						currentlyHighlight = false;
 					}
 				}
 

@@ -597,6 +597,12 @@ public class GravistoService {
 			ErrorMsg.addErrorMessage(e);
 		}
 	}
+
+	public void loadFiles(File[] files) {
+		if (files!=null)
+		for (File f : files)
+			loadFile(f.getAbsolutePath());
+	}
 }
 
 //------------------------------------------------------------------------------
