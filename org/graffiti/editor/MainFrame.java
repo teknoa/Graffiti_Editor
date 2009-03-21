@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.65 2009/03/21 10:18:49 klukas Exp $
+// $Id: MainFrame.java,v 1.66 2009/03/21 10:23:51 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.65 $
+ * @version $Revision: 1.66 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2917,7 +2917,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 			Runnable dragenddetected =  new Runnable() {
 				public void run() {
-					MainFrame.showMessage("Drag & Drop action canceled", MessageType.INFO);
+					// MainFrame.showMessage("Drag & Drop action canceled", MessageType.INFO);
 					target.setBorderPainted(false);
 				}
 			};
