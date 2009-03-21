@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.64 2009/03/17 22:33:09 klukas Exp $
+// $Id: MainFrame.java,v 1.65 2009/03/21 10:18:49 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.64 $
+ * @version $Revision: 1.65 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -2900,7 +2900,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	 public void installDragNDropForGraphFiles(final JButton target) {
-		  target.setToolTipText("Drag & Drop supported");
+		  target.setToolTipText("<html>"+target.getToolTipText()+"<br>(Drag & Drop supported)");
 			FileDrop.Listener fdl = new FileDrop.Listener() {
 				public void filesDropped(File[] files) {
 					GravistoService.getInstance().loadFiles(files);
@@ -2937,7 +2937,6 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		final JButton toolbarButtonFileOpen;
 		toolbarButtonFileOpen = createToolBarButton(fileOpen);
-		toolbarButtonFileOpen.setToolTipText("<html>"+toolbarButtonFileOpen.getToolTipText()+"<br>Drag & Drop supported");
 		
 		ErrorMsg.addOnApploadingFinishedAction(new Runnable() {
 			public void run() {
