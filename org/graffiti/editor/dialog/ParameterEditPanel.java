@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.2 2007/10/30 19:46:50 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.3 2009/05/05 13:51:12 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -46,7 +46,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -94,6 +94,18 @@ public class ParameterEditPanel extends JPanel {
 		if (helpTopic!=null)
 			helpL = JLabelJavaHelpLink.getHelpActionListener(helpTopic);
 		FolderPanel myPanel = new FolderPanel(title, false, false, false, helpL);
+		
+		int paramCnt = 0;
+		if (parameters!=null) {
+			for (Object o : parameters)
+				if (o!=null)
+					paramCnt++;
+		}
+		
+		if (paramCnt>10) {
+			myPanel.setMaximumRowCount(10);
+			myPanel.addCollapseListenerDialogSizeUpdate();
+		}
 
 //		if (fillSurroundingStyle) {
 //			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));

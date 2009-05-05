@@ -19,9 +19,9 @@ public class JMButton extends JButton {
 	}
 
 	private void mySetText(String text) {
-//		boolean nativeLookAndFeelActive = UIManager.getLookAndFeel().isNativeLookAndFeel();
+		boolean nativeLookAndFeelActive = UIManager.getLookAndFeel().isNativeLookAndFeel();
 		boolean mac = ErrorMsg.isMac();
-		if (mac) { //  && nativeLookAndFeelActive) {
+		if (mac && nativeLookAndFeelActive) {
 			if (text!=null && (text.contains("<br>") || text.contains("<small>"))) {
 				text = ErrorMsg.stringReplace(text, "<br>", " ");
 				text = ErrorMsg.stringReplace(text, "  ", " ");
