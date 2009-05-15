@@ -31,6 +31,7 @@ import org.graffiti.plugin.algorithm.PreconditionException;
 import org.graffiti.plugin.algorithm.ProvidesGeneralContextMenu;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.view.MessageListener;
+import org.graffiti.plugin.view.View;
 import org.graffiti.selection.Selection;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.Session;
@@ -602,6 +603,13 @@ public class GravistoService {
 		if (files!=null)
 		for (File f : files)
 			loadFile(f.getAbsolutePath());
+	}
+
+	public Session getSessionFromView(View thisView) {
+		for (Session s : MainFrame.getSessions())
+			if (s.getViews().contains(thisView))
+				return s;
+		return null;
 	}
 }
 

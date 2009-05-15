@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileNewAction.java,v 1.3 2009/01/08 14:19:02 morla Exp $
+// $Id: FileNewAction.java,v 1.4 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -24,7 +24,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FileNewAction
     extends GraffitiAction
@@ -83,7 +83,9 @@ public class FileNewAction
         {
             mainFrame.showViewChooserDialog(new EditorSession(), false, e);
         }
-
+        
+        FileHandlingManager.getInstance().throwFileNew();
+        
         mainFrame.updateActions();
     }
 }

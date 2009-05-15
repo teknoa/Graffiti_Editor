@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.11 2009/02/24 13:15:15 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.12 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor;
 
@@ -130,6 +130,15 @@ public class GraffitiInternalFrame
 	    	
     }
 
+	private String getViewType(final View view) {
+		String vt = "";
+        if (view!=null)
+        	vt = " ("+view.getViewName()+")";
+        if (vt.indexOf("default")>=0)
+        	vt = "";
+		return vt;
+	}
+
     //~ Methods ================================================================
 
     private void setListener() {
@@ -198,7 +207,7 @@ public class GraffitiInternalFrame
      */
     public void setTitle(String title)
     {
-   	 this.initTitle = title;
+   	 	this.initTitle = title;
         String frameTitle = title + " - view " + frameNumber;
         super.setTitle(frameTitle);
         if (ErrorMsg.isMac()) {
@@ -215,8 +224,9 @@ public class GraffitiInternalFrame
 
     @Override
 	public String getTitle() {
-       return initTitle + " - view " + frameNumber;
+       return initTitle + " - view " + frameNumber+getViewType(view);
 	}
+    
 
 	/**
      * Returns the view of this frame.

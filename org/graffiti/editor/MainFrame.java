@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.66 2009/03/21 10:23:51 klukas Exp $
+// $Id: MainFrame.java,v 1.67 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.66 $
+ * @version $Revision: 1.67 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -300,7 +300,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	private GraffitiAction fileSaveAll;
 
 	/** The main frame's static actions */
-	GraffitiAction fileSaveAs;
+	private FileSaveAsAction fileSaveAs;
 
 	/** The main frame's static actions */
 	private GraffitiAction newGraph;
@@ -1940,6 +1940,10 @@ public class MainFrame extends JFrame implements SessionManager,
 		for (EditorSession es : getEditorSessions()) {
 			es.getSelectionModel().removeSelectionListener(sl);
 		}
+	}
+	
+	public void saveActiveSession() {
+		fileSaveAs.actionPerformed(new ActionEvent(this, 0, null));
 	}
 
 	/**

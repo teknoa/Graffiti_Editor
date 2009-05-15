@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.11 2009/03/04 12:23:36 morla Exp $
+// $Id: FileSaveAsAction.java,v 1.12 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -40,7 +41,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -122,6 +123,7 @@ public class FileSaveAsAction
         }
         
         boolean needFile = true;
+        Graph oldgraph = getGraph();
 
         while(needFile)
         {
@@ -129,9 +131,18 @@ public class FileSaveAsAction
 
             if(returnVal == JFileChooser.APPROVE_OPTION)
             {
+            	
+            	File oldfile = null;
+				try {
+					oldfile = new File(mainFrame.getActiveEditorSession().getFileName().toURL().getFile()).getParentFile();
+				} catch (Exception e1) {}
+            	
                 File file = fc.getSelectedFile();
          		String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
                 needFile = safeFile(file, ext, getGraph());
+                
+               	FileHandlingManager.getInstance().throwFileSavedAs(oldfile, file.getParentFile());
+                
                 if (!needFile) {
 	        		 EditorSession session = (EditorSession) mainFrame.getActiveSession();
 	        		 

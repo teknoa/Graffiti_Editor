@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.3 2009/05/05 13:51:12 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.4 2009/05/15 13:10:03 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -37,6 +37,7 @@ import org.JLabelJavaHelpLink;
 import org.graffiti.plugin.ToolTipHelper;
 import org.graffiti.plugin.editcomponent.StandardValueEditComponent;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
+import org.graffiti.plugin.parameter.BooleanParameter;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.parameter.SelectionParameter;
 import org.graffiti.selection.Selection;
@@ -46,7 +47,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -244,7 +245,11 @@ public class ParameterEditPanel extends JPanel {
 
 		JComponent editCompComp = editComp.getComponent();
 		// idPanel.add(textField);
-		myPanel.addGuiComponentRow(descLabel, editCompComp, false);
+		if(parameter!=null&&parameter instanceof BooleanParameter&&((BooleanParameter)parameter).isLeftAligned()) {
+			myPanel.addGuiComponentRow(editCompComp, null, false);
+			editCompComp.setToolTipText(parameter.getDescription());
+		} else
+			myPanel.addGuiComponentRow(descLabel, editCompComp, false);
 		displayedVEC.add(editComp);
 	}
 
@@ -255,7 +260,7 @@ public class ParameterEditPanel extends JPanel {
 	 * @param idPanel
 	 * @param editFieldPanel
 	 */
-	private void addStandardRow(FolderPanel myPanel, Parameter parameter) {
+	private void addStandardTextEditComponentRow(FolderPanel myPanel, Parameter parameter) {
 		ValueEditComponent editComp = getStandardEditComponent(parameter);
 		displayedVEC.add(editComp);
 
@@ -293,7 +298,7 @@ public class ParameterEditPanel extends JPanel {
 			} else {
 				// no component registered for this basic displayable
 				if (parameters[i]!=null)
-					addStandardRow(myPanel, parameters[i]);
+					addStandardTextEditComponentRow(myPanel, parameters[i]);
 			}
 		}
 	}

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.8 2009/02/24 11:41:53 morla Exp $
+// $Id: GraffitiFrame.java,v 1.9 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor;
 
@@ -170,9 +170,9 @@ public class GraffitiFrame
 	}
 	
 	public void setTitle(String title) {
-	 this.initTitle = title;
-    String frameTitle = title + " - view " + frameNumber;
-    super.setTitle(frameTitle);
+		this.initTitle = title;
+		String frameTitle = title + " - view " + frameNumber;
+		super.setTitle(frameTitle);
 	}
 	
 	public static void detachOrAttachActiveFrame(boolean fullscreen) {

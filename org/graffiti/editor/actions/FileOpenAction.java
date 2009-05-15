@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileOpenAction.java,v 1.2 2007/10/18 11:28:48 klukas Exp $
+// $Id: FileOpenAction.java,v 1.3 2009/05/15 13:09:46 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -101,6 +101,8 @@ public class FileOpenAction extends GraffitiAction {
 					mfl.loadGraphInBackground(selfiles, e);
 				} else
 					MainFrame.getInstance().loadGraphInBackground(selfiles, e, false);
+				for(File f : selfiles)
+					FileHandlingManager.getInstance().throwFileOpened(f);
 			} catch (IllegalAccessException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			} catch (InstantiationException e1) {
