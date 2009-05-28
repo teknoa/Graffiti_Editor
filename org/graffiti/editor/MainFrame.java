@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.68 2009/05/19 13:38:23 klukas Exp $
+// $Id: MainFrame.java,v 1.69 2009/05/28 10:48:32 morla Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.68 $
+ * @version $Revision: 1.69 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1151,6 +1151,12 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public Session createNewSession() {
 		EditorSession es =  new EditorSession();
+		addSession(es);
+		return es;
+	}
+
+	public Session createNewSession(Graph g) {
+		EditorSession es =  new EditorSession(g);
 		addSession(es);
 		return es;
 	}
@@ -3550,12 +3556,12 @@ public class MainFrame extends JFrame implements SessionManager,
 	
 	public View createInternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, session.getGraph().getName(), session, false, false, otherViewWillBeClosed);
-		return activeSession.getActiveView();
+		return session.getActiveView();
 	}
 	
 	public View createInternalFrame(String viewClassName, String newFrameTitle, EditorSession session, boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, newFrameTitle, session, false, false, otherViewWillBeClosed);
-		return activeSession.getActiveView();
+		return session.getActiveView();
 	}
 
 	public void showAndHighlightSidePanelTab(String title, boolean cycle) {
