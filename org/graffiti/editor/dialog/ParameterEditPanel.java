@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.4 2009/05/15 13:10:03 morla Exp $
+// $Id: ParameterEditPanel.java,v 1.5 2009/05/28 08:37:02 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -24,6 +24,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -44,10 +45,12 @@ import org.graffiti.selection.Selection;
 import org.graffiti.util.InstanceCreationException;
 import org.graffiti.util.InstanceLoader;
 
+import com.sun.corba.se.impl.ior.iiop.JavaSerializationComponent;
+
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -103,10 +106,6 @@ public class ParameterEditPanel extends JPanel {
 					paramCnt++;
 		}
 		
-		if (paramCnt>10) {
-			myPanel.setMaximumRowCount(10);
-			myPanel.addCollapseListenerDialogSizeUpdate();
-		}
 
 //		if (fillSurroundingStyle) {
 //			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));
@@ -135,10 +134,18 @@ public class ParameterEditPanel extends JPanel {
 //			myPanel.addFirstGuiComponentRow(descComponent, new JLabel(title), false);
 		myPanel.layoutRows();
 
+		JComponent jc = myPanel;
+		
+		if (paramCnt>0) {
+			jc = new JScrollPane(myPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			jc.setBorder(null);
+			jc.setOpaque(false);
+		}
+
 		if (descComponent!=null) {
-			add(TableLayout.getSplit(descComponent, myPanel, TableLayout.PREFERRED, TableLayout.PREFERRED), "0,0");
+			add(TableLayout.getSplit(descComponent, jc, TableLayout.PREFERRED, TableLayout.PREFERRED), "0,0");
 		} else
-			add(myPanel, "0,0");	
+			add(jc, "0,0");	
 		
 		validate();
 	}
