@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.69 2009/05/28 10:48:32 morla Exp $
+// $Id: MainFrame.java,v 1.70 2009/06/04 12:00:37 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.69 $
+ * @version $Revision: 1.70 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1978,7 +1978,16 @@ public class MainFrame extends JFrame implements SessionManager,
 						JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				// save current graph
+				Session as = MainFrame.getInstance().getActiveSession();
+				View av;
+				try {
+					av = MainFrame.getInstance().getActiveEditorSession().getActiveView();
+				} catch(Exception e) {
+					av = null;
+				}
+				MainFrame.getInstance().setActiveSession(session, null);
 				fileSaveAs.actionPerformed(new ActionEvent(this, 0, null));
+				MainFrame.getInstance().setActiveSession(as, av);
 			}
 			if (res == JOptionPane.CANCEL_OPTION) {
 				final Graph gg = new AdjListGraph(new ListenerManager());
