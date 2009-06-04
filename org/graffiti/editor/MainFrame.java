@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.70 2009/06/04 12:00:37 klukas Exp $
+// $Id: MainFrame.java,v 1.71 2009/06/04 12:30:37 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.70 $
+ * @version $Revision: 1.71 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, ComponentListener,
@@ -1416,22 +1416,34 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	private boolean windowCheck(EditorSession fesf, String fileName, boolean autoSwitch) {
 		if (fesf!=null) {
-			 if(autoSwitch || JOptionPane.showConfirmDialog(this,
-		             "<html>The graph file <i>" + fileName + "</i> is already loaded!<br><br>" +
-		             "Click 'Yes' to activate the existing graph view.<br>" +
-		             "Click 'No' to load the graph another time.</html>", "Activate existing view?",
-		             JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-		     {
+			Object[] options = {"Activate View", "Load Graph"};
+			if(autoSwitch || JOptionPane.showOptionDialog(this,
+		             "<html>The graph file <i>" + fileName + "</i> is already loaded!", "Activate existing view?",
+		             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION)
+		    {
 		         for (GraffitiInternalFrame f : getActiveFrames()) {
 		        	 if (f.getSession()==fesf) {
 		        		 desktop.getDesktopManager().deiconifyFrame(f);
 		        		 desktop.getDesktopManager().activateFrame(f);
 		        		 MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
+		        		 
+	        			SwingUtilities.invokeLater(new Runnable() {
+	        				public void run() {
+	        					if (desktop.getAllFrames()!=null && desktop.getAllFrames().length>0) {
+	        						try {
+	        							desktop.getAllFrames()[0].setSelected(true);
+	        						} catch (PropertyVetoException e) {
+	        							ErrorMsg.addErrorMessage(e);
+	        						}
+	        					}
+	        				}});
+
+		        		 
 		        		 return false;
 		        	 }
 		         }
 		         return true;
-		     } else
+		    } else
 		    	 return true;
 		} else
 			return true;
