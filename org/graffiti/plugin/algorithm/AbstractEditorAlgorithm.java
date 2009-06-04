@@ -5,14 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.4 2009/05/15 13:08:28 morla Exp $
+// $Id: AbstractEditorAlgorithm.java,v 1.5 2009/06/04 18:49:32 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
+import org.graffiti.editor.MainFrame;
 import org.graffiti.editor.dialog.ParameterDialog;
-
-import org.graffiti.plugin.view.View;
-import org.graffiti.plugin.view.View3D;
 import org.graffiti.selection.Selection;
 
 public abstract class AbstractEditorAlgorithm
@@ -29,9 +27,9 @@ public abstract class AbstractEditorAlgorithm
         return null;
     }
 
-	
-    
-   
+	protected MainFrame getMainFrame() {
+		return MainFrame.getInstance();
+	}
 }
 
 //------------------------------------------------------------------------------
