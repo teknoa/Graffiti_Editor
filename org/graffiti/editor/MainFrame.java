@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.72 2009/06/04 18:29:45 klukas Exp $
+// $Id: MainFrame.java,v 1.73 2009/06/04 18:34:14 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -18,7 +18,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.IllegalComponentStateException;
 import java.awt.Rectangle;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.UnsupportedFlavorException;
@@ -29,8 +28,6 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -50,7 +47,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -116,11 +112,9 @@ import org.graffiti.editor.actions.FileCloseAction;
 import org.graffiti.editor.actions.FileNewAction;
 import org.graffiti.editor.actions.FileOpenAction;
 import org.graffiti.editor.actions.FileSaveAction;
-import org.graffiti.editor.actions.FileSaveAllAction;
 import org.graffiti.editor.actions.FileSaveAsAction;
 import org.graffiti.editor.actions.PasteAction;
 import org.graffiti.editor.actions.PluginManagerEditAction;
-import org.graffiti.editor.actions.RedrawViewAction;
 import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.actions.SelectAllAction;
 import org.graffiti.editor.actions.ViewNewAction;
@@ -182,13 +176,12 @@ import org.graffiti.session.SessionManager;
 import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
-import org.w3c.dom.Document;
 
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.72 $
+ * @version $Revision: 1.73 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -296,8 +289,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	/** The main frame's static actions */
 	private GraffitiAction fileSave;
 
-	/** The main frame's static actions */
-	private GraffitiAction fileSaveAll;
+//	/** The main frame's static actions */
+//	private GraffitiAction fileSaveAll;
 
 	/** The main frame's static actions */
 	private FileSaveAsAction fileSaveAs;
@@ -307,9 +300,9 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	/** The main frame's static actions */
 	private GraffitiAction pluginManagerEdit;
-
-	/** The main frame's static actions */
-	private GraffitiAction redrawView;
+//
+//	/** The main frame's static actions */
+//	private GraffitiAction redrawView;
 
 	/** The main frame's static actions */
 	private GraffitiAction viewNew;
@@ -1632,8 +1625,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (plugin.isSelectionListener()) {
 			selectionListeners.add((SelectionListener)plugin);
 
-			for (Iterator it = sessions.iterator(); it.hasNext();) {
-				Object sess = it.next();
+			for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
+				Session sess = it.next();
 
 				if (sess instanceof EditorSession) {
 					((EditorSession) sess).getSelectionModel().addSelectionListener(
@@ -1688,8 +1681,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 				if (tools[i].isSelectionListener()) {
 					selectionListeners.add((SelectionListener)tools[i]);
-					for (Iterator it = sessions.iterator(); it.hasNext();) {
-						Object sess = it.next();
+					for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
+						Session sess = it.next();
 						if (sess instanceof EditorSession) {
 							if (((EditorSession) sess).getSelectionModel() != null)
 								((EditorSession) sess).getSelectionModel()
@@ -1782,8 +1775,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			Extension e = extensions[i];
 			if (e != null && e.getName() != null) {
 				String cat = e.getCategory();
-				for (Iterator it = e.getMenuItems().iterator(); it.hasNext();) {
-					JMenuItem mi = (JMenuItem) it.next();
+				for (Iterator<JMenuItem> it = e.getMenuItems().iterator(); it.hasNext();) {
+					JMenuItem mi = it.next();
 					addMenuItemForAlgorithmOrExtension(mi, cat);
 				}
 			}
@@ -2514,7 +2507,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		fileClose = new FileCloseAction(this);
 
 		fileSaveAs = new FileSaveAsAction(this, ioManager, this, sBundle);
-		fileSaveAll = new FileSaveAllAction(this, ioManager);
+//		fileSaveAll = new FileSaveAllAction(this, ioManager);
 
 		fileExit = new ExitAction(this);
 
@@ -2532,7 +2525,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		editDelete = new DeleteAction(this);
 		editSelectAll = new SelectAllAction(this);
 
-		redrawView = new RedrawViewAction(this);
+//		redrawView = new RedrawViewAction(this);
 	}
 
 	/**
@@ -3330,6 +3323,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		showMessage("Drag-Exit", MessageType.INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void drop(DropTargetDropEvent e) {
 		showMessage("Drop", MessageType.INFO);
 		System.out.println("Drop");
