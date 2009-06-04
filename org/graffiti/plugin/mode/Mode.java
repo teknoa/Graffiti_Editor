@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Mode.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: Mode.java,v 1.2 2009/06/04 18:28:20 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -43,7 +43,7 @@ public interface Mode
      *
      * @return an array containing all the tools belonging <code>Mode</code>.
      */
-    public List getTools();
+    public List<Tool> getTools();
 
     // do they really make sense in our definition of mode?
     // public void addTool(Tool t);

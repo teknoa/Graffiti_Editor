@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.71 2009/06/04 12:30:37 klukas Exp $
+// $Id: MainFrame.java,v 1.72 2009/06/04 18:29:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,10 +188,10 @@ import org.w3c.dom.Document;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.71 $
+ * @version $Revision: 1.72 $
  */
 public class MainFrame extends JFrame implements SessionManager,
-			SessionListener, PluginManagerListener, ComponentListener,
+			SessionListener, PluginManagerListener, 
 			UndoableEditListener, EditorDefaultValues,
 			IOManager.IOManagerListener, ViewManager.ViewManagerListener,
 			SelectionListener, DropTargetListener
@@ -588,8 +588,6 @@ public class MainFrame extends JFrame implements SessionManager,
 			setLocationByPlatform(true);
 
 
-		addComponentListener(this);
-
 		if (!ReleaseInfo.isRunningAsApplet())
 			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		getContentPane().validate();
@@ -599,13 +597,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			}});
 	}
 	
-	public void hideSidePanel() {
-		getContentPane().remove(vertSplitter);
-		getContentPane().add(desktop, BorderLayout.CENTER);
-		validate();
-	}
+//	public void hideSidePanel() {
+//		getContentPane().remove(vertSplitter);
+//		getContentPane().add(desktop, BorderLayout.CENTER);
+//		validate();
+//	}
 
-	public String getDefaultFrameTitle() {
+	private String getDefaultFrameTitle() {
 		return sBundle.getString("name") + " "
 					+ sBundle.getString("version") + " "
 					+ sBundle.getString("version.Release") + "."
@@ -630,17 +628,17 @@ public class MainFrame extends JFrame implements SessionManager,
 		return activeSession;
 	}
 	
-	public DesktopMenuManager getDesktopMenuManager() {
-		return desktopMenuManager;
-	}
-	
-	public JDesktopPane getJDesktopPane() {
-		return desktop;
-	}
+//	public DesktopMenuManager getDesktopMenuManager() {
+//		return desktopMenuManager;
+//	}
+//	
+//	public JDesktopPane getJDesktopPane() {
+//		return desktop;
+//	}
 
-	public List<GraffitiInternalFrame> getActiveFrames() {
-		return activeFrames;
-	}
+//	public List<GraffitiInternalFrame> getActiveFrames() {
+//		return activeFrames;
+//	}
 
 	/**
 	 * Returns the current active session.
@@ -672,23 +670,23 @@ public class MainFrame extends JFrame implements SessionManager,
 		activeSession = (EditorSession) s;
 	}
 
-	/**
-	 * DOCUMENT ME!
-	 *
-	 * @return DOCUMENT ME!
-	 */
-	public Collection getAlgorithmActions() {
-		return algorithmActions;
-	}
+//	/**
+//	 * DOCUMENT ME!
+//	 *
+//	 * @return DOCUMENT ME!
+//	 */
+//	public Collection<Action> getAlgorithmActions() {
+//		return algorithmActions;
+//	}
 
-	/**
-	 * Sets the defaultView.
-	 *
-	 * @param defaultView The defaultView to set
-	 */
-	public void setDefaultView(String defaultView) {
-		this.defaultView = defaultView;
-	}
+//	/**
+//	 * Sets the defaultView.
+//	 *
+//	 * @param defaultView The defaultView to set
+//	 */
+//	public void setDefaultView(String defaultView) {
+//		this.defaultView = defaultView;
+//	}
 
 	/**
 	 * Returns the defaultView.
@@ -717,14 +715,14 @@ public class MainFrame extends JFrame implements SessionManager,
 		return ioManager;
 	}
 
-	/**
-	 * Get the algorithm manager.
-	 * 
-	 * @return the algorithm manager.
-	 */
-	public AlgorithmManager getAlgorithmManager() {
-		return algorithmManager;
-	}
+//	/**
+//	 * Get the algorithm manager.
+//	 * 
+//	 * @return the algorithm manager.
+//	 */
+//	public AlgorithmManager getAlgorithmManager() {
+//		return algorithmManager;
+//	}
 
 	/**
 	 * DOCUMENT ME!
@@ -773,7 +771,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @see org.graffiti.session.Session
 	 */
-	public Iterator getSessionsIterator() {
+	public Iterator<Session> getSessionsIterator() {
 		return sessions.iterator();
 	}
 
@@ -805,14 +803,14 @@ public class MainFrame extends JFrame implements SessionManager,
 		return viewManager;
 	}
 
-	/**
-	 * Returns the zoomListeners.
-	 *
-	 * @return List
-	 */
-	public Collection getZoomListeners() {
-		return zoomListeners;
-	}
+//	/**
+//	 * Returns the zoomListeners.
+//	 *
+//	 * @return List
+//	 */
+//	public Collection<ZoomListener> getZoomListeners() {
+//		return zoomListeners;
+//	}
 
 	/**
 	 * Adds the <code>JComponent</code> component to the gui-component
@@ -825,7 +823,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param component the <code>JComponent</code> which shall be added to the
 	 *        specified gui-component.
 	 */
-	public void addGUIComponent(String id, JComponent component) {
+	private void addGUIComponent(String id, JComponent component) {
 		// all GraffitiContainers should be JComponents
 		JComponent container = (JComponent) guiMap.get(id);
 
@@ -906,18 +904,18 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 	}
 
-	/**
-	 * Adds a <code>SelectionListener</code>.
-	 *
-	 * @param sl DOCUMENT ME!
-	 */
-	public void addSelectionListener(SelectionListener sl) {
-		this.selectionListeners.add(sl);
-
-		for (EditorSession es : getEditorSessions()) {
-			es.getSelectionModel().addSelectionListener(sl);
-		}
-	}
+//	/**
+//	 * Adds a <code>SelectionListener</code>.
+//	 *
+//	 * @param sl DOCUMENT ME!
+//	 */
+//	public void addSelectionListener(SelectionListener sl) {
+//		this.selectionListeners.add(sl);
+//
+//		for (EditorSession es : getEditorSessions()) {
+//			es.getSelectionModel().addSelectionListener(sl);
+//		}
+//	}
 	
 	/**
 	 * Adds the given session to the list of sessions.
@@ -931,8 +929,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			SelectionModel selModel = new SelectionModel();
 			((EditorSession) s).setSelectionModel(selModel);
 
-			for (Iterator it = selectionListeners.iterator(); it.hasNext();) {
-				selModel.addSelectionListener((SelectionListener) it.next());
+			for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
+				selModel.addSelectionListener(it.next());
 			}
 
 			selModel.add(new Selection(sBundle.getString("activeSelection")));
@@ -953,32 +951,15 @@ public class MainFrame extends JFrame implements SessionManager,
 		this.getViewManager().addViewListener(vl);
 	}
 
-	/**
-	 * Removes any messages displayed by calls to <code>showMessage</code> or
-	 * <code>showError</code>.
-	 */
-	public void clearMessages() {
-		statusBar.clear();
-	}
+//	/**
+//	 * Removes any messages displayed by calls to <code>showMessage</code> or
+//	 * <code>showError</code>.
+//	 */
+//	public void clearMessages() {
+//		statusBar.clear();
+//	}
 
-	/**
-	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
-	 */
-	public void componentHidden(ComponentEvent e) {
-	}
-
-	/**
-	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
-	 */
-	public void componentMoved(ComponentEvent e) {
-	}
-
-
-	/**
-	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
-	 */
-	public void componentShown(ComponentEvent e) {
-	}
+	
 
 	/**
 	 * Creates and adds a new internal frame to the desktop within an existing
@@ -1072,8 +1053,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			this.fireSessionChanged(session);
 
-			for (Iterator it = selectionListeners.iterator(); it.hasNext();) {
-				selModel.addSelectionListener((SelectionListener) it.next());
+			for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
+				selModel.addSelectionListener(it.next());
 			}
 
 			selModel.add(new Selection(sBundle.getString("activeSelection")));
@@ -1155,11 +1136,11 @@ public class MainFrame extends JFrame implements SessionManager,
 		return es;
 	}
 
-	public Session createNewSession(Graph g) {
-		EditorSession es =  new EditorSession(g);
-		addSession(es);
-		return es;
-	}
+//	public Session createNewSession(Graph g) {
+//		EditorSession es =  new EditorSession(g);
+//		addSession(es);
+//		return es;
+//	}
 
 	/**
 	 * Informs all <code>SessionListener</code>s that the active session has
@@ -1168,14 +1149,14 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param session DOCUMENT ME!
 	 */
 	public void fireSessionChanged(Session session) {
-		for (Iterator it = this.sessionListeners.iterator(); it.hasNext();) {
-			((SessionListener) it.next()).sessionChanged(session);
+		for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
+			it.next().sessionChanged(session);
 		}
 	}
 	
 	public void fireSelectionChanged(Session session) {
-		for (Iterator it = this.selectionListeners.iterator(); it.hasNext();) {
-			((SelectionListener) it.next()).selectionChanged(
+		for (Iterator<SelectionListener> it = this.selectionListeners.iterator(); it.hasNext();) {
+			it.next().selectionChanged(
 					new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
 		}
 	}
@@ -1187,8 +1168,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param session DOCUMENT ME!
 	 */
 	public void fireSessionDataChanged(Session session) {
-		for (Iterator it = this.sessionListeners.iterator(); it.hasNext();) {
-			((SessionListener) it.next()).sessionDataChanged(session);
+		for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
+			it.next().sessionDataChanged(session);
 		}
 	}
 
@@ -1421,7 +1402,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		             "<html>The graph file <i>" + fileName + "</i> is already loaded!", "Activate existing view?",
 		             JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION)
 		    {
-		         for (GraffitiInternalFrame f : getActiveFrames()) {
+		         for (GraffitiInternalFrame f : activeFrames) {
 		        	 if (f.getSession()==fesf) {
 		        		 desktop.getDesktopManager().deiconifyFrame(f);
 		        		 desktop.getDesktopManager().activateFrame(f);
@@ -2064,32 +2045,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	/**
-	 * Saves the preferences of the main frame.
-	 */
-	public void savePreferences() {
-		try {
-			int screenX = (int) (getLocationOnScreen().getX());
-			int screenY = (int) (getLocationOnScreen().getY());
-
-			/*            uiPrefs.putInt("sizeWidth", getWidth());
-			 uiPrefs.putInt("sizeHeight", getHeight());
-			 uiPrefs.putInt("positionX", screenX);
-			 uiPrefs.putInt("positionY", screenY);
-
-			 uiPrefs.putInt("vertSplitter", vertSplitter.getDividerLocation());
-
-			 uiPrefs.sync(); */
-		} catch (IllegalComponentStateException icse) {
-			ErrorMsg.addErrorMessage(icse);
-		}
-		//        catch(BackingStoreException bse)
-		//        {
-		//            // bse.printStackTrace(System.out);
-		//        	ErrorMsg.addErrorMessage(bse.getLocalizedMessage());
-		//        }
-	}
-
-	/**
 	 * Invoked when the session changed.
 	 *
 	 * @param s the new session.
@@ -2100,13 +2055,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			lastActive.deactivateAll();
 		
 		if (isSessionActive()) {
-			Mode oldMode = activeSession.getActiveMode();
+//			Mode oldMode = activeSession.getActiveMode();
 
-			if (oldMode != null) {
-				ModeToolbar oldtb = (ModeToolbar) guiMap.get(oldMode.getId());
-//				oldtb.setVisible(false);
-				getContentPane().validate();
-			}
+//			if (oldMode != null) {
+//				ModeToolbar oldtb = (ModeToolbar) guiMap.get(oldMode.getId());
+////				oldtb.setVisible(false);
+//				getContentPane().validate();
+//			}
 
 			// removing the old session from undoSupport
 			undoSupport.removeUndoableEditListener(activeSession.getUndoManager());
@@ -2128,10 +2083,10 @@ public class MainFrame extends JFrame implements SessionManager,
 			Tool t = null;
 
 			if (newMode != null) {
-				List newTools = newMode.getTools();
+				List<Tool> newTools = newMode.getTools();
 
-				for (Iterator it = newTools.iterator(); it.hasNext();) {
-					Tool tl = (Tool) it.next();
+				for (Iterator<Tool> it = newTools.iterator(); it.hasNext();) {
+					Tool tl = it.next();
 					tl.setGraph(s.getGraph());
 				}
 
@@ -2183,7 +2138,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			ToolButton.checkStatusForAllToolButtons();
 		}
 		boolean oneModified = false;
-		for (GraffitiInternalFrame frame : getActiveFrames()) {
+		for (GraffitiInternalFrame frame : activeFrames) {
 			frame.setTitle(frame.getSession().getGraph().getName());
 			boolean mod = frame.getSession().getGraph().isModified();
 			if (frame.getBorder()!=null)
@@ -2204,8 +2159,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void sessionDataChanged(Session s) {
 		EditorSession es = (EditorSession) s;
 		boolean oneModified = false;
-		for (Iterator i = es.getViews().iterator(); i.hasNext();) {
-			View view = (View) i.next();
+		for (Iterator<View> i = es.getViews().iterator(); i.hasNext();) {
+			View view = i.next();
 
 			this.zoomListeners.add(view);
 
@@ -2822,7 +2777,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					"message.dialog.title"));
 	}
 	
-	public JComponent getGUIcomponentFromMap(String id) {
+	private JComponent getGUIcomponentFromMap(String id) {
 		return guiMap.get(id);
 	}
 	
@@ -3133,8 +3088,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void closeGravisto() {
 		ArrayList<Graph> unsavedGraphs = new ArrayList<Graph>();
 		List<Session> l = new LinkedList<Session>();
-		for (Iterator i = getSessionsIterator(); i.hasNext();) {
-			Session s = (Session) i.next();
+		for (Iterator<Session> i = getSessionsIterator(); i.hasNext();) {
+			Session s = i.next();
 			if (s.getGraph().isModified())
 				if (!unsavedGraphs.contains(s.getGraph()))
 						unsavedGraphs.add(s.getGraph());
@@ -3169,24 +3124,24 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (e.getID() == 201) closeGravisto();
 	}
 
-	/**
-	 * Adds a JComponent to a JFrame which is shown in the Desktop
-	 * @param component
-	 */
-	public void addFrame(JComponent component, String title) {
-		JFrame frame = new JFrame(title);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		JPanel panel = new JPanel();
-		panel.setLayout(new BorderLayout());
-		panel.setPreferredSize(new Dimension(700, 500));
-		panel.add(component, BorderLayout.CENTER);
-
-		frame.getContentPane().add(panel, BorderLayout.CENTER);
-		frame.pack();
-		frame.setVisible(true);
-
-	}
+//	/**
+//	 * Adds a JComponent to a JFrame which is shown in the Desktop
+//	 * @param component
+//	 */
+//	public void addFrame(JComponent component, String title) {
+//		JFrame frame = new JFrame(title);
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//
+//		JPanel panel = new JPanel();
+//		panel.setLayout(new BorderLayout());
+//		panel.setPreferredSize(new Dimension(700, 500));
+//		panel.add(component, BorderLayout.CENTER);
+//
+//		frame.getContentPane().add(panel, BorderLayout.CENTER);
+//		frame.pack();
+//		frame.setVisible(true);
+//
+//	}
 
 	/**
 	 * @param panel A status panel that will be shown in the progess area.
@@ -3209,14 +3164,14 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 	}
 	
-	public List<JPanel> getStatusPanels() {
-		ArrayList<JPanel> result = new ArrayList<JPanel>();	
-		synchronized(activeProgressPanels) {
-			if (activeProgressPanels!=null)
-				result.addAll(activeProgressPanels);
-		}
-		return result;
-	}
+//	public List<JPanel> getStatusPanels() {
+//		ArrayList<JPanel> result = new ArrayList<JPanel>();	
+//		synchronized(activeProgressPanels) {
+//			if (activeProgressPanels!=null)
+//				result.addAll(activeProgressPanels);
+//		}
+//		return result;
+//	}
 
 
 	private boolean firstGuiTimerCall = true;
@@ -3291,7 +3246,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			repaint(100);
 			GraffitiAction.updateAllActions();
 			boolean oneModified = false;
-			for (GraffitiInternalFrame frame : getActiveFrames()) {
+			for (GraffitiInternalFrame frame : activeFrames) {
 				frame.setTitle(frame.getSession().getGraph().getName());
 				boolean mod = frame.getSession().getGraph().isModified();
 				if (frame.getBorder()!=null)
@@ -3471,7 +3426,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		if (validSessions.size()>=1) {
 			EditorSession es = validSessions.iterator().next();
-			 for (GraffitiInternalFrame f : getActiveFrames()) {
+			 for (GraffitiInternalFrame f : activeFrames) {
 	        	 if (f.getSession()==es) {
 	        		 desktop.getDesktopManager().deiconifyFrame(f);
 	        		 desktop.getDesktopManager().activateFrame(f);
@@ -3626,9 +3581,6 @@ public class MainFrame extends JFrame implements SessionManager,
 		vertSplitter.setDividerLocation(vertSplitter.getWidth()-width); // uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
 	}
 
-	public void componentResized(ComponentEvent arg0) {
-		// empty
-	}
 	
 	public enum HideOrDeactivateMenu {
 		/**
