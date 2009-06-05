@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.73 2009/06/04 18:34:14 klukas Exp $
+// $Id: MainFrame.java,v 1.74 2009/06/05 13:10:45 morla Exp $
 
 package org.graffiti.editor;
 
@@ -181,7 +181,7 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.73 $
+ * @version $Revision: 1.74 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -897,18 +897,18 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 	}
 
-//	/**
-//	 * Adds a <code>SelectionListener</code>.
-//	 *
-//	 * @param sl DOCUMENT ME!
-//	 */
-//	public void addSelectionListener(SelectionListener sl) {
-//		this.selectionListeners.add(sl);
-//
-//		for (EditorSession es : getEditorSessions()) {
-//			es.getSelectionModel().addSelectionListener(sl);
-//		}
-//	}
+	/**
+	 * Adds a <code>SelectionListener</code>.
+	 *
+	 * @param sl DOCUMENT ME!
+	 */
+	public void addSelectionListener(SelectionListener sl) {
+		this.selectionListeners.add(sl);
+
+		for (EditorSession es : getEditorSessions()) {
+			es.getSelectionModel().addSelectionListener(sl);
+		}
+	}
 	
 	/**
 	 * Adds the given session to the list of sessions.
@@ -1129,11 +1129,11 @@ public class MainFrame extends JFrame implements SessionManager,
 		return es;
 	}
 
-//	public Session createNewSession(Graph g) {
-//		EditorSession es =  new EditorSession(g);
-//		addSession(es);
-//		return es;
-//	}
+	public Session createNewSession(Graph g) {
+		EditorSession es =  new EditorSession(g);
+		addSession(es);
+		return es;
+	}
 
 	/**
 	 * Informs all <code>SessionListener</code>s that the active session has
@@ -1620,6 +1620,16 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		if (plugin.isViewListener()) {
 			getViewManager().addViewListener((ViewListener) plugin);
+		}
+		
+		if (plugin instanceof EditorPlugin) {
+			EditorPlugin ep = (EditorPlugin)plugin;
+			if (ep.getInspectorTabs()!=null && ep.getInspectorTabs().length>0) {
+				for (InspectorTab ip : ep.getInspectorTabs()) {
+					if (ip.isSelectionListener())
+						selectionListeners.add((SelectionListener)ip);
+				}
+			}
 		}
 
 		if (plugin.isSelectionListener()) {

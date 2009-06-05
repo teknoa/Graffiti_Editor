@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.7 2009/03/17 22:33:09 klukas Exp $
+// $Id: InspectorTab.java,v 1.8 2009/06/05 13:10:45 morla Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -244,6 +244,10 @@ public abstract class InspectorTab
 
 	public ImageIcon getIcon() {
 		return icon;
+	}
+
+	public boolean isSelectionListener() {
+		return false;
 	}
 }
 
