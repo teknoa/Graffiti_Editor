@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeShape.java,v 1.2 2008/08/06 15:12:21 klukas Exp $
+// $Id: NodeShape.java,v 1.3 2009/06/06 07:38:38 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -41,7 +41,7 @@ public interface NodeShape
      * Shapes itself according to the graphics attribute found in the
      * CollectionAttribute <code>graphics</code>
      *
-     * @param graphics the <code>CollectionAttribute</code> accoring to which
+     * @param graphics the <code>CollectionAttribute</code> according to which
      *        this shape is constructed.
      */
     public void buildShape(NodeGraphicAttribute graphics)
