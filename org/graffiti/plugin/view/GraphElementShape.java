@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementShape.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: GraphElementShape.java,v 1.2 2009/06/09 09:06:57 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -25,6 +25,9 @@ public interface GraphElementShape
      * @return DOCUMENT ME!
      */
     public Rectangle2D getRealBounds2D();
+    
+    public double getXexcess();
+    public double getYexcess();
 }
 
 //------------------------------------------------------------------------------
