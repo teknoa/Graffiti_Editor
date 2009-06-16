@@ -5,10 +5,10 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.3 2008/10/08 18:34:42 klukas Exp $
+// $Id: AbstractAttributeComponent.java,v 1.4 2009/06/16 08:25:06 morla Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.3 2008/10/08 18:34:42 klukas Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.4 2009/06/16 08:25:06 morla Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
@@ -17,6 +17,7 @@ import java.awt.Point;
 import org.graffiti.attributes.Attribute;
 
 import org.graffiti.plugin.view.AttributeComponent;
+import org.graffiti.plugin.view.CoordinateSystem;
 import org.graffiti.plugin.view.GraffitiViewComponent;
 import org.graffiti.plugin.view.GraphElementShape;
 import org.graffiti.plugin.view.ShapeNotFoundException;
@@ -24,7 +25,7 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractAttributeComponent
     extends AttributeComponent
@@ -110,7 +111,7 @@ public abstract class AbstractAttributeComponent
      * @exception ShapeNotFoundException thrown when the shapeclass couldn't be
      *            resolved.
      */
-    public void createNewShape()
+    public void createNewShape(CoordinateSystem coordSys)
         throws ShapeNotFoundException
     {
         this.recreate();

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponentInterface.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: GraphElementComponentInterface.java,v 1.2 2009/06/16 08:25:05 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -119,11 +119,12 @@ public interface GraphElementComponentInterface
     /**
      * Called to initialise the shape of the NodeComponent correctly. Also
      * calls <code>repaint()</code>.
+     * @param coordSys TODO
      *
      * @exception ShapeNotFoundException thrown when the shapeclass couldn't be
      *            resolved.
      */
-    public void createNewShape()
+    public void createNewShape(CoordinateSystem coordSys)
         throws ShapeNotFoundException;
 
     /**
