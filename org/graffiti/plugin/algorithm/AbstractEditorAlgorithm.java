@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.5 2009/06/04 18:49:32 klukas Exp $
+// $Id: AbstractEditorAlgorithm.java,v 1.6 2009/06/16 11:56:05 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -29,6 +29,10 @@ public abstract class AbstractEditorAlgorithm
 
 	protected MainFrame getMainFrame() {
 		return MainFrame.getInstance();
+	}
+	
+	public String getShortName() {
+		return getName();
 	}
 }
 

@@ -411,8 +411,7 @@ public class GravistoService {
 	public void runAlgorithm(Algorithm algorithm) {
 		Selection activeSel = null;
 		try {
-			activeSel = getMainFrame().getActiveEditorSession()
-				.getSelectionModel().getActiveSelection();
+			activeSel = getMainFrame().getActiveEditorSession().getSelectionModel().getActiveSelection();
 		} catch(NullPointerException npe) {
 			// ignore here, the algorithm should make correct error handling for null graph or selection
 		}
@@ -486,9 +485,13 @@ public class GravistoService {
 							desc = null;
 						}
 					}
+					String algName = algorithm.getName();
+					if (algorithm instanceof EditorAlgorithm) {
+						algName = ((EditorAlgorithm)algorithm).getShortName();
+					}
 					paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
 							getMainFrame(), parameters,
-							selection, ErrorMsg.removeHTMLtags(algorithm.getName()), algorithm.getDescription(), desc);
+							selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc);
 				}
 
 				// TODO load and save the preferences for this algorithm
