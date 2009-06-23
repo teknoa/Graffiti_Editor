@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RedrawViewAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: RedrawViewAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,7 +22,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class RedrawViewAction
     extends GraffitiAction
@@ -44,7 +44,8 @@ public class RedrawViewAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         EditorSession dv = mainFrame.getActiveEditorSession();
         if (dv == null) return false;
@@ -55,7 +56,8 @@ public class RedrawViewAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

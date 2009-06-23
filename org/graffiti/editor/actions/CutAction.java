@@ -5,27 +5,23 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CutAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: CutAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.event.ListenerManager;
-
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.SelectionAction;
 import org.graffiti.plugin.io.OutputSerializer;
@@ -34,7 +30,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class CutAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -60,6 +56,7 @@ public class CutAction extends SelectionAction {
 	 *
 	 * @return HelpContext, the help context for the action
 	 */
+	@Override
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
@@ -124,12 +121,14 @@ public class CutAction extends SelectionAction {
 	 * @param items the items, which determine the internal state of the
 	 *        <code>enable</code> flag.
 	 */
+	@Override
 	protected void enable(List items) {
 	}
 
 	/* (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()

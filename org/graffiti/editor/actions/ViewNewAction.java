@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewNewAction.java,v 1.2 2008/09/28 16:45:25 klukas Exp $
+// $Id: ViewNewAction.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -47,7 +47,8 @@ public class ViewNewAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return mainFrame.isSessionActive();
     }
@@ -55,7 +56,8 @@ public class ViewNewAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

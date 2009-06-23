@@ -5,12 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.5 2009/05/28 08:37:02 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.6 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
-import info.clearthought.layout.SingleFiledLayout;
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -25,15 +25,13 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-
 
 import org.AttributeHelper;
 import org.ErrorMsg;
 import org.FolderPanel;
-import org.GuiRow;
 import org.JLabelJavaHelpLink;
 import org.graffiti.plugin.ToolTipHelper;
 import org.graffiti.plugin.editcomponent.StandardValueEditComponent;
@@ -45,12 +43,10 @@ import org.graffiti.selection.Selection;
 import org.graffiti.util.InstanceCreationException;
 import org.graffiti.util.InstanceLoader;
 
-import com.sun.corba.se.impl.ior.iiop.JavaSerializationComponent;
-
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -116,8 +112,8 @@ public class ParameterEditPanel extends JPanel {
 //		}
 		
 		double[][] size = new double[][] {
-				{ TableLayout.FILL },
-				{ TableLayout.FILL }
+				{ TableLayoutConstants.FILL },
+				{ TableLayoutConstants.FILL }
 		};
 		
 		setLayout(new TableLayout(size));
@@ -137,13 +133,13 @@ public class ParameterEditPanel extends JPanel {
 		JComponent jc = myPanel;
 		
 		if (paramCnt>0) {
-			jc = new JScrollPane(myPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+			jc = new JScrollPane(myPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			jc.setBorder(null);
 			jc.setOpaque(false);
 		}
 
 		if (descComponent!=null) {
-			add(TableLayout.getSplit(descComponent, jc, TableLayout.PREFERRED, TableLayout.PREFERRED), "0,0");
+			add(TableLayout.getSplit(descComponent, jc, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED), "0,0");
 		} else
 			add(jc, "0,0");	
 		

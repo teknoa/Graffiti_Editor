@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.4 2008/12/16 09:19:14 belau Exp $
+// $Id: DefaultParameterDialog.java,v 1.5 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,15 +21,11 @@ import java.awt.event.WindowListener;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.BevelBorder;
 
-
-import org.AttributeHelper;
 import org.ErrorMsg;
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
@@ -52,7 +49,7 @@ import org.graffiti.selection.Selection;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -277,8 +274,8 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	private void defineLayout(boolean okOnly, boolean noButton) {
 		double border = 8d;
 		double[][] size = {
-			new double[] { border, TableLayout.FILL, border },
-			new double[] { border, TableLayout.FILL, border, TableLayout.PREFERRED, border },
+			new double[] { border, TableLayoutConstants.FILL, border },
+			new double[] { border, TableLayoutConstants.FILL, border, TableLayoutConstants.PREFERRED, border },
 		};
 		getContentPane().setLayout(new TableLayout(size));
 
@@ -288,7 +285,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		if (!noButton)
 		getContentPane().add(
 			TableLayout.get3Split(
-				ok, new JLabel(), okOnly ? null:cancel, TableLayout.PREFERRED, border, TableLayout.PREFERRED),
+				ok, new JLabel(), okOnly ? null:cancel, TableLayoutConstants.PREFERRED, border, TableLayoutConstants.PREFERRED),
 				"1,3"
 			);
 	}

@@ -1,8 +1,15 @@
 package org.graffiti.editor;
 
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.AWTEvent;
+import java.awt.EventQueue;
+import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
+
+import javax.swing.Action;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
 
 public class GlobalHotkeyManager extends EventQueue {
   private static final boolean DEBUG = false; 
@@ -25,7 +32,8 @@ public class GlobalHotkeyManager extends EventQueue {
   public ActionMap getActionMap() {
     return actions;
   }
-  protected void dispatchEvent(AWTEvent event) {
+  @Override
+protected void dispatchEvent(AWTEvent event) {
     if (event instanceof KeyEvent) {
       // KeyStroke.getKeyStrokeForEvent converts an ordinary KeyEvent
       // to a keystroke, as stored in the InputMap.  Keep in mind that

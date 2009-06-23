@@ -1,25 +1,21 @@
 /* Copyright (c) 2003 IPK Gatersleben
- * $Id: SelectAllAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+ * $Id: SelectAllAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
  */
 
 package org.graffiti.editor.actions;
 
-import org.graffiti.editor.MainFrame;
-
-import org.graffiti.help.HelpContext;
-
-import org.graffiti.plugin.actions.SelectionAction;
-
-import org.graffiti.selection.Selection;
-
 import java.awt.event.ActionEvent;
-
 import java.util.List;
+
+import org.graffiti.editor.MainFrame;
+import org.graffiti.help.HelpContext;
+import org.graffiti.plugin.actions.SelectionAction;
+import org.graffiti.selection.Selection;
 
 /**
  * Represents a &quot;select all graph elements&quot; action.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class SelectAllAction
     extends SelectionAction
@@ -40,7 +36,8 @@ public class SelectAllAction
      *
      * @return HelpContext, the help context for the action
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null; // TODO
     }
@@ -75,7 +72,8 @@ public class SelectAllAction
      *
      * @return DOCUMENT ME!
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
     	if (!mainFrame.isSessionActive()) {
     		return false;
@@ -91,7 +89,8 @@ public class SelectAllAction
      * @param items the items, which determine the internal state of the
      *        <code>enable</code> flag.
      */
-    protected void enable(List items)
+    @Override
+	protected void enable(List items)
     {
     }
 }

@@ -5,16 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.12 2009/05/15 13:09:46 morla Exp $
+// $Id: FileSaveAsAction.java,v 1.13 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.net.MalformedURLException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -23,25 +20,20 @@ import org.ErrorMsg;
 import org.OpenFileDialogService;
 import org.graffiti.core.GenericFileFilter;
 import org.graffiti.core.StringBundle;
-
 import org.graffiti.editor.MainFrame;
 import org.graffiti.editor.MessageType;
-
 import org.graffiti.graph.Graph;
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.IOManager;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.io.OutputSerializer;
-
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.SessionManager;
 
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -79,7 +71,8 @@ public class FileSaveAsAction
      *
      * @return DOCUMENT ME!
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return ioManager.hasOutputSerializer() &&
         sessionManager.isSessionActive();
@@ -88,7 +81,8 @@ public class FileSaveAsAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: NodeEditComponent.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -38,7 +38,8 @@ public class NodeEditComponent
     /*
      * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setDisplayable(org.graffiti.plugin.Displayable)
      */
-    public void setDisplayable(Displayable disp)
+    @Override
+	public void setDisplayable(Displayable disp)
     {
         displayable=disp;
     }
@@ -50,7 +51,8 @@ public class NodeEditComponent
     {
     }
     
-    protected Object[] getPossibilities() {
+    @Override
+	protected Object[] getPossibilities() {
         return ((NodeParameter)displayable).getPossibleNodes();
     }
 }

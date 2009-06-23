@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponentInterface.java,v 1.2 2009/06/16 08:25:05 morla Exp $
+// $Id: GraphElementComponentInterface.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Iterator;
 
 import org.graffiti.attributes.Attribute;
-
 import org.graffiti.graph.GraphElement;
 
 /**

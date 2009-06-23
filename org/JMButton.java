@@ -3,9 +3,6 @@ package org;
 import javax.swing.JButton;
 import javax.swing.UIManager;
 
-import org.AttributeHelper;
-import org.ErrorMsg;
-
 /**
  * @author klukas
  */

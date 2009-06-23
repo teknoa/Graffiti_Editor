@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractUndoableTool.java,v 1.2 2007/08/25 12:19:44 klukas Exp $
+// $Id: AbstractUndoableTool.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -14,16 +14,14 @@ import java.util.Map;
 import javax.swing.undo.UndoableEditSupport;
 
 import org.graffiti.graph.GraphElement;
-
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.Session;
-
 import org.graffiti.undo.Undoable;
 
 /**
  * Superclass for all tools that provide undo information for their actions.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractUndoableTool
     extends AbstractTool
@@ -47,7 +45,8 @@ public abstract class AbstractUndoableTool
      *
      * @return DOCUMENT ME!
      */
-    public boolean isSelectionListener()
+    @Override
+	public boolean isSelectionListener()
     {
         return true;
     }
@@ -57,7 +56,8 @@ public abstract class AbstractUndoableTool
      *
      * @return DOCUMENT ME!
      */
-    public boolean isSessionListener()
+    @Override
+	public boolean isSessionListener()
     {
         return true;
     }
@@ -69,19 +69,20 @@ public abstract class AbstractUndoableTool
      */
     public void setUndoSupport(UndoableEditSupport us)
     {
-        this.undoSupport = us;
+        AbstractUndoableTool.undoSupport = us;
     }
 
     /**
      * @see org.graffiti.session.SessionListener#sessionChanged(Session)
      */
-    public void sessionChanged(Session s)
+    @Override
+	public void sessionChanged(Session s)
     {
         super.sessionChanged(s);
 
         if(s != null)
         {
-            this.geMap = ((EditorSession) s).getGraphElementsMap();
+            AbstractUndoableTool.geMap = ((EditorSession) s).getGraphElementsMap();
         }
     }
 

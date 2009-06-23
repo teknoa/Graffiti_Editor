@@ -5,17 +5,17 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NumberEditComponent.java,v 1.4 2008/09/04 14:52:24 klukas Exp $
+// $Id: NumberEditComponent.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
-import java.awt.Dimension;
-
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
+
+import java.awt.Dimension;
 
 import javax.swing.JComponent;
 import javax.swing.JPanel;
-
 
 import org.graffiti.plugin.Displayable;
 
@@ -67,7 +67,7 @@ public abstract class NumberEditComponent
        		 defaultResult.setPreferredSize(new Dimension(defaultResult.getMinimumSize().width, defaultResult.getPreferredSize().height));
        	 if (defaultResult!=null)
        		 defaultResult.setMinimumSize(new Dimension(0, defaultResult.getMinimumSize().height));
-       	 JPanel jp = (JPanel) TableLayout.getSplit(jc, defaultResult, TableLayout.PREFERRED, TableLayout.FILL);
+       	 JPanel jp = (JPanel) TableLayout.getSplit(jc, defaultResult, TableLayoutConstants.PREFERRED, TableLayoutConstants.FILL);
        	 jp.setOpaque(false);
        	 return jp;
          } else
@@ -80,7 +80,8 @@ public abstract class NumberEditComponent
      *
      * @param attr DOCUMENT ME!
      */
-    public void setDisplayable(Displayable attr)
+    @Override
+	public void setDisplayable(Displayable attr)
     {
         this.displayable = attr;
         spinnerEditComponent.setDisplayable(attr);
@@ -98,7 +99,8 @@ public abstract class NumberEditComponent
     /*
      * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setEnabled(boolean)
      */
-    public void setEnabled(boolean enabled)
+    @Override
+	public void setEnabled(boolean enabled)
     {
         super.setEnabled(enabled);
         spinnerEditComponent.setEnabled(enabled);
@@ -107,7 +109,8 @@ public abstract class NumberEditComponent
     /*
      * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setShowEmpty(boolean)
      */
-    public void setShowEmpty(boolean showEmpty)
+    @Override
+	public void setShowEmpty(boolean showEmpty)
     {
         super.setShowEmpty(showEmpty);
         this.showEmpty = showEmpty;

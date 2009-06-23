@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EdgeBorder.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: EdgeBorder.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -16,23 +16,20 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
-
 import java.util.Iterator;
 
 import javax.swing.border.AbstractBorder;
 
 import org.graffiti.attributes.SortedCollectionAttribute;
-
 import org.graffiti.graphics.CoordinateAttribute;
 import org.graffiti.graphics.GraphicAttributeConstants;
-
 import org.graffiti.plugin.view.EdgeComponentInterface;
 import org.graffiti.plugin.view.GraphElementShape;
 
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.1 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.2 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
     extends AbstractBorder
@@ -92,7 +89,8 @@ public class EdgeBorder
      * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component,
      *      java.awt.Insets)
      */
-    public Insets getBorderInsets(Component c, Insets insets)
+    @Override
+	public Insets getBorderInsets(Component c, Insets insets)
     {
         //		insets.top = this.borderWidth;
         //		insets.left = this.borderWidth;
@@ -110,7 +108,8 @@ public class EdgeBorder
     /**
      * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
      */
-    public Insets getBorderInsets(Component c)
+    @Override
+	public Insets getBorderInsets(Component c)
     {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
@@ -122,7 +121,8 @@ public class EdgeBorder
      *
      * @see javax.swing.border.AbstractBorder#isBorderOpaque()  Returns true.
      */
-    public boolean isBorderOpaque()
+    @Override
+	public boolean isBorderOpaque()
     {
         return true;
     }
@@ -137,7 +137,8 @@ public class EdgeBorder
      * @param width DOCUMENT ME!
      * @param height DOCUMENT ME!
      */
-    public void paintBorder(Component c, Graphics g, int bx, int by, int width,
+    @Override
+	public void paintBorder(Component c, Graphics g, int bx, int by, int width,
         int height)
     {
         double bulletSizeHalf = bulletSize / 2d;

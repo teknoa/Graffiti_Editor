@@ -5,27 +5,23 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.6 2008/04/07 12:02:58 klukas Exp $
+// $Id: EditorSession.java,v 1.7 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.undo.UndoManager;
 
-import org.AttributeHelper;
 import org.ErrorMsg;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
-
 import org.graffiti.selection.SelectionModel;
 
 /**
@@ -33,7 +29,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  *
  * @see org.graffiti.session.Session
  */

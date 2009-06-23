@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultModeManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: DefaultModeManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.graffiti.managers.pluginmgr.PluginDescription;
-
 import org.graffiti.plugin.EditorPlugin;
 import org.graffiti.plugin.GenericPlugin;
 import org.graffiti.plugin.mode.Mode;
@@ -22,7 +21,7 @@ import org.graffiti.plugin.mode.Mode;
 /**
  * Handles the editor's modes.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultModeManager
     implements ModeManager

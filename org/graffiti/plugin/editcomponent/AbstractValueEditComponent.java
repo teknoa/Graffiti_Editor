@@ -5,14 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractValueEditComponent.java,v 1.3 2008/10/08 17:26:54 klukas Exp $
+// $Id: AbstractValueEditComponent.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
 import javax.swing.JComponent;
 
 import org.graffiti.event.AttributeEvent;
-
 import org.graffiti.plugin.Displayable;
 
 /**
@@ -114,7 +113,8 @@ public abstract class AbstractValueEditComponent
      *
      * @param e the AttributeEvent detailing the changes.
      */
-    public void postAttributeChanged(AttributeEvent e)
+    @Override
+	public void postAttributeChanged(AttributeEvent e)
     {
         if(e.getAttribute().equals(this.displayable))
         {
@@ -127,7 +127,8 @@ public abstract class AbstractValueEditComponent
      *
      * @param e the AttributeEvent detailing the changes.
      */
-    public void preAttributeChanged(AttributeEvent e)
+    @Override
+	public void preAttributeChanged(AttributeEvent e)
     {
     }
 

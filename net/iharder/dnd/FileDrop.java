@@ -6,9 +6,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.io.Reader;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 /**
@@ -643,7 +642,7 @@ public class FileDrop
         }); // end FileDrop.Listener
 
         frame.setBounds( 100, 100, 300, 400 );
-        frame.setDefaultCloseOperation( frame.EXIT_ON_CLOSE );
+        frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         frame.show();
     }   // end main
 

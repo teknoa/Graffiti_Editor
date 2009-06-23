@@ -1,7 +1,13 @@
 package org.graffiti.editor;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Rectangle;
+import java.awt.Toolkit;
+
+import javax.swing.JComponent;
 
 /* Rule.java is used by ScrollDemo.java. */
 
@@ -32,7 +38,7 @@ public class Rule extends JComponent {
 
     private void setIncrementAndUnits() {
         if (isMetric) {
-            units = (int)((double)INCH / (double)2.54); // dots per centimeter
+            units = (int)(INCH / 2.54); // dots per centimeter
             increment = units;
         } else {
             units = INCH;
@@ -56,7 +62,8 @@ public class Rule extends JComponent {
         setPreferredSize(new Dimension(pw, SIZE));
     }
 
-    protected void paintComponent(Graphics g) {
+    @Override
+	protected void paintComponent(Graphics g) {
         Rectangle drawHere = g.getClipBounds();
 
         // Fill clipping area with dirty brown/orange.

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.8 2009/06/05 13:10:45 morla Exp $
+// $Id: InspectorTab.java,v 1.9 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -19,15 +19,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import org.ErrorMsg;
-import org.graffiti.editor.GravistoService;
-import org.graffiti.editor.MainFrame;
-import org.graffiti.event.AttributeEvent;
-import org.graffiti.event.AttributeListener;
-import org.graffiti.event.TransactionEvent;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.plugin.view.View;
-import org.graffiti.session.Session;
-import org.graffiti.session.SessionListener;
 
 /**
  * An <code>InspectorTab</code> is a generic component for an

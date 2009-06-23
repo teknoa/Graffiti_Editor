@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SelectionAction.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: SelectionAction.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -19,7 +19,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Represents an action, which depends on a selection.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class SelectionAction extends GraffitiAction {
 	//~ Constructors ===========================================================
@@ -36,6 +36,7 @@ public abstract class SelectionAction extends GraffitiAction {
 
 	//~ Methods ================================================================
 
+	@Override
 	public abstract boolean isEnabled();
 
 	/**

@@ -5,12 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphConstraint.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraphConstraint.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
 import org.graffiti.graph.Graph;
-
 import org.graffiti.session.UnsatisfiedConstraintException;
 
 /**

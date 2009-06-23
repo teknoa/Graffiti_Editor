@@ -5,14 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
 import java.util.Vector;
 
 import org.graffiti.graph.Node;
-
 import org.graffiti.graphics.CoordinateAttribute;
 import org.graffiti.graphics.GraphicAttributeConstants;
 

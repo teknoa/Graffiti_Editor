@@ -5,16 +5,14 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ExitAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: ExitAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 
 /**
@@ -40,7 +38,8 @@ public class ExitAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return true;
     }
@@ -48,7 +47,8 @@ public class ExitAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

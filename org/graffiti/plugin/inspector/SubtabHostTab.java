@@ -8,7 +8,6 @@ import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 
-import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
 
 import org.graffiti.event.AttributeEvent;
@@ -208,6 +207,7 @@ public class SubtabHostTab extends InspectorTab
 		}
 	}
 	
+	@Override
 	public void setEditPanelInformation(
 			Map valueEditComponents,
 			Map<GraphElement, GraphElement> map) {

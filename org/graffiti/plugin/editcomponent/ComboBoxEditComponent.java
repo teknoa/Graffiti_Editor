@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ComboBoxEditComponent.java,v 1.5 2008/10/09 15:40:05 klukas Exp $
+// $Id: ComboBoxEditComponent.java,v 1.6 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +32,7 @@ import org.graffiti.plugin.Displayable;
 /**
  * Displays a combo box to let the user choose from several possibilities.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ComboBoxEditComponent
     extends AbstractValueEditComponent
@@ -77,7 +78,7 @@ public class ComboBoxEditComponent
         if (!(getDisplayable() instanceof Attribute)) 
        	 return comboBox;
         else
-       	 return TableLayout.getSplit(comboBox, searchComponent, TableLayout.FILL, TableLayout.PREFERRED);
+       	 return TableLayout.getSplit(comboBox, searchComponent, TableLayoutConstants.FILL, TableLayoutConstants.PREFERRED);
     }
 
     /**

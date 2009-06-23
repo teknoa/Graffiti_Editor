@@ -5,10 +5,7 @@ package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
 
-import java.awt.Rectangle;
-
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;

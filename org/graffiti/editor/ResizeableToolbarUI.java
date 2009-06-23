@@ -7,12 +7,9 @@ import java.awt.event.WindowListener;
 import java.util.ArrayList;
 
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JToolBar;
 import javax.swing.RootPaneContainer;
-import javax.swing.SwingUtilities;
-import javax.swing.border.Border;
-import javax.swing.event.MouseInputListener;
+import javax.swing.WindowConstants;
 import javax.swing.plaf.basic.BasicToolBarUI;
 
 /**
@@ -32,7 +29,7 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 		
 		final JToolBar fToolbar = toolbar;
 
-		detachedToolbar.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		detachedToolbar.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 		ArrayList<WindowListener> windowListeners = new ArrayList<WindowListener>();
 		for (WindowListener wl : detachedToolbar.getWindowListeners()) {
 			windowListeners.add(wl);

@@ -5,17 +5,16 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.4 2009/06/16 08:25:06 morla Exp $
+// $Id: AbstractAttributeComponent.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.4 2009/06/16 08:25:06 morla Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.5 2009/06/23 07:14:48 klukas Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
 import java.awt.Point;
 
 import org.graffiti.attributes.Attribute;
-
 import org.graffiti.plugin.view.AttributeComponent;
 import org.graffiti.plugin.view.CoordinateSystem;
 import org.graffiti.plugin.view.GraffitiViewComponent;
@@ -25,7 +24,7 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractAttributeComponent
     extends AttributeComponent
@@ -59,7 +58,8 @@ public abstract class AbstractAttributeComponent
      *
      * @param attr
      */
-    public void setAttribute(Attribute attr)
+    @Override
+	public void setAttribute(Attribute attr)
     {
         this.attr = attr;
     }
@@ -69,7 +69,8 @@ public abstract class AbstractAttributeComponent
      *
      * @return the attribute that is displayed by this component.
      */
-    public Attribute getAttribute()
+    @Override
+	public Attribute getAttribute()
     {
         return this.attr;
     }
@@ -80,7 +81,8 @@ public abstract class AbstractAttributeComponent
      *
      * @param geShape
      */
-    public void setGraphElementShape(GraphElementShape geShape)
+    @Override
+	public void setGraphElementShape(GraphElementShape geShape)
     {
         this.geShape = geShape;
     }
@@ -90,7 +92,8 @@ public abstract class AbstractAttributeComponent
      *
      * @param shift DOCUMENT ME!
      */
-    public void setShift(Point shift)
+    @Override
+	public void setShift(Point shift)
     {
         this.shift = shift;
     }
@@ -101,7 +104,8 @@ public abstract class AbstractAttributeComponent
      *
      * @param attr the attribute that has triggered the event.
      */
-    public abstract void attributeChanged(Attribute attr)
+    @Override
+	public abstract void attributeChanged(Attribute attr)
         throws ShapeNotFoundException;
 
     /**
@@ -122,7 +126,8 @@ public abstract class AbstractAttributeComponent
      * Used when the shape changed in the datastructure. Makes the painter to
      * create a new shape.
      */
-    public abstract void recreate()
+    @Override
+	public abstract void recreate()
         throws ShapeNotFoundException;
 }
 

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MaximizeManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: MaximizeManager.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.util;
 
@@ -16,9 +16,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.awt.event.ContainerEvent;
 import java.awt.event.ContainerListener;
-
 import java.beans.PropertyVetoException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,7 +42,7 @@ import org.graffiti.core.ImageBundle;
  * displaying the buttons.
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+ * @version $Revision: 1.2 $ $Date: 2009/06/23 07:14:49 $
  *
  * @see org.graffiti.util.MaximizeFrame
  * @see org.graffiti.util.MaximizeLayout
@@ -236,7 +234,8 @@ public class MaximizeManager
     /*
      * @see javax.swing.event.InternalFrameListener#internalFrameActivated(javax.swing.event.InternalFrameEvent)
      */
-    public void internalFrameActivated(InternalFrameEvent e)
+    @Override
+	public void internalFrameActivated(InternalFrameEvent e)
     {
         updateButtons();
     }
@@ -244,7 +243,8 @@ public class MaximizeManager
     /*
      * @see javax.swing.event.InternalFrameListener#internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
      */
-    public void internalFrameDeiconified(InternalFrameEvent e)
+    @Override
+	public void internalFrameDeiconified(InternalFrameEvent e)
     {
         updateButtons();
     }

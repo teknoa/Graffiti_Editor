@@ -5,35 +5,28 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAction.java,v 1.7 2009/05/15 13:09:46 morla Exp $
+// $Id: FileSaveAction.java,v 1.8 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.editor.MessageType;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.IOManager;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.io.OutputSerializer;
-import org.graffiti.plugin.view.MessageListener;
-
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.SessionManager;
 
 /**
  * The action for saving a graph.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class FileSaveAction
     extends GraffitiAction
@@ -73,7 +66,8 @@ public class FileSaveAction
      * @return <code>true</code>, if the io manager contains a working output
      *         serializer and if the file is writeable.
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         String fullName;
 
@@ -119,7 +113,8 @@ public class FileSaveAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

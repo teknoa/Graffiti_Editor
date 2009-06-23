@@ -5,27 +5,24 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditPanel.java,v 1.2 2008/10/09 14:34:58 klukas Exp $
+// $Id: EditPanel.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JPanel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.undo.UndoableEditSupport;
 
 import org.graffiti.attributes.Attributable;
 import org.graffiti.attributes.Attribute;
-
 import org.graffiti.event.ListenerManager;
 
 /**
  * Represents the edit panel in the inspector.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class EditPanel
     extends JPanel {

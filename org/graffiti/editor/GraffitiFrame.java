@@ -5,15 +5,15 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.9 2009/05/15 13:09:46 morla Exp $
+// $Id: GraffitiFrame.java,v 1.10 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.Color;
 import java.awt.Frame;
-import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
@@ -21,6 +21,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.WindowConstants;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
@@ -68,9 +70,10 @@ public class GraffitiFrame
         
         final GraffitiFrame thisFrame = this;
 
-        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         this.addWindowListener(new WindowAdapter() {
-            public final void windowClosing(final WindowEvent event) {
+            @Override
+			public final void windowClosing(final WindowEvent event) {
             	MainFrame.getInstance().removeDetachedFrame(thisFrame);
             	setVisible(false);
             	MainFrame.getInstance().frameClosing(internalFrame.getSession(), internalFrame.getView());
@@ -113,12 +116,12 @@ public class GraffitiFrame
         this.frameNumber = internalFrame.getFrameNumber();
         this.initTitle = internalFrame.getInitTitle();
         
-        setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
+        setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
         
         if (view.putInScrollPane()) {
 	        JScrollPane jsp = new JScrollPane(view.getViewComponent());
-			jsp.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-			jsp.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+			jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
 	        jsp.setWheelScrollingEnabled(false);
 	        view.getViewComponent().getParent().setBackground(Color.WHITE);
@@ -169,6 +172,7 @@ public class GraffitiFrame
 		return initTitle;
 	}
 	
+	@Override
 	public void setTitle(String title) {
 		this.initTitle = title;
 		String frameTitle = title + " - view " + frameNumber;

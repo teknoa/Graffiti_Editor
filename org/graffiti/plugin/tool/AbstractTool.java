@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.6 2009/03/04 16:32:09 klukas Exp $
+// $Id: AbstractTool.java,v 1.7 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -19,7 +19,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Logger;
 
 import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
@@ -32,7 +31,6 @@ import org.AttributeHelper;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
-import org.graffiti.graph.Node;
 import org.graffiti.options.GravistoPreferences;
 import org.graffiti.plugin.gui.ToolButton;
 import org.graffiti.plugin.view.AttributeComponent;
@@ -349,7 +347,7 @@ public abstract class AbstractTool
         {
     	   if (comp instanceof GraphElementComponentInterface) {
 	    	   	GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
-	    	   	GraphElement n = (GraphElement) nci.getGraphElement();
+	    	   	GraphElement n = nci.getGraphElement();
 	    	   	if (AttributeHelper.hasAttribute(n, "", "url"))
 	    	   		((JComponent) comp).setBorder(tempBorderLINK);
 	    	   	else

@@ -28,7 +28,8 @@ public class JMyProgressSplitPane extends JSplitPane {
         this.progressPanel=progressPanel;
     }
 
-    public int getDividerLocation() {
+    @Override
+	public int getDividerLocation() {
         return super.getDividerLocation();
         /*if (progressPanel==null) return super.getDividerLocation();
         int height=0;

@@ -5,26 +5,22 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileNewAction.java,v 1.4 2009/05/15 13:09:46 morla Exp $
+// $Id: FileNewAction.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.ViewManager;
-
 import org.graffiti.plugin.actions.GraffitiAction;
-
 import org.graffiti.session.EditorSession;
 
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class FileNewAction
     extends GraffitiAction
@@ -53,7 +49,8 @@ public class FileNewAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return viewManager.hasViews();
     }
@@ -61,7 +58,8 @@ public class FileNewAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

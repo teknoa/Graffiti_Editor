@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphConstraintChecker.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: GraphConstraintChecker.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.session;
 
@@ -23,9 +23,7 @@ import org.graffiti.event.NodeEvent;
 import org.graffiti.event.NodeListener;
 import org.graffiti.event.TransactionEvent;
 import org.graffiti.event.TransactionListener;
-
 import org.graffiti.graph.Graph;
-
 import org.graffiti.plugin.mode.GraphConstraint;
 
 /**

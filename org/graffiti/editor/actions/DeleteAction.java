@@ -5,26 +5,15 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DeleteAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: DeleteAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
-import javax.swing.AbstractAction;
 
 import org.graffiti.editor.MainFrame;
-
-import org.graffiti.graph.Edge;
-import org.graffiti.graph.GraphElement;
-import org.graffiti.graph.Node;
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.plugin.actions.SelectionAction;
 import org.graffiti.selection.Selection;
 import org.graffiti.undo.GraphElementsDeletionEdit;
@@ -32,7 +21,7 @@ import org.graffiti.undo.GraphElementsDeletionEdit;
 /**
  * Represents a graph element delete action.
  * @author klukas
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DeleteAction extends SelectionAction
 {
@@ -60,6 +49,7 @@ public class DeleteAction extends SelectionAction
 	 * 
 	 * @return HelpContext, the help context for the action
 	 */
+	@Override
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
@@ -83,6 +73,7 @@ public class DeleteAction extends SelectionAction
       }
 	}
 
+	@Override
 	public boolean isEnabled() {
 		boolean result = getSelectedItems().size() > 0;
 		return result;
@@ -96,6 +87,7 @@ public class DeleteAction extends SelectionAction
 	 *           the items, which determine the internal state of the
 	 *           <code>enable</code> flag.
 	 */
+	@Override
 	protected void enable(List items) {
 	}
 }

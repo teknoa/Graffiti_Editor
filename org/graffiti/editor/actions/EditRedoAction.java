@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditRedoAction.java,v 1.3 2008/09/17 06:40:45 klukas Exp $
+// $Id: EditRedoAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -16,17 +16,14 @@ import javax.swing.undo.UndoManager;
 
 import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.plugin.actions.GraffitiAction;
-
 import org.graffiti.session.EditorSession;
 
 /**
  * Special class for redo capabilities.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class EditRedoAction
     extends GraffitiAction {
@@ -47,14 +44,16 @@ public class EditRedoAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled() {
+    @Override
+	public boolean isEnabled() {
         return enabled;
     }
 
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext() {
+    @Override
+	public HelpContext getHelpContext() {
         return null;
     }
 
@@ -78,7 +77,8 @@ public class EditRedoAction
     /**
      * Updates the state of this action.
      */
-    public void update() {
+    @Override
+	public void update() {
         if(mainFrame.isSessionActive()) {
            EditorSession session = mainFrame.getActiveEditorSession();
            UndoManager um = session.getUndoManager();

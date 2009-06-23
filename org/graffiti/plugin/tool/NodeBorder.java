@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeBorder.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: NodeBorder.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,7 +21,7 @@ import javax.swing.border.AbstractBorder;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.1 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.2 $ Provides a border used to mark selected nodes.
  */
 public class NodeBorder
     extends AbstractBorder
@@ -63,7 +63,8 @@ public class NodeBorder
      * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component,
      *      java.awt.Insets)
      */
-    public Insets getBorderInsets(Component c, Insets insets)
+    @Override
+	public Insets getBorderInsets(Component c, Insets insets)
     {
         //        if (graphics == null) {
         insets.top = this.borderWidth;
@@ -87,7 +88,8 @@ public class NodeBorder
     /**
      * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
      */
-    public Insets getBorderInsets(Component c)
+    @Override
+	public Insets getBorderInsets(Component c)
     {
         return getBorderInsets(c, new Insets(0, 0, 0, 0));
     }
@@ -99,7 +101,8 @@ public class NodeBorder
      *
      * @see javax.swing.border.AbstractBorder#isBorderOpaque()  Returns true.
      */
-    public boolean isBorderOpaque()
+    @Override
+	public boolean isBorderOpaque()
     {
         return true;
     }
@@ -114,7 +117,8 @@ public class NodeBorder
      * @param width DOCUMENT ME!
      * @param height DOCUMENT ME!
      */
-    public void paintBorder(Component c, Graphics g, int x, int y, int width,
+    @Override
+	public void paintBorder(Component c, Graphics g, int x, int y, int width,
         int height)
     {
         this.graphics = g;

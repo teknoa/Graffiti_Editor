@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileOpenAction.java,v 1.3 2009/05/15 13:09:46 morla Exp $
+// $Id: FileOpenAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -15,13 +15,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
 
 import org.ErrorMsg;
 import org.MultipleFileLoader;
 import org.OpenFileDialogService;
 import org.Release;
-import org.graffiti.core.GenericFileFilter;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.help.HelpContext;
@@ -71,6 +69,7 @@ public class FileOpenAction extends GraffitiAction {
 	 * @return <code>true</code>, if the io manager contains at least one input
 	 *         serializer.
 	 */
+	@Override
 	public boolean isEnabled() {
 		return ioManager.hasInputSerializer() && viewManager.hasViews();
 	}
@@ -78,6 +77,7 @@ public class FileOpenAction extends GraffitiAction {
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
+	@Override
 	public HelpContext getHelpContext() {
 		return null;
 	}

@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewTypeChooser.java,v 1.3 2008/09/03 10:40:08 klukas Exp $
+// $Id: ViewTypeChooser.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor;
 
 import info.clearthought.layout.TableLayout;
+import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,7 +23,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-
 import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
@@ -47,7 +47,7 @@ import org.graffiti.core.StringBundle;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ViewTypeChooser
     extends JDialog
@@ -137,7 +137,7 @@ public class ViewTypeChooser
         		TableLayout.getSplitVertical(
         				frameCheckbox, 
         				buttonsPanel, 
-        				TableLayout.PREFERRED, TableLayout.PREFERRED), BorderLayout.SOUTH);
+        				TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED), BorderLayout.SOUTH);
 
         ok.setEnabled(false);
 
@@ -338,7 +338,7 @@ public class ViewTypeChooser
     /**
      * Renders the view names for their displaying without class path.
      *
-     * @version $Revision: 1.3 $
+     * @version $Revision: 1.4 $
      */
     class NameListCellRenderer
         extends JLabel

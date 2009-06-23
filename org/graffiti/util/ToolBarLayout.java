@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolBarLayout.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ToolBarLayout.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.util;
 
@@ -20,7 +20,7 @@ import java.awt.Insets;
  * height of a toolbar panel.
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+ * @version $Revision: 1.2 $ $Date: 2009/06/23 07:14:49 $
  */
 public class ToolBarLayout
     extends FlowLayout
@@ -56,7 +56,8 @@ public class ToolBarLayout
     /*
      * @see java.awt.FlowLayout#preferredLayoutSize(java.awt.Container)
      */
-    public Dimension preferredLayoutSize(Container target)
+    @Override
+	public Dimension preferredLayoutSize(Container target)
     {
         synchronized(target.getTreeLock())
         {

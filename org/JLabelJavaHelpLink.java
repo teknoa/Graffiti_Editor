@@ -23,7 +23,6 @@ import javax.help.HelpBroker;
 import javax.help.HelpSet;
 import javax.swing.JLabel;
 
-import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 
 public class JLabelJavaHelpLink extends JLabel {

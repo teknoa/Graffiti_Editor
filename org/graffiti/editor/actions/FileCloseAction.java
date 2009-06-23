@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileCloseAction.java,v 1.2 2008/09/28 16:45:25 klukas Exp $
+// $Id: FileCloseAction.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -16,9 +16,7 @@ import javax.swing.JInternalFrame;
 
 import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
@@ -26,7 +24,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for closing a graph.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class FileCloseAction
     extends GraffitiAction
@@ -55,7 +53,8 @@ public class FileCloseAction
      *
      * @return DOCUMENT ME!
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return mainFrame.isSessionActive();
     }
@@ -63,7 +62,8 @@ public class FileCloseAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

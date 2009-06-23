@@ -1,5 +1,4 @@
 package net.iharder.dnd;
-import java.beans.*;
 
 /**
  * If you wish to use the FileDrop package as a JavaBean, this class will act as

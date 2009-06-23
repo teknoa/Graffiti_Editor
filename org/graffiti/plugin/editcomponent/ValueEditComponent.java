@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditComponent.java,v 1.2 2008/09/04 11:54:46 klukas Exp $
+// $Id: ValueEditComponent.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -18,7 +18,6 @@ import org.graffiti.event.EdgeListener;
 import org.graffiti.event.GraphListener;
 import org.graffiti.event.NodeListener;
 import org.graffiti.event.TransactionListener;
-
 import org.graffiti.plugin.Displayable;
 
 /**

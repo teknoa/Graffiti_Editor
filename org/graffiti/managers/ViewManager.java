@@ -5,21 +5,19 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ViewManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.managers;
 
 import org.graffiti.managers.pluginmgr.PluginManagerListener;
-
 import org.graffiti.plugin.view.View;
 import org.graffiti.plugin.view.ViewListener;
-
 import org.graffiti.util.InstanceCreationException;
 
 /**
  * Provides an interface for managing a list of view types.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public interface ViewManager
     extends PluginManagerListener, ViewListener
@@ -107,7 +105,7 @@ public interface ViewManager
     /**
      * Interfaces a view manager listener.
      *
-     * @version $Revision: 1.1 $
+     * @version $Revision: 1.2 $
      */
     public interface ViewManagerListener
     {

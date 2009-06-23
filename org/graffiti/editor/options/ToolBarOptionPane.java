@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolBarOptionPane.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: ToolBarOptionPane.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor.options;
 
@@ -31,7 +31,7 @@ import org.graffiti.options.AbstractOptionPane;
 /**
  * A tool bar editor.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class ToolBarOptionPane
     extends AbstractOptionPane
@@ -83,7 +83,8 @@ public class ToolBarOptionPane
     /*
      * @see org.graffiti.options.AbstractOptionPane#initDefault()
      */
-    protected void initDefault()
+    @Override
+	protected void initDefault()
     {
         setLayout(new BorderLayout());
 
@@ -105,7 +106,8 @@ public class ToolBarOptionPane
     /*
      * @see org.graffiti.options.AbstractOptionPane#saveDefault()
      */
-    protected void saveDefault()
+    @Override
+	protected void saveDefault()
     {
         // TODO
     }

@@ -5,12 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiValueEditContainer.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: AbstractGraffitiValueEditContainer.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
 import java.awt.GridLayout;
-
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -66,7 +65,8 @@ public class AbstractGraffitiValueEditContainer
      *
      * @param vec the <code>ValueEditComponent</code> to be added.
      */
-    public void addValueEditComponent(ValueEditComponent vec)
+    @Override
+	public void addValueEditComponent(ValueEditComponent vec)
     {
         nvt.addValueEditComponent(vec);
     }
@@ -77,7 +77,8 @@ public class AbstractGraffitiValueEditContainer
      * @param vec the <code>ValueEditComponent</code> to be added to the
      *        container.
      */
-    protected void doAddValueEditComponent(ValueEditComponent vec)
+    @Override
+	protected void doAddValueEditComponent(ValueEditComponent vec)
     {
     }
 

@@ -5,14 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CloseViewAction.java,v 1.1 2007/06/14 09:36:43 klukas Exp $
+// $Id: CloseViewAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 
 /**
@@ -36,7 +35,8 @@ public class CloseViewAction
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return false;
     }
@@ -46,7 +46,8 @@ public class CloseViewAction
      *
      * @return the help context for this action.
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }
@@ -56,7 +57,8 @@ public class CloseViewAction
      *
      * @return String, the name of this action.
      */
-    public String getName()
+    @Override
+	public String getName()
     {
         return null;
     }

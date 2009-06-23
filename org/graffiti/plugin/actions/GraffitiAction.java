@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.2 2009/02/11 14:27:50 morla Exp $
+// $Id: GraffitiAction.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -16,16 +16,14 @@ import javax.swing.JOptionPane;
 
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
-
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.graph.Graph;
 import org.graffiti.help.HelpContext;
 
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class GraffitiAction
     extends AbstractAction {
@@ -77,7 +75,8 @@ public abstract class GraffitiAction
      *
      * @return <code>true</code>, if this action is enabled.
      */
-    public abstract boolean isEnabled();
+    @Override
+	public abstract boolean isEnabled();
 
     /**
      * Returns the help context for this action.
@@ -91,7 +90,8 @@ public abstract class GraffitiAction
     /**
      * @see javax.swing.AbstractAction#setEnabled(boolean)
      */
-    public void setEnabled(boolean enableNow) {
+    @Override
+	public void setEnabled(boolean enableNow) {
     	// needs to be called once with opposite value, so that menu items and buttons
     	// are correctly informed about the new state, otherwise optimization kicks in
     	// and buttons and menu items are not informed about call to this method

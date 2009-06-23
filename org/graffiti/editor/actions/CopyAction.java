@@ -5,16 +5,14 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CopyAction.java,v 1.2 2008/02/11 13:44:38 klukas Exp $
+// $Id: CopyAction.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
-import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -41,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CopyAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -67,6 +65,7 @@ public class CopyAction extends SelectionAction {
 	 *
 	 * @return HelpContext, the help context for the action
 	 */
+	@Override
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
@@ -200,12 +199,14 @@ public class CopyAction extends SelectionAction {
 	 * @param items the items, which determine the internal state of the
 	 *        <code>enable</code> flag.
 	 */
+	@Override
 	protected void enable(List items) {
 	}
 
 	/* (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
+	@Override
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()

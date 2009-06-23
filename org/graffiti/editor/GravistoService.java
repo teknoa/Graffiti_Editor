@@ -1,6 +1,5 @@
 package org.graffiti.editor;
 
-import java.awt.Component;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -30,7 +29,6 @@ import org.graffiti.plugin.algorithm.EditorAlgorithm;
 import org.graffiti.plugin.algorithm.PreconditionException;
 import org.graffiti.plugin.algorithm.ProvidesGeneralContextMenu;
 import org.graffiti.plugin.parameter.Parameter;
-import org.graffiti.plugin.view.MessageListener;
 import org.graffiti.plugin.view.View;
 import org.graffiti.selection.Selection;
 import org.graffiti.session.EditorSession;

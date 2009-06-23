@@ -5,21 +5,20 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponent.java,v 1.2 2008/02/27 15:07:25 klukas Exp $
+// $Id: GraphElementComponent.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.view;
 
 import java.awt.Graphics;
 
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 
 import org.graffiti.graphics.GraphicAttributeConstants;
 
 /**
  * Class that shares common members for all GraphElementComponents.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class GraphElementComponent
     extends JComponent
@@ -35,7 +34,8 @@ public abstract class GraphElementComponent
      *
      * @see java.awt.Component#contains(int, int)
      */
-    public boolean contains(int x, int y)
+    @Override
+	public boolean contains(int x, int y)
     {
         return super.contains(x, y);
     }
@@ -47,7 +47,8 @@ public abstract class GraphElementComponent
      *
      * @see javax.swing.JComponent#paintComponent(Graphics)
      */
-    public void paintComponent(Graphics g)
+    @Override
+	public void paintComponent(Graphics g)
     {
         super.paintComponent(g);
     }

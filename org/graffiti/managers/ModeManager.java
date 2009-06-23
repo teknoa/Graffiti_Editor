@@ -5,18 +5,17 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ModeManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: ModeManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.managers;
 
 import org.graffiti.managers.pluginmgr.PluginManagerListener;
-
 import org.graffiti.plugin.mode.Mode;
 
 /**
  * Provides an interface for a modes manager.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  * @see org.graffiti.managers.pluginmgr.PluginManagerListener
  */

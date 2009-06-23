@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RunAlgorithm.java,v 1.3 2009/02/24 11:41:53 morla Exp $
+// $Id: RunAlgorithm.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -13,11 +13,8 @@ import java.awt.event.ActionEvent;
 
 import org.graffiti.editor.GravistoService;
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.EditComponentManager;
-
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.algorithm.Algorithm;
 import org.graffiti.plugin.algorithm.EditorAlgorithm;
@@ -26,7 +23,7 @@ import org.graffiti.plugin.view.View3D;
 /**
  * Runs an algorithm.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class RunAlgorithm
     extends GraffitiAction
@@ -77,7 +74,8 @@ public class RunAlgorithm
     /**
      * @see javax.swing.Action#isEnabled()
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
     	
     	if (algorithm instanceof EditorAlgorithm) {
@@ -103,7 +101,8 @@ public class RunAlgorithm
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

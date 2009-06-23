@@ -1,6 +1,9 @@
 package net.iharder.dnd;
 
-import java.beans.*;
+import java.beans.EventSetDescriptor;
+import java.beans.MethodDescriptor;
+import java.beans.PropertyDescriptor;
+import java.beans.SimpleBeanInfo;
 
 public class FileDropBeanBeanInfo extends SimpleBeanInfo
 {
@@ -51,7 +54,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      * A client of getPropertyDescriptors can use "instanceof" to check
      * if a given PropertyDescriptor is an IndexedPropertyDescriptor.
      */
-    public PropertyDescriptor[] getPropertyDescriptors() {
+    @Override
+	public PropertyDescriptor[] getPropertyDescriptors() {
         return properties;
     }
 
@@ -62,7 +66,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      * events fired by this bean.  May return null if the information
      * should be obtained by automatic analysis.
      */
-    public EventSetDescriptor[] getEventSetDescriptors() {
+    @Override
+	public EventSetDescriptor[] getEventSetDescriptors() {
         return eventSets;
     }
 
@@ -73,7 +78,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      * implemented by this bean.  May return null if the information
      * should be obtained by automatic analysis.
      */
-    public MethodDescriptor[] getMethodDescriptors() {
+    @Override
+	public MethodDescriptor[] getMethodDescriptors() {
         return methods;
     }
 
@@ -85,7 +91,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      * 		returned by getPropertyDescriptors.
      * <P>	Returns -1 if there is no default property.
      */
-    public int getDefaultPropertyIndex() {
+    @Override
+	public int getDefaultPropertyIndex() {
         return defaultPropertyIndex;
     }
 
@@ -96,7 +103,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      *		returned by getEventSetDescriptors.
      * <P>	Returns -1 if there is no default event.
      */
-    public int getDefaultEventIndex() {
+    @Override
+	public int getDefaultEventIndex() {
         return defaultPropertyIndex;
     }
 
@@ -121,7 +129,8 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
      * @return  An image object representing the requested icon.  May
      *    return null if no suitable icon is available.
      */
-    public java.awt.Image getIcon(int iconKind) {
+    @Override
+	public java.awt.Image getIcon(int iconKind) {
         switch ( iconKind ) {
         case ICON_COLOR_16x16:
             if ( iconNameC16 == null )

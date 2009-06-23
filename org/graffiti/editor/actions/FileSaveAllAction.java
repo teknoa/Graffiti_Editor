@@ -5,26 +5,22 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAllAction.java,v 1.3 2009/01/08 14:19:02 morla Exp $
+// $Id: FileSaveAllAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
 
 import org.graffiti.editor.MainFrame;
-
 import org.graffiti.help.HelpContext;
-
 import org.graffiti.managers.IOManager;
-
 import org.graffiti.plugin.actions.GraffitiAction;
-
 import org.graffiti.session.EditorSession;
 
 /**
  * The action for saving all open graphs.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class FileSaveAllAction
     extends GraffitiAction
@@ -55,7 +51,8 @@ public class FileSaveAllAction
      *
      * @return DOCUMENT ME!
      */
-    public boolean isEnabled()
+    @Override
+	public boolean isEnabled()
     {
         return false;
     }
@@ -63,7 +60,8 @@ public class FileSaveAllAction
     /**
      * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
      */
-    public HelpContext getHelpContext()
+    @Override
+	public HelpContext getHelpContext()
     {
         return null;
     }

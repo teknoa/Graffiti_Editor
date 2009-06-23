@@ -5,23 +5,20 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.12 2009/05/15 13:09:46 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.13 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.editor;
 
-import java.awt.Color;
 import java.awt.ContainerOrderFocusTraversalPolicy;
 import java.awt.Dimension;
 import java.awt.event.ContainerEvent;
 
 import javax.swing.JInternalFrame;
-import javax.swing.JRootPane;
 import javax.swing.border.Border;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import org.ErrorMsg;
-import org.ReleaseInfo;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.plugin.view.View;
@@ -205,7 +202,8 @@ public class GraffitiInternalFrame
      *
      * @param title the new title of the frame.
      */
-    public void setTitle(String title)
+    @Override
+	public void setTitle(String title)
     {
    	 	this.initTitle = title;
         String frameTitle = title + " - view " + frameNumber;

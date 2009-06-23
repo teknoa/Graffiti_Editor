@@ -5,35 +5,30 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SpinnerEditComponent.java,v 1.3 2008/09/04 14:52:24 klukas Exp $
+// $Id: SpinnerEditComponent.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
 import java.awt.Dimension;
-import java.awt.event.FocusListener;
-
 import java.text.ParseException;
 
-import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.JSpinner.NumberEditor;
 import javax.swing.event.ChangeEvent;
 
-import org.ErrorMsg;
 import org.graffiti.attributes.ByteAttribute;
 import org.graffiti.attributes.IntegerAttribute;
 import org.graffiti.attributes.LongAttribute;
 import org.graffiti.attributes.ShortAttribute;
-
 import org.graffiti.plugin.Displayable;
 import org.graffiti.plugin.parameter.IntegerParameter;
 
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class SpinnerEditComponent
     extends AbstractValueEditComponent
@@ -105,7 +100,8 @@ public class SpinnerEditComponent
      *
      * @param disp
      */
-    public void setDisplayable(Displayable disp)
+    @Override
+	public void setDisplayable(Displayable disp)
     {
         this.displayable = disp;
     }
@@ -136,7 +132,8 @@ public class SpinnerEditComponent
     /*
      * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setShowEmpty(boolean)
      */
-    public void setShowEmpty(boolean showEmpty)
+    @Override
+	public void setShowEmpty(boolean showEmpty)
     {
         if(this.showEmpty != showEmpty)
         {

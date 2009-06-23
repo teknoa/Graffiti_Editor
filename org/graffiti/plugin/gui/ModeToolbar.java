@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ModeToolbar.java,v 1.2 2008/09/22 12:41:34 klukas Exp $
+// $Id: ModeToolbar.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -23,7 +23,7 @@ import org.graffiti.plugin.tool.Tool;
  * <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
  * special way.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * @see org.graffiti.plugin.mode.Mode
  */
@@ -102,7 +102,8 @@ public class ModeToolbar
      *
      * @see java.awt.Container#add(Component)
      */
-    public Component add(Component comp)
+    @Override
+	public Component add(Component comp)
     {
         if(comp instanceof ToolButton)
         {
