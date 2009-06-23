@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraffitiAction.java,v 1.4 2009/06/23 13:14:46 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -23,7 +23,7 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class GraffitiAction
     extends AbstractAction {
@@ -55,10 +55,26 @@ public abstract class GraffitiAction
      */
     public GraffitiAction(String name, MainFrame mainFrame, String helpID) {
         super(name);
+        putValue("name", name);
         this.name = name;
         this.mainFrame = mainFrame;
         this.helpID = helpID;
         knownActions.add(this);
+    }
+    
+    public static boolean performAction(String name) {
+    	GraffitiAction ka = null;
+    	for (GraffitiAction g : knownActions) {
+    		if (g.getName().equals(name)) {
+    			ka = g;
+    			break;
+    		}
+    	}
+    	if (ka!=null) {
+    		ka.actionPerformed(null);
+    		return true;
+    	} else
+    		return false;
     }
     
     protected Graph getGraph() {

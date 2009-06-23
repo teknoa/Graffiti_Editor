@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.74 2009/06/05 13:10:45 morla Exp $
+// $Id: MainFrame.java,v 1.75 2009/06/23 13:14:47 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -177,11 +177,13 @@ import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
 
+import scenario.ScenarioService;
+
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.74 $
+ * @version $Revision: 1.75 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -2868,6 +2870,9 @@ public class MainFrame extends JFrame implements SessionManager,
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						GraffitiAction.updateAllActions();
+						if (ScenarioService.isRecording()) {
+							ScenarioService.postWorkflowStep(action);
+						}
 					}});
 			}});
 		
