@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.7 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractTool.java,v 1.8 2009/06/25 19:06:54 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -45,6 +45,8 @@ import org.graffiti.selection.SelectionListener;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.Session;
 import org.graffiti.session.SessionListener;
+
+import scenario.ScenarioService;
 
 /**
  * Provides an abstract implementation of the <code>Tool</code> interface.
@@ -204,6 +206,16 @@ public abstract class AbstractTool
     {
         return false;
     }
+    
+    public static boolean activateTool(String id) {
+   	 for (Tool t : knownTools) {
+   		 if (t.getToolName().equals(id)) {
+   			 t.activate();
+   			 return t.isActive();
+   		 }
+   	 }
+   	 return false;
+    }
 
     /**
      * Classes that overwrite this method should call super.active first.
@@ -212,6 +224,13 @@ public abstract class AbstractTool
      */
     public void activate()
     {
+   	 
+ 		ScenarioService.postWorkflowStep(
+ 				"Activate "+getToolName(),
+ 				new String[] { "import org.graffiti.plugin.tool.AbstractTool;"},
+ 				new String[] { "AbstractTool.activateTool(\""+getToolName()+"\");"});
+
+   	 
         // System.out.println("Activate "+toString());
     	if (!knownTools.contains(this)) knownTools.add(this);
 

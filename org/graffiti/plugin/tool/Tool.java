@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Tool.java,v 1.2 2007/10/08 13:47:39 klukas Exp $
+// $Id: Tool.java,v 1.3 2009/06/25 19:06:54 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -89,6 +89,8 @@ public interface Tool
 	public void preProcessImageCreation();
 
 	public void postProcessImageCreation();
+	
+	public String getToolName();
 }
 
 //------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.4 2008/09/22 12:41:35 klukas Exp $
+// $Id: ToolButton.java,v 1.5 2009/06/25 19:06:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -22,11 +22,13 @@ import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.plugin.tool.Tool;
 
+import scenario.ScenarioService;
+
 /**
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.4 $ $Date: 2008/09/22 12:41:35 $
+ * @version $Revision: 1.5 $ $Date: 2009/06/25 19:06:54 $
  */
 public class ToolButton
     extends GraffitiToggleButton
