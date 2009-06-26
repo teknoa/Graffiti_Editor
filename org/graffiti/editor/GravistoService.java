@@ -352,6 +352,11 @@ public class GravistoService {
 
 		return null;
 	}
+	
+	public static void run(String pluginNameOrClassName) {
+		Graph g = MainFrame.getInstance().getActiveSession().getGraph();
+		getInstance().runPlugin(pluginNameOrClassName, g);
+	}
 
 	/**
 	 * Starts a plugin and returns, as soon as the plugin execution has
@@ -432,6 +437,10 @@ public class GravistoService {
 		EditorSession session = getMainFrame().getActiveEditorSession();
 		Selection selection = session.getSelectionModel().getActiveSelection();
 		algorithm.attach(graph, selection);
+	}
+	
+	public static void attachData(Algorithm algorithm) {
+		getInstance().algorithmAttachData(algorithm);
 	}
 
 	/**
