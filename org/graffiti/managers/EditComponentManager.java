@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditComponentManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: EditComponentManager.java,v 1.3 2009/06/29 21:44:47 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -15,6 +15,7 @@ import java.util.Map;
 import org.graffiti.editor.EditComponentNotFoundException;
 import org.graffiti.managers.pluginmgr.PluginDescription;
 import org.graffiti.managers.pluginmgr.PluginManagerListener;
+import org.graffiti.plugin.Displayable;
 import org.graffiti.plugin.EditorPlugin;
 import org.graffiti.plugin.GenericPlugin;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
@@ -26,7 +27,7 @@ import org.graffiti.util.InstanceLoader;
  * <code>AttributeComponent</code> classes.
  *
  * @author ph
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class EditComponentManager
     implements PluginManagerListener
@@ -34,7 +35,7 @@ public class EditComponentManager
     //~ Instance fields ========================================================
 
     /** Maps displayable classes to ValueEditComponent classes. */
-    private Map valueEditComponents;
+    private Map<Displayable,ValueEditComponent> valueEditComponents;
 
     //~ Constructors ===========================================================
 
@@ -43,7 +44,7 @@ public class EditComponentManager
      */
     public EditComponentManager()
     {
-        this.valueEditComponents = new HashMap();
+        this.valueEditComponents = new HashMap<Displayable,ValueEditComponent>();
     }
 
     //~ Methods ================================================================
@@ -53,7 +54,7 @@ public class EditComponentManager
      *
      * @return DOCUMENT ME!
      */
-    public Map getEditComponents()
+    public Map<Displayable,ValueEditComponent> getEditComponents()
     {
         return valueEditComponents;
     }
@@ -69,7 +70,7 @@ public class EditComponentManager
      *
      * @throws EditComponentNotFoundException DOCUMENT ME!
      */
-    public ValueEditComponent getValueEditComponent(Class aType)
+    public ValueEditComponent getValueEditComponent(Displayable aType)
         throws EditComponentNotFoundException
     {
         if(!(valueEditComponents.containsKey(aType)))
@@ -79,11 +80,11 @@ public class EditComponentManager
                 aType);
         }
 
-        Class ac = (Class) valueEditComponents.get(aType);
+        ValueEditComponent ac = valueEditComponents.get(aType);
 
         try
         {
-            ValueEditComponent component = (ValueEditComponent) InstanceLoader.createInstance(ac,
+            ValueEditComponent component = (ValueEditComponent) InstanceLoader.createInstance(ac.getClass(),
                     null);
 
             return component;

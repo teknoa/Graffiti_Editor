@@ -21,6 +21,7 @@ import org.graffiti.editor.dialog.DefaultParameterDialog;
 import org.graffiti.editor.dialog.ParameterDialog;
 import org.graffiti.graph.Graph;
 import org.graffiti.managers.pluginmgr.DefaultPluginEntry;
+import org.graffiti.managers.pluginmgr.PluginEntry;
 import org.graffiti.options.OptionPane;
 import org.graffiti.plugin.algorithm.Algorithm;
 import org.graffiti.plugin.algorithm.AlgorithmWithComponentDescription;
@@ -51,9 +52,9 @@ public class GravistoService {
 	 * Contains <code>optionPanelRecord</code> structures
 	 * which describe a option window.
 	 */
-	private ArrayList optionPane = new ArrayList();
+	private ArrayList<OptionPane> optionPane = new ArrayList<OptionPane>();
 
-	private ArrayList optionPaneIdentifiers = new ArrayList();
+	private ArrayList<Object> optionPaneIdentifiers = new ArrayList<Object>();
 
 	/**
 	 * DOCUMENT ME!
@@ -73,7 +74,7 @@ public class GravistoService {
 	/**
 	 * DOCUMENT ME!
 	 */
-	private List patternSessions;
+	private List<Session> patternSessions;
 
 	/**
 	 * Returns the single instance of this class. 
@@ -105,7 +106,7 @@ public class GravistoService {
 	/**
 	 * @return Returns a list of known optionPanes. (type <code>OptionPane</code>)
 	 */
-	public ArrayList getKnownOptionPanes() {
+	public ArrayList<OptionPane> getKnownOptionPanes() {
 		return optionPane;
 	}
 
@@ -139,12 +140,12 @@ public class GravistoService {
 	 *         <code>EditorSession</code>. Returns empty Vector, if no
 	 *         sessions are loaded.
 	 */
-	public Vector getMainSessions() {
-		Vector result = new Vector();
+	public Vector<Session> getMainSessions() {
+		Vector<Session> result = new Vector<Session>();
 
-		Set sessions = MainFrame.getSessions();
+		Set<Session> sessions = MainFrame.getSessions();
 
-		for (Iterator it = sessions.iterator(); it.hasNext();) {
+		for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
 			Session curS = (Session) it.next();
 
 			if ((patternSessions == null) || (patternSessions.indexOf(curS) < 0)) {
@@ -181,10 +182,10 @@ public class GravistoService {
 	 * @return <code>Vector</code> with elements of the type
 	 *         <code>Graph</code>.
 	 */
-	public Vector getMainGraphs() {
-		Vector result = new Vector();
+	public Vector<Graph> getMainGraphs() {
+		Vector<Graph> result = new Vector<Graph>();
 
-		for (Iterator it = getMainFrame().getSessionsIterator(); it.hasNext();) {
+		for (Iterator<Session> it = getMainFrame().getSessionsIterator(); it.hasNext();) {
 			Session curS = (Session) it.next();
 
 			if ((patternSessions == null) || (patternSessions.indexOf(curS) < 0)) {
@@ -240,7 +241,7 @@ public class GravistoService {
 	 */
 	public void addPatternSession(Session session) {
 		if (patternSessions == null) {
-			patternSessions = new ArrayList();
+			patternSessions = new ArrayList<Session>();
 		}
 
 		patternSessions.add(session);
@@ -257,7 +258,7 @@ public class GravistoService {
 		if (frames != null) {
 			//MainFrame mf=getInstance().getMainFrame();
 			//Session currentSession=mf.getActiveSession();
-			for (Iterator it = frames.iterator(); it.hasNext();) {
+			for (Iterator<JInternalFrame> it = frames.iterator(); it.hasNext();) {
 				JInternalFrame frame = (JInternalFrame) it.next();
 
 				// TODO check: a saved frame should never be null!
@@ -302,9 +303,9 @@ public class GravistoService {
 	 * @return The algorithm instance.
 	 */
 	public Algorithm getAlgorithmInstanceFromFriendlyName(String name) {
-		Collection plugins = getMainFrame().getPluginManager().getPluginEntries();
+		Collection<PluginEntry> plugins = getMainFrame().getPluginManager().getPluginEntries();
 
-		for (Iterator pi = plugins.iterator(); pi.hasNext();) {
+		for (Iterator<PluginEntry> pi = plugins.iterator(); pi.hasNext();) {
 			DefaultPluginEntry curPluginEntry = (DefaultPluginEntry) pi.next();
 			Algorithm[] myAlgos = curPluginEntry.getPlugin().getAlgorithms();
 
@@ -340,9 +341,9 @@ public class GravistoService {
 	 */
 	public DefaultPluginEntry getPluginInstanceFromPluginDescription(
 			String pluginDescription) {
-		Collection plugins = getMainFrame().getPluginManager().getPluginEntries();
+		Collection<PluginEntry> plugins = getMainFrame().getPluginManager().getPluginEntries();
 
-		for (Iterator pi = plugins.iterator(); pi.hasNext();) {
+		for (Iterator<PluginEntry> pi = plugins.iterator(); pi.hasNext();) {
 			DefaultPluginEntry curPluginEntry = (DefaultPluginEntry) pi.next();
 			if (curPluginEntry.getDescription().getName().toUpperCase().indexOf(
 					pluginDescription.toUpperCase()) >= 0) {

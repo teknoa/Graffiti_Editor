@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorPlugin.java,v 1.2 2008/09/04 09:54:47 klukas Exp $
+// $Id: EditorPlugin.java,v 1.3 2009/06/29 21:44:47 klukas Exp $
 
 package org.graffiti.plugin;
 
 import java.util.Map;
 
+import org.graffiti.plugin.editcomponent.ValueEditComponent;
 import org.graffiti.plugin.gui.GraffitiComponent;
 import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.mode.Mode;
@@ -76,7 +77,7 @@ public interface EditorPlugin
      *
      * @return DOCUMENT ME!
      */
-    public Map getValueEditComponents();
+    public Map<Displayable,ValueEditComponent> getValueEditComponents();
     
     public InspectorTab[] getInspectorTabs();
 }
