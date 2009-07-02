@@ -1,5 +1,5 @@
 package org.graffiti.plugin.view;
 
 public enum CoordinateSystem {
-	XY, XZ, YZ
+	XY, XZ, ZY
 }

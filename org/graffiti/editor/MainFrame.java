@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.75 2009/06/23 13:14:47 klukas Exp $
+// $Id: MainFrame.java,v 1.76 2009/07/02 13:18:30 morla Exp $
 
 package org.graffiti.editor;
 
@@ -183,7 +183,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.75 $
+ * @version $Revision: 1.76 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -3618,6 +3618,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	public void copyBufferInFrame(JFrame cloneframe) {
 		if (cloneframe!=null&&cloneframe.getGraphics()!=null)
 				super.paint(cloneframe.getGraphics());
+	}
+	
+	public JDesktopPane getDesktop() {
+		return desktop;
 	}
 }
 
