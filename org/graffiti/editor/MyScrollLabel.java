@@ -15,7 +15,7 @@ public class MyScrollLabel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	public MyScrollLabel(String msg) {
-		this.setLayout(TableLayout.getLayout(400,200));
+		this.setLayout(TableLayout.getLayout(500,300));
 		final JScrollPane jsp = new JScrollPane(new JEditorPane("text/html", msg));
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
