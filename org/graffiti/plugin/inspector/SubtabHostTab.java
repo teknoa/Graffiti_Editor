@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.swing.JTabbedPane;
 
+import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.graffiti.event.AttributeEvent;
 import org.graffiti.event.AttributeListener;
 import org.graffiti.event.TransactionEvent;
@@ -189,11 +190,11 @@ public class SubtabHostTab extends InspectorTab
 		}
 	}
 
-	public void transactionFinished(TransactionEvent e) {
+	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
 				AttributeListener l = (AttributeListener)tab;
-				l.transactionFinished(e);
+				l.transactionFinished(e, status);
 			}
 		}
 	}

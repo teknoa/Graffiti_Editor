@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.5 2008/08/04 09:42:41 klukas Exp $
+// $Id: AbstractView.java,v 1.6 2009/07/10 08:17:39 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -22,6 +22,7 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 
+import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.MessageType;
 import org.graffiti.event.AttributeEvent;
@@ -36,7 +37,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -700,7 +701,7 @@ public abstract class AbstractView
      *
      * @param e the EdgeEvent detailing the changes.
      */
-    public void transactionFinished(TransactionEvent e)
+    public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status)
     {
     }
 

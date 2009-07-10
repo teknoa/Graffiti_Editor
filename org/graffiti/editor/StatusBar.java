@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.7 2009/02/24 13:15:15 morla Exp $
+// $Id: StatusBar.java,v 1.8 2009/07/10 08:17:39 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -32,6 +32,7 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 
 import org.AttributeHelper;
+import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.ErrorMsg;
 import org.graffiti.core.StringBundle;
 import org.graffiti.event.GraphEvent;
@@ -51,7 +52,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class StatusBar
     extends JPanel
@@ -468,7 +469,7 @@ public class StatusBar
     /**
      * @see org.graffiti.event.TransactionListener#transactionFinished(TransactionEvent)
      */
-    public void transactionFinished(TransactionEvent e)
+    public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status)
     {
         // ignoreUpdate--;
 		ignoreUpdate=0;

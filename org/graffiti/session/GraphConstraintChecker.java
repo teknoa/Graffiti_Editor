@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphConstraintChecker.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraphConstraintChecker.java,v 1.3 2009/07/10 08:17:39 klukas Exp $
 
 package org.graffiti.session;
 
@@ -13,6 +13,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.graffiti.event.AttributeEvent;
 import org.graffiti.event.AttributeListener;
 import org.graffiti.event.EdgeEvent;
@@ -516,7 +517,7 @@ public class GraphConstraintChecker
      *
      * @param e the EdgeEvent detailing the changes.
      */
-    public void transactionFinished(TransactionEvent e)
+    public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status)
     {
     }
 

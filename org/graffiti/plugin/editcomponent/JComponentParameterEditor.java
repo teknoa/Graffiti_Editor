@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import javax.swing.JComponent;
 
+import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.graffiti.event.AttributeEvent;
 import org.graffiti.event.EdgeEvent;
 import org.graffiti.event.GraphEvent;
@@ -83,7 +84,7 @@ public class JComponentParameterEditor implements ValueEditComponent {
 
 	}
 
-	public void transactionFinished(TransactionEvent e) {
+	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 		// TODO Auto-generated method stub
 
 	}
