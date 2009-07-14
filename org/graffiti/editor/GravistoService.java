@@ -1,5 +1,9 @@
 package org.graffiti.editor;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
 import java.lang.reflect.InvocationTargetException;
@@ -10,6 +14,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
@@ -621,6 +627,34 @@ public class GravistoService {
 			if (s.getViews().contains(thisView))
 				return s;
 		return null;
+	}
+
+	public static ImageIcon getScaledImage(ImageIcon icon, int w, int h) {
+		if (icon.getIconWidth()<=w && icon.getIconHeight()<=h)
+			return icon;
+		try {
+			double srcWidth = icon.getIconWidth();
+			double srcHeight= icon.getIconHeight();
+			
+		    double longSideForSource = (double) Math.max(srcWidth, srcHeight);
+		    double longSideForDest = (double) Math.max(w,h);
+		    double multiplier = longSideForDest / longSideForSource;
+		    int destWidth = (int) (srcWidth * multiplier);
+		    int destHeight = (int) (srcHeight * multiplier);
+	
+			
+		    BufferedImage destImage = new BufferedImage(destWidth, destHeight, 
+		            BufferedImage.TYPE_INT_ARGB); 
+		          Graphics2D graphics = destImage.createGraphics();
+		          AffineTransform affineTransform = 
+		            AffineTransform.getScaleInstance(multiplier, multiplier);
+		    graphics.drawImage(icon.getImage(), affineTransform, null);
+			
+			return new ImageIcon(destImage);
+		} catch(Exception e) {
+			ErrorMsg.addErrorMessage(e);
+			return icon;
+		}
 	}
 }
 

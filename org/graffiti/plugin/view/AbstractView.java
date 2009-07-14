@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.6 2009/07/10 08:17:39 klukas Exp $
+// $Id: AbstractView.java,v 1.7 2009/07/14 12:36:12 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -37,7 +37,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -745,6 +745,10 @@ public abstract class AbstractView
             ((MessageListener) it.next()).showMesssage(sBundle.getString(
                     message), type);
         }
+    }
+    
+    public JComponent getViewToolbarComponent() {
+    	return null;
     }
 }
 

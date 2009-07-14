@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.10 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.11 2009/07/14 12:36:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -116,8 +116,6 @@ public class GraffitiFrame
         this.frameNumber = internalFrame.getFrameNumber();
         this.initTitle = internalFrame.getInitTitle();
         
-        setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
-        
         if (view.putInScrollPane()) {
 	        JScrollPane jsp = new JScrollPane(view.getViewComponent());
 			jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
@@ -125,8 +123,20 @@ public class GraffitiFrame
 
 	        jsp.setWheelScrollingEnabled(false);
 	        view.getViewComponent().getParent().setBackground(Color.WHITE);
-	        add(jsp, "0,0");
+	        
+	        if (view.getViewToolbarComponent()!=null) {
+		        setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
+		        			new double[] {
+		        				TableLayout.PREFERRED, 
+		        				TableLayoutConstants.FILL }));
+		        add(view.getViewToolbarComponent(), "0,0");
+		        add(jsp, "0,1");
+	        } else {
+	            setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
+	        	add(jsp, "0,0");
+	        }
         } else {
+            setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
 	        add(view.getViewComponent(), "0,0");
         }
         

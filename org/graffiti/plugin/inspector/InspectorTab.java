@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.9 2009/06/23 07:14:49 klukas Exp $
+// $Id: InspectorTab.java,v 1.10 2009/07/14 12:36:12 morla Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;

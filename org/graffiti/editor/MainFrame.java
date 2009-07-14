@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.76 2009/07/02 13:18:30 morla Exp $
+// $Id: MainFrame.java,v 1.77 2009/07/14 12:36:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -16,6 +16,7 @@ import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Rectangle;
@@ -183,7 +184,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.76 $
+ * @version $Revision: 1.77 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -653,10 +654,12 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (!gif.isVisible())
 				continue;
 			try {
-				if (gif.getSession()==s && targetView!=null && gif.getView()==targetView)
+				if (gif.getSession()==s && targetView!=null && gif.getView()==targetView) {
 					gif.setSelected(true);
-				else
-					gif.setSelected(false);
+//					gif.setSelected(true); //java is cool
+				}
+//				else
+//					gif.setSelected(false);
 			} catch (PropertyVetoException e) {
 				ErrorMsg.addErrorMessage(e);
 			}
@@ -1067,9 +1070,20 @@ public class MainFrame extends JFrame implements SessionManager,
 		scrollPane.setWheelScrollingEnabled(false);
 
 		if (!returnScrollPane) {
-			if (view.putInScrollPane())
-				frame.getContentPane().add(scrollPane);
-			else
+			if (view.putInScrollPane()) {
+				if (view.getViewToolbarComponent()!=null) {
+					
+					Container j = frame.getContentPane();
+					
+					j.setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
+			        			new double[] {
+			        				TableLayout.PREFERRED, 
+			        				TableLayoutConstants.FILL }));
+			        j.add(view.getViewToolbarComponent(), "0,0");
+			        j.add(scrollPane, "0,1");
+				} else
+					frame.getContentPane().add(scrollPane);
+			} else
 				frame.getContentPane().add(view.getViewComponent());
 
 			frame.pack();
@@ -1600,7 +1614,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						ErrorMsg.addErrorMessage("Plugin "+ep.getClass().getCanonicalName()+" contains InspectorTab with value NULL!");
 					else {
 						if (isAddon(ep))
-							it.setIcon(ep.getIcon());
+							it.setIcon(GravistoService.getScaledImage(ep.getIcon(), 16, 16));
 						inspectorPlugin.addTab(it);
 					}
 				}
@@ -1754,7 +1768,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				};
 
 				if (isAddon(plugin) || a.showMenuIcon())
-					menu.setIcon(plugin.getIcon());
+					menu.setIcon(GravistoService.getScaledImage(plugin.getIcon(),16,16));
 				if (a.getAcceleratorKeyStroke()!=null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
 				
@@ -3549,6 +3563,19 @@ public class MainFrame extends JFrame implements SessionManager,
 		return session.getActiveView();
 	}
 
+	public void showAndHighlightSidePanelSubTab(String tabtitle, final String subtabtitle) {
+    	showAndHighlightSidePanelTab(tabtitle, false);
+    	Thread t = new Thread(new Runnable() {
+			public void run() {
+		    	try {
+					Thread.sleep(800);
+				} catch (InterruptedException e) { }
+		    	showAndHighlightSidePanelTab(subtabtitle, false);
+			}});
+    	if(subtabtitle!=null)
+    		t.start();
+    }
+	
 	public void showAndHighlightSidePanelTab(String title, boolean cycle) {
 		boolean found = false;
 		for (InspectorTab it : getInspectorPlugin().getTabs()) {

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.13 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.14 2009/07/14 12:36:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -37,7 +37,12 @@ public class GraffitiInternalFrame
 {
     //~ Instance fields ========================================================
 
-    /** The session this frame is in. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The session this frame is in. */
     private EditorSession session;
 
     /** The view this frame contains. */
