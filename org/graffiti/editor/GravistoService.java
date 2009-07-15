@@ -1,6 +1,7 @@
 package org.graffiti.editor;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
@@ -17,8 +18,10 @@ import java.util.Vector;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
+import javax.swing.JDialog;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.ErrorMsg;
@@ -627,6 +630,10 @@ public class GravistoService {
 			if (s.getViews().contains(thisView))
 				return s;
 		return null;
+	}
+
+	public static void addActionOnKeystroke(JDialog comp, ActionListener action, KeyStroke key) {
+		comp.getRootPane().registerKeyboardAction(action,key,JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
 
 	public static ImageIcon getScaledImage(ImageIcon icon, int w, int h) {
