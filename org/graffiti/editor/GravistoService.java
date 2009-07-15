@@ -37,6 +37,7 @@ import org.graffiti.plugin.algorithm.AlgorithmWithComponentDescription;
 import org.graffiti.plugin.algorithm.CalculatingAlgorithm;
 import org.graffiti.plugin.algorithm.EditorAlgorithm;
 import org.graffiti.plugin.algorithm.PreconditionException;
+import org.graffiti.plugin.algorithm.ProvidesAccessToOtherAlgorithms;
 import org.graffiti.plugin.algorithm.ProvidesGeneralContextMenu;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.view.View;
@@ -332,9 +333,18 @@ public class GravistoService {
 					}
 					Algorithm algo = myAlgos[i];
 
-					if (algo.getName() != null
-							&& algo.getName().equalsIgnoreCase(name)) {
+					if (algo.getName() != null && algo.getName().equalsIgnoreCase(name)) {
 						return myAlgos[i];
+					}
+					
+					if (algo instanceof ProvidesAccessToOtherAlgorithms) {
+						ProvidesAccessToOtherAlgorithms pa = (ProvidesAccessToOtherAlgorithms)algo;
+						if (pa.getAlgorithmList()!=null)
+							for (Algorithm a : pa.getAlgorithmList()) {
+								if (a.getName() != null && a.getName().equalsIgnoreCase(name)) {
+									return a;
+								}
+							}
 					}
 				}
 			}
