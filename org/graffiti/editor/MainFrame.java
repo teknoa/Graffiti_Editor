@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.77 2009/07/14 12:36:12 morla Exp $
+// $Id: MainFrame.java,v 1.78 2009/07/17 08:32:02 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -184,7 +184,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.77 $
+ * @version $Revision: 1.78 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1943,7 +1943,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	private String getText(JMenuItem menuItem) {
 		if (menuItem.getIcon()!=null) {
 			String lbl = menuItem.getText();
-			lbl = "ZZZ"+menuItem.getIcon().toString()+lbl;
+			lbl = "ZZZ"+lbl;
 			return lbl;
 		} else
 			return menuItem.getText();
