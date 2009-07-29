@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.6 2009/07/29 11:07:50 klukas Exp $
+// $Id: View.java,v 1.7 2009/07/29 11:42:12 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -27,7 +27,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -133,10 +133,40 @@ public interface View
      */
     public void repaint(GraphElement ge);
     
+    /**
+     * @return Null, or a Double Object specifying the height of empty space or a JComponent, placed
+     * above the graph view and sized according to its preferred height, the full width of the window
+     * is used.
+     */
     public Object getViewToolbarComponentTop();
+    
+    /**
+     * @return Null, or a Double Object specifying the height of empty space or a JComponent, placed
+     * below the graph view and sized according to its preferred height, the full width of the window
+     * is used.
+     */
     public Object getViewToolbarComponentBottom();
+    
+    /**
+     * @return Null, or a Double Object specifying the width of empty space or a JComponent, placed
+     * left of the graph view and sized according to its preferred height, the height of graph view
+     * next to the component is used.
+     */
     public Object getViewToolbarComponentLeft();
+    
+    /**
+     * @return Null, or a Double Object specifying the width of empty space or a JComponent, placed
+     * to the right of the graph view and sized according to its preferred height, the height of graph view
+     * next to the component is used.
+     */
     public Object getViewToolbarComponentRight();
+    
+    /**
+     * @return Either null or JComponent, placed
+     * behind the graph view. The size corresponds to the window size. Certain components may draw over
+     * the graph view, resulting in redraw bugs. But a simple JComponent with hand-made paint-code should
+     * work fine.
+     */
     public JComponent getViewToolbarComponentBackground();
 }
 
