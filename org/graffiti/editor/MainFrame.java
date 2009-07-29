@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.78 2009/07/17 08:32:02 klukas Exp $
+// $Id: MainFrame.java,v 1.79 2009/07/29 08:45:57 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -184,7 +184,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.78 $
+ * @version $Revision: 1.79 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1071,18 +1071,18 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		if (!returnScrollPane) {
 			if (view.putInScrollPane()) {
-				if (view.getViewToolbarComponent()!=null) {
+				Container j = frame.getContentPane();
+				if (view.getViewToolbarComponentTop()!=null) {
 					
-					Container j = frame.getContentPane();
 					
 					j.setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
 			        			new double[] {
 			        				TableLayout.PREFERRED, 
 			        				TableLayoutConstants.FILL }));
-			        j.add(view.getViewToolbarComponent(), "0,0");
+			        j.add(view.getViewToolbarComponentTop(), "0,0");
 			        j.add(scrollPane, "0,1");
 				} else
-					frame.getContentPane().add(scrollPane);
+					j.add(scrollPane);
 			} else
 				frame.getContentPane().add(view.getViewComponent());
 
@@ -1416,19 +1416,19 @@ public class MainFrame extends JFrame implements SessionManager,
 		        		 desktop.getDesktopManager().deiconifyFrame(f);
 		        		 desktop.getDesktopManager().activateFrame(f);
 		        		 MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
-		        		 
-	        			SwingUtilities.invokeLater(new Runnable() {
+		        		 final GraffitiInternalFrame gif = f;
+	        			 SwingUtilities.invokeLater(new Runnable() {
 	        				public void run() {
 	        					if (desktop.getAllFrames()!=null && desktop.getAllFrames().length>0) {
 	        						try {
-	        							desktop.getAllFrames()[0].setSelected(true);
+	        							for (JInternalFrame jif : desktop.getAllFrames())
+	        								jif.setSelected(false);
+	        							gif.setSelected(true);
 	        						} catch (PropertyVetoException e) {
 	        							ErrorMsg.addErrorMessage(e);
 	        						}
 	        					}
 	        				}});
-
-		        		 
 		        		 return false;
 		        	 }
 		         }
@@ -3453,6 +3453,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	        	 if (f.getSession()==es) {
 	        		 desktop.getDesktopManager().deiconifyFrame(f);
 	        		 desktop.getDesktopManager().activateFrame(f);
+	        		 try {
+						f.setSelected(true);
+	        		 } catch (PropertyVetoException e) { }
 	        		 MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
 	        		 return true;
 	        	 }

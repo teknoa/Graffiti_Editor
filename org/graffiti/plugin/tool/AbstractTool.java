@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.8 2009/06/25 19:06:54 klukas Exp $
+// $Id: AbstractTool.java,v 1.9 2009/07/29 08:46:06 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -13,6 +13,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.util.Collection;
 import java.util.Iterator;
@@ -358,7 +359,7 @@ public abstract class AbstractTool
      *
      * @param comp DOCUMENT ME!
      */
-    public void highlight(Component comp)
+    public void highlight(Component comp, MouseEvent e)
     {
     	if (avoidHighlight)
     		return;
@@ -374,7 +375,7 @@ public abstract class AbstractTool
 	    	   	
 	    	   	List<AttributeComponent> acc = getAttributeCompsForElem(n);
 	    	   	for (AttributeComponent ac : acc) {
-	    	   		ac.highlight(true);
+	    	   		ac.highlight(true, e);
 	    	   	}
     	   } else
     	   	((JComponent) comp).setBorder(tempBorder);
@@ -476,7 +477,7 @@ public abstract class AbstractTool
 			   	List<AttributeComponent> acc = getAttributeCompsForElem(ge);
 			   	if (acc!=null)
 			   	for (AttributeComponent ac : acc) {
-			   		ac.highlight(false);
+			   		ac.highlight(false, null);
 			   	}
 	        }
         }

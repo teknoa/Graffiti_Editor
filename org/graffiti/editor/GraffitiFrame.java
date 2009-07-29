@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.11 2009/07/14 12:36:12 morla Exp $
+// $Id: GraffitiFrame.java,v 1.12 2009/07/29 08:45:57 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -124,12 +124,12 @@ public class GraffitiFrame
 	        jsp.setWheelScrollingEnabled(false);
 	        view.getViewComponent().getParent().setBackground(Color.WHITE);
 	        
-	        if (view.getViewToolbarComponent()!=null) {
+	        if (view.getViewToolbarComponentTop()!=null) {
 		        setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
 		        			new double[] {
 		        				TableLayout.PREFERRED, 
 		        				TableLayoutConstants.FILL }));
-		        add(view.getViewToolbarComponent(), "0,0");
+		        add(view.getViewToolbarComponentTop(), "0,0");
 		        add(jsp, "0,1");
 	        } else {
 	            setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
