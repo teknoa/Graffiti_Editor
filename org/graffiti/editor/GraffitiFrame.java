@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.12 2009/07/29 08:45:57 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.13 2009/07/29 11:07:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -13,6 +13,7 @@ import info.clearthought.layout.TableLayout;
 import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.Color;
+import java.awt.Container;
 import java.awt.Frame;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -124,13 +125,10 @@ public class GraffitiFrame
 	        jsp.setWheelScrollingEnabled(false);
 	        view.getViewComponent().getParent().setBackground(Color.WHITE);
 	        
-	        if (view.getViewToolbarComponentTop()!=null) {
-		        setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
-		        			new double[] {
-		        				TableLayout.PREFERRED, 
-		        				TableLayoutConstants.FILL }));
-		        add(view.getViewToolbarComponentTop(), "0,0");
-		        add(jsp, "0,1");
+	        if (MainFrame.isViewProvidingToolbar(view)) {
+	        	Container j = this;
+				MainFrame.placeViewInContainer(view, jsp, j);
+
 	        } else {
 	            setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
 	        	add(jsp, "0,0");

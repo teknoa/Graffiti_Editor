@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.79 2009/07/29 08:45:57 klukas Exp $
+// $Id: MainFrame.java,v 1.80 2009/07/29 11:07:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -184,7 +184,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.79 $
+ * @version $Revision: 1.80 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1072,17 +1072,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		if (!returnScrollPane) {
 			if (view.putInScrollPane()) {
 				Container j = frame.getContentPane();
-				if (view.getViewToolbarComponentTop()!=null) {
-					
-					
-					j.setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, 
-			        			new double[] {
-			        				TableLayout.PREFERRED, 
-			        				TableLayoutConstants.FILL }));
-			        j.add(view.getViewToolbarComponentTop(), "0,0");
-			        j.add(scrollPane, "0,1");
-				} else
-					j.add(scrollPane);
+				placeViewInContainer(view, scrollPane, j);
 			} else
 				frame.getContentPane().add(view.getViewComponent());
 
@@ -1132,6 +1122,51 @@ public class MainFrame extends JFrame implements SessionManager,
 			return frame;
 		else
 			return scrollPane;
+	}
+
+	static void placeViewInContainer(View view, JScrollPane scrollPane,
+			Container j) {
+		if (isViewProvidingToolbar(view)) {
+			
+			boolean top = view.getViewToolbarComponentTop()!=null;
+			boolean bottom = view.getViewToolbarComponentBottom()!=null;
+			boolean left = view.getViewToolbarComponentLeft()!=null;
+			boolean right = view.getViewToolbarComponentRight()!=null;
+			boolean background = view.getViewToolbarComponentBackground()!=null;
+			
+			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent          ? (JComponent) view.getViewToolbarComponentTop() : new JLabel(); 
+			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view.getViewToolbarComponentBottom() : new JLabel(); 
+			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent       ? (JComponent) view.getViewToolbarComponentLeft() : new JLabel(); 
+			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent    ? (JComponent) view.getViewToolbarComponentRight() : new JLabel();
+			
+			double topS = top && view.getViewToolbarComponentTop() instanceof Double          ? (Double) view.getViewToolbarComponentTop() : TableLayout.PREFERRED; 
+			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view.getViewToolbarComponentBottom() : TableLayout.PREFERRED; 
+			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double       ? (Double) view.getViewToolbarComponentLeft() : TableLayout.PREFERRED; 
+			double rightS = right && view.getViewToolbarComponentRight() instanceof Double    ? (Double) view.getViewToolbarComponentRight() : TableLayout.PREFERRED;
+			
+			j.setLayout(new TableLayout(new double[][] {
+				new double[] { TableLayout.FILL },	
+				new double[] { 
+						topS, 
+						TableLayout.FILL, 
+						bottomS },	
+			}));
+			if (top)
+				j.add(topC, "0,0");
+			if (left || right) {
+				j.add(TableLayout.get3Split(
+						leftC, 
+						scrollPane,
+						rightC,
+						leftS, TableLayout.FILL, rightS), "0,1");
+			} else
+				j.add(scrollPane, "0,1");
+			if (bottom)
+				j.add(bottomC, "0,2");
+			if (background)
+				j.add(view.getViewToolbarComponentBackground(), "0,0,0,2");
+		} else
+			j.add(scrollPane);
 	}
 
 	/**
@@ -3652,6 +3687,15 @@ public class MainFrame extends JFrame implements SessionManager,
 	
 	public JDesktopPane getDesktop() {
 		return desktop;
+	}
+
+	public static boolean isViewProvidingToolbar(View view) {
+		return view!=null && (
+		               view.getViewToolbarComponentTop()!=null
+					|| view.getViewToolbarComponentBottom()!=null
+					|| view.getViewToolbarComponentLeft()!=null
+					|| view.getViewToolbarComponentRight()!=null
+					|| view.getViewToolbarComponentBackground()!=null);
 	}
 }
 

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.5 2009/07/29 09:46:17 klukas Exp $
+// $Id: View.java,v 1.6 2009/07/29 11:07:50 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -27,7 +27,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -133,10 +133,10 @@ public interface View
      */
     public void repaint(GraphElement ge);
     
-    public JComponent getViewToolbarComponentTop();
-    public JComponent getViewToolbarComponentBottom();
-    public JComponent getViewToolbarComponentLeft();
-    public JComponent getViewToolbarComponentRight();
+    public Object getViewToolbarComponentTop();
+    public Object getViewToolbarComponentBottom();
+    public Object getViewToolbarComponentLeft();
+    public Object getViewToolbarComponentRight();
     public JComponent getViewToolbarComponentBackground();
 }
 
