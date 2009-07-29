@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponent.java,v 1.4 2009/06/23 07:14:49 klukas Exp $
+// $Id: AttributeComponent.java,v 1.5 2009/07/29 09:46:17 klukas Exp $
 
 package org.graffiti.plugin.view;
 
 import java.awt.Point;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JComponent;
 
@@ -18,7 +19,7 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AttributeComponent
     extends JComponent
@@ -73,7 +74,7 @@ public abstract class AttributeComponent
     public abstract void recreate()
         throws ShapeNotFoundException;
     
-    public void highlight(boolean value) {
+    public void highlight(boolean value, MouseEvent e) {
     	
     }
 }
