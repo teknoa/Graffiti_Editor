@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RunAlgorithm.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
+// $Id: RunAlgorithm.java,v 1.5 2009/07/30 12:19:20 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,7 +23,7 @@ import org.graffiti.plugin.view.View3D;
 /**
  * Runs an algorithm.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class RunAlgorithm
     extends GraffitiAction
@@ -113,7 +113,15 @@ public class RunAlgorithm
     public void actionPerformed(ActionEvent a)
     {
     	algorithm.setActionEvent(a);
-        GravistoService.getInstance().runAlgorithm(algorithm);
+    	try {
+    		GravistoService.getInstance().runAlgorithm(algorithm);
+    	} catch(Exception err) {
+    		MainFrame.showMessageDialog("Unexpected exception: "+err.toString(), "Error");
+    		err.printStackTrace();
+    	} catch(Error err) {
+    		MainFrame.showMessageDialog("Unexpected error: "+err.toString(), "Error");
+    		err.printStackTrace();
+    	}
     }
 }
 

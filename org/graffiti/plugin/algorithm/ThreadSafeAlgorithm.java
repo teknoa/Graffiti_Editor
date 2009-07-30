@@ -15,7 +15,7 @@ import javax.swing.KeyStroke;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class ThreadSafeAlgorithm implements Algorithm
 {
@@ -38,4 +38,9 @@ public abstract class ThreadSafeAlgorithm implements Algorithm
 	public boolean showMenuIcon() {
 		return false;
 	}
+	
+	public boolean mayWorkOnMultipleGraphs() {
+		return false;
+	}
+
 }

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.5 2009/06/23 07:14:49 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.6 2009/07/30 12:19:20 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -14,10 +14,16 @@ import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -45,11 +51,12 @@ import org.graffiti.plugin.parameter.ObjectListParameter;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.parameter.StringParameter;
 import org.graffiti.selection.Selection;
+import org.graffiti.session.Session;
 
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -89,6 +96,8 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 	private String algorithmName;
 
+	private Collection<Session> validSessions = new ArrayList<Session>();
+
 	//~ Constructors ===========================================================
 
 	/**
@@ -104,23 +113,33 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object description) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, description, null);
+		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, true);
 	}
 	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object description, boolean okOnly, boolean noButton) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly, noButton);
+			String algorithmName, Object description, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly, noButton, allowMultipleGraphTargets);
 	}
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent, JComponent descComponent) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false);
+			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean allowMultipleGraphTargets) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets);
 	}	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 			MainFrame parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean okOnly, boolean noButton) {
+			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
 		super(parent, true);
+		
+		validSessions.clear();
+		try {
+			Session s = MainFrame.getInstance().getActiveSession();
+			if (s!=null)
+				validSessions.add(s);
+		} catch(Exception e) {
+			// empty
+		}
+		
 		String description = "";
 		if (descriptionOrComponent instanceof String)
 			description = (String) descriptionOrComponent;
@@ -158,7 +177,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 		getRootPane().setDefaultButton(ok);
 
-		defineLayout(okOnly, noButton);
+		defineLayout(okOnly, noButton, allowMultipleGraphTargets);
 		addListeners();
 
 		pack();
@@ -271,7 +290,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	/**
 	 * Defines the layout of this dialog.
 	 */
-	private void defineLayout(boolean okOnly, boolean noButton) {
+	private void defineLayout(boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
 		double border = 8d;
 		double[][] size = {
 			new double[] { border, TableLayoutConstants.FILL, border },
@@ -285,9 +304,101 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		if (!noButton)
 		getContentPane().add(
 			TableLayout.get3Split(
-				ok, new JLabel(), okOnly ? null:cancel, TableLayoutConstants.PREFERRED, border, TableLayoutConstants.PREFERRED),
+				ok, 
+				okOnly ? null:cancel, 
+				allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 				"1,3"
 			);
+	}
+
+	private JComponent getSessionSelectionPanel() {
+		MainFrame.getInstance();
+		if (MainFrame.getSessions().size()<=1)
+			return new JLabel();
+		else {
+			final String pre = "<html><font color='#777777'><small>&nbsp;&nbsp;&nbsp;";
+			final JLabel res = new JLabel(pre+getActiveWorkingSetDescription());
+			
+			Cursor c = new Cursor(Cursor.HAND_CURSOR);
+			res.setCursor(c);
+			final String hint = "Click here to modify working set";
+			res.setOpaque(false);
+			res.setToolTipText(getActiveWorkingSetDescriptionDetails());
+			res.addMouseListener(new MouseListener() {
+				public void mouseReleased(MouseEvent e) { }
+				public void mousePressed(MouseEvent e) { }
+				
+				Color oldColor;
+				boolean oldOpaque;
+				
+				public void mouseExited(MouseEvent e) { 
+					res.setOpaque(oldOpaque);
+					res.setBackground(oldColor);
+					res.setToolTipText(getActiveWorkingSetDescriptionDetails());
+					res.setText(pre+getActiveWorkingSetDescription());
+				}
+				public void mouseEntered(MouseEvent e) {
+					oldOpaque = res.isOpaque();
+					res.setOpaque(true);
+					oldColor = res.getBackground();
+					res.setBackground(new Color(240, 240, 255));
+					res.setText(pre+hint);
+				}
+				public void mouseClicked(MouseEvent e) {
+					if (validSessions.size()<=1) {
+						validSessions.clear();
+						validSessions.addAll(MainFrame.getSessions());
+					} else {
+						validSessions.clear();
+						validSessions.add(MainFrame.getInstance().getActiveSession());
+					}
+					res.setToolTipText(getActiveWorkingSetDescriptionDetails());
+					res.setText(pre+getActiveWorkingSetDescription());
+				}
+			});
+			
+			return res;
+		}
+	}
+
+	private String getActiveWorkingSetDescription() {
+		boolean isActiveGraph = false;
+		try {
+			if (validSessions.size()==1 && 
+			    MainFrame.getInstance().getActiveSession() == validSessions.iterator().next())
+				isActiveGraph = true;
+		} catch(Exception e) {
+			// empty
+		}
+		if (isActiveGraph)
+			return "Process active graph";
+		else {
+			if (validSessions.size()>1)
+				return "Process "+validSessions.size()+" graphs";
+			if (validSessions.size()==1)
+				return "Process "+validSessions.size()+" graph";
+			else
+				return "No graph available";
+		}
+	}
+	
+	private String getActiveWorkingSetDescriptionDetails() {
+		try {
+			StringBuilder res = new StringBuilder();
+			int idx = 0;
+			for (Session s: validSessions) {
+				if (res.length()>0)
+					res.append("<br>");
+				idx++;
+				res.append(idx+") graph "+s.getGraph().getName());
+			}
+			if (res.length()>0)
+				return "<html>Working set:<br>"+res.toString();
+			else
+				return null;
+		} catch(Exception e) {
+			return null;
+		}
 	}
 
 	/**
@@ -398,7 +509,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 							MainFrame.getInstance().getActiveEditorSession().
 								getSelectionModel().getActiveSelection() : null
 					), 
-					title, description, okOnly, noButton);
+					title, description, okOnly, noButton, false);
 		if (paramDialog.isOkSelected()) {
 			Parameter[] pe = paramDialog.getEditedParameters();
 			Object[] result = new Object[pe.length];
@@ -409,6 +520,10 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 			return result;
 		} else
 			return null;
+	}
+
+	public Collection<Session> getTargetSessions() {
+		return validSessions;
 	}
 	
 }

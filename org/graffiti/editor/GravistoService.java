@@ -470,128 +470,142 @@ public class GravistoService {
 	 */
 	public void runAlgorithm(Algorithm algorithm, Graph graph,
 			Selection selection) {
-		if (ScenarioService.isRecording()) {
-			System.out.println("Start algorithm: "+algorithm.getName());
-			System.out.println("	category: "+algorithm.getCategory());
-			System.out.println("	description: "+ErrorMsg.removeHTMLtags(algorithm.getDescription()));
-			if (graph==null) {
-				System.out.println("Graph: null");
-			} else {
-				System.out.println("Graph: "+graph.getName(true));
-				System.out.println("	Nodes: "+graph.getNumberOfNodes());
-				System.out.println("	Edges: "+graph.getNumberOfEdges());
-			}
-			if (selection==null) {
-				System.out.println("Selection: null");
-			} else {
-				System.out.println("Selection: "+selection.getName());
-				System.out.println("	Nodes: "+selection.getNodes().size());
-				System.out.println("	Edges: "+selection.getEdges().size());
-			}
-		}
-		
 		algorithm.attach(graph, selection);
-		try {
-			algorithm.check();
-			Parameter[] parameters = algorithm.getParameters();
-			ParameterDialog paramDialog = null;
+		Parameter[] parameters = algorithm.getParameters();
+		ParameterDialog paramDialog = null;
 
-			if ((parameters != null) && (parameters.length != 0) || (algorithm instanceof AlgorithmWithComponentDescription)) {
+		if ((parameters != null) && (parameters.length != 0) || (algorithm instanceof AlgorithmWithComponentDescription)) {
+			if (algorithm instanceof EditorAlgorithm) {
+				paramDialog = ((EditorAlgorithm) algorithm).getParameterDialog(selection);
+			}
+
+			if (paramDialog == null) {
+				JComponent desc = null;
+				if (algorithm instanceof AlgorithmWithComponentDescription) {
+					try {
+						desc = ((AlgorithmWithComponentDescription)algorithm).getDescriptionComponent();
+					} catch(Exception e) {
+						ErrorMsg.addErrorMessage(e);
+						desc = null;
+					}
+				}
+				String algName = algorithm.getName();
 				if (algorithm instanceof EditorAlgorithm) {
-					paramDialog = ((EditorAlgorithm) algorithm)
-							.getParameterDialog(selection);
+					algName = ((EditorAlgorithm)algorithm).getShortName();
 				}
-
-				if (paramDialog == null) {
-					JComponent desc = null;
-					if (algorithm instanceof AlgorithmWithComponentDescription) {
-						try {
-							desc = ((AlgorithmWithComponentDescription)algorithm).getDescriptionComponent();
-						} catch(Exception e) {
-							ErrorMsg.addErrorMessage(e);
-							desc = null;
-						}
-					}
-					String algName = algorithm.getName();
-					if (algorithm instanceof EditorAlgorithm) {
-						algName = ((EditorAlgorithm)algorithm).getShortName();
-					}
-					paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
-							getMainFrame(), parameters,
-							selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc);
-				}
-
-				// TODO load and save the preferences for this algorithm
-				// TODO validate edited values
-				if (!paramDialog.isOkSelected()) {
-					return;
-				}
-			}
-			if (parameters == null && algorithm instanceof EditorAlgorithm) {
-				paramDialog = ((EditorAlgorithm) algorithm)
-						.getParameterDialog(selection);
+				paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
+						getMainFrame(), parameters,
+						selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc, algorithm.mayWorkOnMultipleGraphs());
 			}
 
-			/*try
-			 {*/
-			Parameter[] params = (paramDialog == null) ? new Parameter[] {}
-					: paramDialog.getEditedParameters();
-
-			if (ScenarioService.isRecording()) {
-				if (params==null)
-					System.out.println("Algorithm does not use parameters!");
-				else {
-					System.out.println(params.length+" Parameter(s):");
-					for (int i = 0; i<params.length; i++) {
-						Parameter p = params[i];
-						if (p!=null) {
-							System.out.println("Parameter: "+p.getName());
-							System.out.println("	Description: "+p.getDescription());
-							System.out.println("	Value: "+p.getValue());
-						}
-					}
-				}
+			if (!paramDialog.isOkSelected()) {
+				return;
 			}
-			
-			algorithm.setParameters(params);
-
-			algorithm.check();
-			boolean stop = false;
-			if (!(algorithm instanceof AlgorithmWithComponentDescription)
-					&& algorithm.getDescription()!=null && algorithm.getDescription().trim().length()>0
-					&& (parameters==null || parameters.length<=0)
-					&& SwingUtilities.isEventDispatchThread()) {
-				int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
-						algorithm.getDescription(), 
-						ErrorMsg.removeHTMLtags(algorithm.getName()), 
-						JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
-				if (res==JOptionPane.CANCEL_OPTION) {
-					stop = true;
-					MainFrame.showMessage(algorithm.getName()+" not started", MessageType.INFO);
-				}
-			}
-			if (!stop) {
-				algorithm.execute();
-
-				ScenarioService.postWorkflowStep(algorithm, params);
-				
-				if (algorithm instanceof CalculatingAlgorithm) {
-					JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
-							+ ((CalculatingAlgorithm) algorithm).getResult().toString());
-				}
-				algorithm.reset();
-			}
-		} catch (PreconditionException e1) {
-			String name = algorithm.getName();
-			if (name==null) {
-				name = algorithm.getClass().getSimpleName();
-			}
-			MainFrame.showMessageDialog(
-					"<html>Can not start <i>"+name+"</i>:<br><br>"+e1.getMessage(), 
-					"Command can't be executed");
-		} catch (Exception e) {
-			ErrorMsg.addErrorMessage(e);
 		}
+		if (parameters == null && algorithm instanceof EditorAlgorithm) {
+			paramDialog = ((EditorAlgorithm) algorithm)
+					.getParameterDialog(selection);
+		}
+
+		Parameter[] params = (paramDialog == null) ? new Parameter[] {}
+				: paramDialog.getEditedParameters();
+
+		boolean stop = false;
+		if (!(algorithm instanceof AlgorithmWithComponentDescription)
+				&& algorithm.getDescription()!=null && algorithm.getDescription().trim().length()>0
+				&& (parameters==null || parameters.length<=0)
+				&& SwingUtilities.isEventDispatchThread()) {
+			int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
+					algorithm.getDescription(), 
+					ErrorMsg.removeHTMLtags(algorithm.getName()), 
+					JOptionPane.OK_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE, null);
+			if (res==JOptionPane.CANCEL_OPTION) {
+				stop = true;
+				MainFrame.showMessage(algorithm.getName()+" not started", MessageType.INFO);
+			}
+		}
+		if (!stop) {
+			StringBuilder errors = new StringBuilder();
+			Collection<Session> sessions;
+			if (paramDialog!=null)
+				sessions = paramDialog.getTargetSessions();
+			else {
+				sessions = new ArrayList<Session>();
+				if (MainFrame.getSessions().size()==1 || !algorithm.mayWorkOnMultipleGraphs()) {
+					sessions.add(MainFrame.getInstance().getActiveSession());
+				} else
+					if (MainFrame.getSessions().size()>1) {
+						Object[] options = { "Active Graph", "Open graphs ("+MainFrame.getSessions().size()+")" };
+						int res = JOptionPane.showOptionDialog(MainFrame.getInstance(),
+								"Please select the working set.", 
+								ErrorMsg.removeHTMLtags(algorithm.getName()), 
+								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+						if (res==JOptionPane.YES_OPTION) {
+							sessions.add(MainFrame.getInstance().getActiveSession());
+						} else
+							sessions.addAll(MainFrame.getSessions());
+					}
+			}
+			boolean startLater = sessions.size()==0;
+			for (Session s : sessions) {
+				Graph g = s.getGraph();
+				Selection sel;
+				if (g==graph) {
+					startLater = true;
+					continue;
+				}
+				if (s instanceof EditorSession) {
+					EditorSession es = (EditorSession)s;
+					sel = es.getSelectionModel().getActiveSelection();
+				} else
+					sel = new Selection("empty");
+				algorithm.attach(g, sel);
+				algorithm.setParameters(params);
+				try {
+					algorithm.check();
+					algorithm.execute();
+					if (algorithm instanceof CalculatingAlgorithm) {
+						JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+								+ ((CalculatingAlgorithm) algorithm).getResult().toString());
+					}
+					algorithm.reset();
+				} catch (PreconditionException e) {
+					processError(algorithm, g, errors, e);
+				}
+			}
+			if (startLater) {
+				algorithm.attach(graph, selection);
+				algorithm.setParameters(params);
+				try {
+					algorithm.check();
+					algorithm.execute();
+					ScenarioService.postWorkflowStep(algorithm, params);
+					if (algorithm instanceof CalculatingAlgorithm) {
+						JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+								+ ((CalculatingAlgorithm) algorithm).getResult().toString());
+					}
+					algorithm.reset();
+				} catch (PreconditionException e) {
+					processError(algorithm, graph, errors, e);
+				}
+			}
+			if (errors.length()>0) {
+				MainFrame.showMessageDialogWithScrollBars("<html>"+errors.toString(), 
+						"Execution Error");
+			}
+
+		}
+	}
+
+	private void processError(Algorithm algorithm, Graph graph,
+			StringBuilder errors, PreconditionException e) {
+		String name = algorithm.getName();
+		if (name==null) {
+			name = algorithm.getClass().getSimpleName();
+		}
+		errors.append("Can not start <i>"+name+"</i> on graph "+
+				graph.getName()
+				+":<br><br>"+e.getMessage()+"<br><br>");
 	}
 
 	/**
