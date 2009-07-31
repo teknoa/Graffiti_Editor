@@ -12,7 +12,6 @@ public class JMButton extends JButton {
 	
 	public JMButton(String text) {
 		super(text);
-		mySetText(text);
 	}
 
 	private void mySetText(String text) {
@@ -20,11 +19,12 @@ public class JMButton extends JButton {
 		boolean mac = ErrorMsg.isMac();
 		if (mac && nativeLookAndFeelActive) {
 			if (text!=null && (text.contains("<br>") || text.contains("<small>"))) {
+				if (text.contains("<small>") && !text.contains("<br><small>"))
+					putClientProperty("JComponent.sizeVariant", "mini");
 				text = ErrorMsg.stringReplace(text, "<br>", " ");
 				text = ErrorMsg.stringReplace(text, "  ", " ");
 				text = ErrorMsg.removeHTMLtags(text);
 				super.setText(text);
-				putClientProperty("JComponent.sizeVariant", "mini");
 			} else
 				if (text!=null && text.contains("<html>")) {
 					text = ErrorMsg.removeHTMLtags(text);
