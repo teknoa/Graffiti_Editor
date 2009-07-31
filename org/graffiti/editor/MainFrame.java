@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.82 2009/07/31 08:08:16 klukas Exp $
+// $Id: MainFrame.java,v 1.83 2009/07/31 10:30:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -184,15 +184,13 @@ import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
 import org.graffiti.util.InstanceCreationException;
 
-import com.sun.java.swing.plaf.gtk.GTKConstants.IconSize;
-
 import scenario.ScenarioService;
 
 
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.82 $
+ * @version $Revision: 1.83 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
