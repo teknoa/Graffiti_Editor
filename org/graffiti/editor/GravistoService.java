@@ -473,12 +473,6 @@ public class GravistoService {
 		algorithm.attach(graph, selection);
 		try {
 			algorithm.check();
-			algorithm.execute();
-			if (algorithm instanceof CalculatingAlgorithm) {
-				JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
-						+ ((CalculatingAlgorithm) algorithm).getResult().toString());
-			}
-			algorithm.reset();
 		} catch (PreconditionException e) {
 			StringBuilder sb = new StringBuilder();
 			processError(algorithm, graph, sb, e);
