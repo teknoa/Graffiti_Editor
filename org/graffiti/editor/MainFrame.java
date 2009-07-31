@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.83 2009/07/31 10:30:45 klukas Exp $
+// $Id: MainFrame.java,v 1.84 2009/07/31 19:56:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -190,7 +190,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.83 $
+ * @version $Revision: 1.84 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -2857,47 +2857,50 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public static void showMessageDialog(final String msg, final String title) {
 		if (SwingUtilities.isEventDispatchThread()) {
-			
-			if (shownMessages==null) {
-				shownMessages = new FolderPanel("", false, false, false, null);
-				shownMessages.setFrameColor(null, null, 0, 2);
-				shownMessages.setBackground(null);
-				shownMessages.addCollapseListenerDialogSizeUpdate();
-				shownMessages.addAncestorListener(new AncestorListener() {
-					public void ancestorRemoved(AncestorEvent event) {
-						shownMessages.clearGuiComponentList();
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					if (shownMessages==null) {
+						shownMessages = new FolderPanel("", false, false, false, null);
+						shownMessages.setFrameColor(null, null, 0, 2);
+						shownMessages.setBackground(null);
+						shownMessages.addCollapseListenerDialogSizeUpdate();
+						shownMessages.addAncestorListener(new AncestorListener() {
+							public void ancestorRemoved(AncestorEvent event) {
+								shownMessages.clearGuiComponentList();
+							}
+							public void ancestorMoved(AncestorEvent event) {
+							}
+							public void ancestorAdded(AncestorEvent event) {
+							}
+						});
 					}
-					public void ancestorMoved(AncestorEvent event) {
-					}
-					public void ancestorAdded(AncestorEvent event) {
-					}
-				});
-			}
-			JLabel lbl = new JLabel(msg);
-			lbl.setOpaque(false);
+					JLabel lbl = new JLabel(msg);
+					lbl.setOpaque(false);
 
-			shownMessages.addGuiComponentRow(null, lbl, false);
+					shownMessages.addGuiComponentRow(null, lbl, false);
 
-			if (shownMessages.getRowCount()>1) {
-				shownMessages.setMaximumRowCount(1, true);
-				shownMessages.setTitle("<html><small><font color='gray'>"+
-						(shownMessages.getRowCount()-1)+" additional message" +
-						((shownMessages.getRowCount()-1)>1 ? "s" : "") +
-								" available (use arrow buttons to navigate)");
-//				shownMessages.setIconSize(Iconsize.MIDDLE);
-			} else {
-				shownMessages.setMaximumRowCount(-1, true);
-				shownMessages.setTitle("");
-//				shownMessages.setIconSize(Iconsize.SMALL);
-			}
-			
-			shownMessages.layoutRows();
-			
-			if (shownMessages.getRowCount()==1)
-				JOptionPane.showMessageDialog(MainFrame.getInstance(), shownMessages, 
-					title, JOptionPane.INFORMATION_MESSAGE);
-			
-			shownMessages.dialogSizeUpdate();
+					if (shownMessages.getRowCount()>1) {
+						shownMessages.setMaximumRowCount(1, true);
+						shownMessages.setTitle("<html><small><font color='gray'>"+
+								(shownMessages.getRowCount()-1)+" additional message" +
+								((shownMessages.getRowCount()-1)>1 ? "s" : "") +
+										" available (use arrow buttons to navigate)");
+//						shownMessages.setIconSize(Iconsize.MIDDLE);
+					} else {
+						shownMessages.setMaximumRowCount(-1, true);
+						shownMessages.setTitle("");
+//						shownMessages.setIconSize(Iconsize.SMALL);
+					}
+					
+					shownMessages.layoutRows();
+					
+					if (shownMessages.getRowCount()==1)
+						JOptionPane.showMessageDialog(MainFrame.getInstance(), shownMessages, 
+							title, JOptionPane.INFORMATION_MESSAGE);
+					
+					shownMessages.dialogSizeUpdate();
+				}
+			});
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {

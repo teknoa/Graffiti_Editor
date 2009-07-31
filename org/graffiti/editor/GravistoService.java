@@ -25,6 +25,8 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.ErrorMsg;
+import org.Release;
+import org.ReleaseInfo;
 import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.dialog.DefaultParameterDialog;
 import org.graffiti.editor.dialog.ParameterDialog;
@@ -503,7 +505,7 @@ public class GravistoService {
 				}
 				paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
 						getMainFrame(), parameters,
-						selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc, algorithm.mayWorkOnMultipleGraphs());
+						selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc, checkRelease(algorithm.mayWorkOnMultipleGraphs()));
 			}
 
 			if (!paramDialog.isOkSelected()) {
@@ -603,6 +605,13 @@ public class GravistoService {
 			}
 
 		}
+	}
+
+	private boolean checkRelease(boolean mayWorkOnMultipleGraphs) {
+		if (ReleaseInfo.getRunningReleaseStatus()==Release.KGML_EDITOR)
+			return false;
+		else
+			return mayWorkOnMultipleGraphs;
 	}
 
 	private void processError(Algorithm algorithm, Graph graph,
