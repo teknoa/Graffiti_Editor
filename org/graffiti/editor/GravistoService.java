@@ -471,6 +471,20 @@ public class GravistoService {
 	public void runAlgorithm(Algorithm algorithm, Graph graph,
 			Selection selection) {
 		algorithm.attach(graph, selection);
+		try {
+			algorithm.check();
+			algorithm.execute();
+			if (algorithm instanceof CalculatingAlgorithm) {
+				JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+						+ ((CalculatingAlgorithm) algorithm).getResult().toString());
+			}
+			algorithm.reset();
+		} catch (PreconditionException e) {
+			StringBuilder sb = new StringBuilder();
+			processError(algorithm, graph, sb, e);
+			MainFrame.showMessageDialog("<html>"+sb.toString(), "Execution Error");
+			return;
+		}
 		Parameter[] parameters = algorithm.getParameters();
 		ParameterDialog paramDialog = null;
 
