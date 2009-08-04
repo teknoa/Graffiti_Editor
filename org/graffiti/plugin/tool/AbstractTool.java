@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.9 2009/07/29 08:46:06 klukas Exp $
+// $Id: AbstractTool.java,v 1.10 2009/08/04 13:30:07 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -565,8 +565,11 @@ public abstract class AbstractTool
 
             List<GraphElementComponent> comps = new LinkedList<GraphElementComponent>();
 
-            for(View view : views)
-                comps.add(view.getComponentForElement(ge));
+            for(View view : views) {
+            	GraphElementComponent v = view.getComponentForElement(ge);
+            	if (v!=null)
+            		comps.add(v);
+            }
 
             return comps;
         } else
