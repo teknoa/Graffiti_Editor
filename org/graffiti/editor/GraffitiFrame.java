@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.13 2009/07/29 11:07:45 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.14 2009/08/05 09:07:17 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -122,7 +122,8 @@ public class GraffitiFrame
 			jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 
-	        jsp.setWheelScrollingEnabled(false);
+	        jsp.setWheelScrollingEnabled(true);
+	        
 	        view.getViewComponent().getParent().setBackground(Color.WHITE);
 	        
 	        if (MainFrame.isViewProvidingToolbar(view)) {
