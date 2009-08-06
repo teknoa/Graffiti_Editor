@@ -545,7 +545,9 @@ public class GravistoService {
 					sessions.add(MainFrame.getInstance().getActiveSession());
 				} else
 					if (MainFrame.getSessions().size()>1) {
-						Object[] options = { "Active Graph", "Open graphs ("+MainFrame.getSessions().size()+")" };
+						Object[] options = {
+								"Active Graph", 
+								"Open Graphs ("+MainFrame.getSessions().size()+")" };
 						int res = JOptionPane.showOptionDialog(MainFrame.getInstance(),
 								"Please select the working set.", 
 								ErrorMsg.removeHTMLtags(algorithm.getName()), 
