@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.86 2009/08/07 12:59:16 morla Exp $
+// $Id: MainFrame.java,v 1.87 2009/08/07 13:29:48 morla Exp $
 
 package org.graffiti.editor;
 
@@ -190,7 +190,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.86 $
+ * @version $Revision: 1.87 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1092,7 +1092,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				maxx = true;
 			}
 			
-//			GravistoService.getInstance().framesDeselect();
+			GravistoService.getInstance().framesDeselect();
 
 			if (!returnGraffitiFrame) {
 				frame.setVisible(true);
