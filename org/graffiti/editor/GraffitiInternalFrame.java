@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.14 2009/07/14 12:36:12 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.15 2009/08/07 12:59:16 morla Exp $
 
 package org.graffiti.editor;
 
@@ -177,7 +177,8 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameDeactivated(InternalFrameEvent e) {
- 				MainFrame.getInstance().setActiveSession(null, null);
+ 				if (MainFrame.getInstance().getActiveSession()==session)
+ 					MainFrame.getInstance().setActiveSession(null, null);
  			}});
        }
 
