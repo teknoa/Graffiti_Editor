@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.87 2009/08/07 13:29:48 morla Exp $
+// $Id: MainFrame.java,v 1.88 2009/08/08 11:53:29 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -29,8 +29,6 @@ import java.awt.dnd.DropTargetEvent;
 import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -106,7 +104,6 @@ import org.FolderPanel;
 import org.Java_1_5_compatibility;
 import org.Release;
 import org.ReleaseInfo;
-import org.FolderPanel.Iconsize;
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.actions.CopyAction;
@@ -190,7 +187,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.87 $
+ * @version $Revision: 1.88 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -219,6 +216,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	
 	private static HideOrDeactivateMenu hideDeactivateSwitch = HideOrDeactivateMenu.DISABLE_INACTIVE_MENUITEMS;
 
+	public static boolean blockUpdates;
+
 	//~ Instance fields ========================================================
 
 	public static HideOrDeactivateMenu getHideDeactivateSwitch() {
@@ -242,7 +241,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	protected GravistoPreferences uiPrefs;
 
 	/** The current active session. */
-	EditorSession activeSession;
+	EditorSession activeEditorSession;
 
 	/** Holds all active frames. */
 	List<GraffitiInternalFrame> activeFrames = new LinkedList<GraffitiInternalFrame>();
@@ -480,8 +479,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		viewManager.addListener(this);
 
 		undoSupport = new UndoableEditSupport();
-
-		//undoSupport.addUndoableEditListener(this);
+		undoSupport.addUndoableEditListener(this);
+		
 		graffitiFrameListener = new GraffitiFrameListener(this);
 
 		this.pluginmgr = pluginmgr;
@@ -627,7 +626,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return the current active editor session.
 	 */
 	public EditorSession getActiveEditorSession() {
-		return activeSession;
+		return activeEditorSession;
 	}
 	
 //	public DesktopMenuManager getDesktopMenuManager() {
@@ -648,7 +647,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return the current active session.
 	 */
 	public Session getActiveSession() {
-		return activeSession;
+		return activeEditorSession;
 	}
 
 	/**
@@ -656,6 +655,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param s The session to be activated.
 	 */
 	public void setActiveSession(Session s, View targetView) {
+//		if (s==null)
+//			System.out.println("errrr");
+		activeEditorSession = (EditorSession) s;
 		for (GraffitiInternalFrame gif : activeFrames) {
 			if (!gif.isVisible())
 				continue;
@@ -670,8 +672,13 @@ public class MainFrame extends JFrame implements SessionManager,
 				ErrorMsg.addErrorMessage(e);
 			}
 		}
+		MainFrame.blockUpdates = true;
+		fireViewChanged(targetView);
 		fireSessionChanged(s);
-		activeSession = (EditorSession) s;
+		if (s!=null)
+			fireSelectionChanged(s);
+		MainFrame.blockUpdates = false;
+		updateActions();
 	}
 
 //	/**
@@ -978,7 +985,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public JScrollPane createInternalFrame(String viewName,
 				String newFrameTitle, boolean returnScrollpane, boolean otherViewWillBeClosed) {
-		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, activeSession,
+		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, getActiveEditorSession(),
 					returnScrollpane, false, otherViewWillBeClosed);
 	}
 	
@@ -1047,7 +1054,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		session.addView(view);
 		session.setActiveView(view);
 
-		this.activeSession = session;
+//		this.activeSession = session;
 
 		sessions.add(session);
 
@@ -2013,7 +2020,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @param session the session to be removed.
 	 */
-	public boolean removeSession(Session session) { 
+	public boolean closeSession(Session session) { 
 		if (session == null) return false;
 		// check if changes have been made
 
@@ -2053,12 +2060,12 @@ public class MainFrame extends JFrame implements SessionManager,
 			// continue, close view/session
 		}
 		
-		session.getGraph().getListenerManager().transactionStarted(this);
-		session.getGraph().clear();
-		session.getGraph().getListenerManager().transactionFinished(this);
+////		session.getGraph().getListenerManager().transactionStarted(this);
+//		session.getGraph().clear();
+//		session.getGraph().getListenerManager().transactionFinished(this);
 		
-		activeSession = null;
-		
+//		activeSession = null;
+//		
 		List<View> views = new LinkedList<View>();
 
 		// close all views and remove this session
@@ -2083,15 +2090,15 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			if (frame != null) {
 				frame.setVisible(false);
-				// frame.dispose();
-				frame = null;
+				frame.dispose();
+//				frame.doDefaultCloseAction();
 				// doDefaultCloseAction();
 			}
 
 			this.zoomListeners.remove(view);
 		}
 		sessions.remove(session);
-		updateActions();
+		session.getGraph().clear();
 		return true;
 	}
 
@@ -2115,22 +2122,16 @@ public class MainFrame extends JFrame implements SessionManager,
 			lastActive.deactivateAll();
 		
 		if (isSessionActive()) {
-//			Mode oldMode = activeSession.getActiveMode();
-
-//			if (oldMode != null) {
-//				ModeToolbar oldtb = (ModeToolbar) guiMap.get(oldMode.getId());
-////				oldtb.setVisible(false);
-//				getContentPane().validate();
-//			}
-
 			// removing the old session from undoSupport
-			undoSupport.removeUndoableEditListener(activeSession.getUndoManager());
+			undoSupport.removeUndoableEditListener(getActiveEditorSession().getUndoManager());
 
 			// removing the MainFrame from undoSupport
 			undoSupport.removeUndoableEditListener(this);
 		}
 
 		if (s != null) {
+			this.activeEditorSession = (EditorSession) s;
+
 			// registering the new session at undoSupport
 			undoSupport.addUndoableEditListener(((EditorSession) s)
 						.getUndoManager());
@@ -2187,9 +2188,9 @@ public class MainFrame extends JFrame implements SessionManager,
 				}
 			}
 
-			this.activeSession = (EditorSession) s;
+			
 		} else
-			this.activeSession = null;
+			this.activeEditorSession = null;
 
 		updateActions();
 		
@@ -2335,9 +2336,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean useDefaultViewForSmallGraphs, ActionEvent ae) {
 		if (useDefaultViewForSmallGraphs)
-			return showViewChooserDialog(activeSession, returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
+			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
 		else
-			return showViewChooserDialog(activeSession, returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_ALWAYS);
+			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_ALWAYS);
 	}
 	
 	public JScrollPane showViewChooserDialog(EditorSession session,
@@ -2498,8 +2499,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @return the active <code>Tool</code>.
 	 */
 	Tool getActiveTool() {
-		if (activeSession != null) { 
-			return ((ModeToolbar) guiMap.get(activeSession.getActiveMode().getId())).getActiveTool(); 
+		if (isSessionActive()) { 
+			return ((ModeToolbar) guiMap.get(getActiveEditorSession().getActiveMode().getId())).getActiveTool(); 
 		} else
 			return null;
 	}
@@ -2510,8 +2511,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param newView
 	 */
 	void fireViewChanged(View newView) {
-		activeSession.setActiveView(newView);
-		viewManager.viewChanged(newView);
+		if (isSessionActive()) {
+			getActiveEditorSession().setActiveView(newView);
+			viewManager.viewChanged(newView);
+		}
 	}
 	
 
@@ -2967,7 +2970,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			public void actionPerformed(ActionEvent arg0) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						GraffitiAction.updateAllActions();
+//						GraffitiAction.updateAllActions();
 						if (ScenarioService.isRecording()) {
 							ScenarioService.postWorkflowStep(action);
 						}
@@ -3129,20 +3132,24 @@ public class MainFrame extends JFrame implements SessionManager,
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosed(InternalFrameEvent)
 		 */
 		public void internalFrameClosed(InternalFrameEvent e) {
+			super.internalFrameClosed(e);
+
 			GraffitiInternalFrame f = (GraffitiInternalFrame) e.getInternalFrame();
 
 			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
 						.getSession();
-
+			sessions.remove(session);
 			activeFrames.remove(f);
-
-			frameClosing(session, f.getView());
-
-			setTitle(GraffitiInternalFrame.startTitle);
-			
-			super.internalFrameClosed(e);
-
-			mainFrame.updateActions();
+//
+////			frameClosing(session, f.getView());
+//
+//			setTitle(GraffitiInternalFrame.startTitle);
+//			
+//			
+			if (getEditorSessions().size()==0)
+				setActiveSession(null, null);
+//			System.out.println("Open sessions: "+getEditorSessions().size());
+//			mainFrame.updateActions();
 		}
 
 		/* (non-Javadoc)
@@ -3154,17 +3161,15 @@ public class MainFrame extends JFrame implements SessionManager,
 
 		public void windowActivated(WindowEvent e) {
 			GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
-			graffitiFrameActivated(iframe.getSession(), iframe.getView());
+//			graffitiFrameActivated(iframe.getSession(), iframe.getView());
 		}
 
 		private void graffitiFrameActivated(EditorSession session, View view) {
-			if (session != activeSession) {
-				fireSessionChanged(session);
-				fireViewChanged(view);
-				fireSelectionChanged(session);
-			} else {
-				fireViewChanged(view);
-			}
+//			if (session != activeSession) {
+//				setActiveSession(session, view);
+//			} else {
+//				fireViewChanged(view);
+//			}
 		}
 
 		public void windowClosed(WindowEvent e) {
@@ -3563,12 +3568,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
-			MainFrame.getInstance().removeSession(session);
+			MainFrame.getInstance().closeSession(session);
 		}
-		fireSessionChanged(null);
-		activeSession = null;
+//		fireSessionChanged(null);
+//		activeSession = null;
 
-		updateActions();		
+//		updateActions();		
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -3611,12 +3616,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		} catch(Exception e) {
 			ErrorMsg.addErrorMessage(e);
 		}
-		try {
-			if (b)
-				fireSessionChanged(activeSession);
-		} catch(Exception e) {
-			ErrorMsg.addErrorMessage(e);
-		}
+//		try {
+//			if (b)
+//				fireSessionChanged(activeSession);
+//		} catch(Exception e) {
+//			ErrorMsg.addErrorMessage(e);
+//		}
 	}
 	
 	public View createExternalFrame(String viewClassName, EditorSession session,

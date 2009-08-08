@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SessionManager.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: SessionManager.java,v 1.2 2009/08/08 11:48:46 klukas Exp $
 
 package org.graffiti.session;
 
@@ -64,7 +64,7 @@ public interface SessionManager
      *
      * @param es the session to remove from the list.
      */
-    public boolean removeSession(Session es);
+    public boolean closeSession(Session es);
 
     /**
      * Removes a <code>SelectionListener</code>.

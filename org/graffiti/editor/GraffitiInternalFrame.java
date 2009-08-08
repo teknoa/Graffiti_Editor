@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.15 2009/08/07 12:59:16 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.16 2009/08/08 11:53:29 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -152,17 +152,15 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameClosed(InternalFrameEvent e) {
- 				GravistoService.getInstance().framesDeselect();
- 				
  				ListenerManager lm = session.getGraph().getListenerManager();
- 				try {
-					lm.removeAttributeListener(view);
-	 				lm.removeEdgeListener(view);
-	 				lm.removeNodeListener(view);
-	 				lm.removeGraphListener(view);
-				} catch (ListenerNotFoundException err) {
-					ErrorMsg.addErrorMessage(err);
-				} 
+// 				try {
+//					lm.removeAttributeListener(view);
+//	 				lm.removeEdgeListener(view);
+//	 				lm.removeNodeListener(view);
+//	 				lm.removeGraphListener(view);
+//				} catch (ListenerNotFoundException err) {
+//					ErrorMsg.addErrorMessage(err);
+//				} 
  			}
 
  			public void internalFrameIconified(InternalFrameEvent e) {
@@ -172,14 +170,16 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameActivated(InternalFrameEvent e) {
- 				MainFrame.getInstance().setActiveSession(session, view);
+ 				System.out.println("frame activated "+e.toString());
  				session.setActiveView(view);
+ 				MainFrame.getInstance().setActiveSession(session, view);
  			}
 
  			public void internalFrameDeactivated(InternalFrameEvent e) {
- 				if (MainFrame.getInstance().getActiveSession()==session)
- 					MainFrame.getInstance().setActiveSession(null, null);
- 			}});
+// 				if (MainFrame.getInstance().getActiveSession()==session)
+// 					MainFrame.getInstance().setActiveSession(null, null);
+ 			}
+ 			});
        }
 
 //	public GraffitiInternalFrame(GraffitiFrame frame) {
