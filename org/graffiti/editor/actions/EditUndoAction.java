@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditUndoAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
+// $Id: EditUndoAction.java,v 1.5 2009/08/08 11:47:27 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,7 +23,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for undo capabilities.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class EditUndoAction
     extends GraffitiAction {
@@ -66,6 +66,8 @@ public class EditUndoAction
     public void actionPerformed(ActionEvent e) {
     	try {
 	        mainFrame.getActiveEditorSession().getUndoManager().undo();
+	        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
+	        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
     	} catch(CannotUndoException cue) {
     		MainFrame.showMessageDialog("<html>" +
     				"Can't undo command!<br>" +
@@ -83,6 +85,7 @@ public class EditUndoAction
            EditorSession session = mainFrame.getActiveEditorSession();
            UndoManager um = session.getUndoManager();
            setEnabled(um.canUndo());
+//           System.out.println("Session: "+session);
            putValue(NAME, ErrorMsg.removeHTMLtags(um.getUndoPresentationName()));
            putValue(SHORT_DESCRIPTION, ErrorMsg.removeHTMLtags(um.getUndoPresentationName()));
        } else {

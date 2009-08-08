@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditRedoAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
+// $Id: EditRedoAction.java,v 1.5 2009/08/08 11:47:15 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,13 +23,14 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for redo capabilities.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class EditRedoAction
     extends GraffitiAction {
     //~ Constructors ===========================================================
+	private static final long serialVersionUID = 1L;
 
-    /**
+	/**
      * Creates a new EditRedoAction object.
      *
      * @param mainFrame DOCUMENT ME!
@@ -66,6 +67,8 @@ public class EditRedoAction
     public void actionPerformed(ActionEvent e) {
     	try {
     		mainFrame.getActiveEditorSession().getUndoManager().redo();
+        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
+        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
     	} catch(CannotRedoException cre) {
     		MainFrame.showMessageDialog("<html>" +
     				"Can't redo command!<br>" +

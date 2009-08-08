@@ -5,11 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.4 2009/06/23 13:14:46 klukas Exp $
+// $Id: GraffitiAction.java,v 1.5 2009/08/08 11:48:19 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -23,13 +24,13 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class GraffitiAction
     extends AbstractAction {
     //~ Instance fields ========================================================
 	
-	private static ArrayList<GraffitiAction> knownActions = new ArrayList<GraffitiAction>();
+	private static HashSet<GraffitiAction> knownActions = new HashSet<GraffitiAction>();
 
     /** The <code>ImageBundle</code> instance. */
     protected ImageBundle iBundle = ImageBundle.getInstance();
@@ -156,6 +157,8 @@ public abstract class GraffitiAction
     }
 
 	public static void updateAllActions() {
+		if (MainFrame.blockUpdates)
+			return;
 		ArrayList<GraffitiAction> ka = new ArrayList<GraffitiAction>();
 		ka.addAll(knownActions);
 		for (GraffitiAction ga : ka) {
