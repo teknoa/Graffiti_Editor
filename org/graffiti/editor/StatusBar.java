@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.8 2009/07/10 08:17:39 klukas Exp $
+// $Id: StatusBar.java,v 1.9 2009/08/08 16:21:20 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -52,7 +52,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class StatusBar
     extends JPanel
@@ -327,7 +327,8 @@ public class StatusBar
 
             try
             {
-                lm.removeGraphListener(this);
+            		if (lm!=null)
+            			lm.removeGraphListener(this);
             }
             catch(ListenerNotFoundException lnfe)
             {
@@ -343,7 +344,8 @@ public class StatusBar
             lm = session.getGraph().getListenerManager();
 
             // and add the status bar to the listener list of the new session.
-            lm.addDelayedGraphListener(this);
+            if (lm!=null)
+            		lm.addDelayedGraphListener(this);
             if (session instanceof EditorSession)
             	activeSelection = ((EditorSession)session).getSelectionModel().getActiveSelection();
             else
@@ -475,10 +477,11 @@ public class StatusBar
 		ignoreUpdate=0;
         
       
-        
-        nodes = currentSession.getGraph().getNumberOfNodes();
-        edges = currentSession.getGraph().getNumberOfEdges();
-        updateGraphInfo();
+        if (currentSession!=null) {
+	        nodes = currentSession.getGraph().getNumberOfNodes();
+	        edges = currentSession.getGraph().getNumberOfEdges();
+	        updateGraphInfo();
+        }
     }
 
     /**
