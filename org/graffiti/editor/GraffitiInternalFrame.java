@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.16 2009/08/08 11:53:29 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.17 2009/08/08 11:59:22 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -170,7 +170,7 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameActivated(InternalFrameEvent e) {
- 				System.out.println("frame activated "+e.toString());
+// 				System.out.println("frame activated "+e.toString());
  				session.setActiveView(view);
  				MainFrame.getInstance().setActiveSession(session, view);
  			}
