@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.9 2009/07/29 11:07:50 klukas Exp $
+// $Id: AbstractView.java,v 1.10 2009/08/08 20:43:13 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -37,15 +37,16 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public abstract class AbstractView
     extends JComponent
     implements View
 {
     //~ Static fields/initializers =============================================
+		private static final long serialVersionUID = 1L;
 
-    /** The autoscroll margin. */
+	/** The autoscroll margin. */
     protected static final int autoscrollMargin = 20;
 
     /** The autoresize margin. */
@@ -104,25 +105,25 @@ public abstract class AbstractView
     }
     
     public GraphElementComponent getGraphElementComponent(GraphElement ge) {
-    	return graphElementComponents.get(ge);
+    		return graphElementComponents.get(ge);
     }
     
     public void clearGraphElementComponentMap() {
-    	graphElementComponents.clear();
-    	graphElementAttributeComponents.clear();
+    		graphElementComponents.clear();
+    		graphElementAttributeComponents.clear();
     }
     
     public Map<GraphElement, GraphElementComponent> getGraphElementComponentMap() {
-    	return graphElementComponents;
+    		return graphElementComponents;
     }
     
     public void removeGraphElementComponent(GraphElement ge) {
-    	graphElementComponents.remove(ge);
-    	graphElementAttributeComponents.remove(ge);
+    		graphElementComponents.remove(ge);
+    		graphElementAttributeComponents.remove(ge);
     }
     
     public Set<AttributeComponent> getAttributeComponentsForElement(GraphElement ge) {
-    	return graphElementAttributeComponents.get(ge);
+    		return graphElementAttributeComponents.get(ge);
     }
     
 
@@ -162,7 +163,7 @@ public abstract class AbstractView
     public abstract void setGraph(Graph g);
     
     public Graph getGraph() {
-   	 return currentGraph;
+    		return currentGraph;
     }
 
     /**
