@@ -536,13 +536,14 @@ public class GravistoService {
 		}
 		if (!stop) {
 			StringBuilder errors = new StringBuilder();
-			Collection<Session> sessions;
+			Collection<Session> sessions = new ArrayList<Session>();
 			if (paramDialog!=null)
 				sessions = paramDialog.getTargetSessions();
 			else {
 				sessions = new ArrayList<Session>();
 				if (MainFrame.getSessions().size()==1 || !algorithm.mayWorkOnMultipleGraphs()) {
-					sessions.add(MainFrame.getInstance().getActiveSession());
+					if (MainFrame.getInstance().isSessionActive())
+						sessions.add(MainFrame.getInstance().getActiveSession());
 				} else
 					if (MainFrame.getSessions().size()>1) {
 						Object[] options = {
