@@ -5,11 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileCloseAction.java,v 1.4 2009/08/08 11:48:05 klukas Exp $
+// $Id: FileCloseAction.java,v 1.5 2009/08/14 09:06:01 klukas Exp $
 
 package org.graffiti.editor.actions;
 
 import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.JComponent;
 import javax.swing.JInternalFrame;
@@ -24,7 +26,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for closing a graph.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class FileCloseAction extends GraffitiAction {
 	// ~ Constructors
@@ -74,7 +76,8 @@ public class FileCloseAction extends GraffitiAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		EditorSession es = mainFrame.getActiveEditorSession();
-		for (View v : es.getViews()) {
+		Collection<View> views = new ArrayList<View>(es.getViews());
+		for (View v : views) {
 			closeInternalFrame(v.getViewComponent());
 		}
 	}
