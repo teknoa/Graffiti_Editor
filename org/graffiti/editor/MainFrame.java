@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.90 2009/08/10 13:52:14 morla Exp $
+// $Id: MainFrame.java,v 1.91 2009/08/14 09:15:13 morla Exp $
 
 package org.graffiti.editor;
 
@@ -123,6 +123,7 @@ import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.actions.SelectAllAction;
 import org.graffiti.editor.actions.ViewNewAction;
 import org.graffiti.event.ListenerManager;
+import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.managers.AlgorithmManager;
@@ -187,7 +188,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.90 $
+ * @version $Revision: 1.91 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -3142,8 +3143,23 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 			activeFrames.remove(f);
 			
-			f.getView().setGraph(null);
-			f.getView().close();
+			View view = f.getView();
+			
+			viewFrameMapper.remove(view);
+			zoomListeners.remove(view);
+			
+			ListenerManager lm = session.getGraph().getListenerManager();
+			try {
+				lm.removeAttributeListener(view); 
+				lm.removeEdgeListener(view);
+				lm.removeNodeListener(view);
+				lm.removeGraphListener(view);
+			} catch (ListenerNotFoundException err) {
+				ErrorMsg.addErrorMessage(err);
+			}
+			
+			view.setGraph(null);
+			view.close();
 			
 			session.removeView(f.getView());
 			
@@ -3183,7 +3199,29 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (session.getViews().size() >= 2) {
 				detachedFrames.remove(f);
 			}
+			
+			
+			View view = f.getView();
+			
+			viewFrameMapper.remove(view);
+			zoomListeners.remove(view);
+			
+			ListenerManager lm = session.getGraph().getListenerManager();
+			try {
+				lm.removeAttributeListener(view); 
+				lm.removeEdgeListener(view);
+				lm.removeNodeListener(view);
+				lm.removeGraphListener(view);
+			} catch (ListenerNotFoundException err) {
+				ErrorMsg.addErrorMessage(err);
+			}
+			
+			view.setGraph(null);
+			view.close();
+			
+			session.removeView(f.getView());
 
+			
 			setTitle(GraffitiInternalFrame.startTitle);
 			mainFrame.updateActions();
 			
@@ -3562,12 +3600,25 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	public void frameClosing(EditorSession session, View view) {
 		// remove this view only if there are other open views
+		viewFrameMapper.remove(view);
+		zoomListeners.remove(view);
+		
+		ListenerManager lm = session.getGraph().getListenerManager();
+		try {
+			lm.removeAttributeListener(view); 
+			lm.removeEdgeListener(view);
+			lm.removeNodeListener(view);
+			lm.removeGraphListener(view);
+		} catch (ListenerNotFoundException e) {
+			ErrorMsg.addErrorMessage(e);
+		}
+	
 		if (session.getViews().size() > 1) {
 			// System.out.println("CLOSE VIEW");
 			view.close();
 			session.removeView(view);
-			viewFrameMapper.remove(view);
-			zoomListeners.remove(view);
+			
+			
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
