@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.91 2009/08/14 09:15:13 morla Exp $
+// $Id: MainFrame.java,v 1.92 2009/08/26 09:02:39 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -188,7 +188,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.91 $
+ * @version $Revision: 1.92 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -656,8 +656,6 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param s The session to be activated.
 	 */
 	public void setActiveSession(Session s, View targetView) {
-//		if (s==null)
-//			System.out.println("errrr");
 		activeEditorSession = (EditorSession) s;
 		for (GraffitiInternalFrame gif : activeFrames) {
 			if (!gif.isVisible())
@@ -665,10 +663,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			try {
 				if (gif.getSession()==s && targetView!=null && gif.getView()==targetView) {
 					gif.setSelected(true);
-//					gif.setSelected(true); //java is cool
 				}
-//				else
-//					gif.setSelected(false);
 			} catch (PropertyVetoException e) {
 				ErrorMsg.addErrorMessage(e);
 			}
