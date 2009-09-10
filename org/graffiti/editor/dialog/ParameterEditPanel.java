@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.6 2009/06/23 07:14:49 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.7 2009/09/10 13:33:25 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -46,7 +46,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -292,7 +292,7 @@ public class ParameterEditPanel extends JPanel {
 			 * check whether there exists a ValueEditComponent, if not use
 			 * standard edit component */
 			Class ecClass = null;
-			if (parameters[i]!=null)
+			if (parameters[i]!=null && editTypeMap!=null)
 				ecClass = (Class) this.editTypeMap.get(parameters[i].getClass());
 
 			if (ecClass != null) {

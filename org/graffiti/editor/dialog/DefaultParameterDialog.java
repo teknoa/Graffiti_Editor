@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.6 2009/07/30 12:19:20 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.7 2009/09/10 13:33:25 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -56,7 +56,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -282,7 +282,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	private JPanel createValueEditContainer(Parameter[] parameters,
 			Selection selection, String title, String heading, JComponent descComponent) {
 		this.paramEditPanel = new ParameterEditPanel(parameters,
-				editComponentManager.getEditComponents(), selection, title, true, heading, descComponent);
+				editComponentManager!=null ? editComponentManager.getEditComponents() : null, selection, title, true, heading, descComponent);
 
 		return this.paramEditPanel;
 	}
@@ -502,10 +502,10 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 					description = "<html>"+(String)description;
 		}
 		DefaultParameterDialog paramDialog = new DefaultParameterDialog(
-					MainFrame.getInstance().getEditComponentManager(), 
+					MainFrame.getInstance() != null ? MainFrame.getInstance().getEditComponentManager() : null, 
 					MainFrame.getInstance(), 
 					p,
-					( MainFrame.getInstance().getActiveEditorSession() != null ?
+					( MainFrame.getInstance()!=null && MainFrame.getInstance().getActiveEditorSession() != null ?
 							MainFrame.getInstance().getActiveEditorSession().
 								getSelectionModel().getActiveSelection() : null
 					), 
