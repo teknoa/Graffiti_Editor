@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.14 2009/08/05 09:07:17 klukas Exp $
+// $Id: GraffitiFrame.java,v 1.15 2009/10/01 11:38:49 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ public class GraffitiFrame
 		View view = es.getActiveView();
 		if (view instanceof CustomFullscreenView){
 			CustomFullscreenView cv = (CustomFullscreenView)view;
-			cv.enterOrExitFullscreenViewMode(fullscreen);
+			cv.switchFullscreenViewMode(fullscreen);
 		} else {
 			try {
 				GraffitiInternalFrame gif = (GraffitiInternalFrame) 
