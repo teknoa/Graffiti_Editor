@@ -1,20 +1,30 @@
 package org.graffiti.editor;
 
 import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.awt.image.BufferedImageOp;
+import java.awt.image.ConvolveOp;
+import java.awt.image.Kernel;
 import java.awt.image.RenderedImage;
 import java.beans.PropertyVetoException;
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
@@ -679,30 +689,69 @@ public class GravistoService {
 	public static void addActionOnKeystroke(JDialog comp, ActionListener action, KeyStroke key) {
 		comp.getRootPane().registerKeyboardAction(action,key,JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static BufferedImage blurImage(BufferedImage image, int blurRadius) {
+	   	float[] matrix = new float[blurRadius*blurRadius]; 
+		for (int i = 0; i < blurRadius*blurRadius; i++)
+			matrix[i] = 1.0f/(float)blurRadius/(float)blurRadius;
 
-	public static ImageIcon getScaledImage(ImageIcon icon, int w, int h) {
-		if (icon.getIconWidth()<=w && icon.getIconHeight()<=h)
+		Map map = new HashMap();
+
+		map.put(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+
+		map.put(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+
+		map.put(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		RenderingHints hints = new RenderingHints(map);
+		BufferedImageOp op = new ConvolveOp(new Kernel(blurRadius, blurRadius, matrix), ConvolveOp.EDGE_NO_OP, hints);
+		try {
+			BufferedImage bi = op.filter(image, null);
+			return bi;
+		} catch(Exception e) {
+			ErrorMsg.addErrorMessage(e);
+			return image;
+		}
+	}
+	
+	public static BufferedImage getImage(URL fileUrl) throws IOException {
+		return ImageIO.read(fileUrl);
+	}
+	
+	public static BufferedImage getScaledImage(Image icon, int w, int h) {
+		 	BufferedImage destImage = new BufferedImage(icon.getWidth(null), icon.getHeight(null), BufferedImage.TYPE_INT_ARGB); 
+		          Graphics2D graphics = destImage.createGraphics();
+		    graphics.drawImage(icon, 0, 0, null);
+		    return getScaledImage(destImage, w, h);
+	}
+
+	public static BufferedImage getScaledImage(BufferedImage icon, int w, int h) {
+		if (icon.getWidth() <= w && icon.getHeight() <= h)
 			return icon;
 		try {
-			double srcWidth = icon.getIconWidth();
-			double srcHeight= icon.getIconHeight();
-			
-		    double longSideForSource = (double) Math.max(srcWidth, srcHeight);
-		    double longSideForDest = (double) Math.max(w,h);
-		    double multiplier = longSideForDest / longSideForSource;
-		    int destWidth = (int) (srcWidth * multiplier);
-		    int destHeight = (int) (srcHeight * multiplier);
-	
-			
-		    BufferedImage destImage = new BufferedImage(destWidth, destHeight, 
-		            BufferedImage.TYPE_INT_ARGB); 
-		          Graphics2D graphics = destImage.createGraphics();
-		          AffineTransform affineTransform = 
-		            AffineTransform.getScaleInstance(multiplier, multiplier);
-		    graphics.drawImage(icon.getImage(), affineTransform, null);
-			
-			return new ImageIcon(destImage);
-		} catch(Exception e) {
+			double srcWidth = icon.getWidth();
+			double srcHeight = icon.getHeight();
+
+			double longSideForSource = (double) Math.max(srcWidth, srcHeight);
+			double longSideForDest = (double) Math.max(w, h);
+			double multiplier = longSideForDest / longSideForSource;
+			int destWidth = (int) (srcWidth * multiplier);
+			int destHeight = (int) (srcHeight * multiplier);
+
+			int blur = (int) (0.6d / multiplier) + 1;
+
+			icon = blurImage(icon, blur);
+
+			BufferedImage destImage = new BufferedImage(destWidth, destHeight,
+					BufferedImage.TYPE_INT_ARGB);
+			Graphics2D graphics = destImage.createGraphics();
+			AffineTransform affineTransform = AffineTransform.getScaleInstance(
+					multiplier, multiplier);
+			graphics.drawImage(icon, affineTransform, null);
+
+			return destImage;
+		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
 			return icon;
 		}

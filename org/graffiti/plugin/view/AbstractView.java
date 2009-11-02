@@ -5,10 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.10 2009/08/08 20:43:13 klukas Exp $
+// $Id: AbstractView.java,v 1.11 2009/11/02 09:41:39 morla Exp $
 
 package org.graffiti.plugin.view;
 
+import java.awt.AWTEvent;
 import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.Point;
@@ -37,7 +38,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -766,8 +767,10 @@ public abstract class AbstractView
 	public Object getViewToolbarComponentRight() {
 		return null;
 	}
-    
-    
+
+	public void closing(AWTEvent e) {
+		// empty
+	}
 }
 
 //------------------------------------------------------------------------------

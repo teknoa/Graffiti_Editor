@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.92 2009/08/26 09:02:39 klukas Exp $
+// $Id: MainFrame.java,v 1.93 2009/11/02 09:41:39 morla Exp $
 
 package org.graffiti.editor;
 
@@ -66,6 +66,7 @@ import java.util.prefs.Preferences;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
@@ -188,7 +189,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.92 $
+ * @version $Revision: 1.93 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1658,7 +1659,7 @@ public class MainFrame extends JFrame implements SessionManager,
 						ErrorMsg.addErrorMessage("Plugin "+ep.getClass().getCanonicalName()+" contains InspectorTab with value NULL!");
 					else {
 						if (isAddon(ep))
-							it.setIcon(GravistoService.getScaledImage(ep.getIcon(), 16, 16));
+							it.setIcon(new ImageIcon(GravistoService.getScaledImage(ep.getIcon().getImage(), 16, 16)));
 						inspectorPlugin.addTab(it);
 					}
 				}
@@ -1812,7 +1813,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				};
 
 				if (isAddon(plugin) || a.showMenuIcon())
-					menu.setIcon(GravistoService.getScaledImage(plugin.getIcon(),16,16));
+					menu.setIcon(new ImageIcon(GravistoService.getScaledImage(plugin.getIcon().getImage(), 16, 16)));
 				if (a.getAcceleratorKeyStroke()!=null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
 				
@@ -3170,7 +3171,19 @@ public class MainFrame extends JFrame implements SessionManager,
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
 		 */
 		public void internalFrameClosing(InternalFrameEvent e) {
-			// empty
+
+			GraffitiInternalFrame f = (GraffitiInternalFrame) e.getInternalFrame();
+
+			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
+						.getSession();
+
+			if (session.getViews().size() >= 2) {
+				detachedFrames.remove(f);
+			}
+			
+			
+			View view = f.getView();
+			view.closing(e);
 		}
 
 		public void windowActivated(WindowEvent e) {
@@ -3223,7 +3236,16 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 
 		public void windowClosing(WindowEvent e) {
+			GraffitiFrame f = (GraffitiFrame) e.getWindow();
+			EditorSession session = f.getSession();
+
+			if (session.getViews().size() >= 2) {
+				detachedFrames.remove(f);
+			}
 			
+			
+			View view = f.getView();
+			view.closing(e);
 		}
 
 		public void windowDeactivated(WindowEvent e) { }

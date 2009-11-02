@@ -5,10 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.8 2009/07/29 11:43:13 klukas Exp $
+// $Id: View.java,v 1.9 2009/11/02 09:41:39 morla Exp $
 
 package org.graffiti.plugin.view;
 
+import java.awt.AWTEvent;
 import java.awt.dnd.Autoscroll;
 import java.awt.geom.AffineTransform;
 import java.util.Map;
@@ -27,7 +28,7 @@ import org.graffiti.managers.AttributeComponentManager;
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -168,6 +169,8 @@ public interface View
      * work fine.
      */
     public JComponent getViewToolbarComponentBackground();
+
+	public void closing(AWTEvent e);
 }
 
 //------------------------------------------------------------------------------
