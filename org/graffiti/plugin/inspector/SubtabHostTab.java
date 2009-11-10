@@ -73,7 +73,7 @@ public class SubtabHostTab extends InspectorTab
 	public boolean visibleForView(View v) {
 		boolean visible = false;
 		for (InspectorTab tab : subtabs)
-			visible = visible || tab.visibleForView(v); 
+			visible = visible || ((tab.visibleForView(v) && (v !=null && v.worksWithTab(tab)))); 
 		return visible;
 	}
 
@@ -101,7 +101,7 @@ public class SubtabHostTab extends InspectorTab
 
 	public synchronized void viewChanged(View v) {
 		for (InspectorTab tab : subtabs) {
-			if (!tab.visibleForView(v)) {
+			if (!tab.visibleForView(v)||!v.worksWithTab(tab)) {
 				int idx = hc.indexOfTab(tab.getName());
 				if (idx>=0)
 					hc.removeTabAt(idx);;

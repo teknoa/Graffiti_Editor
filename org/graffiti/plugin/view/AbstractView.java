@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.11 2009/11/02 09:41:39 morla Exp $
+// $Id: AbstractView.java,v 1.12 2009/11/10 14:23:16 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -34,11 +34,12 @@ import org.graffiti.event.TransactionEvent;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.managers.AttributeComponentManager;
+import org.graffiti.plugin.inspector.InspectorTab;
 
 /**
  * enclosing_type
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -771,6 +772,12 @@ public abstract class AbstractView
 	public void closing(AWTEvent e) {
 		// empty
 	}
+
+	public boolean worksWithTab(InspectorTab tab) {
+		return true;
+	}
+	
+	
 }
 
 //------------------------------------------------------------------------------

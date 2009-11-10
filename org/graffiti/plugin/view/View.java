@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.9 2009/11/02 09:41:39 morla Exp $
+// $Id: View.java,v 1.10 2009/11/10 14:23:16 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -24,11 +24,12 @@ import org.graffiti.event.NodeListener;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.managers.AttributeComponentManager;
+import org.graffiti.plugin.inspector.InspectorTab;
 
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -171,6 +172,9 @@ public interface View
     public JComponent getViewToolbarComponentBackground();
 
 	public void closing(AWTEvent e);
+
+	public boolean worksWithTab(InspectorTab tab);
+	
 }
 
 //------------------------------------------------------------------------------
