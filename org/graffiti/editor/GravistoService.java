@@ -444,6 +444,10 @@ public class GravistoService {
 	}
 
 	public void runAlgorithm(Algorithm algorithm) {
+		runAlgorithm(algorithm, false);
+	}
+	
+	public void runAlgorithm(Algorithm algorithm, boolean enableMultipleSessionProcessing) {
 		Selection activeSel = null;
 		try {
 			activeSel = getMainFrame().getActiveEditorSession().getSelectionModel().getActiveSelection();
@@ -457,7 +461,7 @@ public class GravistoService {
 			// ignore here, the algorithm should make correct error handling for null graph or selection
 		}
 
-		runAlgorithm(algorithm, graph, activeSel);
+		runAlgorithm(algorithm, graph, activeSel, enableMultipleSessionProcessing);
 	}
 
 	/**
@@ -475,14 +479,19 @@ public class GravistoService {
 		getInstance().algorithmAttachData(algorithm);
 	}
 
+	public void runAlgorithm(Algorithm algorithm, Graph graph,Selection selection) {
+		runAlgorithm(algorithm, graph, selection,false);
+	}
+	
 	/**
 	 * @param algorithm
 	 * @param nonInteractiveGraph
 	 * @param nonInteractiveSelection
 	 */
 	public void runAlgorithm(Algorithm algorithm, Graph graph,
-			Selection selection) {
+			Selection selection, boolean enableMultipleSessionProcessing) {
 		algorithm.attach(graph, selection);
+
 		try {
 			algorithm.check();
 		} catch (PreconditionException e) {
@@ -515,7 +524,7 @@ public class GravistoService {
 				}
 				paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), 
 						getMainFrame(), parameters,
-						selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc, checkRelease(algorithm.mayWorkOnMultipleGraphs()));
+						selection, ErrorMsg.removeHTMLtags(algName), algorithm.getDescription(), desc, checkRelease(algorithm.mayWorkOnMultipleGraphs() && enableMultipleSessionProcessing));
 			}
 
 			if (!paramDialog.isOkSelected()) {
@@ -547,74 +556,86 @@ public class GravistoService {
 		if (!stop) {
 			StringBuilder errors = new StringBuilder();
 			Collection<Session> sessions = new ArrayList<Session>();
-			if (paramDialog!=null)
-				sessions = paramDialog.getTargetSessions();
-			else {
-				sessions = new ArrayList<Session>();
-				if (MainFrame.getSessions().size()==1 || !algorithm.mayWorkOnMultipleGraphs()) {
-					if (MainFrame.getInstance().isSessionActive())
-						sessions.add(MainFrame.getInstance().getActiveSession());
-				} else
-					if (MainFrame.getSessions().size()>1) {
-						Object[] options = {
-								"Active Graph", 
-								"Open Graphs ("+MainFrame.getSessions().size()+")" };
-						int res = JOptionPane.showOptionDialog(MainFrame.getInstance(),
-								"Please select the working set.", 
-								ErrorMsg.removeHTMLtags(algorithm.getName()), 
-								JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
-						if (res==JOptionPane.YES_OPTION) {
+
+			if(enableMultipleSessionProcessing) {
+				if (paramDialog!=null)
+					sessions = paramDialog.getTargetSessions();
+				else {
+					sessions = new ArrayList<Session>();
+					if (MainFrame.getSessions().size()==1 || !algorithm.mayWorkOnMultipleGraphs() ) {
+						if (MainFrame.getInstance().isSessionActive())
 							sessions.add(MainFrame.getInstance().getActiveSession());
-						} else
-							sessions.addAll(MainFrame.getSessions());
-					}
-			}
-			boolean startLater = sessions.size()==0;
-			for (Session s : sessions) {
-				Graph g = s.getGraph();
-				Selection sel;
-				if (g==graph) {
-					startLater = true;
-					continue;
+					} else
+						if (MainFrame.getSessions().size()>1) {
+							Object[] options = {
+									"Active Graph", 
+									"Open Graphs ("+MainFrame.getSessions().size()+")" };
+							int res = JOptionPane.showOptionDialog(MainFrame.getInstance(),
+									"Please select the working set.", 
+									ErrorMsg.removeHTMLtags(algorithm.getName()), 
+									JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0] );
+							if (res==JOptionPane.YES_OPTION) {
+								sessions.add(MainFrame.getInstance().getActiveSession());
+							} else
+								sessions.addAll(MainFrame.getSessions());
+						}
 				}
-				if (s instanceof EditorSession) {
-					EditorSession es = (EditorSession)s;
-					sel = es.getSelectionModel().getActiveSelection();
-				} else
-					sel = new Selection("empty");
-				algorithm.attach(g, sel);
+				boolean startLater = sessions.size()==0;
+				for (Session s : sessions) {
+					Graph g = s.getGraph();
+					Selection sel;
+					if (g==graph) {
+						startLater = true;
+						continue;
+					}
+					if (s instanceof EditorSession) {
+						EditorSession es = (EditorSession)s;
+						sel = es.getSelectionModel().getActiveSelection();
+					} else
+						sel = new Selection("empty");
+					algorithm.attach(g, sel);
+					algorithm.setParameters(params);
+					try {
+						algorithm.check();
+						algorithm.execute();
+						if (algorithm instanceof CalculatingAlgorithm) {
+							JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+									+ ((CalculatingAlgorithm) algorithm).getResult().toString());
+						}
+						algorithm.reset();
+					} catch (PreconditionException e) {
+						processError(algorithm, g, errors, e);
+					}
+				}
+				if (startLater) {
+					algorithm.attach(graph, selection);
+					algorithm.setParameters(params);
+					try {
+						algorithm.check();
+						algorithm.execute();
+						ScenarioService.postWorkflowStep(algorithm, params);
+						if (algorithm instanceof CalculatingAlgorithm) {
+							JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+									+ ((CalculatingAlgorithm) algorithm).getResult().toString());
+						}
+						algorithm.reset();
+					} catch (PreconditionException e) {
+						processError(algorithm, graph, errors, e);
+					}
+				}
+				if (errors.length()>0) {
+					MainFrame.showMessageDialogWithScrollBars("<html>"+errors.toString(), 
+							"Execution Error");
+				}
+			} else {
 				algorithm.setParameters(params);
-				try {
-					algorithm.check();
-					algorithm.execute();
-					if (algorithm instanceof CalculatingAlgorithm) {
-						JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
-								+ ((CalculatingAlgorithm) algorithm).getResult().toString());
-					}
-					algorithm.reset();
-				} catch (PreconditionException e) {
-					processError(algorithm, g, errors, e);
+				algorithm.execute();
+				ScenarioService.postWorkflowStep(algorithm, params);
+				if (algorithm instanceof CalculatingAlgorithm) {
+					JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+							+ ((CalculatingAlgorithm) algorithm).getResult().toString());
 				}
-			}
-			if (startLater) {
-				algorithm.attach(graph, selection);
-				algorithm.setParameters(params);
-				try {
-					algorithm.check();
-					algorithm.execute();
-					ScenarioService.postWorkflowStep(algorithm, params);
-					if (algorithm instanceof CalculatingAlgorithm) {
-						JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
-								+ ((CalculatingAlgorithm) algorithm).getResult().toString());
-					}
-					algorithm.reset();
-				} catch (PreconditionException e) {
-					processError(algorithm, graph, errors, e);
-				}
-			}
-			if (errors.length()>0) {
-				MainFrame.showMessageDialogWithScrollBars("<html>"+errors.toString(), 
-						"Execution Error");
+				algorithm.reset();
 			}
 
 		}
