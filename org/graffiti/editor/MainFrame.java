@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.93 2009/11/02 09:41:39 morla Exp $
+// $Id: MainFrame.java,v 1.94 2009/11/13 14:58:19 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -100,6 +100,7 @@ import javax.swing.undo.UndoableEditSupport;
 
 import net.iharder.dnd.FileDrop;
 
+import org.AttributeHelper;
 import org.ErrorMsg;
 import org.FolderPanel;
 import org.Java_1_5_compatibility;
@@ -189,7 +190,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.93 $
+ * @version $Revision: 1.94 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -3609,6 +3610,25 @@ public class MainFrame extends JFrame implements SessionManager,
 	         }
 		}
 		return false;
+	}
+	
+	public EditorSession lookUpNamedSession(String fileName) {
+		if (fileName.startsWith(AttributeHelper.preFilePath))
+			fileName = fileName.substring(AttributeHelper.preFilePath.length());
+		if (fileName.indexOf("/")>0) {
+			fileName = fileName.substring(fileName.lastIndexOf("/")+"/".length());
+		}
+		Set<EditorSession> validSessions = new HashSet<EditorSession>();
+		for (EditorSession es : getEditorSessions()) {
+			if (es.getFileName()!=null && (es.getFileName().toString().endsWith(fileName) ||
+				es.getFileName().toString().replaceAll("%20", " ").endsWith(fileName)))
+				validSessions.add(es);
+		}
+		if (validSessions.size()>=1) {
+			EditorSession es = validSessions.iterator().next();
+			return es;
+		}
+		return null;
 	}
 
 	public URLattributeActionManager getActionManager() {
