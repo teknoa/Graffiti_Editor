@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.95 2009/11/18 13:12:13 klukas Exp $
+// $Id: MainFrame.java,v 1.96 2009/11/23 12:35:19 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -190,7 +190,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.95 $
+ * @version $Revision: 1.96 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -988,9 +988,9 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	public JScrollPane createInternalFrame(String viewName,
-			String newFrameTitle, boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
-		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, getActiveEditorSession(),
-				returnScrollpane, false, otherViewWillBeClosed);
+			String newFrameTitle, EditorSession session, boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
+		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, session,
+				returnScrollpane, false, otherViewWillBeClosed, c);
 	}
 
 	public Object createInternalFrame(String viewName,
@@ -2417,7 +2417,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
 					return createInternalFrame(defaultView, session.getGraph().getName(), 
-							returnScrollPane, false, configNewView);
+							session, returnScrollPane, false, configNewView);
 				} else {
 					Graph g = session.getGraph();
 					String name = null;
@@ -2446,7 +2446,7 @@ public class MainFrame extends JFrame implements SessionManager,
 					if (selectedView != null) {
 						if (sessions.contains(session)) {
 							return createInternalFrame(selectedView, session.getGraph().getName(),
-									returnScrollPane, false, configNewView);
+									session, returnScrollPane, false, configNewView);
 						} else {
 							return (JScrollPane)createInternalFrame(selectedView, 
 									session.getGraph().getName(), session, returnScrollPane, 
@@ -3863,6 +3863,17 @@ public class MainFrame extends JFrame implements SessionManager,
 					|| view.getViewToolbarComponentLeft()!=null
 					|| view.getViewToolbarComponentRight()!=null
 					|| view.getViewToolbarComponentBackground()!=null);
+	}
+
+	/**
+	 * @param graph
+	 * @return
+	 */
+	public Session getEditorSessionForGraph(Graph graph) {
+		for (Session s : sessions)
+			if (s.getGraph()==graph)
+				return s;
+		return null;
 	}
 }
 
