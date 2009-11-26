@@ -35,6 +35,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.ErrorMsg;
+import org.HelperClass;
 import org.Release;
 import org.ReleaseInfo;
 import org.graffiti.editor.actions.RunAlgorithm;
@@ -63,7 +64,7 @@ import scenario.ScenarioService;
  * Provides access to global variables, needed for various extensions to
  * Graffiti. Plugins can use the Preferences structure to save settings.
  */
-public class GravistoService {
+public class GravistoService implements HelperClass {
 
 	/**
 	 * The only and single instance of this object

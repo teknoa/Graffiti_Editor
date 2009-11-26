@@ -12,9 +12,10 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.io.IOException;
 
 import org.ErrorMsg;
+import org.HelperClass;
 
 
-public class ClipboardService {
+public class ClipboardService implements HelperClass {
 
 	public static void writeToClipboardAsText(CharSequence writeMe) {
 		StringSelection copy = new StringSelection(writeMe.toString());
