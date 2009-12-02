@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Zoomable.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: Zoomable.java,v 1.2 2009/12/02 10:00:02 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -26,6 +26,11 @@ public interface Zoomable
      * @return DOCUMENT ME!
      */
     public AffineTransform getZoom();
+
+	/**
+	 * @return
+	 */
+	public boolean redrawActive();
 }
 
 //------------------------------------------------------------------------------

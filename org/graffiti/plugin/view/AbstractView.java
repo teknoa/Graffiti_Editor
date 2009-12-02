@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.12 2009/11/10 14:23:16 morla Exp $
+// $Id: AbstractView.java,v 1.13 2009/12/02 10:00:02 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -39,7 +39,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -777,7 +777,9 @@ public abstract class AbstractView
 		return true;
 	}
 	
-	
+	public boolean redrawActive() {
+		return false;
+	}
 }
 
 //------------------------------------------------------------------------------
