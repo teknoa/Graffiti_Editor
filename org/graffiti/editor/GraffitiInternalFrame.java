@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.17 2009/08/08 11:59:22 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.18 2009/12/02 22:37:13 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -248,6 +248,16 @@ public class GraffitiInternalFrame
 
 	public String getInitTitle() {
 		return initTitle;
+	}
+
+
+
+	/**
+	 * @param editorSessionOfTargetGraph
+	 */
+	public void setSession(EditorSession s) {
+		this.session = s;
+     	frameNumber = session.getViews().size();
 	}
 }
 

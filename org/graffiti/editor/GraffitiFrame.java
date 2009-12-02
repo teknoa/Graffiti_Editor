@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiFrame.java,v 1.16 2009/10/22 13:31:49 morla Exp $
+// $Id: GraffitiFrame.java,v 1.17 2009/12/02 22:37:13 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -218,6 +218,16 @@ public class GraffitiFrame
 				ErrorMsg.addErrorMessage(err);
 			}
 		}
+	}
+
+
+
+	/**
+	 * @param editorSessionOfTargetGraph
+	 */
+	public void setSession(EditorSession s) {
+		this.session = s;
+     	frameNumber = session.getViews().size();
 	}
 	
 }

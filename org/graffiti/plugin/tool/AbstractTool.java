@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.10 2009/08/04 13:30:07 morla Exp $
+// $Id: AbstractTool.java,v 1.11 2009/12/02 22:37:13 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -363,11 +363,19 @@ public abstract class AbstractTool
     {
     	if (avoidHighlight)
     		return;
+    	boolean processed = false;
         if(comp != null)
         {
     	   if (comp instanceof GraphElementComponentInterface) {
 	    	   	GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
 	    	   	GraphElement n = nci.getGraphElement();
+	    	   	try {
+	    	   		ReceiveHighlightInfo hi = (ReceiveHighlightInfo) MainFrame.getInstance().getActiveEditorSession().getActiveView();
+	    	   		hi.isHighlighted(n);
+	    	   		processed = true;
+	    	   	} catch(Exception err) {
+	    	   		// empty
+	    	   	}
 	    	   	if (AttributeHelper.hasAttribute(n, "", "url"))
 	    	   		((JComponent) comp).setBorder(tempBorderLINK);
 	    	   	else
@@ -381,6 +389,14 @@ public abstract class AbstractTool
     	   	((JComponent) comp).setBorder(tempBorder);
     	   if (((JComponent) comp).getParent()!=null)
     		   ((JComponent) comp).getParent().repaint();
+        }
+        if (!processed) {
+				try {
+					ReceiveHighlightInfo hi = (ReceiveHighlightInfo) MainFrame.getInstance().getActiveEditorSession().getActiveView();
+					hi.isHighlighted(null);
+				} catch(Exception err) {
+					// empty
+				}
         }
     }
 
