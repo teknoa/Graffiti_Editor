@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.9 2009/08/08 16:21:20 klukas Exp $
+// $Id: StatusBar.java,v 1.10 2009/12/07 09:53:01 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -52,7 +52,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class StatusBar
     extends JPanel
@@ -555,7 +555,9 @@ public class StatusBar
         		edgeText = "<html>"+selInfoE1+edges+"<small>"+br+"edges"+selInfoE2;
         nodeText = nodeText.replaceAll("all 1<br>", "1 ");
         nodeText = nodeText.replaceAll("all 1<small>", "1");
+        nodeText = nodeText.replaceAll(" ", "&nbsp;");
         edgeText = edgeText.replaceAll("all 1<", "1<");
+        edgeText = edgeText.replaceAll("&nbsp;", "&nbsp;");
         nodesLabel.setText(nodeText);
         edgesLabel.setText(edgeText);
     }
