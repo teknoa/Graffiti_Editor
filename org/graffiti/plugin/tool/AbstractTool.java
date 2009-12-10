@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.11 2009/12/02 22:37:13 klukas Exp $
+// $Id: AbstractTool.java,v 1.12 2009/12/10 10:18:45 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -122,7 +122,7 @@ public abstract class AbstractTool
     /** Border for unmarked graph elements. */
     private static final EmptyBorder empty = new EmptyBorder(0, 0, 0, 0); // 3, 3, 3, 3 ?
     
-    private static List<Tool> knownTools = new LinkedList<Tool>();
+    protected static List<Tool> knownTools = new LinkedList<Tool>();
     
     
 
@@ -233,8 +233,7 @@ public abstract class AbstractTool
 
    	 
         // System.out.println("Activate "+toString());
-    	if (!knownTools.contains(this)) knownTools.add(this);
-
+    	
     	deactivateAll();
 //    	
 //      Zoomable myView = MainFrame.getInstance().getActiveSession().getActiveView();
