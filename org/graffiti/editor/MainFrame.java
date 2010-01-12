@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.96 2009/11/23 12:35:19 klukas Exp $
+// $Id: MainFrame.java,v 1.97 2010/01/12 13:11:42 morla Exp $
 
 package org.graffiti.editor;
 
@@ -179,6 +179,7 @@ import org.graffiti.selection.SelectionModel;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.Session;
 import org.graffiti.session.SessionListener;
+import org.graffiti.session.SessionListenerExt;
 import org.graffiti.session.SessionManager;
 import org.graffiti.undo.Undoable;
 import org.graffiti.util.DesktopMenuManager;
@@ -190,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.96 $
+ * @version $Revision: 1.97 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -2074,12 +2075,6 @@ public class MainFrame extends JFrame implements SessionManager,
 			// continue, close view/session
 		}
 		
-////		session.getGraph().getListenerManager().transactionStarted(this);
-//		session.getGraph().clear();
-//		session.getGraph().getListenerManager().transactionFinished(this);
-		
-//		activeSession = null;
-//		
 		List<View> views = new LinkedList<View>();
 
 		// close all views and remove this session
@@ -2112,6 +2107,11 @@ public class MainFrame extends JFrame implements SessionManager,
 			this.zoomListeners.remove(view);
 		}
 		sessions.remove(session);
+		session.close();
+		for (SessionListener sl : sessionListeners) {
+			if (sl instanceof SessionListenerExt)
+				((SessionListenerExt)sl).sessionClosed(session);
+		}
 		session.getGraph().clear();
 		return true;
 	}
@@ -3182,9 +3182,16 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 			session.removeView(f.getView());
 			
-			if (session.getViews().size()==0)
+			if (session.getViews().size()==0) {
 				sessions.remove(session);
+				session.close();
+				for (SessionListener sl : sessionListeners) {
+					if (sl instanceof SessionListenerExt)
+						((SessionListenerExt)sl).sessionClosed(session);
+				}
 
+			}
+			
 			if (getEditorSessions().size()==0)
 				setActiveSession(null, null);
 //			System.out.println("Open sessions: "+getEditorSessions().size());

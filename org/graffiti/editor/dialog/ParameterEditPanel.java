@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.7 2009/09/10 13:33:25 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.8 2010/01/12 13:11:42 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -37,6 +37,7 @@ import org.graffiti.plugin.ToolTipHelper;
 import org.graffiti.plugin.editcomponent.StandardValueEditComponent;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
 import org.graffiti.plugin.parameter.BooleanParameter;
+import org.graffiti.plugin.parameter.ObjectListParameter;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.parameter.SelectionParameter;
 import org.graffiti.selection.Selection;
@@ -46,7 +47,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -248,7 +249,10 @@ public class ParameterEditPanel extends JPanel {
 
 		JComponent editCompComp = editComp.getComponent();
 		// idPanel.add(textField);
-		if(parameter!=null&&parameter instanceof BooleanParameter&&((BooleanParameter)parameter).isLeftAligned()) {
+		if(parameter!=null&&(
+					(parameter instanceof BooleanParameter&&((BooleanParameter)parameter).isLeftAligned())
+				||	(parameter instanceof ObjectListParameter&&((ObjectListParameter)parameter).isLeftAligned())
+		   )) {
 			myPanel.addGuiComponentRow(editCompComp, null, false);
 			editCompComp.setToolTipText(parameter.getDescription());
 		} else

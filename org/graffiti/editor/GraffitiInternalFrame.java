@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.18 2009/12/02 22:37:13 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.19 2010/01/12 13:11:42 morla Exp $
 
 package org.graffiti.editor;
 
@@ -149,6 +149,7 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameClosing(InternalFrameEvent e) {
+            	
  			}
 
  			public void internalFrameClosed(InternalFrameEvent e) {

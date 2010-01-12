@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Session.java,v 1.2 2009/02/24 13:15:16 morla Exp $
+// $Id: Session.java,v 1.3 2010/01/12 13:11:40 morla Exp $
 
 package org.graffiti.session;
 
@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.ErrorMsg;
+import org.graffiti.editor.MainFrame;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.managers.AlgorithmManager;
@@ -210,9 +211,7 @@ public class Session
      */
     public void close()
     {
-        for(Iterator i = views.iterator(); i.hasNext();)
-        {
-            View v = (View) i.next();
+        for (View v : views) {
             v.close();
         }
     }
