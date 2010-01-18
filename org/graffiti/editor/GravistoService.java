@@ -1,7 +1,9 @@
 package org.graffiti.editor;
 
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Panel;
 import java.awt.RenderingHints;
 import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
@@ -29,6 +31,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
@@ -778,8 +781,29 @@ public class GravistoService implements HelperClass {
 			return icon;
 		}
 	}
+
+	public static void showImage(BufferedImage img, String title) {
+	    JFrame frame = new JFrame(title);
+	    Panel panel = new ShowImage(img);
+	    frame.getContentPane().add(panel);
+	    frame.setSize(500, 500);
+	    frame.setVisible(true);
+	}
 }
 
+
+class ShowImage extends Panel {
+	private static final long serialVersionUID = 2163700797926226041L;
+	BufferedImage  image;
+
+	public ShowImage(BufferedImage img) {
+		image = img;
+	}
+
+		public void paint(Graphics g) {
+    g.drawImage( image, 0, 0, null);
+  }
+}
 //------------------------------------------------------------------------------
 //   end of file
 //------------------------------------------------------------------------------
