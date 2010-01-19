@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.8 2010/01/19 08:06:36 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.9 2010/01/19 10:06:55 mehlhorn Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -56,7 +56,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -510,7 +510,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		if (showOnlyOneButton) {
 			buttonDesc = ((String)description).substring(((String)description).indexOf("[")+"[".length());
 			buttonDesc = buttonDesc.substring(0, buttonDesc.indexOf("]"));
-			description = ((String)description).substring(((String)description).indexOf("[")+"[".length());
+			description = ((String)description).substring(((String)description).indexOf("]")+"[".length());
 			if (((String)description).length()<=0)
 				description = null;
 		}
