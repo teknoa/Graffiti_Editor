@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.97 2010/01/12 13:11:42 morla Exp $
+// $Id: MainFrame.java,v 1.98 2010/01/20 14:43:14 morla Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.97 $
+ * @version $Revision: 1.98 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1202,13 +1202,13 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return New session
 	 */
-	public Session createNewSession() {
+	public EditorSession createNewSession() {
 		EditorSession es =  new EditorSession();
 		addSession(es);
 		return es;
 	}
 
-	public Session createNewSession(Graph g) {
+	public EditorSession createNewSession(Graph g) {
 		EditorSession es =  new EditorSession(g);
 		addSession(es);
 		return es;
@@ -3641,6 +3641,17 @@ public class MainFrame extends JFrame implements SessionManager,
 		return false;
 	}
 	
+	public EditorSession lookUpSession(Graph g, boolean createIfNotFound) {
+		for (EditorSession es : getEditorSessions()) {
+			if (es.getGraph()==g)
+				return es;
+		}
+		if (createIfNotFound) {
+			return createNewSession(g);
+		} else
+			return null;
+	}
+
 	public EditorSession lookUpNamedSession(String fileName) {
 		if (fileName.startsWith(AttributeHelper.preFilePath))
 			fileName = fileName.substring(AttributeHelper.preFilePath.length());

@@ -789,6 +789,15 @@ public class GravistoService implements HelperClass {
 	    frame.setSize(500, 500);
 	    frame.setVisible(true);
 	}
+
+	public static URL getResource(Class location, String filename, String optExt) {
+		ClassLoader cl = location.getClassLoader();
+	    String path = location.getPackage().getName().replace('.', '/');
+		if(optExt==null)
+			return cl.getResource(path+"/"+filename);
+		else
+			return cl.getResource(path+"/"+filename+"."+optExt);
+	}	
 }
 
 
