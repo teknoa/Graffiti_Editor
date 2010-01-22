@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.98 2010/01/20 14:43:14 morla Exp $
+// $Id: MainFrame.java,v 1.99 2010/01/22 15:30:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.98 $
+ * @version $Revision: 1.99 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1578,6 +1578,11 @@ public class MainFrame extends JFrame implements SessionManager,
 		String ext = FileSaveAction.getFileExt(fileName);
 		OutputSerializer os = ioManager.createOutputSerializer(ext);
 		OutputStream outpS = new FileOutputStream(fileName);
+		if (os==null)
+			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension "+ext);
+		
+		if (outpS==null)
+			ErrorMsg.addErrorMessage("Invalid outputstream created for filename "+fileName);
 		os.write(outpS, graph);
 		outpS.close();
 	}
@@ -3892,6 +3897,10 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (s.getGraph()==graph)
 				return s;
 		return null;
+	}
+
+	public int getNumberOfOpenSessions() {
+		return sessions.size();
 	}
 }
 

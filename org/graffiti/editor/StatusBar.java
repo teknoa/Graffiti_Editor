@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.10 2009/12/07 09:53:01 klukas Exp $
+// $Id: StatusBar.java,v 1.11 2010/01/22 15:30:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -52,7 +52,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class StatusBar
     extends JPanel
@@ -130,7 +130,7 @@ public class StatusBar
         c.anchor = GridBagConstraints.WEST;
         c.weightx = 1.0;
         c.weighty = 0.0;
-        c.insets = new Insets(0, 0, 0, 0);
+        c.insets = new Insets(1,1,1,1);
 
         add(statusLine, c);
 
@@ -181,12 +181,19 @@ public class StatusBar
         c.gridx = 1;
         c.weightx = 0.0;
 
+        JLabel memLabel = GravistoService.getMemoryInfoLabel(true);
+        memLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+        memLabel.setBorder(BorderFactory.createEtchedBorder());
+        memLabel.setVerticalAlignment(SwingConstants.BOTTOM);
+        add(memLabel, c);
+        
+        c.gridx = 2;
         add(nodesLabel, c);
 
-        c.gridx = 2;
+        c.gridx = 3;
         add(edgesLabel, c);
         
-        c.gridx = 3;
+        c.gridx = 4;
         JLabel space = new JLabel();
         space.setPreferredSize(new Dimension(15, 5));
         space.setMinimumSize(new Dimension(15, 5));

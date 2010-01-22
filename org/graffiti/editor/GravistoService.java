@@ -5,7 +5,10 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.RenderingHints;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
@@ -33,9 +36,11 @@ import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
+import javax.swing.Timer;
 
 import org.ErrorMsg;
 import org.HelperClass;
@@ -788,6 +793,46 @@ public class GravistoService implements HelperClass {
 	    frame.getContentPane().add(panel);
 	    frame.setSize(500, 500);
 	    frame.setVisible(true);
+	}
+
+	public static JLabel getMemoryInfoLabel(final boolean shortInfo) {
+		final JLabel memLabel = new JLabel(getCurrentMemoryInfo(false));
+		memLabel.setToolTipText("Click for memory garbage collection");
+		memLabel.addMouseListener(new MouseListener() {
+			public void mouseClicked(MouseEvent e) {
+				System.gc();
+			}
+
+			public void mouseEntered(MouseEvent e) { }
+			public void mouseExited(MouseEvent e) { }
+			public void mousePressed(MouseEvent e) { }
+			public void mouseReleased(MouseEvent e) {}
+			});
+		Timer t = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				memLabel.setText(getCurrentMemoryInfo(shortInfo));
+				memLabel.repaint(1000);
+			}});
+		t.start();
+		return memLabel;
+	}
+	
+	private static String getCurrentMemoryInfo(boolean shortInfo) {
+		Runtime r = Runtime.getRuntime();
+      int divisor=1024;
+      String memoryConfig;
+      if (shortInfo) {
+      	memoryConfig = ((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
+	  		"&nbsp;MB";
+			return "<html>" +
+			 "<font color='gray'><small>"+memoryConfig+"<br>"+MainFrame.getInstance().getNumberOfOpenSessions()+"&nbsp;ES";
+			
+      } else {
+	      memoryConfig = ((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
+			  		" MB, " + (r.totalMemory()/divisor/divisor)+" MB, "+(r.maxMemory()/divisor/divisor)+" MB";
+			return "<html>" +
+					 "<font color='gray'><small>Memory info:<br>&nbsp;&nbsp;&nbsp;active, alloc, max memory: "+memoryConfig;
+      }
 	}
 
 	public static URL getResource(Class location, String filename, String optExt) {
