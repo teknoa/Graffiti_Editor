@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.12 2009/12/10 10:18:45 klukas Exp $
+// $Id: AbstractTool.java,v 1.13 2010/01/23 08:45:41 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -71,7 +71,7 @@ public abstract class AbstractTool
     protected EditorSession session;
 
     /** The graph this tool works on. */
-    protected Graph graph;
+//    private Graph graph;
 
     /** The preferences of this tool. */
     protected GravistoPreferences prefs;
@@ -167,8 +167,7 @@ public abstract class AbstractTool
      */
     public void setGraph(Graph graph)
     {
-      assert graph != null;
-      this.graph = graph;
+   	 // empty
     }
 
     /**

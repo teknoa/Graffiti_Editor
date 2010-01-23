@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.13 2009/12/02 10:00:02 klukas Exp $
+// $Id: AbstractView.java,v 1.14 2010/01/23 08:45:41 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -39,7 +39,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public abstract class AbstractView
     extends JComponent
@@ -341,6 +341,15 @@ public abstract class AbstractView
     public void close()
     {
        // setVisible(false);
+   	 
+       graphElementComponents.clear();
+       graphElementAttributeComponents.clear();
+       
+       currentGraph = null;
+       acm = null;
+       graphElementComponents = null;
+       graphElementAttributeComponents = null;
+
     }
 
     /**

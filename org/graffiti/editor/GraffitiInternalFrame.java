@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.19 2010/01/12 13:11:42 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.20 2010/01/23 08:45:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -78,6 +78,7 @@ public class GraffitiInternalFrame
      //   setBorder(null);
         
         GravistoService.getInstance().addFrame(this);
+        
     }
     
     
@@ -153,7 +154,8 @@ public class GraffitiInternalFrame
  			}
 
  			public void internalFrameClosed(InternalFrameEvent e) {
- 				ListenerManager lm = session.getGraph().getListenerManager();
+ 				GraffitiInternalFrame.this.session = null;
+// 				ListenerManager lm = session.getGraph().getListenerManager();
 // 				try {
 //					lm.removeAttributeListener(view);
 //	 				lm.removeEdgeListener(view);
