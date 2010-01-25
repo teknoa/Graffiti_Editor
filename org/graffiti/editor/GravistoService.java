@@ -811,6 +811,10 @@ public class GravistoService implements HelperClass {
 		Timer t = new Timer(1000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				memLabel.setText(getCurrentMemoryInfo(shortInfo));
+				if (shortInfo)
+					memLabel.setToolTipText(getCurrentMemoryInfo(false).
+							replaceFirst(":", " (click to garbage-collect):").
+							replaceFirst("<font color='gray'>", ""));
 				memLabel.repaint(1000);
 			}});
 		t.start();
