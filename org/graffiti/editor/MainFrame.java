@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.100 2010/01/23 08:45:41 klukas Exp $
+// $Id: MainFrame.java,v 1.101 2010/01/25 14:54:20 morla Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.100 $
+ * @version $Revision: 1.101 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1098,11 +1098,11 @@ public class MainFrame extends JFrame implements SessionManager,
 		scrollPane.setWheelScrollingEnabled(true);
 
 		if (!returnScrollPane) {
+			Container j = frame.getContentPane();
 			if (view.putInScrollPane()) {
-				Container j = frame.getContentPane();
 				placeViewInContainer(view, scrollPane, j);
 			} else
-				frame.getContentPane().add(view.getViewComponent());
+				placeViewInContainer(view, null, j);
 
 			frame.pack();
 			
@@ -1184,17 +1184,17 @@ public class MainFrame extends JFrame implements SessionManager,
 			if (left || right) {
 				j.add(TableLayout.get3Split(
 						leftC, 
-						scrollPane,
+						scrollPane !=null ? scrollPane : view.getViewComponent(),
 						rightC,
 						leftS, TableLayout.FILL, rightS), "0,1");
 			} else
-				j.add(scrollPane, "0,1");
+				j.add(scrollPane !=null ? scrollPane : view.getViewComponent(), "0,1");
 			if (bottom)
 				j.add(bottomC, "0,2");
 			if (background)
 				j.add(view.getViewToolbarComponentBackground(), "0,0,0,2");
 		} else
-			j.add(scrollPane);
+			j.add(scrollPane !=null ? scrollPane : view.getViewComponent());
 	}
 
 	/**
