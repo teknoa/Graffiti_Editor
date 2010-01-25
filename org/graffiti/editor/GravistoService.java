@@ -663,9 +663,13 @@ public class GravistoService implements HelperClass {
 		if (name==null) {
 			name = algorithm.getClass().getSimpleName();
 		}
-		errors.append("Can not start <i>"+name+"</i> on graph "+
-				graph.getName()
-				+":<br><br>"+e.getMessage()+"<br><br>");
+		if(graph!=null)
+			errors.append("Can not start <i>"+name+"</i> on graph "+
+					graph.getName()
+					+":<br><br>"+e.getMessage()+"<br><br>");
+		else
+			errors.append("Can not start <i>"+name+"</i>" 
+					+":<br><br>"+e.getMessage()+"<br><br>");
 	}
 
 	/**
