@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.14 2010/01/25 14:54:20 morla Exp $
+// $Id: StatusBar.java,v 1.15 2010/01/26 14:15:45 morla Exp $
 
 package org.graffiti.editor;
 
@@ -29,6 +29,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 import org.AttributeHelper;
@@ -52,7 +53,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class StatusBar
     extends JPanel
@@ -324,7 +325,7 @@ public class StatusBar
     /**
      * @see org.graffiti.session.SessionListener#sessionChanged(Session)
      */
-    public synchronized void sessionChanged(Session session)
+    public void sessionChanged(Session session)
     {
         ListenerManager lm = null;
 
@@ -506,12 +507,14 @@ public class StatusBar
     /**
      * Updates the graph information ui components.
      */
-    private synchronized void updateGraphInfo()
+    private void updateGraphInfo()
     {
-       if (ignoreUpdate>0) {
-			  // System.out.println("some transaction not yet finished");
-			  return;
-       }
+    	if (!SwingUtilities.isEventDispatchThread())
+    		return;
+	       if (ignoreUpdate>0) {
+				  // System.out.println("some transaction not yet finished");
+				  return;
+	       }
     	
     	  boolean changed = false;
           ArrayList<Node> nl = new ArrayList<Node>();

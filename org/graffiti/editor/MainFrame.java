@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.101 2010/01/25 14:54:20 morla Exp $
+// $Id: MainFrame.java,v 1.102 2010/01/26 14:15:44 morla Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.101 $
+ * @version $Revision: 1.102 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1015,7 +1015,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @throws RuntimeException DOCUMENT ME!
 	 */
-	public Object createInternalFrame(String viewName,
+	public synchronized Object createInternalFrame(String viewName,
 				String newFrameTitle, EditorSession session,
 				boolean returnScrollPane, boolean returnGraffitiFrame,
 				boolean otherViewWillBeClosed, ConfigureViewAction configNewView) {
@@ -2384,7 +2384,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane showViewChooserDialog(EditorSession session,
+	public synchronized JScrollPane showViewChooserDialog(EditorSession session,
 				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, ConfigureViewAction configNewView) {
 		if (viewManager == null) {
 			ErrorMsg.addErrorMessage("Error: View Manager is NULL");
@@ -3163,6 +3163,11 @@ public class MainFrame extends JFrame implements SessionManager,
 
 			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
 						.getSession();
+
+			if (session==null) {
+				// already processed
+				return;
+			}
 			
 			
 			activeFrames.remove(f);
@@ -3171,6 +3176,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 			viewFrameMapper.remove(view);
 			zoomListeners.remove(view);
+			
+			if (session==null)
+				System.out.println("ERROR 123");
+			if (session.getGraph()==null)
+				System.out.println("ERROR 987");
+			if (session.getGraph().getListenerManager()==null)
+				System.out.println("ERROR 654");
 			
 			ListenerManager lm = session.getGraph().getListenerManager();
 			try {
