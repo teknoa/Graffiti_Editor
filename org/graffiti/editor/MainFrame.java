@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.102 2010/01/26 14:15:44 morla Exp $
+// $Id: MainFrame.java,v 1.103 2010/01/27 14:15:41 morla Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.102 $
+ * @version $Revision: 1.103 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -3857,6 +3857,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		vertSplitter.setRightComponent(component);
 		vertSplitter.validate();
 		vertSplitter.setDividerLocation(vertSplitter.getWidth()-width); // uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
+	}
+	
+	public void setSidePanel(int width) {
+		int availableSpace = getWidth();
+		int newWidth = availableSpace-width;
+		vertSplitter.setDividerLocation(newWidth); 
 	}
 
 	
