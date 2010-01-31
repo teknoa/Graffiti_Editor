@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.105 2010/01/29 22:36:05 klukas Exp $
+// $Id: MainFrame.java,v 1.106 2010/01/31 20:00:05 morla Exp $
 
 package org.graffiti.editor;
 
@@ -103,6 +103,7 @@ import net.iharder.dnd.FileDrop;
 import org.AttributeHelper;
 import org.ErrorMsg;
 import org.FolderPanel;
+import org.HomeFolder;
 import org.Java_1_5_compatibility;
 import org.Release;
 import org.ReleaseInfo;
@@ -191,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.105 $
+ * @version $Revision: 1.106 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -3328,10 +3329,13 @@ public class MainFrame extends JFrame implements SessionManager,
 					removeSession((Session) it.next());
 				}
 				savePreferences();*/
+				HomeFolder.deleteTemporaryFolder();
 				System.exit(0);
 			}
-		} else
+		} else {
+			HomeFolder.deleteTemporaryFolder();
 			System.exit(0);
+		}
 	}
 
 	/* (non-Javadoc)
