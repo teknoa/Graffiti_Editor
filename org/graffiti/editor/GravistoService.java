@@ -23,6 +23,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -798,12 +799,17 @@ public class GravistoService implements HelperClass {
 	    frame.setSize(500, 500);
 	    frame.setVisible(true);
 	}
+	
+	private static HashSet<MemoryHog> memoryHogs = new HashSet<MemoryHog>();
 
 	public static JLabel getMemoryInfoLabel(final boolean shortInfo) {
 		final JLabel memLabel = new JLabel(getCurrentMemoryInfo(false));
 		memLabel.setToolTipText("Click for memory garbage collection");
 		memLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
+				for (MemoryHog mh : memoryHogs) {
+					mh.freeMemory();
+				}
 				System.gc();
 			}
 
@@ -850,6 +856,10 @@ public class GravistoService implements HelperClass {
 			return cl.getResource(path+"/"+filename);
 		else
 			return cl.getResource(path+"/"+filename+"."+optExt);
+	}
+
+	public static void addKnownMemoryHog(MemoryHog memoryHog) {
+		memoryHogs.add(memoryHog);
 	}	
 }
 
