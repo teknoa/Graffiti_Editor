@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.110 2010/02/04 12:21:27 klukas Exp $
+// $Id: MainFrame.java,v 1.111 2010/02/04 14:54:39 morla Exp $
 
 package org.graffiti.editor;
 
@@ -192,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.110 $
+ * @version $Revision: 1.111 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1020,6 +1020,10 @@ public class MainFrame extends JFrame implements SessionManager,
 				String newFrameTitle, EditorSession session,
 				boolean returnScrollPane, boolean returnGraffitiFrame,
 				boolean otherViewWillBeClosed, ConfigureViewAction configNewView, boolean addViewToEditorSession) {
+		
+		if (!SwingUtilities.isEventDispatchThread()) {
+			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
+		}
 		
 		View view;
 		try {
