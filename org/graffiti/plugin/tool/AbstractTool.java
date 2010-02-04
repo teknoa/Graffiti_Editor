@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.13 2010/01/23 08:45:41 klukas Exp $
+// $Id: AbstractTool.java,v 1.14 2010/02/04 12:21:20 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -314,7 +314,7 @@ public abstract class AbstractTool
         if(comp != null)
         {
             ((JComponent) comp).setBorder(border);
-            ((JComponent) comp).repaint();
+//            ((JComponent) comp).repaint();
 
             //            comp.getParent().repaint();
         }
@@ -330,7 +330,7 @@ public abstract class AbstractTool
         if(comp != null)
         {
             ((JComponent) comp).setBorder(edgeBorder);
-            ((JComponent) comp).repaint();
+//            ((JComponent) comp).repaint();
         }
     }
 
@@ -384,7 +384,7 @@ public abstract class AbstractTool
 	    	   		ac.highlight(true, e);
 	    	   	}
     	   } else
-    	   	((JComponent) comp).setBorder(tempBorder);
+    		   ((JComponent) comp).setBorder(tempBorder);
     	   if (((JComponent) comp).getParent()!=null)
     		   ((JComponent) comp).getParent().repaint();
         }
@@ -533,7 +533,8 @@ public abstract class AbstractTool
      *
      * @param comps DOCUMENT ME!
      */
-    public void unDisplayAsMarked(List comps)
+    @SuppressWarnings("unchecked")
+	public void unDisplayAsMarked(List comps)
     {
         for(Iterator it = comps.iterator(); it.hasNext();)
         {

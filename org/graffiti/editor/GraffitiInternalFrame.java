@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.20 2010/01/23 08:45:41 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.21 2010/02/04 12:21:27 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -123,7 +123,7 @@ public class GraffitiInternalFrame
         	frameNumber = session.getViews().size();
         else
         	frameNumber = session.getViews().size() + 1;
-        setTitle(title);
+        setTitle(ErrorMsg.removeHTMLtags(title));
         setListener();
 
 //	        setOpaque(true);
@@ -214,7 +214,7 @@ public class GraffitiInternalFrame
     @Override
 	public void setTitle(String title)
     {
-   	 	this.initTitle = title;
+   	 	this.initTitle = ErrorMsg.removeHTMLtags(title);
         String frameTitle = title + " - view " + frameNumber;
         super.setTitle(frameTitle);
         if (ErrorMsg.isMac()) {

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.9 2010/02/04 10:17:58 morla Exp $
+// $Id: EditorSession.java,v 1.10 2010/02/04 12:21:27 klukas Exp $
 
 package org.graffiti.session;
 
@@ -31,7 +31,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  *
  * @see org.graffiti.session.Session
  */
@@ -246,12 +246,14 @@ public class EditorSession
     }
 
 	public void setFileName(String name) throws URISyntaxException {
-		try {
-			File f = new File(name);
-			fileName = f.toURI();
-			return;
-		} catch(Exception e) {
-			// empty
+		if (name!=null && name.indexOf("://")<0) {
+			try {
+				File f = new File(name);
+				fileName = f.toURI();
+				return;
+			} catch(Exception e) {
+				// empty
+			}
 		}
 		if (name==null) {
 			this.fileName = null;
@@ -260,8 +262,13 @@ public class EditorSession
 		name = name.replaceAll("\\[not saved\\]", "");
 		name = name.replaceAll("\\*", "");
 		// name = name.replaceAll(" ", "%20");
-		name = ErrorMsg.UnicodeToURLsyntax(name);
-		fileName = new URI(name);
+//		name = ErrorMsg.UnicodeToURLsyntax(name);
+		try {
+			URI uri = new URI(name);
+			fileName = uri;
+		} catch(Exception e) {
+			fileName = new URI(name);
+		}
 	}
 }
 
