@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.108 2010/02/01 18:12:52 klukas Exp $
+// $Id: MainFrame.java,v 1.109 2010/02/04 10:17:58 morla Exp $
 
 package org.graffiti.editor;
 
@@ -192,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.108 $
+ * @version $Revision: 1.109 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1521,34 +1521,38 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 	
 	public Graph getGraph(File file) throws Exception {
-		String fileName = file.getName();
 		Graph newGraph = null;
-		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
-		boolean gz = false;
-		if (fileName.toLowerCase().endsWith(".gz")) {
-			fileName = fileName.substring(0, fileName.length()-".gz".length());
-			ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
-			gz = true;
-		}
-		if (ext.equalsIgnoreCase(".net")) {
-			Graph tempGraph = new AdjListGraph(new ListenerManager());
-			InputSerializer is = ioManager.createInputSerializer(null, ext);
-			is.read(file.getAbsolutePath(), tempGraph);
-			newGraph = tempGraph;
-		} else {
-			InputSerializer is;
-			MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
-			is = ioManager.createInputSerializer(inputStream, ext);
-			if (is!=null) {
-				newGraph = is.read(inputStream.getNewInputStream());
-			} else {
-				showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
+			String fileName = file.getName();
+			String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+			boolean gz = false;
+			if (fileName.toLowerCase().endsWith(".gz")) {
+				fileName = fileName.substring(0, fileName.length()-".gz".length());
+				ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
+				gz = true;
 			}
-		}
-		if (newGraph!=null) {
-			newGraph.setName(file.getAbsolutePath());
-			newGraph.setModified(false);
-		}
+			if (ext.equalsIgnoreCase(".net")) {
+				Graph tempGraph = new AdjListGraph(new ListenerManager());
+				InputSerializer is = ioManager.createInputSerializer(null, ext);
+				synchronized (ioManager) {
+					is.read(file.getAbsolutePath(), tempGraph);
+				}
+				newGraph = tempGraph;
+			} else {
+				InputSerializer is;
+				MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
+				is = ioManager.createInputSerializer(inputStream, ext);
+				if (is!=null) {
+					synchronized (ioManager) {
+						newGraph = is.read(inputStream.getNewInputStream());
+					}
+				} else {
+					showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
+				}
+			}
+			if (newGraph!=null) {
+				newGraph.setName(file.getAbsolutePath());
+				newGraph.setModified(false);
+			}
 		return newGraph;
 	}
 	
