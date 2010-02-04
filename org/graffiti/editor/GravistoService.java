@@ -860,6 +860,29 @@ public class GravistoService implements HelperClass {
 
 	public static void addKnownMemoryHog(MemoryHog memoryHog) {
 		memoryHogs.add(memoryHog);
+	}
+
+	public static void ensureActiveViewAndSession(MouseEvent e) {
+		try {
+			View v = (View) ErrorMsg.findParentComponent(e.getComponent(), View.class);
+			
+			Iterator<Session> itSessions = MainFrame.getSessions().iterator();
+			boolean found = false;
+			while (itSessions.hasNext() && !found) {
+				Session mySession = (Session) itSessions.next();
+				Iterator<View> itViews = mySession.getViews().iterator();
+				while (itViews.hasNext() && !found) {
+					View myView = (View) itViews.next();
+					if (myView == v) {
+						mySession.setActiveView(myView);
+						GravistoService.getInstance().getMainFrame().setActiveSession(mySession, myView);
+						found = true;
+					}
+				}
+			}
+		} finally {
+			
+		}
 	}	
 }
 
