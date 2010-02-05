@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.10 2010/02/04 12:21:27 klukas Exp $
+// $Id: EditorSession.java,v 1.11 2010/02/05 08:40:39 morla Exp $
 
 package org.graffiti.session;
 
@@ -31,7 +31,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  *
  * @see org.graffiti.session.Session
  */
@@ -55,10 +55,10 @@ public class EditorSession
      */
     private SelectionModel selectionModel;
 
-    /**
-     * The file name of the graph object, if available. Else <code>null</code>.
-     */
-    private URI fileName;
+//    /**
+//     * The file name of the graph object, if available. Else <code>null</code>.
+//     */
+//    private URI fileName;
     
     /**
      * This counter is used for new, unnamed sessions. Each new session now gets a name
@@ -155,7 +155,8 @@ public class EditorSession
      */
     public void setFileName(URI fileName)
     {
-        this.fileName = fileName;
+//        this.fileName = fileName;
+    	graph.setName(fileName.toASCIIString());
     }
 
     /**
@@ -165,7 +166,12 @@ public class EditorSession
      */
     public URI getFileName()
     {
-        return fileName;
+//        return fileName;
+    	try {
+			return new URI(graph.getName(true));
+		} catch (Exception e) {
+			return null;
+		}
     }
 
     /**
@@ -176,23 +182,25 @@ public class EditorSession
      */
     public String getFileNameAsString()
     {
-        String name;
-
-        if(fileName != null && fileName.getPath() != null && fileName.getPath().lastIndexOf('/')>0)
-        {
-            String path = fileName.getPath();
-            int idx = path.lastIndexOf('/');
-            name = path.substring(idx + 1);
-        } else {
-        	if (title==null) {
-        		name = "Unnamed "+newCounter;
-        		newCounter=newCounter+1;
-        	} else name=title;
-        }
-        
-        title=name;
-
-        return name;
+    	return graph.getName(false);
+    	
+//        String name;
+//
+//        if(fileName != null && fileName.getPath() != null && fileName.getPath().lastIndexOf('/')>0)
+//        {
+//            String path = fileName.getPath();
+//            int idx = path.lastIndexOf('/');
+//            name = path.substring(idx + 1);
+//        } else {
+//        	if (title==null) {
+//        		name = "Unnamed "+newCounter;
+//        		newCounter=newCounter+1;
+//        	} else name=title;
+//        }
+//        
+//        title=name;
+//
+//        return name;
     }
 
     /**
@@ -246,29 +254,31 @@ public class EditorSession
     }
 
 	public void setFileName(String name) throws URISyntaxException {
-		if (name!=null && name.indexOf("://")<0) {
-			try {
-				File f = new File(name);
-				fileName = f.toURI();
-				return;
-			} catch(Exception e) {
-				// empty
-			}
-		}
-		if (name==null) {
-			this.fileName = null;
-			return;
-		}
-		name = name.replaceAll("\\[not saved\\]", "");
-		name = name.replaceAll("\\*", "");
-		// name = name.replaceAll(" ", "%20");
-//		name = ErrorMsg.UnicodeToURLsyntax(name);
-		try {
-			URI uri = new URI(name);
-			fileName = uri;
-		} catch(Exception e) {
-			fileName = new URI(name);
-		}
+		graph.setName(name);
+		
+//		if (name!=null && name.indexOf("://")<0) {
+//			try {
+//				File f = new File(name);
+//				fileName = f.toURI();
+//				return;
+//			} catch(Exception e) {
+//				// empty
+//			}
+//		}
+//		if (name==null) {
+//			this.fileName = null;
+//			return;
+//		}
+//		name = name.replaceAll("\\[not saved\\]", "");
+//		name = name.replaceAll("\\*", "");
+//		// name = name.replaceAll(" ", "%20");
+////		name = ErrorMsg.UnicodeToURLsyntax(name);
+//		try {
+//			URI uri = new URI(name);
+//			fileName = uri;
+//		} catch(Exception e) {
+//			fileName = new URI(name);
+//		}
 	}
 }
 
