@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAction.java,v 1.8 2009/06/23 07:14:48 klukas Exp $
+// $Id: FileSaveAction.java,v 1.9 2010/02/05 15:04:51 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -26,7 +26,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class FileSaveAction
     extends GraffitiAction
@@ -76,7 +76,7 @@ public class FileSaveAction
             // these commands fail if the session has not yet been saved to
             // a file
             EditorSession session = (EditorSession) mainFrame.getActiveSession();
-            fullName = session.getFileName().getPath();
+            fullName = session.getFileNameFull();
         }
         catch(Exception e)
         {
@@ -133,7 +133,7 @@ public class FileSaveAction
         try
         {
             session = (EditorSession) mainFrame.getActiveSession();
-            fullName = session.getFileName().getPath();
+            fullName = session.getFileNameFull();
             if (session!=null && session.getUndoManager()!=null)
             	session.getUndoManager().discardAllEdits();
         }

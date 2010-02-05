@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.13 2009/06/23 07:14:48 klukas Exp $
+// $Id: FileSaveAsAction.java,v 1.14 2010/02/05 15:04:51 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -117,8 +117,6 @@ public class FileSaveAsAction
         }
         
         boolean needFile = true;
-        Graph oldgraph = getGraph();
-
         while(needFile)
         {
             int returnVal = fc.showDialog(mainFrame, sBundle.getString("menu.file.saveAs"));
@@ -128,7 +126,7 @@ public class FileSaveAsAction
             	
             	File oldfile = null;
 				try {
-					oldfile = new File(mainFrame.getActiveEditorSession().getFileName().toURL().getFile()).getParentFile();
+					oldfile = new File(mainFrame.getActiveEditorSession().getFileNameFull()).getParentFile();
 				} catch (Exception e1) {}
             	
                 File file = fc.getSelectedFile();
@@ -142,7 +140,7 @@ public class FileSaveAsAction
 	        		 
 	        		 if (!file.getName().endsWith(ext))
 	        			 file = new File(file.getAbsolutePath() + ext);
-	      		     session.setFileName(file.toURI());
+	      		     session.setFileName(file.getAbsolutePath());
 	      		     
 	                 if (session!=null && session.getUndoManager()!=null)
 	                 	session.getUndoManager().discardAllEdits();

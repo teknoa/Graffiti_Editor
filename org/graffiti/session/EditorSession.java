@@ -5,14 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.11 2010/02/05 08:40:39 morla Exp $
+// $Id: EditorSession.java,v 1.12 2010/02/05 15:04:51 morla Exp $
 
 package org.graffiti.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,7 +30,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  *
  * @see org.graffiti.session.Session
  */
@@ -153,54 +152,29 @@ public class EditorSession
      *
      * @param fileName The fileName to set
      */
-    public void setFileName(URI fileName)
+    public void setFileName(String fileName)
     {
-//        this.fileName = fileName;
-    	graph.setName(fileName.toASCIIString());
+    	graph.setName(fileName);
     }
 
     /**
-     * Returns the fileName of this session's graph.
+     * Returns the full fileName including path of this session's graph.
      *
      * @return the fileName of this session's graph.
      */
-    public URI getFileName()
+    public String getFileNameFull()
     {
-//        return fileName;
-    	try {
-			return new URI(graph.getName(true));
-		} catch (Exception e) {
-			return null;
-		}
+		return graph.getName(true);
     }
 
     /**
-     * An auxiliary method for querying for the string name of graph file of
-     * this session.
+     * Get just the file name excluding the path
      *
      * @return a name of the graph file as string
      */
-    public String getFileNameAsString()
+    public String getFileName()
     {
     	return graph.getName(false);
-    	
-//        String name;
-//
-//        if(fileName != null && fileName.getPath() != null && fileName.getPath().lastIndexOf('/')>0)
-//        {
-//            String path = fileName.getPath();
-//            int idx = path.lastIndexOf('/');
-//            name = path.substring(idx + 1);
-//        } else {
-//        	if (title==null) {
-//        		name = "Unnamed "+newCounter;
-//        		newCounter=newCounter+1;
-//        	} else name=title;
-//        }
-//        
-//        title=name;
-//
-//        return name;
     }
 
     /**
@@ -253,32 +227,12 @@ public class EditorSession
     {
     }
 
-	public void setFileName(String name) throws URISyntaxException {
-		graph.setName(name);
-		
-//		if (name!=null && name.indexOf("://")<0) {
-//			try {
-//				File f = new File(name);
-//				fileName = f.toURI();
-//				return;
-//			} catch(Exception e) {
-//				// empty
-//			}
-//		}
-//		if (name==null) {
-//			this.fileName = null;
-//			return;
-//		}
-//		name = name.replaceAll("\\[not saved\\]", "");
-//		name = name.replaceAll("\\*", "");
-//		// name = name.replaceAll(" ", "%20");
-////		name = ErrorMsg.UnicodeToURLsyntax(name);
-//		try {
-//			URI uri = new URI(name);
-//			fileName = uri;
-//		} catch(Exception e) {
-//			fileName = new URI(name);
-//		}
+	public String getWorkSessionFilePath() {
+		String path = getFileNameFull();
+		if (path.startsWith("http://"))
+			return "";
+		else
+			return new File(path).getParent()+"/";
 	}
 }
 

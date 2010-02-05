@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.112 2010/02/05 08:40:38 morla Exp $
+// $Id: MainFrame.java,v 1.113 2010/02/05 15:04:51 morla Exp $
 
 package org.graffiti.editor;
 
@@ -192,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.112 $
+ * @version $Revision: 1.113 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1290,7 +1290,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				return null;
 			}
 			try {
-				es.setFileName(url.toURI());
+				es.setFileName(url.toString());
 			} catch(Exception e) {
 				ErrorMsg.addErrorMessage(e);
 			}
@@ -1377,9 +1377,9 @@ public class MainFrame extends JFrame implements SessionManager,
 			for (Session s : getSessions()) {
 				if (s instanceof EditorSession) {
 					EditorSession es = (EditorSession)s;
-					if (es.getFileName()==null)
+					if (es.getFileNameFull()==null)
 						continue;
-					if (es.getFileName().equals(file.toURI())) {
+					if (es.getFileNameFull().equals(file.toURI())) {
 						esf = es;
 						break;
 					}
@@ -1414,7 +1414,7 @@ public class MainFrame extends JFrame implements SessionManager,
 								showMessage("Graph file is loaded. Create view... (please wait)", MessageType.PERMANENT_INFO);
 								System.out.println("Create view for file: "+file.getAbsolutePath());
 								EditorSession es = new EditorSession(newGraph);
-								es.setFileName(file.toURI());
+								es.setFileName(file.getAbsolutePath());
 								showViewChooserDialog(es, false, ae);
 								showMessage("Finished graph file loading", MessageType.INFO);
 								
@@ -3654,7 +3654,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileName()!=null && (es.getFileName().toString().endsWith(fileName)))
+			if (es.getFileNameFull()!=null && (es.getFileNameFull().toString().endsWith(fileName)))
 				validSessions.add(es);
 		}
 		if (validSessions.size()>=1) {
@@ -3693,7 +3693,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileName()!=null && (es.getFileName().toString().endsWith(fileName)))
+			if (es.getFileNameFull()!=null && (es.getFileNameFull().toString().endsWith(fileName)))
 				validSessions.add(es);
 		}
 		if (validSessions.size()>=1) {
