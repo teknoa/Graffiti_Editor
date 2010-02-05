@@ -875,7 +875,8 @@ public class GravistoService implements HelperClass {
 					View myView = (View) itViews.next();
 					if (myView == v) {
 						mySession.setActiveView(myView);
-						GravistoService.getInstance().getMainFrame().setActiveSession(mySession, myView);
+						if (GravistoService.getInstance().getMainFrame().getActiveEditorSession()!=mySession)
+							GravistoService.getInstance().getMainFrame().setActiveSession(mySession, myView);
 						found = true;
 					}
 				}
