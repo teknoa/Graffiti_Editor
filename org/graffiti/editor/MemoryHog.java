@@ -9,12 +9,41 @@
 
 package org.graffiti.editor;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Timer;
+
 /**
  * @author klukas
  *
  */
-public interface MemoryHog {
+public abstract class MemoryHog {
 
-	void freeMemory();
+	public MemoryHog() {
+		GravistoService.addKnownMemoryHog(this);
+
+		Timer t = new Timer(1000, new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (doFreeMemory()) {
+					freeMemory();
+				}
+			}
+		});
+		t.setRepeats(true);
+		t.start();
+	}
+	
+	static long lastUsageTime = 0;
+	
+	protected static boolean doFreeMemory() {
+		return System.currentTimeMillis()-lastUsageTime>10000;
+	}
+	
+	protected static void noteRequest() {
+			lastUsageTime = System.currentTimeMillis();
+	}
+	
+	public abstract void freeMemory();
 
 }
