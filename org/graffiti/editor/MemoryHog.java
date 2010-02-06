@@ -23,7 +23,7 @@ public abstract class MemoryHog {
 	public MemoryHog() {
 		GravistoService.addKnownMemoryHog(this);
 
-		Timer t = new Timer(1000, new ActionListener() {
+		Timer t = new Timer(60000, new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if (doFreeMemory()) {
 					freeMemory();

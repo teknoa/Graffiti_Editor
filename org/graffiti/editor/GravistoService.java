@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -884,6 +885,16 @@ public class GravistoService implements HelperClass {
 		} finally {
 			
 		}
+	}
+
+	public static String getFileModificationDateAndTime(File file, String returnIfNotFound) {
+		File f = file;
+		if (f.exists()) {
+			long lm = f.lastModified();
+			Date lmd = new Date(lm);
+			return lmd.toString();
+		} else
+			return "file not found";
 	}	
 }
 
