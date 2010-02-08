@@ -808,8 +808,10 @@ public class GravistoService implements HelperClass {
 		memLabel.setToolTipText("Click for memory garbage collection");
 		memLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				for (MemoryHog mh : memoryHogs) {
-					mh.freeMemory();
+				synchronized (memoryHogs) {
+					for (MemoryHog mh : memoryHogs) {
+						mh.freeMemory();
+					}
 				}
 				System.gc();
 			}
@@ -860,7 +862,9 @@ public class GravistoService implements HelperClass {
 	}
 
 	public static void addKnownMemoryHog(MemoryHog memoryHog) {
-		memoryHogs.add(memoryHog);
+		synchronized (memoryHogs) {
+			memoryHogs.add(memoryHog);
+		}
 	}
 
 	public static void ensureActiveViewAndSession(MouseEvent e) {

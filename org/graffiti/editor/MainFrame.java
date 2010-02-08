@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.113 2010/02/05 15:04:51 morla Exp $
+// $Id: MainFrame.java,v 1.114 2010/02/08 13:59:43 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -103,7 +103,6 @@ import net.iharder.dnd.FileDrop;
 import org.AttributeHelper;
 import org.ErrorMsg;
 import org.FolderPanel;
-import org.HomeFolder;
 import org.Java_1_5_compatibility;
 import org.Release;
 import org.ReleaseInfo;
@@ -192,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.113 $
+ * @version $Revision: 1.114 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1016,7 +1015,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @throws RuntimeException DOCUMENT ME!
 	 */
-	public synchronized Object createInternalFrame(String viewName,
+	public Object createInternalFrame(String viewName,
 				String newFrameTitle, EditorSession session,
 				boolean returnScrollPane, boolean returnGraffitiFrame,
 				boolean otherViewWillBeClosed, ConfigureViewAction configNewView, boolean addViewToEditorSession) {
@@ -1227,16 +1226,20 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @param session DOCUMENT ME!
 	 */
-	public synchronized void fireSessionChanged(Session session) {
-		for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
-			it.next().sessionChanged(session);
+	public void fireSessionChanged(Session session) {
+		synchronized (sessionListeners) {
+			for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
+				it.next().sessionChanged(session);
+			}
 		}
 	}
 	
 	public void fireSelectionChanged(Session session) {
-		for (Iterator<SelectionListener> it = this.selectionListeners.iterator(); it.hasNext();) {
-			it.next().selectionChanged(
-					new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
+		synchronized (selectionListeners) {
+			for (Iterator<SelectionListener> it = this.selectionListeners.iterator(); it.hasNext();) {
+				it.next().selectionChanged(
+						new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
+			}
 		}
 	}
 
@@ -2395,8 +2398,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return DOCUMENT ME!
 	 */
-	public synchronized JScrollPane showViewChooserDialog(EditorSession session,
+	public JScrollPane showViewChooserDialog(EditorSession session,
 				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, ConfigureViewAction configNewView) {
+		if (!SwingUtilities.isEventDispatchThread())
+			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		if (viewManager == null) {
 			ErrorMsg.addErrorMessage("Error: View Manager is NULL");
 		}
@@ -2449,10 +2454,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			} else {
 				// interaction is VIEW_CHOOSER_ALWAYS
 				ViewTypeChooser viewChooser = new ViewTypeChooser(this, 
-						sBundle.getString("viewchooser.title")+
-						" ("+session.getGraph().getNumberOfNodes()+
-						" nodes, "+session.getGraph().getNumberOfEdges()+
-						" edges)", viewManager.getViewDescriptions());
+						sBundle.getString("viewchooser.title")+" ("+session.getGraph().getNumberOfNodes()+" nodes, "+session.getGraph().getNumberOfEdges()+" edges)",
+						viewManager.getViewDescriptions());
 	
 				// The user did not select a view.
 				if (viewChooser.getSelectedView() == -1) { return null; }
@@ -3248,7 +3251,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 
 		public void windowActivated(WindowEvent e) {
-			GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
+//			GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
 //			graffitiFrameActivated(iframe.getSession(), iframe.getView());
 		}
 

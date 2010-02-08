@@ -5,21 +5,18 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.12 2010/02/05 15:04:51 morla Exp $
+// $Id: EditorSession.java,v 1.13 2010/02/08 13:59:44 klukas Exp $
 
 package org.graffiti.session;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.undo.UndoManager;
 
-import org.AttributeHelper;
-import org.ErrorMsg;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
@@ -30,7 +27,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  *
  * @see org.graffiti.session.Session
  */
@@ -54,29 +51,6 @@ public class EditorSession
      */
     private SelectionModel selectionModel;
 
-//    /**
-//     * The file name of the graph object, if available. Else <code>null</code>.
-//     */
-//    private URI fileName;
-    
-    /**
-     * This counter is used for new, unnamed sessions. Each new session now gets a name
-     * like "Unnamed 1", "Unnamed 2", ... instead of only "New graph". 
-     */
-    private static int newCounter=1;
-    
-    /**
-     * Used for returning the correct name in case a new view is created for a unnamed window.
-     * Then no new name like "Unnamed 1" should be returned. 
-     */
-    private String title=null;
-
-    //    /**
-    //     * The list of views.
-    //     * 
-    //     * @see org.graffiti.view.GraffitiView
-    //     */
-    //    private ArrayList views;
 
     /** The undoManager for this session. */
     private UndoManager um;

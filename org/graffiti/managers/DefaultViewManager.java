@@ -5,14 +5,14 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultViewManager.java,v 1.6 2009/08/14 09:15:13 morla Exp $
+// $Id: DefaultViewManager.java,v 1.7 2010/02/08 13:59:43 klukas Exp $
 
 package org.graffiti.managers;
 
 import java.util.Iterator;
 import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import org.graffiti.managers.pluginmgr.PluginDescription;
@@ -25,26 +25,21 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Manages a list of view types.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class DefaultViewManager
     implements ViewManager
 {
-    //~ Static fields/initializers =============================================
-
-    /** The logger for the current class. */
-    private static final Logger logger = Logger.getLogger(DefaultViewManager.class.getName());
-
     //~ Instance fields ========================================================
 
     /** Contains the list of listeners. */
-    private LinkedHashSet listeners;
+    private LinkedHashSet<ViewManagerListener> listeners;
 
     /** Contains the list of listeners. */
     private LinkedHashSet<ViewListener> viewListeners;
 
     /** Contains the class names of the available views. */
-    private List<String> views;
+    private Set<String> views;
 
     //~ Constructors ===========================================================
 
@@ -53,9 +48,9 @@ public class DefaultViewManager
      */
     public DefaultViewManager()
     {
-        views = new LinkedList<String>();
-        listeners = new LinkedHashSet();
-        viewListeners = new LinkedHashSet();
+        views = new TreeSet<String>();
+        listeners = new LinkedHashSet<ViewManagerListener>();
+        viewListeners = new LinkedHashSet<ViewListener>();
     }
 
     //~ Methods ================================================================
@@ -196,10 +191,9 @@ public class DefaultViewManager
      */
     private void fireViewTypeAdded(String viewType)
     {
-        for(Iterator i = listeners.iterator(); i.hasNext();)
+        for(Iterator<ViewManagerListener> i = listeners.iterator(); i.hasNext();)
         {
-            ViewManagerListener l = (ViewManagerListener) i.next();
-
+            ViewManagerListener l = i.next();
             l.viewTypeAdded(viewType);
         }
     }
