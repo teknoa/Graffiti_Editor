@@ -899,6 +899,16 @@ public class GravistoService implements HelperClass {
 			return lmd.toString();
 		} else
 			return "file not found";
+	}
+
+	/**
+	 * Prints a log message in case this method is not called on the Event Dispatch Thread. 
+	 */
+	public static void checkEventDispatchThread() {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			System.out.println("Method Call not on Event Dispatch Thread:");
+			Thread.dumpStack();
+		}
 	}	
 }
 

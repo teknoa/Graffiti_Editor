@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ViewTypeChooser.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
+// $Id: ViewTypeChooser.java,v 1.5 2010/02/09 11:19:23 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -23,7 +23,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.logging.Logger;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -47,18 +46,14 @@ import org.graffiti.core.StringBundle;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class ViewTypeChooser
     extends JDialog
     implements ListSelectionListener, ActionListener, MouseListener,
         WindowListener
 {
-    //~ Static fields/initializers =============================================
-
-    /** The logger for the current class. */
-    private static final Logger logger = Logger.getLogger(ViewTypeChooser.class.getName());
-
+	private static final long serialVersionUID = 1L;
     //~ Instance fields ========================================================
 
     /** The <code>ImageBundle</code> of the view type chooser. */
@@ -142,13 +137,14 @@ public class ViewTypeChooser
         ok.setEnabled(false);
 
         getRootPane().setDefaultButton(ok);
+        
+        setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 
         // defineLayout();
         addListeners();
 
+        validate();
         pack();
-        setLocationRelativeTo(parent);
-        setVisible(true);
     }
 
     //~ Methods ================================================================
@@ -173,7 +169,7 @@ public class ViewTypeChooser
         return selectedView;
     }
     
-    public boolean createInternalFrame() {
+    public boolean getUserSelectionCreateInternalFrame() {
     	return internalFrame;
     }
 
@@ -186,6 +182,7 @@ public class ViewTypeChooser
 
         if(src == cancel)
         {
+            setVisible(false);
             dispose();
         }
         else if(src == ok)
@@ -253,7 +250,7 @@ public class ViewTypeChooser
     public void okSelected()
     {
         selectedView = list.getSelectedIndex();
-
+        setVisible(false);
         dispose();
     }
 
@@ -286,7 +283,7 @@ public class ViewTypeChooser
      */
     public void windowClosing(WindowEvent arg0)
     {
-        dispose();
+
     }
 
     /**
@@ -338,13 +335,15 @@ public class ViewTypeChooser
     /**
      * Renders the view names for their displaying without class path.
      *
-     * @version $Revision: 1.4 $
+     * @version $Revision: 1.5 $
      */
     class NameListCellRenderer
         extends JLabel
         implements ListCellRenderer
     {
-        /** DOCUMENT ME! */
+		private static final long serialVersionUID = -2436438479759062017L;
+
+		/** DOCUMENT ME! */
         private Border emptyBorder = BorderFactory.createEmptyBorder(2, 2, 2, 2);
 
         /** DOCUMENT ME! */

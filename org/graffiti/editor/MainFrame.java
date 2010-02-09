@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.115 2010/02/08 16:14:04 klukas Exp $
+// $Id: MainFrame.java,v 1.116 2010/02/09 11:19:23 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -101,6 +101,7 @@ import javax.swing.undo.UndoableEditSupport;
 import net.iharder.dnd.FileDrop;
 
 import org.AttributeHelper;
+import org.BackgroundTaskStatusProvider;
 import org.ErrorMsg;
 import org.FolderPanel;
 import org.Java_1_5_compatibility;
@@ -191,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.115 $
+ * @version $Revision: 1.116 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -658,7 +659,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * Sets the current active session.
 	 * @param s The session to be activated.
 	 */
-	public synchronized void setActiveSession(Session s, View targetView) {
+	public void setActiveSession(Session s, View targetView) {
 		activeEditorSession = (EditorSession) s;
 		for (GraffitiInternalFrame gif : activeFrames) {
 			if (!gif.isVisible())
@@ -673,9 +674,9 @@ public class MainFrame extends JFrame implements SessionManager,
 		}
 		MainFrame.blockUpdates = true;
 		fireViewChanged(targetView);
-		fireSessionChanged(s);
-		if (s!=null)
-			fireSelectionChanged(s);
+		fireSessionChanged(activeEditorSession);
+		if (activeEditorSession!=null)
+			fireSelectionChanged(activeEditorSession);
 		MainFrame.blockUpdates = false;
 		updateActions();
 	}
@@ -1227,19 +1228,24 @@ public class MainFrame extends JFrame implements SessionManager,
 	 * @param session DOCUMENT ME!
 	 */
 	public void fireSessionChanged(Session session) {
+		GravistoService.checkEventDispatchThread();
+		ArrayList<SessionListener> sl = new ArrayList<SessionListener>();
 		synchronized (sessionListeners) {
-			for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
-				it.next().sessionChanged(session);
-			}
+			sl.addAll(sessionListeners);
+		}
+		for (SessionListener s : sl) {
+			s.sessionChanged(session);
 		}
 	}
 	
 	public void fireSelectionChanged(Session session) {
+		GravistoService.checkEventDispatchThread();
+		ArrayList<SelectionListener> sl = new ArrayList<SelectionListener>();
 		synchronized (selectionListeners) {
-			for (Iterator<SelectionListener> it = this.selectionListeners.iterator(); it.hasNext();) {
-				it.next().selectionChanged(
-						new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
-			}
+			sl.addAll(selectionListeners);
+		}
+		for (SelectionListener s : sl) {
+			s.selectionChanged(new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
 		}
 	}
 
@@ -1606,6 +1612,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	public void showGraph(final Graph g, final ActionEvent e, final LoadSetting interaction) {
+		GravistoService.checkEventDispatchThread();
 		if (SwingUtilities.isEventDispatchThread()) {
 			EditorSession es = new EditorSession(g);
 			try {
@@ -2280,7 +2287,6 @@ public class MainFrame extends JFrame implements SessionManager,
 		updateActions();
 	}
 	
-	static String syncStatus = "sync with this";
 	static String lastStatusMessage = null;
 
 	/**
@@ -2299,20 +2305,18 @@ public class MainFrame extends JFrame implements SessionManager,
 			time = Integer.MAX_VALUE;
 		else
 			time = 10000;
-		synchronized(syncStatus) {
-			if (message==null && lastStatusMessage==null) return;
-			if (message!=null && message.equals(lastStatusMessage)) return;
-			lastStatusMessage=message;
-			if (SwingUtilities.isEventDispatchThread()) {
-				showMessageDirect(message, type, time);
-			} else {
-				final int finalTime = time;
-				SwingUtilities.invokeLater(new Runnable() {
-					public void run() {
-						showMessageDirect(message, type, finalTime);
-					}
-				});
-			}
+		if (message==null && lastStatusMessage==null) return;
+		if (message!=null && message.equals(lastStatusMessage)) return;
+		lastStatusMessage=message;
+		if (SwingUtilities.isEventDispatchThread()) {
+			showMessageDirect(message, type, time);
+		} else {
+			final int finalTime = time;
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					showMessageDirect(message, type, finalTime);
+				}
+			});
 		}
 	}
 
@@ -2399,8 +2403,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	 *
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane showViewChooserDialog(EditorSession session,
-				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, ConfigureViewAction configNewView) {
+	public JScrollPane showViewChooserDialog(final EditorSession session,
+				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, final ConfigureViewAction configNewView) {
 		if (!SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		if (viewManager == null) {
@@ -2458,12 +2462,15 @@ public class MainFrame extends JFrame implements SessionManager,
 						sBundle.getString("viewchooser.title")+" ("+session.getGraph().getNumberOfNodes()+" nodes, "+session.getGraph().getNumberOfEdges()+" edges)",
 						viewManager.getViewDescriptions());
 	
+				viewChooser.setLocationRelativeTo(MainFrame.getInstance());
+				viewChooser.setVisible(true);
+				
 				// The user did not select a view.
 				if (viewChooser.getSelectedView() == -1) { return null; }
 	
-				String selectedView = views[viewChooser.getSelectedView()];
+				final String selectedView = views[viewChooser.getSelectedView()];
 	
-				if (viewChooser.createInternalFrame()) {
+				if (viewChooser.getUserSelectionCreateInternalFrame()) {
 					if (selectedView != null) {
 						if (sessions.contains(session)) {
 							return createInternalFrame(selectedView, session.getGraph().getName(),
@@ -2475,15 +2482,18 @@ public class MainFrame extends JFrame implements SessionManager,
 						}
 					} 
 				} else {
-					GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
-							selectedView, session.getGraph().getName(), session, 
-							false, true, false, configNewView, true); 
-					GraffitiFrame gf = new GraffitiFrame(gif,false);
-					gf.setExtendedState(Frame.MAXIMIZED_BOTH);
-					gf.setVisible(true);
-					addDetachedFrame(gf);
+					SwingUtilities.invokeLater(new Runnable() {
+						public void run() {
+							GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
+									selectedView, session.getGraph().getName(), session, 
+									false, true, false, configNewView, true); 
+							GraffitiFrame gf = new GraffitiFrame(gif,false);
+							gf.setExtendedState(Frame.MAXIMIZED_BOTH);
+							gf.setVisible(true);
+							addDetachedFrame(gf);
+						}
+					});
 				}
-				
 			}
 		}
 

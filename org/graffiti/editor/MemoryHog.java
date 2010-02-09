@@ -31,7 +31,11 @@ public abstract class MemoryHog {
 			}
 		});
 		t.setRepeats(true);
-		t.start();
+		
+		boolean autofree = false;
+		
+		if (autofree)
+			t.start();
 	}
 	
 	static long lastUsageTime = 0;
