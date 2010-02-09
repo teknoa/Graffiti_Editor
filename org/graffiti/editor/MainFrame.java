@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.117 2010/02/09 15:28:28 klukas Exp $
+// $Id: MainFrame.java,v 1.118 2010/02/09 23:29:33 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -101,7 +101,6 @@ import javax.swing.undo.UndoableEditSupport;
 import net.iharder.dnd.FileDrop;
 
 import org.AttributeHelper;
-import org.BackgroundTaskStatusProvider;
 import org.ErrorMsg;
 import org.FolderPanel;
 import org.Java_1_5_compatibility;
@@ -192,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.117 $
+ * @version $Revision: 1.118 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -514,7 +513,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		// create the desktop
 		// desktop = new JDesktopPane();
 		desktop = new JDesktopPane();
-		if (!ErrorMsg.isMac()) {
+		if (true ||!ErrorMsg.isMac()) {
 			desktop.setBackground(Color.LIGHT_GRAY);
 			desktop.setOpaque(true);
 //			desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
