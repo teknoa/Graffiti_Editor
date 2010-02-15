@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorSession.java,v 1.13 2010/02/08 13:59:44 klukas Exp $
+// $Id: EditorSession.java,v 1.14 2010/02/15 07:02:31 morla Exp $
 
 package org.graffiti.session;
 
@@ -27,7 +27,7 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  *
  * @see org.graffiti.session.Session
  */
@@ -208,6 +208,15 @@ public class EditorSession
 		else
 			return new File(path).getParent()+"/";
 	}
+
+	public boolean isSaved() {
+		try{
+			return new File(getFileNameFull()).exists();
+		} catch(Exception e) {
+			return false;
+		}
+	}
+	
 }
 
 //------------------------------------------------------------------------------
