@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.9 2010/01/19 10:06:55 mehlhorn Exp $
+// $Id: DefaultParameterDialog.java,v 1.10 2010/02/15 13:32:13 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -56,7 +56,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -164,6 +164,12 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 		ok = new JButton(sBundle.getString("run.dialog.button.run"));
 		cancel = new JButton(sBundle.getString("run.dialog.button.cancel"));
+		
+		if (okOnlyButtonText!=null && okOnlyButtonText.indexOf(";")>0) {
+			cancel.setText(okOnlyButtonText.substring(okOnlyButtonText.lastIndexOf(";")+";".length()));
+			okOnlyButtonText = okOnlyButtonText.substring(0, okOnlyButtonText.lastIndexOf(";"));
+			okOnly = false;
+		}
 		
 		if (okOnlyButtonText!=null && okOnlyButtonText.length()>0)
 			ok.setText(okOnlyButtonText);
@@ -308,10 +314,11 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		getContentPane().add(paramsPanel, "1,1");
 		if (!noButton)
 		getContentPane().add(
-			TableLayout.get3Split(
+			TableLayout.get4Split(
+				null,
 				ok, 
 				okOnly ? null:cancel, 
-				allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
+				allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayout.FILL, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 				"1,3"
 			);
 	}
@@ -421,7 +428,8 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	 * If the description text starts with "[OK]", only the OK and not the Cancel button
 	 * will be shown. If the description text starts with "[]", no button
 	 * will be shown. If the description starts with "[Hello]", the single OK Button
-	 * will be titled "Hello".
+	 * will be titled "Hello". If the description starts with [Yes;No], two buttons, 
+	 * titles 'Yes' and 'No' will be shown.
 	 * @param title The shown dialog window will use this value as its window title.
 	 * @param parameters 
 	 * @return The return value depends on the selected button (OK/Cancel).
