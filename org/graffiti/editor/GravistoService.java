@@ -41,6 +41,7 @@ import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
+import org.ApplicationStatus;
 import org.ErrorMsg;
 import org.HelperClass;
 import org.Release;
@@ -722,7 +723,7 @@ public class GravistoService implements HelperClass {
 		synchronized (fileNames) {
 			fileNames.add(fileName);
 		}
-		if (ErrorMsg.isAppLoadingCompleted()) {
+		if (ErrorMsg.getAppLoadingStatus()!=ApplicationStatus.INITALIZATION) {
 			loadFiles();
 		}
 	}
