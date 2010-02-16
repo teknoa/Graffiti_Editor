@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.119 2010/02/16 14:21:05 klukas Exp $
+// $Id: MainFrame.java,v 1.120 2010/02/16 23:15:45 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.119 $
+ * @version $Revision: 1.120 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1692,7 +1692,15 @@ public class MainFrame extends JFrame implements SessionManager,
 		updateActions();
 	}
 
-	private void processTabs(EditorPlugin ep) {
+	private void processTabs(final EditorPlugin ep) {
+		if (!SwingUtilities.isEventDispatchThread()) {
+			SwingUtilities.invokeLater(new Runnable() {
+				public void run() {
+					processTabs(ep);
+				}
+			});
+			return;
+		}
 		if (ep.getInspectorTabs()!=null) {
 			for (InspectorTab it : ep.getInspectorTabs()) {
 				if (inspectorPlugin==null) {
