@@ -622,6 +622,7 @@ public class GravistoService implements HelperClass {
 					}
 				}
 				boolean startLater = sessions.size() == 0;
+				boolean runnn = false;
 				for (Session s : sessions) {
 					Graph g = s.getGraph();
 					Selection sel;
@@ -639,17 +640,19 @@ public class GravistoService implements HelperClass {
 					try {
 						algorithm.check();
 						algorithm.execute();
+						runnn = true;
 						if (algorithm instanceof CalculatingAlgorithm) {
 							JOptionPane.showMessageDialog(null,
 									"<html>Result of algorithm:<p>"
 											+ ((CalculatingAlgorithm) algorithm)
 													.getResult().toString());
 						}
-						algorithm.reset();
 					} catch (PreconditionException e) {
 						processError(algorithm, g, errors, e);
 					}
 				}
+				if (runnn)
+					algorithm.reset();
 				if (startLater) {
 					algorithm.attach(graph, selection);
 					algorithm.setParameters(params);
