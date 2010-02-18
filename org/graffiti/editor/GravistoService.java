@@ -594,88 +594,9 @@ public class GravistoService implements HelperClass {
 		}
 		if (!stop) {
 			StringBuilder errors = new StringBuilder();
-			Collection<Session> sessions = new ArrayList<Session>();
-
 			if (enableMultipleSessionProcessing) {
-				if (paramDialog != null)
-					sessions = paramDialog.getTargetSessions();
-				else {
-					sessions = new ArrayList<Session>();
-					if (MainFrame.getSessions().size() == 1
-							|| !algorithm.mayWorkOnMultipleGraphs()) {
-						if (MainFrame.getInstance().isSessionActive())
-							sessions.add(MainFrame.getInstance().getActiveSession());
-					} else if (MainFrame.getSessions().size() > 1) {
-						Object[] options = { "Active Graph",
-								"Open Graphs (" + MainFrame.getSessions().size() + ")" };
-						int res = JOptionPane
-								.showOptionDialog(MainFrame.getInstance(),
-										"Please select the working set.", ErrorMsg
-												.removeHTMLtags(algorithm.getName()),
-										JOptionPane.YES_NO_OPTION,
-										JOptionPane.QUESTION_MESSAGE, null, options,
-										options[0]);
-						if (res == JOptionPane.YES_OPTION) {
-							sessions.add(MainFrame.getInstance().getActiveSession());
-						} else
-							sessions.addAll(MainFrame.getSessions());
-					}
-				}
-				boolean startLater = sessions.size() == 0;
-				boolean runnn = false;
-				for (Session s : sessions) {
-					Graph g = s.getGraph();
-					Selection sel;
-					if (g == graph) {
-						startLater = true;
-						continue;
-					}
-					if (s instanceof EditorSession) {
-						EditorSession es = (EditorSession) s;
-						sel = es.getSelectionModel().getActiveSelection();
-					} else
-						sel = new Selection("empty");
-					algorithm.attach(g, sel);
-					algorithm.setParameters(params);
-					try {
-						algorithm.check();
-						algorithm.execute();
-						runnn = true;
-						if (algorithm instanceof CalculatingAlgorithm) {
-							JOptionPane.showMessageDialog(null,
-									"<html>Result of algorithm:<p>"
-											+ ((CalculatingAlgorithm) algorithm)
-													.getResult().toString());
-						}
-					} catch (PreconditionException e) {
-						processError(algorithm, g, errors, e);
-					}
-				}
-				if (runnn)
-					algorithm.reset();
-				if (startLater) {
-					algorithm.attach(graph, selection);
-					algorithm.setParameters(params);
-					try {
-						algorithm.setActionEvent(event);
-						algorithm.check();
-						algorithm.execute();
-						ScenarioService.postWorkflowStep(algorithm, params);
-						if (algorithm instanceof CalculatingAlgorithm) {
-							JOptionPane.showMessageDialog(null,
-									"<html>Result of algorithm:<p>"
-											+ ((CalculatingAlgorithm) algorithm)
-													.getResult().toString());
-						}
-						algorithm.reset();
-					} catch (PreconditionException e) {
-						processError(algorithm, graph, errors, e);
-					}
-				}
-				if (errors.length() > 0) {
-					MainFrame.showMessageDialogWithScrollBars("<html>"
-							+ errors.toString(), "Execution Error");
-				}
+				multiGraphExecution(algorithm, graph, selection, event,
+						paramDialog, params, errors);
 			} else {
 				algorithm.setParameters(params);
 				algorithm.execute();
@@ -689,6 +610,91 @@ public class GravistoService implements HelperClass {
 				algorithm.reset();
 			}
 
+		}
+	}
+
+	private void multiGraphExecution(Algorithm algorithm, Graph graph,
+			Selection selection, ActionEvent event, ParameterDialog paramDialog,
+			Parameter[] params, StringBuilder errors) {
+		Collection<Session> sessions;
+		if (paramDialog != null)
+			sessions = paramDialog.getTargetSessions();
+		else {
+			sessions = new ArrayList<Session>();
+			if (MainFrame.getSessions().size() == 1
+					|| !algorithm.mayWorkOnMultipleGraphs()) {
+				if (MainFrame.getInstance().isSessionActive())
+					sessions.add(MainFrame.getInstance().getActiveSession());
+			} else if (MainFrame.getSessions().size() > 1) {
+				Object[] options = { "Active Graph",
+						"Open Graphs (" + MainFrame.getSessions().size() + ")" };
+				int res = JOptionPane
+						.showOptionDialog(MainFrame.getInstance(),
+								"Please select the working set.", ErrorMsg
+										.removeHTMLtags(algorithm.getName()),
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.QUESTION_MESSAGE, null, options,
+								options[0]);
+				if (res == JOptionPane.YES_OPTION) {
+					sessions.add(MainFrame.getInstance().getActiveSession());
+				} else
+					sessions.addAll(MainFrame.getSessions());
+			}
+		}
+		boolean startLater = sessions.size() == 0;
+		boolean runnn = false;
+		for (Session s : sessions) {
+			Graph g = s.getGraph();
+			Selection sel;
+			if (g == graph) {
+				startLater = true;
+				continue;
+			}
+			if (s instanceof EditorSession) {
+				EditorSession es = (EditorSession) s;
+				sel = es.getSelectionModel().getActiveSelection();
+			} else
+				sel = new Selection("empty");
+			algorithm.attach(g, sel);
+			algorithm.setParameters(params);
+			try {
+				algorithm.check();
+				algorithm.execute();
+				runnn = true;
+				if (algorithm instanceof CalculatingAlgorithm) {
+					JOptionPane.showMessageDialog(null,
+							"<html>Result of algorithm:<p>"
+									+ ((CalculatingAlgorithm) algorithm)
+											.getResult().toString());
+				}
+			} catch (PreconditionException e) {
+				processError(algorithm, g, errors, e);
+			}
+		}
+		if (runnn)
+			algorithm.reset();
+		if (startLater) {
+			algorithm.attach(graph, selection);
+			algorithm.setParameters(params);
+			try {
+				algorithm.setActionEvent(event);
+				algorithm.check();
+				algorithm.execute();
+				ScenarioService.postWorkflowStep(algorithm, params);
+				if (algorithm instanceof CalculatingAlgorithm) {
+					JOptionPane.showMessageDialog(null,
+							"<html>Result of algorithm:<p>"
+									+ ((CalculatingAlgorithm) algorithm)
+											.getResult().toString());
+				}
+				algorithm.reset();
+			} catch (PreconditionException e) {
+				processError(algorithm, graph, errors, e);
+			}
+		}
+		if (errors.length() > 0) {
+			MainFrame.showMessageDialogWithScrollBars("<html>"
+					+ errors.toString(), "Execution Error");
 		}
 	}
 
