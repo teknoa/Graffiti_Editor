@@ -771,8 +771,9 @@ public class GravistoService implements HelperClass {
 	@SuppressWarnings("unchecked")
 	public static BufferedImage blurImage(BufferedImage image, int blurRadius) {
 		float[] matrix = new float[blurRadius * blurRadius];
-		for (int i = 0; i < blurRadius * blurRadius; i++)
+		for (int i = 0; i < blurRadius * blurRadius; i++) {
 			matrix[i] = 1.0f / (float) blurRadius / (float) blurRadius;
+		}
 
 		Map map = new HashMap();
 
@@ -793,7 +794,7 @@ public class GravistoService implements HelperClass {
 			BufferedImage bi = op.filter(image, null);
 			return bi;
 		} catch (Exception e) {
-			ErrorMsg.addErrorMessage(e);
+			System.out.println("Can't blur with radius "+blurRadius);
 			return image;
 		}
 	}
@@ -979,6 +980,14 @@ public class GravistoService implements HelperClass {
 			System.out.println("Method Call not on Event Dispatch Thread:");
 			Thread.dumpStack();
 		}
+	}
+
+	public EditorSession getSessionFromGraph(Graph graph) {
+		for (EditorSession es : MainFrame.getEditorSessions()) {
+			if (es.getGraph()==graph)
+				return es;
+		}
+		return null;
 	}
 }
 
