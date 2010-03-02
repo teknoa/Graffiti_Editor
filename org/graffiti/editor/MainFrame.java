@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.121 2010/02/17 14:15:14 klukas Exp $
+// $Id: MainFrame.java,v 1.122 2010/03/02 10:28:47 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -88,6 +88,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.WindowConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
@@ -191,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.121 $
+ * @version $Revision: 1.122 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -425,6 +426,11 @@ public class MainFrame extends JFrame implements SessionManager,
 	private Component enclosingseparator;
 	private File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt");
 	//~ Constructors ===========================================================
+	
+	public MainFrame() {
+		// empty
+		// this constructor is only used for Unit testing
+	}
 
 	/**
 	 * Constructs a new <code>MainFrame</code>.
@@ -762,7 +768,10 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	public static Set<Session> getSessions() {
-		return instance.sessions;
+		if (instance!=null)
+			return instance.sessions;
+		else
+			return new HashSet<Session>();
 	}
 	
 	public static Set<EditorSession> getEditorSessions() {
@@ -1020,15 +1029,14 @@ public class MainFrame extends JFrame implements SessionManager,
 				boolean returnScrollPane, boolean returnGraffitiFrame,
 				boolean otherViewWillBeClosed, ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 		
-		if (!SwingUtilities.isEventDispatchThread()) {
+		if (MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
 		
 		View view;
 		try {
 			if (viewManager == null) {
-				ErrorMsg.addErrorMessage("Could not create frame for graph. viewManager is NULL");
-				return null;
+				viewManager = new DefaultViewManager();
 			}
 			view = viewManager.createView(viewName);
 			if (configNewView!=null) {
@@ -1052,7 +1060,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		view.setAttributeComponentManager(this.attributeComponentManager);
 
 		String modeName = "org.graffiti.plugins.modes.defaultEditMode";
-		session.changeActiveMode(modeManager.getMode(modeName));
+		if (modeManager!=null)
+			session.changeActiveMode(modeManager.getMode(modeName));
 
 		GraffitiInternalFrame frame = null;
 
@@ -1066,7 +1075,8 @@ public class MainFrame extends JFrame implements SessionManager,
 		lm.addDelayedEdgeListener(view);
 		lm.addDelayedNodeListener(view);
 		lm.addDelayedGraphListener(view);
-		lm.addDelayedGraphListener(statusBar); 
+		if (statusBar!=null)
+			lm.addDelayedGraphListener(statusBar); 
 
 		view.setGraph(session.getGraph());
 			
@@ -1083,12 +1093,13 @@ public class MainFrame extends JFrame implements SessionManager,
 			SelectionModel selModel = new SelectionModel();
 			session.setSelectionModel(selModel);
 
-			this.fireSessionChanged(session);
+			if (MainFrame.getInstance()!=null) {
+				this.fireSessionChanged(session);
 
-			for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
-				selModel.addSelectionListener(it.next());
+				for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
+					selModel.addSelectionListener(it.next());
+				}
 			}
-
 			selModel.add(new Selection(sBundle.getString("activeSelection")));
 			selModel.setActiveSelection(sBundle.getString("activeSelection"));
 		}
@@ -1147,7 +1158,8 @@ public class MainFrame extends JFrame implements SessionManager,
 			activeFrames.add(frame);
 		}
 
-		this.zoomListeners.add(view);
+		if (zoomListeners!=null)
+			this.zoomListeners.add(view);
 
 		if (scrollPane == null) {
 			ErrorMsg.addErrorMessage("Error: ScrollPane for graph is NULL");
@@ -2416,18 +2428,21 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public JScrollPane showViewChooserDialog(final EditorSession session,
 				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, final ConfigureViewAction configNewView) {
-		if (!SwingUtilities.isEventDispatchThread())
+		if (MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
-		if (viewManager == null) {
-			ErrorMsg.addErrorMessage("Error: View Manager is NULL");
-		}
-		String[] views = viewManager.getViewNames();
+		String[] views;
+		if (viewManager!=null)
+			views = viewManager.getViewNames();
+		else
+			views = new String[] {
+				"org.graffiti.plugins.views.defaults.GraffitiView"
+			};
 		if (views.length == 0) {
 			JOptionPane.showMessageDialog(this, sBundle
 						.getString("viewchooser.pluginNotAdded"), sBundle
 						.getString("viewchooser.errorDialog.title"),
 						JOptionPane.ERROR_MESSAGE);
-		} else if (viewManager.getViewNames().length == 1) {
+		} else if (views.length == 1) {
 			if (sessions.contains(session)) {
 				return createInternalFrame(views[0], session.getGraph().getName(),
 							returnScrollPane, false);
