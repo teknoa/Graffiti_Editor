@@ -9,6 +9,7 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 
 import javax.swing.JTabbedPane;
+import javax.swing.SwingUtilities;
 
 import org.BackgroundTaskStatusProviderSupportingExternalCall;
 import org.graffiti.event.AttributeEvent;
@@ -99,19 +100,23 @@ public class SubtabHostTab extends InspectorTab
 		}
 	}
 
-	public synchronized void viewChanged(View v) {
-		for (InspectorTab tab : subtabs) {
-			if (!tab.visibleForView(v)||(v!=null&&!v.worksWithTab(tab))) {
-				int idx = hc.indexOfTab(tab.getName());
-				if (idx>=0)
-					hc.removeTabAt(idx);;
-				hiddenTabs.add(tab);
-			} else {
-				if (hiddenTabs.contains(tab))
-					hc.addTab(tab.getTitle(), tab);
+	public void viewChanged(final View v) {
+		SwingUtilities.invokeLater(new Runnable() {
+			public void run() {
+				for (InspectorTab tab : subtabs) {
+					if (!tab.visibleForView(v)||(v!=null&&!v.worksWithTab(tab))) {
+						int idx = hc.indexOfTab(tab.getName());
+						if (idx>=0)
+							hc.removeTabAt(idx);;
+						hiddenTabs.add(tab);
+					} else {
+						if (hiddenTabs.contains(tab))
+							hc.addTab(tab.getTitle(), tab);
+					}
+				}
+				hc.validate();
 			}
-		}
-		hc.validate();
+		});
 	}
 
 	public JTabbedPane getTabbedPane() {
