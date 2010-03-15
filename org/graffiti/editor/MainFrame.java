@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.123 2010/03/04 13:07:39 klukas Exp $
+// $Id: MainFrame.java,v 1.124 2010/03/15 13:27:32 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.123 $
+ * @version $Revision: 1.124 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1028,7 +1028,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				boolean returnScrollPane, boolean returnGraffitiFrame,
 				boolean otherViewWillBeClosed, ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 		
-		if (MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread()) {
+		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
 		
@@ -1086,7 +1086,8 @@ public class MainFrame extends JFrame implements SessionManager,
 
 //		this.activeSession = session;
 
-		sessions.add(session);
+		if (!returnScrollPane)
+			sessions.add(session);
 
 		if (session != null && addViewToEditorSession) {
 			SelectionModel selModel = new SelectionModel();
@@ -2427,7 +2428,7 @@ public class MainFrame extends JFrame implements SessionManager,
 	 */
 	public JScrollPane showViewChooserDialog(final EditorSession session,
 				boolean returnScrollPane, ActionEvent e, LoadSetting interaction, final ConfigureViewAction configNewView) {
-		if (MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread())
+		if (!returnScrollPane && MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		String[] views;
 		if (viewManager!=null)
