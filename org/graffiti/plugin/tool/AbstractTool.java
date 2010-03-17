@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.14 2010/02/04 12:21:20 klukas Exp $
+// $Id: AbstractTool.java,v 1.15 2010/03/17 13:48:03 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -314,9 +314,8 @@ public abstract class AbstractTool
         if(comp != null)
         {
             ((JComponent) comp).setBorder(border);
-//            ((JComponent) comp).repaint();
-
-            //            comp.getParent().repaint();
+            ((JComponent) comp).repaint();
+//            ((JComponent) comp).getParent().repaint();
         }
     }
 
