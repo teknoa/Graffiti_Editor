@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.22 2010/02/05 08:40:38 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.23 2010/03/22 09:49:18 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -19,8 +19,6 @@ import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
 import org.ErrorMsg;
-import org.graffiti.event.ListenerManager;
-import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
@@ -98,7 +96,9 @@ public class GraffitiInternalFrame
 		*/
 	}
 
-
+    public String toString() {
+   	 return getTitle();
+    }
 
 	@Override
 	protected void processContainerEvent(ContainerEvent e) {
