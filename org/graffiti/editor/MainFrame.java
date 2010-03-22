@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.124 2010/03/15 13:27:32 klukas Exp $
+// $Id: MainFrame.java,v 1.125 2010/03/22 08:58:02 morla Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.124 $
+ * @version $Revision: 1.125 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1752,12 +1752,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		if (plugin instanceof EditorPlugin) {
 			EditorPlugin ep = (EditorPlugin)plugin;
-			if (ep.getInspectorTabs()!=null && ep.getInspectorTabs().length>0) {
-				for (InspectorTab ip : ep.getInspectorTabs()) {
-					if (ip.isSelectionListener())
-						selectionListeners.add((SelectionListener)ip);
-				}
-			}
+//			if (ep.getInspectorTabs()!=null && ep.getInspectorTabs().length>0) {
+//				for (InspectorTab ip : ep.getInspectorTabs()) {
+//					if (ip.isSelectionListener())
+//						selectionListeners.add((SelectionListener)ip);
+//				}
+//			}
 		}
 
 		if (plugin.isSelectionListener()) {
@@ -3417,7 +3417,7 @@ public class MainFrame extends JFrame implements SessionManager,
 //	}
 
 	/**
-	 * @param panel A status panel that will be shown in the progess area.
+	 * @param panel A status panel that will be shown in the progress area.
 	 * A timer calls isVisible to this panel. If it is not visible any more,
 	 * it will be removed from the status area.
 	 */

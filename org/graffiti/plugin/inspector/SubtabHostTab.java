@@ -122,10 +122,14 @@ public class SubtabHostTab extends InspectorTab
 	public JTabbedPane getTabbedPane() {
 		return hc;
 	}
+	
+	public boolean isSelectionListener() {
+		return true;
+	}
 
 	public void selectionChanged(SelectionEvent e) {
 		for (InspectorTab tab : subtabs) {
-			if (tab instanceof SelectionListener) {
+			if (tab.isSelectionListener()) {
 				SelectionListener sl = (SelectionListener)tab;
 				sl.selectionChanged(e);
 			}
@@ -134,7 +138,7 @@ public class SubtabHostTab extends InspectorTab
 
 	public void selectionListChanged(SelectionEvent e) {
 		for (InspectorTab tab : subtabs) {
-			if (tab instanceof SelectionListener) {
+			if (tab.isSelectionListener()) {
 				SelectionListener sl = (SelectionListener)tab;
 				sl.selectionListChanged(e);
 			}
