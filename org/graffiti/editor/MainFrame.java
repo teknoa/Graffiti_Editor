@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.126 2010/03/24 15:11:55 morla Exp $
+// $Id: MainFrame.java,v 1.127 2010/03/25 09:36:51 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.126 $
+ * @version $Revision: 1.127 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1140,7 +1140,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				} catch(IllegalArgumentException e) {
 					MainFrame.showMessageDialog("<html>Error occured during creation of a new internal frame.<br>" +
 							"Please keep application window at your first screen at any time!<p>"+
-							"Application should be restarted.","Error: Second Screen Detected!");
+							"Application should be restarted.","Error");
 					return null;
 				}
 				Java_1_5_compatibility.setComponentZorder(desktop, frame);
