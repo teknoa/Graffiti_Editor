@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.128 2010/03/25 15:21:52 morla Exp $
+// $Id: MainFrame.java,v 1.129 2010/04/14 17:29:31 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -191,7 +191,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.128 $
+ * @version $Revision: 1.129 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1557,6 +1557,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	
 	public Graph getGraph(File file) throws Exception {
 		Graph newGraph = null;
+		graphLoadingInProgress = true;
+		try {
 			String fileName = file.getName();
 			String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 			boolean gz = false;
@@ -1588,6 +1590,9 @@ public class MainFrame extends JFrame implements SessionManager,
 				newGraph.setName(file.getAbsolutePath());
 				newGraph.setModified(false);
 			}
+		} finally {
+			graphLoadingInProgress = false;
+		}
 		return newGraph;
 	}
 	
@@ -3559,6 +3564,8 @@ public class MainFrame extends JFrame implements SessionManager,
 	}
 
 	ArrayList<GraffitiFrame> detachedFrames = new ArrayList<GraffitiFrame>();
+
+	private boolean graphLoadingInProgress;
 	
 	
 //	public JSplitPane getAttributePanel() {
@@ -3988,6 +3995,10 @@ public class MainFrame extends JFrame implements SessionManager,
 
 	public int getNumberOfOpenSessions() {
 		return sessions.size();
+	}
+
+	public boolean isGraphLoadingInProgress() {
+		return graphLoadingInProgress;
 	}
 }
 

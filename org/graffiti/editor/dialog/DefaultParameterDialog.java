@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.10 2010/02/15 13:32:13 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.11 2010/04/14 17:29:31 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -56,7 +56,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -305,7 +305,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		double border = 8d;
 		double[][] size = {
 			new double[] { border, TableLayoutConstants.FILL, border },
-			new double[] { border, TableLayoutConstants.FILL, border, TableLayoutConstants.PREFERRED, border },
+			new double[] { border, TableLayoutConstants.FILL, border, TableLayoutConstants.PREFERRED, noButton ? 0 : border },
 		};
 		getContentPane().setLayout(new TableLayout(size));
 
