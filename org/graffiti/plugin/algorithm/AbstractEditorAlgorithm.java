@@ -5,9 +5,11 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.6 2009/06/16 11:56:05 klukas Exp $
+// $Id: AbstractEditorAlgorithm.java,v 1.7 2010/04/19 12:30:46 morla Exp $
 
 package org.graffiti.plugin.algorithm;
+
+import javax.swing.ImageIcon;
 
 import org.graffiti.editor.MainFrame;
 import org.graffiti.editor.dialog.ParameterDialog;
@@ -34,6 +36,16 @@ public abstract class AbstractEditorAlgorithm
 	public String getShortName() {
 		return getName();
 	}
+	
+    /**
+     * Returns the icon of the algorithm (used, e.g. in the menu bar).
+     * Icon is only shown if showMenuIcon returns true.
+     *
+     * @return The icon of the algorithm or null if the plugin icon should be used.
+     */
+    public ImageIcon getIcon() {
+    	return null;
+    }
 }
 
 //------------------------------------------------------------------------------

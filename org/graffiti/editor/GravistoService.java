@@ -809,6 +809,10 @@ public class GravistoService implements HelperClass {
 		return ImageIO.read(fileUrl);
 	}
 
+	/**
+	 * @param w negative values have special meaning, they are ignored
+	 * @param h at least w or h needs to be positive
+	 */
 	public static BufferedImage getScaledImage(Image icon, int w, int h) {
 		BufferedImage destImage = new BufferedImage(icon.getWidth(null), icon
 				.getHeight(null), BufferedImage.TYPE_INT_ARGB);
@@ -817,6 +821,10 @@ public class GravistoService implements HelperClass {
 		return getScaledImage(destImage, w, h);
 	}
 
+	/**
+	 * @param w negative values have special meaning, they are ignored
+	 * @param h at least w or h needs to be positive
+	 */
 	public static BufferedImage getScaledImage(BufferedImage icon, int w, int h) {
 		if (icon.getWidth() <= w && icon.getHeight() <= h)
 			return icon;
@@ -824,8 +832,9 @@ public class GravistoService implements HelperClass {
 			double srcWidth = icon.getWidth();
 			double srcHeight = icon.getHeight();
 
-			double longSideForSource = (double) Math.max(srcWidth, srcHeight);
-			double longSideForDest = (double) Math.max(w, h);
+			// ignore negative target values so that the other value is solely used 
+			double longSideForSource = w>0 ? (h>0 ? (double) Math.max(srcWidth, srcHeight) : srcWidth) : srcHeight;
+			double longSideForDest = w>0 ? (h>0 ? (double) Math.max(w, h) : w) : h;
 			double multiplier = longSideForDest / longSideForSource;
 			int destWidth = (int) (srcWidth * multiplier);
 			int destHeight = (int) (srcHeight * multiplier);

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.129 2010/04/14 17:29:31 klukas Exp $
+// $Id: MainFrame.java,v 1.130 2010/04/19 12:30:45 morla Exp $
 
 package org.graffiti.editor;
 
@@ -153,6 +153,7 @@ import org.graffiti.plugin.EditorPlugin;
 import org.graffiti.plugin.GenericPlugin;
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.algorithm.Algorithm;
+import org.graffiti.plugin.algorithm.EditorAlgorithm;
 import org.graffiti.plugin.editcomponent.NeedEditComponents;
 import org.graffiti.plugin.extension.Extension;
 import org.graffiti.plugin.gui.GraffitiComponent;
@@ -191,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.129 $
+ * @version $Revision: 1.130 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -1891,8 +1892,15 @@ public class MainFrame extends JFrame implements SessionManager,
 					}
 				};
 
-				if (isAddon(plugin) || a.showMenuIcon())
-					menu.setIcon(new ImageIcon(GravistoService.getScaledImage(plugin.getIcon().getImage(), 16, 16)));
+				if (isAddon(plugin) || a.showMenuIcon()) {
+					ImageIcon icon = null;
+					if (a instanceof EditorAlgorithm) {
+						icon = ((EditorAlgorithm) a).getIcon();
+					}
+					if (icon==null)
+						icon = plugin.getIcon();
+					menu.setIcon(new ImageIcon(GravistoService.getScaledImage(icon.getImage(), 16, 16)));
+				}
 				if (a.getAcceleratorKeyStroke()!=null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
 				
