@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.11 2010/04/14 17:29:31 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.12 2010/04/20 19:18:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -14,8 +14,8 @@ import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -31,6 +31,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
 
 import org.ErrorMsg;
 import org.graffiti.core.ImageBundle;
@@ -56,7 +57,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -434,6 +435,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	 * @param parameters 
 	 * @return The return value depends on the selected button (OK/Cancel).
 	 */
+	@SuppressWarnings("unchecked")
 	public static Object[] getInput(Object description, String title,
 			Object... parameters) {
 		
@@ -562,6 +564,14 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 	public Collection<Session> getTargetSessions() {
 		return validSessions;
+	}
+	
+	
+	private static int scrollbarWidth = (int) (new JScrollBar(JScrollBar.VERTICAL).getPreferredSize().getWidth()+1);
+	
+	public Dimension getPreferredSize() {
+		Dimension d = super.getPreferredSize();
+		return new Dimension((int)d.getWidth()+scrollbarWidth, (int)d.getHeight());
 	}
 	
 }
