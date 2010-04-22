@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.6 2010/02/16 14:21:05 klukas Exp $
+// $Id: ToolButton.java,v 1.7 2010/04/22 08:05:09 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -28,8 +28,8 @@ import scenario.ScenarioService;
 /**
  * DOCUMENT ME!
  *
- * @author $Author: klukas $
- * @version $Revision: 1.6 $ $Date: 2010/02/16 14:21:05 $
+ * @author $Author: morla $
+ * @version $Revision: 1.7 $ $Date: 2010/04/22 08:05:09 $
  */
 public class ToolButton
     extends GraffitiToggleButton
@@ -60,7 +60,7 @@ public class ToolButton
     }
     
     public static void checkStatusForAllToolButtons() {
-    	if (ErrorMsg.getAppLoadingStatus()==ApplicationStatus.INITALIZATION)
+    	if (ErrorMsg.getAppLoadingStatus()==ApplicationStatus.INITIALIZATION)
     		return;
     	for (Iterator it=knownTools.iterator(); it.hasNext(); ) {
     		ToolButton t = (ToolButton) it.next();

@@ -732,7 +732,7 @@ public class GravistoService implements HelperClass {
 		synchronized (fileNames) {
 			fileNames.add(fileName);
 		}
-		if (ErrorMsg.getAppLoadingStatus()!=ApplicationStatus.INITALIZATION) {
+		if (ErrorMsg.getAppLoadingStatus()!=ApplicationStatus.INITIALIZATION) {
 			loadFiles();
 		}
 	}
