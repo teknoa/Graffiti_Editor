@@ -18,8 +18,10 @@ import java.beans.PropertyVetoException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -1057,7 +1059,33 @@ public class GravistoService implements HelperClass {
 //		String entryFileName = entryName.substring(lastIndex + 1);
 		String internalPathToEntry = entryName.substring(0, lastIndex + 1);
 		return new File(destDir, internalPathToEntry);
-	}}
+	}
+	
+	/**
+	 * ToDo Test this method (untested copy).
+	 */
+	@SuppressWarnings("unchecked")
+	public static void saveRessource(Class reference, String folder, String fileName, String targetFileName) throws IOException {
+		ClassLoader cl = reference.getClassLoader();
+			
+		  String path = reference.getPackage().getName().replace('.', '/');
+
+		   File tgt = new File(targetFileName);
+			FileOutputStream out = new FileOutputStream(tgt);
+			long sz = 0;
+			InputStream inpS = cl.getResourceAsStream(path+"/"+folder+"/"+fileName);
+		   InputStream in = inpS;
+				
+			int b;
+			while ((b=inpS.read())!=-1) {
+				out.write(b);
+				sz++;
+			}
+			sz = sz / 1024;
+			in.close();
+			out.close();
+	}
+}
 
 class ShowImage extends Panel {
 	private static final long serialVersionUID = 2163700797926226041L;
