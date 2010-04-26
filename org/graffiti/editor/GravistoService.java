@@ -15,13 +15,17 @@ import java.awt.image.BufferedImageOp;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.beans.PropertyVetoException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
 import javax.swing.JComponent;
@@ -1004,7 +1010,54 @@ public class GravistoService implements HelperClass {
 		}
 		return null;
 	}
-}
+
+	//based on http://www.tutorials.de/forum/java/255281-zip-entpacken-problem.html
+	public static void unzipFile(File archive) throws Exception {
+		try {
+			File destDir = new File(archive.getParent());
+			if (!destDir.exists()) {
+				destDir.mkdir();
+			}
+
+			ZipFile zipFile = new ZipFile(archive);
+			Enumeration entries = zipFile.entries();
+
+			byte[] buffer = new byte[16384];
+			int len;
+			while (entries.hasMoreElements()) {
+				ZipEntry entry = (ZipEntry) entries.nextElement();
+
+				String entryFileName = entry.getName();
+
+				File dir = buildDirectoryHierarchyFor(entryFileName, destDir);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+
+				if (!entry.isDirectory()) {
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(destDir, entryFileName)));
+					BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
+
+					while ((len = bis.read(buffer)) > 0) {
+						bos.write(buffer, 0, len);
+					}
+
+					bos.flush();
+					bos.close();
+					bis.close();
+				}
+			}
+		} catch(Exception e) {
+			ErrorMsg.addErrorMessage(e);
+		}
+	}
+
+	private static File buildDirectoryHierarchyFor(String entryName, File destDir) {
+		int lastIndex = entryName.lastIndexOf('/');
+//		String entryFileName = entryName.substring(lastIndex + 1);
+		String internalPathToEntry = entryName.substring(0, lastIndex + 1);
+		return new File(destDir, internalPathToEntry);
+	}}
 
 class ShowImage extends Panel {
 	private static final long serialVersionUID = 2163700797926226041L;
