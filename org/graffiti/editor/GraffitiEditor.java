@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiEditor.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: GraffitiEditor.java,v 1.2 2010/04/27 07:39:03 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 
+import org.ReleaseInfo;
 import org.graffiti.attributes.AttributeTypesManager;
 import org.graffiti.core.StringBundle;
 import org.graffiti.managers.pluginmgr.DefaultPluginManager;
@@ -30,7 +31,7 @@ import org.graffiti.options.GravistoPreferences;
 /**
  * Contains the graffiti editor.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class GraffitiEditor
 {
@@ -106,6 +107,7 @@ public class GraffitiEditor
     {
         try
         {
+      	  if (ReleaseInfo.isRunningAsApplet())
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch(Exception e)
