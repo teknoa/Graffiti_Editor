@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.130 2010/04/19 12:30:45 morla Exp $
+// $Id: MainFrame.java,v 1.131 2010/04/27 15:58:43 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -192,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.130 $
+ * @version $Revision: 1.131 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -557,9 +557,9 @@ public class MainFrame extends JFrame implements SessionManager,
 		// vertSplitter.setDividerSize(5);
 		// vertSplitter.setBackground(null);
 		// vertSplitter.setOpaque(false);
-		if (ReleaseInfo.isRunningAsApplet())
-			getContentPane().add(desktop, BorderLayout.CENTER);
-		else
+//		if (ReleaseInfo.isRunningAsApplet())
+//			getContentPane().add(desktop, BorderLayout.CENTER);
+//		else
 			getContentPane().add(vertSplitter, BorderLayout.CENTER);
 
 		JToolBar toolBar = createToolBar();
@@ -3145,12 +3145,12 @@ public class MainFrame extends JFrame implements SessionManager,
 		toolBar.add(createToolBarButton(fileSaveAs));
 
 		toolBar.addSeparator();
-		if (!ReleaseInfo.isRunningAsApplet()) {
+//		if (!ReleaseInfo.isRunningAsApplet()) {
 			toolBar.add(createToolBarButton(editCut));
 			toolBar.add(createToolBarButton(editCopy));
 			toolBar.add(createToolBarButton(editPaste));
 			toolBar.addSeparator();
-		}
+//		}
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 		
