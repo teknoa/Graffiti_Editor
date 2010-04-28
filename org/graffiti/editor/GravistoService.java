@@ -504,10 +504,14 @@ public class GravistoService implements HelperClass {
 	 * @param listener
 	 */
 	public void algorithmAttachData(Algorithm algorithm) {
-		Graph graph = getMainFrame().getActiveSession().getGraph();
+		Graph graph = null;
+		if (getMainFrame().getActiveSession()!=null)
+			graph = getMainFrame().getActiveSession().getGraph();
 
 		EditorSession session = getMainFrame().getActiveEditorSession();
-		Selection selection = session.getSelectionModel().getActiveSelection();
+		Selection selection = null;
+		if (session!=null)
+			selection = session.getSelectionModel().getActiveSelection();
 		algorithm.attach(graph, selection);
 	}
 
