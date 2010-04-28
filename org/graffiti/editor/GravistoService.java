@@ -18,7 +18,6 @@ import java.beans.PropertyVetoException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,6 +38,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
@@ -940,7 +940,31 @@ public class GravistoService implements HelperClass {
 					+ memoryConfig;
 		}
 	}
+	
+	@SuppressWarnings("unchecked")
+	public static ImageIcon loadIcon(Class class1, String name) {
+		URL url = getResource(class1, name);
+		if(url==null)
+			return null;
+		else
+			return new ImageIcon(url);
+	}
 
+	@SuppressWarnings("unchecked")
+	public static ImageIcon loadIcon(Class class1, String name, int w, int h) {
+		URL url = getResource(class1, name);
+		if(url==null)
+			return null;
+		else
+			return new ImageIcon(GravistoService.getScaledImage(new ImageIcon(url).getImage(),w,h));
+	}
+
+	@SuppressWarnings("unchecked")
+	public static URL getResource(Class class1, String name) {
+		return getResource(class1, name, null);
+	}
+
+	@SuppressWarnings("unchecked")
 	public static URL getResource(Class location, String filename, String optExt) {
 		ClassLoader cl = location.getClassLoader();
 		String path = location.getPackage().getName().replace('.', '/');
