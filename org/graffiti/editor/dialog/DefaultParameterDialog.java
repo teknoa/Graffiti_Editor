@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.12 2010/04/20 19:18:36 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.13 2010/05/03 13:39:26 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -57,7 +57,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -193,6 +193,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		addListeners();
 
 		pack();
+		pack();
 		setLocationRelativeTo(parent);
 		setVisible(true);
 	}
@@ -322,6 +323,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 				allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayout.FILL, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 				"1,3"
 			);
+		getContentPane().validate();
 	}
 
 	private JComponent getSessionSelectionPanel() {
