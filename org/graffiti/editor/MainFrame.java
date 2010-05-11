@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.131 2010/04/27 15:58:43 klukas Exp $
+// $Id: MainFrame.java,v 1.132 2010/05/11 15:07:35 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -192,7 +192,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.131 $
+ * @version $Revision: 1.132 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -570,18 +570,16 @@ public class MainFrame extends JFrame implements SessionManager,
 		// create and set the menu bar
 		
 		JMenu windowMenu = createMenu("window");
-		if (ReleaseInfo.isRunningAsApplet()) {
-			JMenuBar jmb = createMenuBar(windowMenu);
-			storedMenuBar = jmb;
-//			getContentPane().add(TableLayout.getSplitVertical(jmb, toolBar, TableLayout.PREFERRED, TableLayout.PREFERRED),
-//					BorderLayout.NORTH);
-			getContentPane().add(toolBar, BorderLayout.PAGE_START);
-		} else {
+//		if (ReleaseInfo.isRunningAsApplet()) {
+//			JMenuBar jmb = createMenuBar(windowMenu);
+//			storedMenuBar = jmb;
+//			getContentPane().add(toolBar, BorderLayout.PAGE_START);
+//		} else {
 			setJMenuBar(createMenuBar(windowMenu));
 			desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
 			addSessionListener(desktopMenuManager);
 			getContentPane().add(toolBar, BorderLayout.PAGE_START);
-		}
+//		}
 
 //		// left toolbars
 //		leftToolBarPanel = new JPanel();
@@ -595,11 +593,11 @@ public class MainFrame extends JFrame implements SessionManager,
 		
 		setSize(900, 700);
 		
-		if (!ReleaseInfo.isRunningAsApplet())
+//		if (!ReleaseInfo.isRunningAsApplet())
 			setLocationByPlatform(true);
 
 
-		if (!ReleaseInfo.isRunningAsApplet())
+//		if (!ReleaseInfo.isRunningAsApplet())
 			setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		getContentPane().validate();
 		SwingUtilities.invokeLater(new Runnable() {
@@ -1326,8 +1324,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
-			JOptionPane
-						.showMessageDialog(null, sBundle.getString("fileFormatError")
+			JOptionPane.showMessageDialog(null, sBundle.getString("fileFormatError")
 									.replaceAll("\\[err\\]", e1.getLocalizedMessage()),
 									sBundle.getString("fileFormatErrorTitle"),
 									JOptionPane.ERROR_MESSAGE);
@@ -2994,9 +2991,16 @@ public class MainFrame extends JFrame implements SessionManager,
 					
 					shownMessages.layoutRows();
 					
-					if (shownMessages.getRowCount()==1)
-						JOptionPane.showMessageDialog(MainFrame.getInstance(), shownMessages, 
+					if (shownMessages.getRowCount()==1) {
+						boolean vis = MainFrame.getInstance().isVisible();
+						Component ref;
+						if (!vis)
+							ref = ReleaseInfo.getApplet();
+						else
+							ref = MainFrame.getInstance();
+						JOptionPane.showMessageDialog(ref, shownMessages, 
 							title, JOptionPane.INFORMATION_MESSAGE);
+					}
 					
 					shownMessages.dialogSizeUpdate();
 				}
@@ -3401,11 +3405,17 @@ public class MainFrame extends JFrame implements SessionManager,
 				}
 				savePreferences();*/
 				//HomeFolder.deleteTemporaryFolder();
-				System.exit(0);
+				if (!ReleaseInfo.isRunningAsApplet())
+					System.exit(0);
+				else
+					setVisible(false);
 			}
 		} else {
 			//HomeFolder.deleteTemporaryFolder();
-			System.exit(0);
+			if (!ReleaseInfo.isRunningAsApplet())
+				System.exit(0);
+			else
+				setVisible(false);
 		}
 	}
 
