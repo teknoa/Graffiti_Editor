@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SplashScreen.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: SplashScreen.java,v 1.2 2010/05/14 07:35:59 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -35,7 +35,7 @@ import org.graffiti.core.ImageBundle;
  * action.
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:45 $
+ * @version $Revision: 1.2 $ $Date: 2010/05/14 07:35:59 $
  */
 public class SplashScreen
     extends JFrame
@@ -169,6 +169,13 @@ public class SplashScreen
 	public void setInitialisationFinished() {
 		// TODO Auto-generated method stub
 		
+	}
+
+	/* (non-Javadoc)
+	 * @see org.graffiti.util.ProgressViewer#getMaximum()
+	 */
+	public int getMaximum() {
+		return progressBar.getMaximum();
 	}
 }
 
