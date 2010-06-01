@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.13 2010/05/03 13:39:26 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.14 2010/06/01 07:44:38 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -14,8 +14,10 @@ import info.clearthought.layout.TableLayoutConstants;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -34,6 +36,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 
 import org.ErrorMsg;
+import org.ReleaseInfo;
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.MainFrame;
@@ -57,7 +60,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -112,27 +115,28 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	 *        for.
 	 */
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			MainFrame parent, Parameter[] parameters, Selection selection,
+			Component parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object description) {
 		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, true);
 	}
 	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			MainFrame parent, Parameter[] parameters, Selection selection,
+			Component parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object description, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
 		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly, noButton, allowMultipleGraphTargets, "OK");
 	}
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			MainFrame parent, Parameter[] parameters, Selection selection,
+			Component parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean allowMultipleGraphTargets) {
 		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets, "OK");
 	}	
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			MainFrame parent, Parameter[] parameters, Selection selection,
+			Component parent, Parameter[] parameters, Selection selection,
 			String algorithmName, Object descriptionOrComponent, 
 			JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
 			String okOnlyButtonText) {
-		super(parent, true);
+		
+		super(parent instanceof Frame ? (Frame)parent : null, true);
 		
 		validSessions.clear();
 		try {
@@ -532,9 +536,17 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 					&& !((String)description).toUpperCase().startsWith("<HTML>")) 
 					description = "<html>"+(String)description;
 		}
+		
+		boolean vis = MainFrame.getInstance().isVisible();
+		Component ref;
+		if (!vis)
+			ref = ReleaseInfo.getApplet();
+		else
+			ref = MainFrame.getInstance();
+		
 		DefaultParameterDialog paramDialog = new DefaultParameterDialog(
 					MainFrame.getInstance() != null ? MainFrame.getInstance().getEditComponentManager() : null, 
-					MainFrame.getInstance(), 
+					ref, 
 					p,
 					( MainFrame.getInstance()!=null && MainFrame.getInstance().getActiveEditorSession() != null ?
 							MainFrame.getInstance().getActiveEditorSession().
