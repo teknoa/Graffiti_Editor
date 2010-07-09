@@ -881,14 +881,15 @@ public class GravistoService implements HelperClass {
 
 	public static JLabel getMemoryInfoLabel(final boolean shortInfo) {
 		final JLabel memLabel = new JLabel(getCurrentMemoryInfo(false));
-		memLabel.setToolTipText("Click for memory garbage collection");
+		memLabel.setToolTipText("Click for memory garbage collection (incl. Database Flush)<br>Shift-Click for pure GC.");
 		memLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				synchronized (memoryHogs) {
-					for (MemoryHog mh : memoryHogs) {
-						mh.freeMemory();
+				if (!e.isShiftDown())
+					synchronized (memoryHogs) {
+						for (MemoryHog mh : memoryHogs) {
+							mh.freeMemory();
+						}
 					}
-				}
 				System.gc();
 			}
 
@@ -980,6 +981,9 @@ public class GravistoService implements HelperClass {
 
 	public static void addKnownMemoryHog(MemoryHog memoryHog) {
 		synchronized (memoryHogs) {
+			for(MemoryHog mh : memoryHogs)
+				if(mh.getClass()==memoryHog.getClass())
+					return ;
 			memoryHogs.add(memoryHog);
 		}
 	}

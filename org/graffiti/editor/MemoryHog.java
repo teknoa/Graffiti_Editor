@@ -41,7 +41,7 @@ public abstract class MemoryHog {
 	static long lastUsageTime = 0;
 	
 	protected static boolean doFreeMemory() {
-		return System.currentTimeMillis()-lastUsageTime>10000;
+		return System.currentTimeMillis()-lastUsageTime>2000;
 	}
 	
 	protected static void noteRequest() {
