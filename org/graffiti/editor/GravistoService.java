@@ -68,6 +68,7 @@ import org.graffiti.plugin.algorithm.EditorAlgorithm;
 import org.graffiti.plugin.algorithm.PreconditionException;
 import org.graffiti.plugin.algorithm.ProvidesAccessToOtherAlgorithms;
 import org.graffiti.plugin.algorithm.ProvidesGeneralContextMenu;
+import org.graffiti.plugin.algorithm.ThreadSafeOptions;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.view.View;
 import org.graffiti.selection.Selection;
@@ -544,42 +545,18 @@ public class GravistoService implements HelperClass {
 			return;
 		}
 		Parameter[] parameters = algorithm.getParameters();
-		ParameterDialog paramDialog = null;
-
+		ThreadSafeOptions tsoParamDialogReturn = new ThreadSafeOptions();
 		if ((parameters != null) && (parameters.length != 0)
 				|| (algorithm instanceof AlgorithmWithComponentDescription)) {
-			if (algorithm instanceof EditorAlgorithm) {
-				paramDialog = ((EditorAlgorithm) algorithm)
-						.getParameterDialog(selection);
-			}
-
-			if (paramDialog == null) {
-				JComponent desc = null;
-				if (algorithm instanceof AlgorithmWithComponentDescription) {
-					try {
-						desc = ((AlgorithmWithComponentDescription) algorithm)
-								.getDescriptionComponent();
-					} catch (Exception e) {
-						ErrorMsg.addErrorMessage(e);
-						desc = null;
-					}
-				}
-				String algName = algorithm.getName();
-				if (algorithm instanceof EditorAlgorithm) {
-					algName = ((EditorAlgorithm) algorithm).getShortName();
-				}
-				paramDialog = new DefaultParameterDialog(getMainFrame()
-						.getEditComponentManager(), getMainFrame(), parameters,
-						selection, ErrorMsg.removeHTMLtags(algName), algorithm
-								.getDescription(), desc, checkRelease(algorithm
-								.mayWorkOnMultipleGraphs()
-								&& enableMultipleSessionProcessing));
-			}
-
-			if (!paramDialog.isOkSelected()) {
+			boolean doReturn = false;
+			
+			doReturn = doThreadSafe(algorithm, selection,
+					enableMultipleSessionProcessing, parameters, doReturn, tsoParamDialogReturn);
+			
+			if (doReturn)
 				return;
-			}
 		}
+		ParameterDialog paramDialog = (ParameterDialog) tsoParamDialogReturn.getParam(0, null);
 		if (parameters == null && algorithm instanceof EditorAlgorithm) {
 			paramDialog = ((EditorAlgorithm) algorithm)
 					.getParameterDialog(selection);
@@ -623,6 +600,59 @@ public class GravistoService implements HelperClass {
 			}
 
 		}
+	}
+
+	private boolean doThreadSafe(final Algorithm algorithm, final Selection selection,
+			final boolean enableMultipleSessionProcessing, final Parameter[] parameters,
+			final boolean doReturn, final ThreadSafeOptions tsoParamDialogReturn) {
+		final ThreadSafeOptions tso = new ThreadSafeOptions();
+		tso.executeThreadSafe(new Runnable() {
+			@Override
+			public void run() {
+				boolean res = doThreadSafeDoIt(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn, tsoParamDialogReturn);
+				tso.setParam(0, res);
+			}
+		});
+		return (Boolean) tso.getParam(0, null);
+	}
+	
+	private boolean doThreadSafeDoIt(Algorithm algorithm, Selection selection,
+			boolean enableMultipleSessionProcessing, Parameter[] parameters,
+			boolean doReturn, ThreadSafeOptions tsoParamDialogReturn) {
+		ParameterDialog paramDialog = null;
+		if (algorithm instanceof EditorAlgorithm) {
+			paramDialog = ((EditorAlgorithm) algorithm)
+					.getParameterDialog(selection);
+		}
+
+		if (paramDialog == null) {
+			JComponent desc = null;
+			if (algorithm instanceof AlgorithmWithComponentDescription) {
+				try {
+					desc = ((AlgorithmWithComponentDescription) algorithm)
+							.getDescriptionComponent();
+				} catch (Exception e) {
+					ErrorMsg.addErrorMessage(e);
+					desc = null;
+				}
+			}
+			String algName = algorithm.getName();
+			if (algorithm instanceof EditorAlgorithm) {
+				algName = ((EditorAlgorithm) algorithm).getShortName();
+			}
+			paramDialog = new DefaultParameterDialog(getMainFrame()
+					.getEditComponentManager(), getMainFrame(), parameters,
+					selection, ErrorMsg.removeHTMLtags(algName), algorithm
+							.getDescription(), desc, checkRelease(algorithm
+							.mayWorkOnMultipleGraphs()
+							&& enableMultipleSessionProcessing));
+		}
+
+		if (!paramDialog.isOkSelected()) {
+			doReturn = true;
+		}
+		tsoParamDialogReturn.setParam(0, paramDialog);
+		return doReturn;
 	}
 
 	private void multiGraphExecution(Algorithm algorithm, Graph graph,

@@ -1,11 +1,11 @@
-//==============================================================================
+//===============================IX===============================================
 //
 //   DefaultParameterDialog.java
 //
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.14 2010/06/01 07:44:38 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.15 2010/07/13 15:14:54 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -34,6 +34,7 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.SwingUtilities;
 
 import org.ErrorMsg;
 import org.ReleaseInfo;
@@ -60,7 +61,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 		ActionListener, WindowListener {
@@ -209,6 +210,16 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	 */
 	public Parameter[] getEditedParameters() {
 		return this.paramEditPanel.getUpdatedParameters();
+	}
+
+	
+	
+	@Override
+	public void pack() {
+		if(!SwingUtilities.isEventDispatchThread())
+			Thread.dumpStack();
+		else
+			super.pack();
 	}
 
 	/**

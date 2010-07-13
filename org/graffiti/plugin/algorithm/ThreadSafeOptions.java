@@ -8,10 +8,14 @@
 
 package org.graffiti.plugin.algorithm;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Vector;
 
+import javax.swing.SwingUtilities;
+
+import org.ErrorMsg;
 import org.graffiti.graph.Graph;
 import org.graffiti.selection.Selection;
 
@@ -19,7 +23,7 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class ThreadSafeOptions
 {
@@ -398,6 +402,20 @@ public class ThreadSafeOptions
 	public synchronized double getDouble() {
 		synchronized (dl) {
 			return dv;
+		}
+	}
+
+	public void executeThreadSafe(Runnable runnable) {
+		if (SwingUtilities.isEventDispatchThread())
+			runnable.run();
+		else {
+			try {
+				SwingUtilities.invokeAndWait(runnable);
+			} catch (InterruptedException e) {
+				ErrorMsg.addErrorMessage(e);
+			} catch (InvocationTargetException e) {
+				ErrorMsg.addErrorMessage(e);
+			}
 		}
 	}    
 }
