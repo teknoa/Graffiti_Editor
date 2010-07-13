@@ -607,7 +607,6 @@ public class GravistoService implements HelperClass {
 			final boolean doReturn, final ThreadSafeOptions tsoParamDialogReturn) {
 		final ThreadSafeOptions tso = new ThreadSafeOptions();
 		tso.executeThreadSafe(new Runnable() {
-			@Override
 			public void run() {
 				boolean res = doThreadSafeDoIt(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn, tsoParamDialogReturn);
 				tso.setParam(0, res);

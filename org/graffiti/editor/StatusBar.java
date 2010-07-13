@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.16 2010/07/13 14:51:52 klukas Exp $
+// $Id: StatusBar.java,v 1.17 2010/07/13 22:17:46 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -54,7 +54,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  */
 public class StatusBar
     extends JPanel
@@ -517,7 +517,6 @@ public class StatusBar
     		if (!tso.getBval(0, false)) {
 	    		tso.setBval(0, true);
 	    		SwingUtilities.invokeLater(new Runnable() {
-					@Override
 					public void run() {
 						tso.setBval(0, false);
 						updateGraphInfo();
