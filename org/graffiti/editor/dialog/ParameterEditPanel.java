@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.9 2010/03/04 13:07:40 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.10 2010/07/13 16:14:58 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -48,7 +48,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -227,7 +227,13 @@ public class ParameterEditPanel extends JPanel {
 	 * @throws RuntimeException DOCUMENT ME!
 	 */
 	private void addRow(FolderPanel myPanel, Parameter parameter, Class ecClass) {
-		JLabel descLabel = new JLabel(parameter.getName());
+		String name = parameter.getName();
+		boolean multiLine = false;
+		if (name!=null && name.endsWith("//")) {
+			name = name.substring(0, name.length()-2);
+			multiLine = true;
+		}
+		JLabel descLabel = new JLabel(name);
 		descLabel.setToolTipText(parameter.getDescription());
 		descLabel.setHorizontalAlignment(SwingConstants.RIGHT);
 		descLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,4));
@@ -236,6 +242,8 @@ public class ParameterEditPanel extends JPanel {
 		try {
 			editComp = (ValueEditComponent) InstanceLoader.createInstance(ecClass,
 					"org.graffiti.plugin.Displayable", parameter);
+			if (multiLine)
+				editComp.setParameter("multiline", true);
 			ToolTipHelper.addToolTip(editComp.getComponent(), parameter
 					.getDescription());
 		} catch (InstanceCreationException ice) {
@@ -247,7 +255,6 @@ public class ParameterEditPanel extends JPanel {
 
 		editComp.setDisplayable(parameter);
 		editComp.setEditFieldValue();
-
 		JComponent editCompComp = editComp.getComponent();
 		// idPanel.add(textField);
 		if(parameter!=null&&(

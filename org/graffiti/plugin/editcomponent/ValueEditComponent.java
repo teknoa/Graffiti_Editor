@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditComponent.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
+// $Id: ValueEditComponent.java,v 1.4 2010/07/13 16:14:57 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -116,6 +116,8 @@ public interface ValueEditComponent
     public void setValue();
     
     public void setValue(Collection<Displayable> attributes);
+
+    public void setParameter(String setting, Object value);
 }
 
 //------------------------------------------------------------------------------

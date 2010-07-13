@@ -251,4 +251,8 @@ public class JComponentParameterEditor implements ValueEditComponent {
 		}
 	}
 
+	@Override
+	public void setParameter(String setting, Object value) 
+	{
+	}
 }
