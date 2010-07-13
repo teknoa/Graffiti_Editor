@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.15 2010/01/26 14:15:45 morla Exp $
+// $Id: StatusBar.java,v 1.16 2010/07/13 14:51:52 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -42,6 +42,7 @@ import org.graffiti.event.ListenerManager;
 import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.event.TransactionEvent;
 import org.graffiti.graph.Node;
+import org.graffiti.plugin.algorithm.ThreadSafeOptions;
 import org.graffiti.selection.Selection;
 import org.graffiti.selection.SelectionEvent;
 import org.graffiti.selection.SelectionListener;
@@ -53,7 +54,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class StatusBar
     extends JPanel
@@ -503,14 +504,29 @@ public class StatusBar
     {
         ignoreUpdate++;
     }
+    
+    ThreadSafeOptions tso = new ThreadSafeOptions();
 
     /**
      * Updates the graph information ui components.
      */
     private void updateGraphInfo()
     {
-    	if (!SwingUtilities.isEventDispatchThread())
+   	 
+    	if (!SwingUtilities.isEventDispatchThread()) {
+    		if (!tso.getBval(0, false)) {
+	    		tso.setBval(0, true);
+	    		SwingUtilities.invokeLater(new Runnable() {
+					@Override
+					public void run() {
+						tso.setBval(0, false);
+						updateGraphInfo();
+					}
+				});
+    		}
     		return;
+    	}
+    	
 	       if (ignoreUpdate>0) {
 				  // System.out.println("some transaction not yet finished");
 				  return;
