@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.132 2010/05/11 15:07:35 klukas Exp $
+// $Id: MainFrame.java,v 1.133 2010/07/16 20:33:02 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -106,6 +106,8 @@ import org.FolderPanel;
 import org.Java_1_5_compatibility;
 import org.Release;
 import org.ReleaseInfo;
+import org.StringManipulationTools;
+import org.SystemInfo;
 import org.graffiti.core.ImageBundle;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.actions.CopyAction;
@@ -192,7 +194,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.132 $
+ * @version $Revision: 1.133 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 			SessionListener, PluginManagerListener, 
@@ -519,7 +521,7 @@ public class MainFrame extends JFrame implements SessionManager,
 		// create the desktop
 		// desktop = new JDesktopPane();
 		desktop = new JDesktopPane();
-		if (true ||!ErrorMsg.isMac()) {
+		if (true ||!SystemInfo.isMac()) {
 			desktop.setBackground(Color.LIGHT_GRAY);
 			desktop.setOpaque(true);
 //			desktop.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
@@ -2628,7 +2630,7 @@ public class MainFrame extends JFrame implements SessionManager,
 				int mask = 0;
 				String vers = System.getProperty("os.name").toLowerCase();
 			    if (vers.indexOf("mac") >= 0) {
-			       accel = ErrorMsg.stringReplace(accel,"CTRL", "META");
+			       accel = StringManipulationTools.stringReplace(accel,"CTRL", "META");
 			       if (accel.equalsIgnoreCase("ALT_F4"))
 			    	   accel = "META_Q";
 			    }
@@ -3657,7 +3659,7 @@ public class MainFrame extends JFrame implements SessionManager,
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
-			s0=ErrorMsg.stringReplace(s0, ""+"\n", ""+"\r");
+			s0=StringManipulationTools.stringReplace(s0, ""+"\n", ""+"\r");
         }
         final String s=s0;
         

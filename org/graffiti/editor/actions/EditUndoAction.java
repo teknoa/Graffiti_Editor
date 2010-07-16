@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditUndoAction.java,v 1.5 2009/08/08 11:47:27 klukas Exp $
+// $Id: EditUndoAction.java,v 1.6 2010/07/16 20:33:03 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -14,7 +14,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 
-import org.ErrorMsg;
+import org.StringManipulationTools;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.help.HelpContext;
 import org.graffiti.plugin.actions.GraffitiAction;
@@ -23,7 +23,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for undo capabilities.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class EditUndoAction
     extends GraffitiAction {
@@ -86,8 +86,8 @@ public class EditUndoAction
            UndoManager um = session.getUndoManager();
            setEnabled(um.canUndo());
 //           System.out.println("Session: "+session);
-           putValue(NAME, ErrorMsg.removeHTMLtags(um.getUndoPresentationName()));
-           putValue(SHORT_DESCRIPTION, ErrorMsg.removeHTMLtags(um.getUndoPresentationName()));
+           putValue(NAME, StringManipulationTools.removeHTMLtags(um.getUndoPresentationName()));
+           putValue(SHORT_DESCRIPTION, StringManipulationTools.removeHTMLtags(um.getUndoPresentationName()));
        } else {
            setEnabled(false);
            putValue(NAME, sBundle.getString("menu." + getName()));

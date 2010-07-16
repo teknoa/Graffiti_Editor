@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
+// $Id: PasteAction.java,v 1.6 2010/07/16 20:33:03 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -17,6 +17,7 @@ import java.util.List;
 
 import org.AttributeHelper;
 import org.ErrorMsg;
+import org.StringManipulationTools;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.graph.AdjListGraph;
@@ -32,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -91,7 +92,7 @@ public class PasteAction extends SelectionAction {
 			if (isGMLformat) 
 				is.read(new StringReader(gml), newGraph);
 			else {
-				gml = ErrorMsg.stringReplace(gml, "\r", "");
+				gml = StringManipulationTools.stringReplace(gml, "\r", "");
 				int x = 100;
 				int y = 100;
 				for (String line : gml.split("\n")) {

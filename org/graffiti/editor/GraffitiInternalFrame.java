@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.23 2010/03/22 09:49:18 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.24 2010/07/16 20:33:02 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -18,7 +18,7 @@ import javax.swing.border.Border;
 import javax.swing.event.InternalFrameEvent;
 import javax.swing.event.InternalFrameListener;
 
-import org.ErrorMsg;
+import org.SystemInfo;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
@@ -219,7 +219,7 @@ public class GraffitiInternalFrame
     	initTitle = title;
         String frameTitle = title + " - view " + frameNumber;
         super.setTitle(frameTitle);
-        if (ErrorMsg.isMac()) {
+        if (SystemInfo.isMac()) {
 	        if (startTitle==null)
 	        	startTitle = MainFrame.getInstance().getTitle();
 	        

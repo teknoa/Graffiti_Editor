@@ -16,6 +16,7 @@ import java.util.Vector;
 import javax.swing.SwingUtilities;
 
 import org.ErrorMsg;
+import org.HelperClass;
 import org.graffiti.graph.Graph;
 import org.graffiti.selection.Selection;
 
@@ -23,9 +24,9 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
-public class ThreadSafeOptions
+public class ThreadSafeOptions implements HelperClass
 {
 
     /**

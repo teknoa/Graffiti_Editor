@@ -16,18 +16,18 @@ public class JMButton extends JButton {
 
 	private void mySetText(String text) {
 		boolean nativeLookAndFeelActive = UIManager.getLookAndFeel().isNativeLookAndFeel();
-		boolean mac = ErrorMsg.isMac();
+		boolean mac = SystemInfo.isMac();
 		if (mac && nativeLookAndFeelActive) {
 			if (text!=null && (text.contains("<br>") || text.contains("<small>"))) {
 				if (text.contains("<small>") && !text.contains("<br><small>"))
 					putClientProperty("JComponent.sizeVariant", "mini");
-				text = ErrorMsg.stringReplace(text, "<br>", " ");
-				text = ErrorMsg.stringReplace(text, "  ", " ");
-				text = ErrorMsg.removeHTMLtags(text);
+				text = StringManipulationTools.stringReplace(text, "<br>", " ");
+				text = StringManipulationTools.stringReplace(text, "  ", " ");
+				text = StringManipulationTools.removeHTMLtags(text);
 				super.setText(text);
 			} else
 				if (text!=null && text.contains("<html>")) {
-					text = ErrorMsg.removeHTMLtags(text);
+					text = StringManipulationTools.removeHTMLtags(text);
 					super.setText(text);
 				} else
 					super.setText(text);

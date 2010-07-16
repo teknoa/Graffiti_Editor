@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAsAction.java,v 1.14 2010/02/05 15:04:51 morla Exp $
+// $Id: FileSaveAsAction.java,v 1.15 2010/07/16 20:33:03 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -18,6 +18,7 @@ import javax.swing.JOptionPane;
 
 import org.ErrorMsg;
 import org.OpenFileDialogService;
+import org.StringManipulationTools;
 import org.graffiti.core.GenericFileFilter;
 import org.graffiti.core.StringBundle;
 import org.graffiti.editor.MainFrame;
@@ -33,7 +34,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  */
 public class FileSaveAsAction
     extends GraffitiAction
@@ -106,7 +107,7 @@ public class FileSaveAsAction
         	if (n.endsWith("*"))
         		n = n.substring(0, n.length()-1);
         	n = n.replaceAll("%20", " ");
-        	n = ErrorMsg.stringReplace(n, "[not saved]", "new file");
+        	n = StringManipulationTools.stringReplace(n, "[not saved]", "new file");
         	n = n.trim();
         	if (n!=null && n.length()>0 && on.equals(n) && new File(n).canWrite())
         		fc.setSelectedFile(new File(n));

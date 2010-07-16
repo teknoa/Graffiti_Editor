@@ -54,6 +54,7 @@ import org.ErrorMsg;
 import org.HelperClass;
 import org.Release;
 import org.ReleaseInfo;
+import org.StringManipulationTools;
 import org.graffiti.editor.actions.RunAlgorithm;
 import org.graffiti.editor.dialog.DefaultParameterDialog;
 import org.graffiti.editor.dialog.ParameterDialog;
@@ -572,7 +573,7 @@ public class GravistoService implements HelperClass {
 				&& (parameters == null || parameters.length <= 0)
 				&& SwingUtilities.isEventDispatchThread()) {
 			int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
-					algorithm.getDescription(), ErrorMsg.removeHTMLtags(algorithm
+					algorithm.getDescription(), StringManipulationTools.removeHTMLtags(algorithm
 							.getName()), JOptionPane.OK_CANCEL_OPTION,
 					JOptionPane.PLAIN_MESSAGE, null);
 			if (res == JOptionPane.CANCEL_OPTION) {
@@ -641,7 +642,7 @@ public class GravistoService implements HelperClass {
 			}
 			paramDialog = new DefaultParameterDialog(getMainFrame()
 					.getEditComponentManager(), getMainFrame(), parameters,
-					selection, ErrorMsg.removeHTMLtags(algName), algorithm
+					selection, StringManipulationTools.removeHTMLtags(algName), algorithm
 							.getDescription(), desc, checkRelease(algorithm
 							.mayWorkOnMultipleGraphs()
 							&& enableMultipleSessionProcessing));
@@ -671,7 +672,7 @@ public class GravistoService implements HelperClass {
 						"Open Graphs (" + MainFrame.getSessions().size() + ")" };
 				int res = JOptionPane
 						.showOptionDialog(MainFrame.getInstance(),
-								"Please select the working set.", ErrorMsg
+								"Please select the working set.", StringManipulationTools
 										.removeHTMLtags(algorithm.getName()),
 								JOptionPane.YES_NO_OPTION,
 								JOptionPane.QUESTION_MESSAGE, null, options,
