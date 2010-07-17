@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ExitAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: ExitAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -24,6 +24,11 @@ public class ExitAction
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Creates a new ExitAction object.
      *
      * @param mainFrame DOCUMENT ME!

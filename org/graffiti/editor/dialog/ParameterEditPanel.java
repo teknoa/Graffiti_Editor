@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterEditPanel.java,v 1.10 2010/07/13 16:14:58 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.11 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -37,8 +37,6 @@ import org.graffiti.plugin.ToolTipHelper;
 import org.graffiti.plugin.editcomponent.StandardValueEditComponent;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
 import org.graffiti.plugin.parameter.AbstractSingleParameter;
-import org.graffiti.plugin.parameter.BooleanParameter;
-import org.graffiti.plugin.parameter.ObjectListParameter;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.parameter.SelectionParameter;
 import org.graffiti.selection.Selection;
@@ -48,7 +46,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class ParameterEditPanel extends JPanel {
 	//~ Instance fields ========================================================
@@ -61,7 +59,7 @@ public class ParameterEditPanel extends JPanel {
 	 * Maps from an displayable class name to the class name of a
 	 * <code>ValueEditComponent</code>.
 	 */
-	private Map editTypeMap;
+	private Map<?, ?> editTypeMap;
 
 	/** The list of parameters to display and edit. */
 	private Parameter[] parameters;
@@ -76,12 +74,12 @@ public class ParameterEditPanel extends JPanel {
 	 * @param selection DOCUMENT ME!
 	 */
 	
-	public ParameterEditPanel(Parameter[] parameters, Map editTypes,
+	public ParameterEditPanel(Parameter[] parameters, Map<?, ?> editTypes,
 			Selection selection, String title, boolean fillSurroundingStyle, String heading) {
 		this(parameters, editTypes, selection, title, fillSurroundingStyle, heading, null);
 	}
 	
-	public ParameterEditPanel(Parameter[] parameters, Map editTypes,
+	public ParameterEditPanel(Parameter[] parameters, Map<?, ?> editTypes,
 			Selection selection, String title, boolean fillSurroundingStyle, String heading, JComponent descComponent) {
 		super();
 
@@ -155,7 +153,7 @@ public class ParameterEditPanel extends JPanel {
 	 *
 	 * @param map DOCUMENT ME!
 	 */
-	public void setEditTypeMap(Map map) {
+	public void setEditTypeMap(Map<?, ?> map) {
 		this.editTypeMap = map;
 	}
 
@@ -174,7 +172,7 @@ public class ParameterEditPanel extends JPanel {
 	 * @return Parameter[]
 	 */
 	public Parameter[] getUpdatedParameters() {
-		for (Iterator it = displayedVEC.iterator(); it.hasNext();) {
+		for (Iterator<ValueEditComponent> it = displayedVEC.iterator(); it.hasNext();) {
 			((ValueEditComponent) it.next()).setValue();
 		}
 
@@ -226,7 +224,7 @@ public class ParameterEditPanel extends JPanel {
 	 *
 	 * @throws RuntimeException DOCUMENT ME!
 	 */
-	private void addRow(FolderPanel myPanel, Parameter parameter, Class ecClass) {
+	private void addRow(FolderPanel myPanel, Parameter parameter, Class<?> ecClass) {
 		String name = parameter.getName();
 		boolean multiLine = false;
 		if (name!=null && name.endsWith("//")) {
@@ -302,9 +300,9 @@ public class ParameterEditPanel extends JPanel {
 			/*
 			 * check whether there exists a ValueEditComponent, if not use
 			 * standard edit component */
-			Class ecClass = null;
+			Class<?> ecClass = null;
 			if (parameters[i]!=null && editTypeMap!=null)
-				ecClass = (Class) this.editTypeMap.get(parameters[i].getClass());
+				ecClass = (Class<?>) this.editTypeMap.get(parameters[i].getClass());
 
 			if (ecClass != null) {
 				// if we have a registered component to display it, add it

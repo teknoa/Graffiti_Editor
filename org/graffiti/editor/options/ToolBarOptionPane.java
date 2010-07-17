@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolBarOptionPane.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: ToolBarOptionPane.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.options;
 
@@ -16,14 +16,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.prefs.Preferences;
 
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
 
 import org.graffiti.options.AbstractOptionPane;
@@ -31,36 +27,20 @@ import org.graffiti.options.AbstractOptionPane;
 /**
  * A tool bar editor.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ToolBarOptionPane
     extends AbstractOptionPane
 {
     //~ Instance fields ========================================================
 
-    /** DOCUMENT ME! */
-    private DefaultComboBoxModel iconList;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /** DOCUMENT ME! */
-    private DefaultListModel listModel;
-
-    /** DOCUMENT ME! */
-    private JButton add;
-
-    /** DOCUMENT ME! */
-    private JButton moveDown;
-
-    /** DOCUMENT ME! */
-    private JButton moveUp;
-
-    /** DOCUMENT ME! */
-    private JButton remove;
-
-    /** DOCUMENT ME! */
+	/** DOCUMENT ME! */
     private JCheckBox showToolbar;
-
-    /** DOCUMENT ME! */
-    private JList list;
 
     /** The editor's preferences. */
     private Preferences prefs;
@@ -137,6 +117,11 @@ public class ToolBarOptionPane
         extends JDialog
     {
         /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/**
          * Constructs a new tool bar editor instance.
          *
          * @param parent the parent frame.

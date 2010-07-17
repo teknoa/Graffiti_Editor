@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractValueEditContainer.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractValueEditContainer.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -29,11 +29,16 @@ public abstract class AbstractValueEditContainer
 {
     //~ Instance fields ========================================================
 
-    /** The <code>LayoutManager</code> for this component. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The <code>LayoutManager</code> for this component. */
     protected LayoutManager lm;
 
     /** The list of <code>ValueEditComponent</code>s the dialog contains. */
-    protected List editComponents;
+    protected List<ValueEditComponent> editComponents;
 
     //~ Constructors ===========================================================
 
@@ -54,7 +59,7 @@ public abstract class AbstractValueEditContainer
      * @return a list containing all the <code>ValueEditComponent</code>s of
      *         this value edit container.
      */
-    public List getValueEditComponents()
+    public List<ValueEditComponent> getValueEditComponents()
     {
         return this.editComponents;
     }

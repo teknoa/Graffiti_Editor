@@ -16,7 +16,11 @@ import org.graffiti.plugin.gui.PluginPanel;
  */
 public class JMyProgressSplitPane extends JSplitPane {
 
-    JPanel progressPanel;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	JPanel progressPanel;
     
     /**
      * @param vertical_split

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DeleteAttributeAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: DeleteAttributeAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,7 +21,7 @@ import org.graffiti.selection.SelectionEvent;
  * DOCUMENT ME!
  *
  * @author $Author: klukas $
- * @version $Revision: 1.2 $ $Date: 2009/06/23 07:14:48 $
+ * @version $Revision: 1.3 $ $Date: 2010/07/17 22:08:36 $
  */
 public class DeleteAttributeAction
     extends SelectionAction
@@ -108,7 +108,7 @@ public class DeleteAttributeAction
      *        the<code>enable</code> flag.
      */
     @Override
-	protected void enable(List selectedItems)
+	protected void enable(List<?> selectedItems)
     {
     }
 

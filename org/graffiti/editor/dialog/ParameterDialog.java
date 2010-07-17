@@ -5,14 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterDialog.java,v 1.2 2009/07/30 12:19:20 klukas Exp $
+// $Id: ParameterDialog.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.session.Session;
 
@@ -54,7 +52,7 @@ public interface ParameterDialog
      * @return a <code>java.util.List</code> of <code>EditComponent</code>s
      *         which have a syntactically incorrect input.
      */
-    List validateComponents();
+    List<?> validateComponents();
 
 	Collection<Session> getTargetSessions();
 }

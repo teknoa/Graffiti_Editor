@@ -5,14 +5,14 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiContainer.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: AbstractGraffitiContainer.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
 /**
  * Abstract class for default containers.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractGraffitiContainer
     extends AbstractGraffitiComponent
@@ -20,7 +20,11 @@ public abstract class AbstractGraffitiContainer
 {
     //~ Instance fields ========================================================
 
-    /** The id of the <code>AbstractGraffitiContainer</code>. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The id of the <code>AbstractGraffitiContainer</code>. */
     protected String id;
 
     //~ Constructors ===========================================================

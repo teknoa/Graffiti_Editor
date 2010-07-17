@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PluginManagerEditAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: PluginManagerEditAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,14 +20,18 @@ import org.graffiti.plugin.actions.GraffitiAction;
 /**
  * Called, if the plugin manager dialog should be shown.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PluginManagerEditAction
     extends GraffitiAction
 {
     //~ Instance fields ========================================================
 
-    /** DOCUMENT ME! */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** DOCUMENT ME! */
     PluginManager pluginmgr;
 
     //~ Constructors ===========================================================
@@ -69,7 +73,8 @@ public class PluginManagerEditAction
      *
      * @param e DOCUMENT ME!
      */
-    public void actionPerformed(ActionEvent e)
+    @SuppressWarnings("deprecation")
+	public void actionPerformed(ActionEvent e)
     {
         PluginManagerDialog pmd = new PluginManagerDialog(mainFrame, pluginmgr);
         pmd.show();

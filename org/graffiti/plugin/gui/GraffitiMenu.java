@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiMenu.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraffitiMenu.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -23,6 +23,11 @@ public class GraffitiMenu
     //~ Methods ================================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
      */
     public void setMainFrame(MainFrame mf)

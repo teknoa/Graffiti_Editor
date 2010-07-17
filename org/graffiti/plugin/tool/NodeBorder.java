@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeBorder.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: NodeBorder.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,21 +21,23 @@ import javax.swing.border.AbstractBorder;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.2 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.3 $ Provides a border used to mark selected nodes.
  */
 public class NodeBorder
     extends AbstractBorder
 {
     //~ Instance fields ========================================================
 
-    /** DOCUMENT ME! */
-    private final AffineTransform IDENTITY = new AffineTransform();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** DOCUMENT ME! */
+//    private final AffineTransform IDENTITY = new AffineTransform();
 
     /** Color used to paint border. */
     private Color color;
-
-    /** DOCUMENT ME! */
-    private Graphics graphics = null;
 
     /** Width of the border. */
     private int borderWidth;
@@ -121,8 +123,6 @@ public class NodeBorder
 	public void paintBorder(Component c, Graphics g, int x, int y, int width,
         int height)
     {
-        this.graphics = g;
-
         if((c.getX() % 2) == 1)
         {
             AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphConstraintChecker.java,v 1.3 2009/07/10 08:17:39 klukas Exp $
+// $Id: GraphConstraintChecker.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.session;
 
@@ -59,7 +59,7 @@ public class GraphConstraintChecker
     private Graph g;
 
     /** Contains the constraints to be checked. */
-    private HashSet constraints;
+    private HashSet<GraphConstraint> constraints;
 
     //~ Constructors ===========================================================
 
@@ -115,7 +115,7 @@ public class GraphConstraintChecker
 
         String message = "";
 
-        for(Iterator i = constraints.iterator(); i.hasNext();)
+        for(Iterator<GraphConstraint> i = constraints.iterator(); i.hasNext();)
         {
             GraphConstraint gc = (GraphConstraint) i.next();
 

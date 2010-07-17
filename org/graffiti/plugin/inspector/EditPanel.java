@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditPanel.java,v 1.4 2010/01/23 08:45:41 klukas Exp $
+// $Id: EditPanel.java,v 1.5 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -22,14 +22,18 @@ import org.graffiti.event.ListenerManager;
 /**
  * Represents the edit panel in the inspector.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class EditPanel
     extends JPanel {
     //~ Instance fields ========================================================
 
-    /** a reference to the map between old and new graph elements */
-    protected Map geMap;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** a reference to the map between old and new graph elements */
+    protected Map<?, ?> geMap;
 
     //~ Methods ================================================================
 
@@ -38,7 +42,7 @@ public abstract class EditPanel
      *
      * @param map DOCUMENT ME!
      */
-    public abstract void setEditComponentMap(Map map);
+    public abstract void setEditComponentMap(Map<?, ?> map);
 
     /**
      * Sets the ListenerManager.
@@ -69,7 +73,7 @@ public abstract class EditPanel
      *
      * @param geMap a reference to the map between old and new graph elements
      */
-    public void setGraphElementMap(Map geMap) {
+    public void setGraphElementMap(Map<?, ?> geMap) {
         this.geMap = geMap;
     }
     

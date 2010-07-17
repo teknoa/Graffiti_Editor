@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileOpenAction.java,v 1.4 2009/06/23 07:14:48 klukas Exp $
+// $Id: FileOpenAction.java,v 1.5 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -32,6 +32,11 @@ import org.graffiti.plugin.actions.GraffitiAction;
  */
 public class FileOpenAction extends GraffitiAction {
 	//~ Instance fields ========================================================
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/** DOCUMENT ME! */
 	private static IOManager ioManager;

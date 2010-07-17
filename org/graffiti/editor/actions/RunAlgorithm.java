@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RunAlgorithm.java,v 1.7 2010/02/09 23:29:35 klukas Exp $
+// $Id: RunAlgorithm.java,v 1.8 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,7 +23,7 @@ import org.graffiti.plugin.view.View3D;
 /**
  * Runs an algorithm.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class RunAlgorithm
     extends GraffitiAction
@@ -31,9 +31,6 @@ public class RunAlgorithm
     //~ Instance fields ========================================================
 
     private static final long serialVersionUID = 1L;
-
-    /** The edit component manager for the parameter edit panel. */
-    private EditComponentManager editComponentManager;
 
     /** The class name of the algorithm to run. */
     private String algorithmClassName;
@@ -55,8 +52,7 @@ public class RunAlgorithm
     {
         super(name, mainFrame, null);
         this.algorithmClassName = algorithmClassName;
-        this.editComponentManager = editComponentManager;
-		this.algorithm = instance;
+        this.algorithm = instance;
     }
 
     //~ Methods ================================================================

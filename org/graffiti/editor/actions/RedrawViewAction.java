@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RedrawViewAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: RedrawViewAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,7 +22,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class RedrawViewAction
     extends GraffitiAction
@@ -30,6 +30,11 @@ public class RedrawViewAction
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Creates a new RedrawViewAction object.
      *
      * @param mainFrame DOCUMENT ME!
@@ -49,7 +54,7 @@ public class RedrawViewAction
     {
         EditorSession dv = mainFrame.getActiveEditorSession();
         if (dv == null) return false;
-        List views = dv.getViews();
+        List<?> views = dv.getViews();
         return !views.isEmpty();
     }
 
@@ -75,9 +80,9 @@ public class RedrawViewAction
         if(dv == null)
             return;
 
-        List views = dv.getViews();
+        List<?> views = dv.getViews();
 
-        for(Iterator it = views.iterator(); it.hasNext();)
+        for(Iterator<?> it = views.iterator(); it.hasNext();)
         {
             View view = (View) it.next();
             // view.postGraphCleared(new GraphEvent(getGraph()));

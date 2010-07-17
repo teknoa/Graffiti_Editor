@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiValueEditContainer.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractGraffitiValueEditContainer.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -30,7 +30,11 @@ public class AbstractGraffitiValueEditContainer
 {
     //~ Instance fields ========================================================
 
-    /** The table containing the component for editing values. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The table containing the component for editing values. */
     private NameValueTable nvt;
 
     //~ Constructors ===========================================================
@@ -55,7 +59,7 @@ public class AbstractGraffitiValueEditContainer
      *
      * @throws RuntimeException DOCUMENT ME!
      */
-    public List getEditComponents()
+    public List<?> getEditComponents()
     {
         throw new RuntimeException("implement me");
     }
@@ -93,7 +97,12 @@ public class AbstractGraffitiValueEditContainer
     protected class NameValueTable
         extends JSplitPane
     {
-        /** DOCUMENT ME! */
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		/** DOCUMENT ME! */
         private JPanel left = new JPanel();
 
         /** DOCUMENT ME! */

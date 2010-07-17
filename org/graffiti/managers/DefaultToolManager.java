@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultToolManager.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: DefaultToolManager.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -21,7 +21,7 @@ import org.graffiti.plugin.tool.Tool;
 /**
  * Manages the list of tools.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class DefaultToolManager
     implements ToolManager
@@ -29,7 +29,7 @@ public class DefaultToolManager
     //~ Instance fields ========================================================
 
     /** List of all available tools. */
-    private Set tools;
+    private Set<Tool> tools;
     
     /** mode manager */
     private ModeManager modeManager;
@@ -41,7 +41,7 @@ public class DefaultToolManager
      */
     public DefaultToolManager(ModeManager modeManager)
     {
-        tools = new HashSet();
+        tools = new HashSet<Tool>();
         this.modeManager = modeManager;
     }
 

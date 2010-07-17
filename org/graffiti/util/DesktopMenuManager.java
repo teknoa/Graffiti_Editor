@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DesktopMenuManager.java,v 1.4 2009/07/30 07:17:16 klukas Exp $
+// $Id: DesktopMenuManager.java,v 1.5 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.util;
 
@@ -19,6 +19,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
@@ -45,7 +46,7 @@ import org.graffiti.session.SessionListener;
  * actions for arranging the frames are added to the menu.
  *
  * @author Michael Forster
- * @version $Revision: 1.4 $ $Date: 2009/07/30 07:17:16 $
+ * @version $Revision: 1.5 $ $Date: 2010/07/17 22:08:37 $
  */
 public class DesktopMenuManager
     implements MenuListener, SessionListener
@@ -59,7 +60,7 @@ public class DesktopMenuManager
     private JMenu menu;
 
     /** Menu items created by this manager */
-    private List windowItems = new LinkedList();
+    private List<JComponent> windowItems = new LinkedList<JComponent>();
 
     //~ Constructors ===========================================================
 
@@ -342,13 +343,17 @@ public class DesktopMenuManager
      * associated frame
      *
      * @author Michael Forster
-     * @version $Revision: 1.4 $ $Date: 2009/07/30 07:17:16 $
+     * @version $Revision: 1.5 $ $Date: 2010/07/17 22:08:37 $
      */
     class FrameMenuItem
         extends JRadioButtonMenuItem
         implements ActionListener
     {
-        /** The associated frame */
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		/** The associated frame */
         private JInternalFrame frame;
 
         /**

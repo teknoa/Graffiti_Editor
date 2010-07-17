@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditComponentManager.java,v 1.4 2009/07/04 20:11:30 klukas Exp $
+// $Id: EditComponentManager.java,v 1.5 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -19,7 +19,6 @@ import org.graffiti.plugin.Displayable;
 import org.graffiti.plugin.EditorPlugin;
 import org.graffiti.plugin.GenericPlugin;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
-import org.graffiti.plugin.view.AttributeComponent;
 import org.graffiti.util.InstanceCreationException;
 import org.graffiti.util.InstanceLoader;
 
@@ -28,7 +27,7 @@ import org.graffiti.util.InstanceLoader;
  * <code>AttributeComponent</code> classes.
  *
  * @author ph
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class EditComponentManager
     implements PluginManagerListener
@@ -102,7 +101,8 @@ public class EditComponentManager
      * @param plugin the added plugin.
      * @param desc the description of the new plugin.
      */
-    public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
+    @SuppressWarnings("unchecked")
+	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
     {
         //System.out.println("putting: " + plugin.getAttributeComponents());
         if(plugin instanceof EditorPlugin)

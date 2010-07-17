@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiButtonGroup.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: GraffitiButtonGroup.java,v 1.2 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -19,7 +19,7 @@ import org.graffiti.plugin.gui.ToolButton;
 /**
  * Represents a button group.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class GraffitiButtonGroup
 {
@@ -56,7 +56,7 @@ public class GraffitiButtonGroup
      *
      * @return an <code>Enumeration</code> of the buttons in this group
      */
-    public Enumeration getElements()
+    public Enumeration<?> getElements()
     {
         return buttonGroup.getElements();
     }

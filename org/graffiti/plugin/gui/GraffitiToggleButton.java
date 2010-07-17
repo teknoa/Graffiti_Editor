@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiToggleButton.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraffitiToggleButton.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -17,7 +17,7 @@ import javax.swing.JToggleButton;
  * <code>GraffitiComponents</code>. Provides an implementation for the
  * <code>getPreferredComponent()</code> method.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class GraffitiToggleButton
     extends JToggleButton
@@ -25,7 +25,11 @@ public abstract class GraffitiToggleButton
 {
     //~ Instance fields ========================================================
 
-    /** The preferred component of this button. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The preferred component of this button. */
     protected String preferredComponent;
 
     //~ Constructors ===========================================================

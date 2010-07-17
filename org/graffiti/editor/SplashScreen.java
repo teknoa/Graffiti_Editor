@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SplashScreen.java,v 1.2 2010/05/14 07:35:59 klukas Exp $
+// $Id: SplashScreen.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -35,7 +35,7 @@ import org.graffiti.core.ImageBundle;
  * action.
  *
  * @author Michael Forster
- * @version $Revision: 1.2 $ $Date: 2010/05/14 07:35:59 $
+ * @version $Revision: 1.3 $ $Date: 2010/07/17 22:08:36 $
  */
 public class SplashScreen
     extends JFrame
@@ -43,7 +43,12 @@ public class SplashScreen
 {
     //~ Static fields/initializers =============================================
 
-    /** Display for the progress made in loading Graffiti */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** Display for the progress made in loading Graffiti */
     private static JProgressBar progressBar;
 
     /**

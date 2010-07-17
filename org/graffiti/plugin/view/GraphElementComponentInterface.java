@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponentInterface.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraphElementComponentInterface.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -52,9 +52,9 @@ public interface GraphElementComponentInterface
      *
      * @return Map
      */
-    public Iterator getAttributeComponentIterator();
+    public Iterator<?> getAttributeComponentIterator();
     
-    public Collection getAttributeComponents();
+    public Collection<?> getAttributeComponents();
 
     /**
      * Returns the graphElement.

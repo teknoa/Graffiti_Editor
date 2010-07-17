@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MaximizeFrame.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: MaximizeFrame.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.util;
 
@@ -25,7 +25,7 @@ import javax.swing.JInternalFrame;
  * </pre>
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+ * @version $Revision: 1.2 $ $Date: 2010/07/17 22:08:37 $
  *
  * @see org.graffiti.util.MaximizeManager
  * @see org.graffiti.util.MaximizeLayout
@@ -36,6 +36,11 @@ public class MaximizeFrame
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Create a MaximizeFrame object.
      *
      * @see JInternalFrame#JInternalFrame()

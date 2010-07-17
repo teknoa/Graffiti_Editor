@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CloseViewAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: CloseViewAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,6 +23,11 @@ public class CloseViewAction
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructs a new close view action.
      */
     public CloseViewAction()

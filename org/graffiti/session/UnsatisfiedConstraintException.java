@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: UnsatisfiedConstraintException.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: UnsatisfiedConstraintException.java,v 1.2 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.session;
 
@@ -21,6 +21,11 @@ public class UnsatisfiedConstraintException
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructs a new <code>UnsatisfiedConstraintException</code> with
      * <code>null</code> as its detail message.
      */

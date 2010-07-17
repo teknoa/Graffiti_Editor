@@ -23,15 +23,17 @@ implements  java.awt.dnd.DropTargetListener,
             java.awt.dnd.DragGestureListener    
 {
 
-    private java.awt.dnd.DropTarget dropTarget = null;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@SuppressWarnings("unused")
+	private java.awt.dnd.DropTarget dropTarget = null;
 
     private java.awt.dnd.DragSource dragSource = null;
     
     private int sourceIndex = -1;
-    private int dropIndex   = -1;
-    private Object sourceObject;
-
-    
     /**
      * Constructs a default {@link DnDList} using a
      * {@link javax.swing.DefaultListModel}.
@@ -85,7 +87,8 @@ implements  java.awt.dnd.DropTargetListener,
      * @param data The data from which to construct a list
      * @since 1.1
      */
-    public DnDList( java.util.Vector data )
+    @SuppressWarnings("unchecked")
+	public DnDList( java.util.Vector data )
     {   this();
         ((javax.swing.DefaultListModel)getModel()).copyInto( data.toArray() );
     }   // end constructor

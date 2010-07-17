@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CopyAction.java,v 1.3 2009/06/23 07:14:48 klukas Exp $
+// $Id: CopyAction.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CopyAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -90,7 +90,7 @@ public class CopyAction extends SelectionAction {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
-			StringBuffer sb = new StringBuffer();
+			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			
 			if (selection.getNodes().size()>0) {
@@ -132,7 +132,7 @@ public class CopyAction extends SelectionAction {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
-			StringBuffer sb = new StringBuffer();
+			new StringBuffer();
 			Collection<Node> selNodes = selection.getNodes();
 			if (selNodes.size()>0 && selNodes.size()!=sourceGraph.getNumberOfNodes()) {
 				CollectionAttribute ca = sourceGraph.getAttributes();
@@ -149,7 +149,7 @@ public class CopyAction extends SelectionAction {
 				for (Node n : selection.getNodes()) {
 	            	Node newNode = resultGraph.addNodeCopy(n);
 	            	if (newNode==null)
-	            		ErrorMsg.addErrorMessage("Error: Node "+newNode.getID()+" could not be copied!");
+	            		ErrorMsg.addErrorMessage("Error: Node "+n.getID()+" could not be copied!");
 	            	else
 	            		sourceGraphNode2resultGraphNode.put(n, newNode);
 	            }
@@ -200,7 +200,7 @@ public class CopyAction extends SelectionAction {
 	 *        <code>enable</code> flag.
 	 */
 	@Override
-	protected void enable(List items) {
+	protected void enable(List<?> items) {
 	}
 
 	/* (non-Javadoc)

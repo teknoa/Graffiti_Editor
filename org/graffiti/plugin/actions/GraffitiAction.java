@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.5 2009/08/08 11:48:19 klukas Exp $
+// $Id: GraffitiAction.java,v 1.6 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -24,12 +24,17 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class GraffitiAction
     extends AbstractAction {
     //~ Instance fields ========================================================
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static HashSet<GraffitiAction> knownActions = new HashSet<GraffitiAction>();
 
     /** The <code>ImageBundle</code> instance. */

@@ -5,10 +5,10 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
+// $Id: AbstractAttributeComponent.java,v 1.6 2010/07/17 22:08:37 klukas Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.5 2009/06/23 07:14:48 klukas Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.6 2010/07/17 22:08:37 klukas Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
@@ -24,7 +24,7 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractAttributeComponent
     extends AttributeComponent
@@ -32,7 +32,12 @@ public abstract class AbstractAttributeComponent
 {
     //~ Instance fields ========================================================
 
-    /** The attribute that this component displays. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The attribute that this component displays. */
     protected Attribute attr;
 
     /** The shape of the node or edge to which this attribute belongs. */

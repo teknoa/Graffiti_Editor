@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponent.java,v 1.5 2009/07/29 09:46:17 klukas Exp $
+// $Id: AttributeComponent.java,v 1.6 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -19,7 +19,7 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AttributeComponent
     extends JComponent
@@ -28,6 +28,11 @@ public abstract class AttributeComponent
     //~ Methods ================================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Sets an instance of attribute which this component displays.
      *
      * @param attr

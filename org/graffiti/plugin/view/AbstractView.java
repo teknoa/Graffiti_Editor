@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractView.java,v 1.17 2010/02/04 14:10:30 morla Exp $
+// $Id: AbstractView.java,v 1.18 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -17,7 +17,6 @@ import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +38,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 /**
  * enclosing_type
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public abstract class AbstractView
     extends JComponent

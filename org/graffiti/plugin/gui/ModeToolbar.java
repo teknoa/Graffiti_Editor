@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ModeToolbar.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
+// $Id: ModeToolbar.java,v 1.4 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -23,7 +23,7 @@ import org.graffiti.plugin.tool.Tool;
  * <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
  * special way.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  *
  * @see org.graffiti.plugin.mode.Mode
  */
@@ -33,6 +33,11 @@ public class ModeToolbar
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructor that sets the id of this toolbar. The id is set to the name
      * of the mode. Tools can be added to the mode represented by this toolbar
      * by adding their ToolButtons to this toolbar. The orientation is set to
@@ -79,7 +84,7 @@ public class ModeToolbar
     public Tool[] getTools()
     {
     	Component[] c = getComponents();
-    	LinkedList ll = new LinkedList();
+    	LinkedList<Tool> ll = new LinkedList<Tool>();
         for (int i=0; i<c.length; i++) {
         	if (c[i] instanceof ToolButton) {
         		ToolButton tb = (ToolButton) c[i];

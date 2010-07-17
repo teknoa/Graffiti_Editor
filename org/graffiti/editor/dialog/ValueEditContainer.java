@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditContainer.java,v 1.2 2008/10/08 17:26:54 klukas Exp $
+// $Id: ValueEditContainer.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -32,7 +32,7 @@ public interface ValueEditContainer
      * @return a <code>java.util.List</code> containing all the edit components
      *         of this <code>ValueEditContainer</code>.
      */
-    public List getEditComponents();
+    public List<?> getEditComponents();
 
     /**
      * Adds another <code>ValueEditComponent</code> to the dialog.

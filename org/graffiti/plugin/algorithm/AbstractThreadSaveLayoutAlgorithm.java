@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -33,7 +33,7 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
     protected boolean threadSettingsChanged = false;
 
     /** DOCUMENT ME! */
-    private Vector paramObjects;
+    private Vector<Object> paramObjects;
 
     /** DOCUMENT ME! */
     private NodePosition[] nodePos; // cache for nodepositions
@@ -55,7 +55,7 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
     {
         if(paramObjects == null)
         {
-            paramObjects = new Vector();
+            paramObjects = new Vector<Object>();
         }
 
         if(getParam)

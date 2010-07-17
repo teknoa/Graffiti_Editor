@@ -1084,7 +1084,7 @@ public class GravistoService implements HelperClass {
 			}
 
 			ZipFile zipFile = new ZipFile(archive);
-			Enumeration entries = zipFile.entries();
+			Enumeration<?> entries = zipFile.entries();
 
 			byte[] buffer = new byte[16384];
 			int len;

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EdgeBorder.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: EdgeBorder.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -14,7 +14,6 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.awt.Rectangle;
-import java.awt.geom.AffineTransform;
 import java.awt.geom.PathIterator;
 import java.util.Iterator;
 
@@ -29,14 +28,19 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.2 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.3 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
     extends AbstractBorder
 {
     //~ Instance fields ========================================================
 
-    /** Color used to paint border. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** Color used to paint border. */
     protected Color color;
 
     /** DOCUMENT ME! */
@@ -46,7 +50,7 @@ public class EdgeBorder
     protected int bulletSize;
 
     /** DOCUMENT ME! */
-    private final AffineTransform IDENTITY = new AffineTransform();
+//    private final AffineTransform IDENTITY = new AffineTransform();
 
     //~ Constructors ===========================================================
 
@@ -163,7 +167,7 @@ public class EdgeBorder
             SortedCollectionAttribute bends = (SortedCollectionAttribute) ((EdgeComponentInterface) c).getGraphElement()
                                                                            .getAttribute(GraphicAttributeConstants.BENDS_PATH);
 
-            for(Iterator it = bends.getCollection().values().iterator();
+            for(Iterator<?> it = bends.getCollection().values().iterator();
                 it.hasNext();)
             {
                 CoordinateAttribute bendCoord = (CoordinateAttribute) it.next();

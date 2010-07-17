@@ -1,5 +1,5 @@
 /* Copyright (c) 2003 IPK Gatersleben
- * $Id: SelectAllAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+ * $Id: SelectAllAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
  */
 
 package org.graffiti.editor.actions;
@@ -15,13 +15,18 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a &quot;select all graph elements&quot; action.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class SelectAllAction
     extends SelectionAction
 {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructs a new copy action.
      *
      * @param mainFrame DOCUMENT ME!
@@ -90,7 +95,7 @@ public class SelectAllAction
      *        <code>enable</code> flag.
      */
     @Override
-	protected void enable(List items)
+	protected void enable(List<?> items)
     {
     }
 }

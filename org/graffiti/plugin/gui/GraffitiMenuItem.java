@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiMenuItem.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraffitiMenuItem.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -23,7 +23,11 @@ public class GraffitiMenuItem
 {
     //~ Instance fields ========================================================
 
-    /** The id of the component the menu item prefers to be inserted in. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The id of the component the menu item prefers to be inserted in. */
     protected String preferredComponent;
 
     //~ Constructors ===========================================================

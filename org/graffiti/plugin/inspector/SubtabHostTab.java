@@ -219,7 +219,7 @@ public class SubtabHostTab extends InspectorTab
 	
 	@Override
 	public void setEditPanelInformation(
-			Map valueEditComponents,
+			Map<?, ?> valueEditComponents,
 			Map<GraphElement, GraphElement> map) {
 		for (InspectorTab tab : subtabs) {
 			if (tab.getEditPanel() != null) {

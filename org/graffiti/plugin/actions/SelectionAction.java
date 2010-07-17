@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SelectionAction.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: SelectionAction.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -13,16 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.graffiti.editor.MainFrame;
+import org.graffiti.graph.GraphElement;
 import org.graffiti.selection.Selection;
 import org.graffiti.session.EditorSession;
 
 /**
  * Represents an action, which depends on a selection.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class SelectionAction extends GraffitiAction {
 	//~ Constructors ===========================================================
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructs a new selection action with the given name.
@@ -44,8 +50,8 @@ public abstract class SelectionAction extends GraffitiAction {
 	 *
 	 * @return the current list of selected items of this action.
 	 */
-	public List getSelectedItems() {
-		ArrayList result = new ArrayList();
+	public List<GraphElement> getSelectedItems() {
+		ArrayList<GraphElement> result = new ArrayList<GraphElement>();
 		EditorSession session = MainFrame.getInstance().getActiveEditorSession();
 		if (session!=null) {
 			Selection selection = session.getSelectionModel().getActiveSelection();
@@ -80,7 +86,7 @@ public abstract class SelectionAction extends GraffitiAction {
 	 * @param items the items, which determine the internal state of the
 	 *        <code>enable</code> flag.
 	 */
-	protected abstract void enable(List items);
+	protected abstract void enable(List<?> items);
 }
 
 //------------------------------------------------------------------------------

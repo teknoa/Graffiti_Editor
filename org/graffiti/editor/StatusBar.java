@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: StatusBar.java,v 1.17 2010/07/13 22:17:46 klukas Exp $
+// $Id: StatusBar.java,v 1.18 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -20,7 +20,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
@@ -54,7 +53,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class StatusBar
     extends JPanel
@@ -84,8 +83,6 @@ public class StatusBar
     /** The ui component, which contains the status text. */
     JLabel statusLine;
 
-    /** The number format for the nodes and edges displays. */
-    private NumberFormat f3;
 
     /** The current session, this status bar is listening to. */
     private Session currentSession;
@@ -206,8 +203,6 @@ public class StatusBar
 
         nodesLabel.setVisible(false);
         edgesLabel.setVisible(false);
-
-        f3 = ErrorMsg.getDecimalFormat(" ### ");
 
         updateGraphInfo();
     }

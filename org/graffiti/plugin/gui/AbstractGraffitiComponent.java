@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiComponent.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: AbstractGraffitiComponent.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -16,7 +16,7 @@ import org.graffiti.editor.MainFrame;
 /**
  * Abstract class for default containers.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public abstract class AbstractGraffitiComponent
     extends JPanel
@@ -25,6 +25,10 @@ public abstract class AbstractGraffitiComponent
     //~ Instance fields ========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * The component wherer the current <code>AbstractGraffitiContainer</code>
      * prefers to be inserted.
      */

@@ -5,13 +5,12 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultModeManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: DefaultModeManager.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.managers;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.graffiti.managers.pluginmgr.PluginDescription;
 import org.graffiti.plugin.EditorPlugin;
@@ -21,20 +20,18 @@ import org.graffiti.plugin.mode.Mode;
 /**
  * Handles the editor's modes.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class DefaultModeManager
     implements ModeManager
 {
     //~ Static fields/initializers =============================================
 
-    /** The logger for the current class. */
-    private static final Logger logger = Logger.getLogger(DefaultModeManager.class.getName());
 
     //~ Instance fields ========================================================
 
     /** Maps the id of the mode to the corresponding instance of mode. */
-    private Map modes;
+    private Map<String, Mode> modes;
 
     //~ Constructors ===========================================================
 
@@ -43,7 +40,7 @@ public class DefaultModeManager
      */
     public DefaultModeManager()
     {
-        modes = new HashMap();
+        modes = new HashMap<String, Mode>();
     }
 
     //~ Methods ================================================================

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphElementComponent.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraphElementComponent.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -18,7 +18,7 @@ import org.graffiti.graphics.GraphicAttributeConstants;
 /**
  * Class that shares common members for all GraphElementComponents.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class GraphElementComponent
     extends JComponent
@@ -28,6 +28,11 @@ public abstract class GraphElementComponent
     //~ Methods ================================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Returns whether the given coordinates lie within this component and
      * within its encapsulated shape. The coordinates are assumed to be
      * relative to  the coordinate system of this component.

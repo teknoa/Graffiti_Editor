@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponentManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: AttributeComponentManager.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -26,7 +26,7 @@ import org.graffiti.util.InstanceLoader;
  * <code>AttributeComponent</code> classes.
  *
  * @author ph
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class AttributeComponentManager
     implements PluginManagerListener
@@ -34,7 +34,8 @@ public class AttributeComponentManager
     //~ Instance fields ========================================================
 
     /** Maps attribute classes to attributeComponent classes. */
-    private Map attributeComponents;
+    @SuppressWarnings("unchecked")
+	private Map attributeComponents;
 
     //~ Constructors ===========================================================
 
@@ -43,12 +44,12 @@ public class AttributeComponentManager
      */
     public AttributeComponentManager()
     {
-        this.attributeComponents = new HashMap();
+        this.attributeComponents = new HashMap<Object, Object>();
     }
 
     //~ Methods ================================================================
     
-    public boolean hasAttributeComponent(Class aType) {
+    public boolean hasAttributeComponent(Class<?> aType) {
    	 return attributeComponents.containsKey(aType);
     }
     
@@ -63,7 +64,7 @@ public class AttributeComponentManager
      *
      * @throws AttributeComponentNotFoundException DOCUMENT ME!
      */
-    public AttributeComponent getAttributeComponent(Class aType)
+    public AttributeComponent getAttributeComponent(Class<?> aType)
         throws AttributeComponentNotFoundException
     {
         if(!(attributeComponents.containsKey(aType)))
@@ -73,7 +74,7 @@ public class AttributeComponentManager
                 aType);
         }
 
-        Class ac = (Class) attributeComponents.get(aType);
+        Class<?> ac = (Class<?>) attributeComponents.get(aType);
 
         try
         {
@@ -92,7 +93,7 @@ public class AttributeComponentManager
      *
      * @return DOCUMENT ME!
      */
-    public Map getAttributeComponents()
+    public Map<?, ?> getAttributeComponents()
     {
         return attributeComponents;
     }
@@ -103,7 +104,8 @@ public class AttributeComponentManager
      * @param plugin the added plugin.
      * @param desc the description of the new plugin.
      */
-    public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
+    @SuppressWarnings("unchecked")
+	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
     {
         //System.out.println("puting: " + plugin.getAttributeComponents());
         if(plugin instanceof EditorPlugin)

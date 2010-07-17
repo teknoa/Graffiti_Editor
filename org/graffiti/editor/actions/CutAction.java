@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CutAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: CutAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -30,7 +30,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class CutAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -77,7 +77,7 @@ public class CutAction extends SelectionAction {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
-			StringBuffer sb = new StringBuffer();
+			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			
 			if (selection.getNodes().size()>0) {
@@ -122,7 +122,7 @@ public class CutAction extends SelectionAction {
 	 *        <code>enable</code> flag.
 	 */
 	@Override
-	protected void enable(List items) {
+	protected void enable(List<?> items) {
 	}
 
 	/* (non-Javadoc)

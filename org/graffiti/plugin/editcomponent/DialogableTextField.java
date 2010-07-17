@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DialogableTextField.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: DialogableTextField.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -13,7 +13,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.graffiti.plugin.Displayable;
 
@@ -22,7 +21,7 @@ import org.graffiti.plugin.Displayable;
  * textfield and a dialog for setting the value of the textfield. The value of
  * the displayable can then be set to the value within the textfield.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  *
  * @see AbstractDialogableEditComponent
  * @see javax.swing.JTextField
@@ -110,32 +109,28 @@ public class DialogableTextField
     private class ValueField
         extends JPanel
     {
-        /** The button of the <code>DialogableTextField</code>. */
-        private JButton button2;
-
-        /** The dialog of the <code>DialogableTextField</code>. */
-        private JDialog dialog2;
-
-        /** The textfield of the <code>DialogableTextField</code>. */
-        private JTextField textField;
-
         /**
-         * Constructs a new <code>ValueField</code> and adds its components.
-         *
-         * @param textField the <code>javax.swing.JTextField</code> for editing
-         *        the value of the displayable.
-         * @param button the <code>javax.swing.JButton</code> for opening the
-         *        dialog to edit the value of the displayable.
-         * @param dialog the <code>javax.swing.JDialog</code> for editing
-         *        choosing the value for the displayable.
-         */
-        public ValueField(JTextField textField, JButton button, JDialog dialog)
-        {
-            super();
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-            // add the components using a layout such that they are placed in
-            // one row.
-        }
+//		/**
+//         * Constructs a new <code>ValueField</code> and adds its components.
+//         *
+//         * @param textField the <code>javax.swing.JTextField</code> for editing
+//         *        the value of the displayable.
+//         * @param button the <code>javax.swing.JButton</code> for opening the
+//         *        dialog to edit the value of the displayable.
+//         * @param dialog the <code>javax.swing.JDialog</code> for editing
+//         *        choosing the value for the displayable.
+//         */
+//        public ValueField(JTextField textField, JButton button, JDialog dialog)
+//        {
+//            super();
+//
+//            // add the components using a layout such that they are placed in
+//            // one row.
+//        }
 
         /**
          * Sets the String to be set within the textfield.

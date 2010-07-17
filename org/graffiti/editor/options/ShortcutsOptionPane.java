@@ -5,15 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ShortcutsOptionPane.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: ShortcutsOptionPane.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.options;
 
 import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JTable;
 import javax.swing.table.AbstractTableModel;
 
 import org.graffiti.options.AbstractOptionPane;
@@ -22,32 +20,19 @@ import org.graffiti.options.AbstractOptionPane;
  * An option pane for shortcuts.
  *
  * @author flierl
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class ShortcutsOptionPane
     extends AbstractOptionPane
 {
     //~ Instance fields ========================================================
 
-    /** The combobox for the short cut selection. */
-    private JComboBox selectModel;
-
-    /** The key table. */
-    private JTable keyTable;
-
     /**
-     * The shortcuts models.
-     *
-     * @see ShortcutsModel
-     */
-    private List models;
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    /** The current shortcuts model. */
-    private ShortcutsModel currentModel;
-
-    //~ Constructors ===========================================================
-
-    /**
+	/**
      * Constructor for ShortcutsOptionPane.
      */
     public ShortcutsOptionPane()
@@ -75,13 +60,6 @@ public class ShortcutsOptionPane
         // TODO
     }
 
-    /**
-     * Initializes the list of shortcuts models.
-     */
-    private void initShortcutsModels()
-    {
-        // TODO
-    }
 
     //~ Inner Classes ==========================================================
 
@@ -91,11 +69,13 @@ public class ShortcutsOptionPane
     protected class ShortcutsModel
         extends AbstractTableModel
     {
-        /** Contains a list of key bindings. */
-        private List bindings;
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 
-        /** The name of the shortcuts model. */
-        private String name;
+		/** Contains a list of key bindings. */
+        private List<?> bindings;
 
         /**
          * Constructs a new shortcuts model.
@@ -103,7 +83,7 @@ public class ShortcutsOptionPane
          * @param name the name of the model.
          * @param bindings list of keybindings.
          */
-        ShortcutsModel(String name, List bindings)
+        ShortcutsModel(String name, List<?> bindings)
         {
             // TODO
         }

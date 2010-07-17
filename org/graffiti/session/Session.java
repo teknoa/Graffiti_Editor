@@ -5,16 +5,14 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Session.java,v 1.3 2010/01/12 13:11:40 morla Exp $
+// $Id: Session.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.session;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.ErrorMsg;
-import org.graffiti.editor.MainFrame;
 import org.graffiti.graph.AdjListGraph;
 import org.graffiti.graph.Graph;
 import org.graffiti.managers.AlgorithmManager;

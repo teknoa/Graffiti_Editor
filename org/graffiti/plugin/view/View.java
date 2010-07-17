@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: View.java,v 1.10 2009/11/10 14:23:16 morla Exp $
+// $Id: View.java,v 1.11 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -29,7 +29,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 /**
  * Represents a view of a plugin.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public interface View
     extends GraphListener, NodeListener, EdgeListener, AttributeListener,
@@ -53,7 +53,7 @@ public interface View
      *
      * @return DOCUMENT ME!
      */
-    public Map getComponentElementMap();
+    public Map<?, ?> getComponentElementMap();
 
     /**
      * Returns the main <code>GraphElementComponent</code> associated with the

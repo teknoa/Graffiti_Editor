@@ -46,7 +46,7 @@ package net.iharder.dnd;
  *  <li>Your patent rights, should you generate patents, are protected.</li>
  * </ul>
  * </p>
- * <p><em>Copyright © 2001 Robert Harder</em></p>
+ * <p><em>Copyright ï¿½ 2001 Robert Harder</em></p>
  *
  * @author  Robert.Harder
  * @copyright 2001
@@ -129,7 +129,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable
      * @param fetcher The {@link Fetcher} that will return the data object
      * @since 1.1
      */
-    public TransferableObject( Class dataClass, Fetcher fetcher )
+    public TransferableObject( Class<?> dataClass, Fetcher fetcher )
     {   this.fetcher = fetcher;
         this.customFlavor = new java.awt.datatransfer.DataFlavor( dataClass, MIME_TYPE );
     }   // end constructor

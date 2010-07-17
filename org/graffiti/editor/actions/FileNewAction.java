@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileNewAction.java,v 1.5 2009/06/23 07:14:48 klukas Exp $
+// $Id: FileNewAction.java,v 1.6 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,14 +20,18 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FileNewAction
     extends GraffitiAction
 {
     //~ Instance fields ========================================================
 
-    /** DOCUMENT ME! */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** DOCUMENT ME! */
     private ViewManager viewManager;
 
     //~ Constructors ===========================================================

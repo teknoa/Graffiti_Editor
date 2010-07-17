@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditUndoAction.java,v 1.6 2010/07/16 20:33:03 klukas Exp $
+// $Id: EditUndoAction.java,v 1.7 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,13 +23,18 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for undo capabilities.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class EditUndoAction
     extends GraffitiAction {
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Creates a new EditUndoAction object.
      *
      * @param mainFrame DOCUMENT ME!

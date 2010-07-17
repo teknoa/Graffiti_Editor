@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractParameterDialog.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractParameterDialog.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -29,7 +29,11 @@ public abstract class AbstractParameterDialog
 {
     //~ Instance fields ========================================================
 
-    /** The <code>ValueEditContainer</code> for this dialog. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The <code>ValueEditContainer</code> for this dialog. */
     protected ValueEditContainer valueEditContainer;
 
     //~ Constructors ===========================================================
@@ -64,11 +68,11 @@ public abstract class AbstractParameterDialog
      * @return a <code>java.util.List</code> of <code>EditComponent</code>s
      *         which have a syntactically incorrect input.
      */
-    public List validateComponents()
+    public List<?> validateComponents()
     {
-        List badComponents = new ArrayList();
+        List<?> badComponents = new ArrayList<Object>();
 
-        for(Iterator i = valueEditContainer.getEditComponents().iterator();
+        for(Iterator<?> i = valueEditContainer.getEditComponents().iterator();
             i.hasNext();)
         {
             // check each of the components

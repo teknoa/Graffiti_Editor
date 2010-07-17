@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PopupAction.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: PopupAction.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -19,7 +19,7 @@ import org.graffiti.help.HelpContext;
  * Represents an action, which is called, if there should be displayed a popup
  * menu.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class PopupAction
     extends SelectionAction
@@ -82,7 +82,7 @@ public class PopupAction
      *        <code>enable</code> flag.
      */
     @Override
-	protected void enable(List items)
+	protected void enable(List<?> items)
     {
     }
 

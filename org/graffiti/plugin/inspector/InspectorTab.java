@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.10 2009/07/14 12:36:12 morla Exp $
+// $Id: InspectorTab.java,v 1.11 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -13,7 +13,6 @@ import java.awt.Color;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import javax.swing.JTabbedPane;
@@ -36,6 +35,11 @@ public abstract class InspectorTab
     //~ Instance fields ========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * The panel that holds the table of the attributes and the buttons for
      * adding and removing attributes as well as the "apply" button.
      */
@@ -224,7 +228,7 @@ public abstract class InspectorTab
 	}
 
 	public void setEditPanelInformation(
-			Map valueEditComponents,
+			Map<?, ?> valueEditComponents,
 			Map<GraphElement, GraphElement> map) {
 		if (getEditPanel() != null) {
 			getEditPanel().setEditComponentMap(valueEditComponents);

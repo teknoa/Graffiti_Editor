@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.6 2010/07/16 20:33:03 klukas Exp $
+// $Id: PasteAction.java,v 1.7 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -147,7 +147,7 @@ public class PasteAction extends SelectionAction {
 	 *        <code>enable</code> flag.
 	 */
 	@Override
-	protected void enable(List items) {
+	protected void enable(List<?> items) {
 	}
 
 	/* (non-Javadoc)

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolButton.java,v 1.7 2010/04/22 08:05:09 morla Exp $
+// $Id: ToolButton.java,v 1.8 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -23,13 +23,11 @@ import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.plugin.tool.Tool;
 
-import scenario.ScenarioService;
-
 /**
  * DOCUMENT ME!
  *
- * @author $Author: morla $
- * @version $Revision: 1.7 $ $Date: 2010/04/22 08:05:09 $
+ * @author $Author: klukas $
+ * @version $Revision: 1.8 $ $Date: 2010/07/17 22:08:37 $
  */
 public class ToolButton
     extends GraffitiToggleButton
@@ -37,10 +35,15 @@ public class ToolButton
 {
     //~ Instance fields ========================================================
 
-    /** The tool this button is identified with. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The tool this button is identified with. */
     private Tool tool;
     
-    private static List knownTools = new LinkedList();
+    private static List<ToolButton> knownTools = new LinkedList<ToolButton>();
     private static List<ModeToolbar> knownToolBars = new LinkedList<ModeToolbar>();    
 
     //~ Constructors ===========================================================
@@ -62,7 +65,7 @@ public class ToolButton
     public static void checkStatusForAllToolButtons() {
     	if (ErrorMsg.getAppLoadingStatus()==ApplicationStatus.INITIALIZATION)
     		return;
-    	for (Iterator it=knownTools.iterator(); it.hasNext(); ) {
+    	for (Iterator<ToolButton> it=knownTools.iterator(); it.hasNext(); ) {
     		ToolButton t = (ToolButton) it.next();
     		// System.out.println(t.tool.isActive());
     		t.setSelected(t.tool.isActive());
@@ -70,7 +73,7 @@ public class ToolButton
     }
     
     public static void requestToolButtonFocus() {
-     	for (Iterator it=knownTools.iterator(); it.hasNext(); ) {
+     	for (Iterator<ToolButton> it=knownTools.iterator(); it.hasNext(); ) {
      		ToolButton t = (ToolButton) it.next();
      		 if (t.tool.isActive())
      			 t.requestFocusInWindow();

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiToolbar.java,v 1.2 2008/09/06 19:19:03 klukas Exp $
+// $Id: GraffitiToolbar.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -20,7 +20,12 @@ public class GraffitiToolbar
 {
     //~ Instance fields ========================================================
 
-    /** The id of the toolbar. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/** The id of the toolbar. */
     protected String id;
 
     /** The id of the component the toolbar prefers to be inserted in. */

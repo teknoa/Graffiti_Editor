@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ShapeNotFoundException.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: ShapeNotFoundException.java,v 1.2 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -23,6 +23,11 @@ public class ShapeNotFoundException
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructs a ShapeNotFoundException.
      *
      * @param msg the message to set.

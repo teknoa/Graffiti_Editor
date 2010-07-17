@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NeedEditComponents.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: NeedEditComponents.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -23,7 +23,7 @@ public interface NeedEditComponents
      *
      * @param ecMap
      */
-    public void setEditComponentMap(Map ecMap);
+    public void setEditComponentMap(Map<?, ?> ecMap);
 }
 
 //------------------------------------------------------------------------------

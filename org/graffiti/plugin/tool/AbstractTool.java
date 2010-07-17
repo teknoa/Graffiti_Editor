@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.15 2010/03/17 13:48:03 klukas Exp $
+// $Id: AbstractTool.java,v 1.16 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -117,7 +117,7 @@ public abstract class AbstractTool
     /** Used to temporarily highlight nodes. */
     private static final Border tempBorder = new NodeBorder(java.awt.Color.ORANGE, BORDERSIZE);
     private static final Border tempBorderLINK = new NodeBorder(java.awt.Color.BLUE, BORDERSIZE);
-    private static final Border tempBorderEdge = new EdgeBorder(java.awt.Color.ORANGE, BORDERSIZE, true);
+//    private static final Border tempBorderEdge = new EdgeBorder(java.awt.Color.ORANGE, BORDERSIZE, true);
 
     /** Border for unmarked graph elements. */
     private static final EmptyBorder empty = new EmptyBorder(0, 0, 0, 0); // 3, 3, 3, 3 ?
@@ -255,7 +255,7 @@ public abstract class AbstractTool
     }
 
 	public void deactivateAll() {
-    	for (Iterator it=knownTools.iterator(); it.hasNext();) {
+    	for (Iterator<Tool> it=knownTools.iterator(); it.hasNext();) {
     		Tool t = (Tool) it.next();
     		t.deactivate();
     	}  	
@@ -338,9 +338,9 @@ public abstract class AbstractTool
      *
      * @param comps DOCUMENT ME!
      */
-    public void displayAsMarked(List comps)
+    public void displayAsMarked(List<GraphElementComponent> comps)
     {
-        for(Iterator it = comps.iterator(); it.hasNext();)
+        for(Iterator<GraphElementComponent> it = comps.iterator(); it.hasNext();)
         {
             displayAsMarked((GraphElementComponent) (it.next()));
         }
@@ -424,7 +424,7 @@ public abstract class AbstractTool
             {
                 List<GraphElementComponent> list = new LinkedList<GraphElementComponent>();
 
-                for(Iterator it = sel.getNewUnmarked().keySet().iterator();
+                for(Iterator<?> it = sel.getNewUnmarked().keySet().iterator();
                     it.hasNext();)
                 {
                     list.addAll(getCompsForElem((GraphElement) it.next()));
@@ -433,7 +433,7 @@ public abstract class AbstractTool
                 unDisplayAsMarked(list);
                 list = new LinkedList<GraphElementComponent>();
 
-                for(Iterator it = sel.getNewMarked().keySet().iterator();
+                for(Iterator<?> it = sel.getNewMarked().keySet().iterator();
                     it.hasNext();)
                 {
                     list.addAll(getCompsForElem((GraphElement) it.next()));
@@ -547,7 +547,8 @@ public abstract class AbstractTool
      *
      * @return DOCUMENT ME!
      */
-    protected List<GraphElementComponent> getAllMarkedComps()
+    @SuppressWarnings("unchecked")
+	protected List<GraphElementComponent> getAllMarkedComps()
     {
         List<GraphElementComponent> geComps = new LinkedList<GraphElementComponent>();
 
@@ -556,8 +557,8 @@ public abstract class AbstractTool
             return geComps;
         }
 
-        geComps.addAll(getCompsForElems((Collection)selection.getNodes()));
-        geComps.addAll(getCompsForElems((Collection)selection.getEdges()));
+        geComps.addAll(getCompsForElems((List)selection.getNodes()));
+        geComps.addAll(getCompsForElems((List)selection.getEdges()));
 
         return geComps;
     }

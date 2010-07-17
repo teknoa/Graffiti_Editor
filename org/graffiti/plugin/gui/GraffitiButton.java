@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiButton.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: GraffitiButton.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -24,7 +24,11 @@ public abstract class GraffitiButton
 {
     //~ Instance fields ========================================================
 
-    /** The preffered component of this button. */
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/** The preffered component of this button. */
     protected String preferredComponent;
 
     //~ Constructors ===========================================================

@@ -39,10 +39,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo
   private static String iconNameM32 = null;//GEN-END:Icons
 
   private static int defaultPropertyIndex = -1;//GEN-BEGIN:Idx
-  private static int defaultEventIndex = -1;//GEN-END:Idx
-
-
-    /**
+  /**
      * Gets the bean's <code>PropertyDescriptor</code>s.
      * 
      * @return An array of PropertyDescriptors describing the editable

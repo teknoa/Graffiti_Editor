@@ -17,7 +17,11 @@ package net.iharder.dnd;
 public class FileDropEvent extends java.util.EventObject
 {
 
-    private java.io.File[] files;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private java.io.File[] files;
     
     /**
      * Constructs a {@link FileDropEvent} with the array

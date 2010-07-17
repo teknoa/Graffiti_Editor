@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractMode.java,v 1.1 2007/06/14 09:36:48 klukas Exp $
+// $Id: AbstractMode.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -28,7 +28,7 @@ public class AbstractMode
      * The array of <code>Tool</code>s belonging to the current
      * <code>Mode</code>.
      */
-    protected List tools;
+    protected List<Tool> tools;
 
     /**
      * The name of this mode. Also important for tools:
@@ -91,7 +91,7 @@ public class AbstractMode
      *
      * @return an array containing all the tools belonging <code>Mode</code>.
      */
-    public List getTools()
+    public List<Tool> getTools()
     {
         return tools;
     }

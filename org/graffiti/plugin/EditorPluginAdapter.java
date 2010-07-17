@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorPluginAdapter.java,v 1.2 2008/09/04 09:54:47 klukas Exp $
+// $Id: EditorPluginAdapter.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin;
 
@@ -32,10 +32,12 @@ public class EditorPluginAdapter
      * comment: A <code>java.util.Map</code> from <code>Attribute</code> to
      * the corresponding <code>LabelValueRow</code>-instance.
      */
-    protected Map attributeComponents;
+    @SuppressWarnings("unchecked")
+	protected Map attributeComponents;
 
     /** The mapping between attribute classes and attributeComponent classes. */
-    protected Map valueEditComponents;
+    @SuppressWarnings("unchecked")
+	protected Map valueEditComponents;
 
     /** The gui components the plugin provides. */
     protected GraffitiComponent[] guiComponents;
@@ -64,8 +66,8 @@ public class EditorPluginAdapter
         this.modes = new Mode[0];
         this.tools = new Tool[0];
         this.shapes = new GraffitiShape[0];
-        this.valueEditComponents = new HashMap();
-        this.attributeComponents = new HashMap();
+        this.valueEditComponents = new HashMap<Object, Object>();
+        this.attributeComponents = new HashMap<Object, Object>();
     }
 
     //~ Methods ================================================================
@@ -77,7 +79,7 @@ public class EditorPluginAdapter
      * @return a mapping between attribute classnames and attributeComponent
      *         classnames.
      */
-    public Map getAttributeComponents()
+    public Map<?, ?> getAttributeComponents()
     {
         return this.attributeComponents;
     }
@@ -136,7 +138,7 @@ public class EditorPluginAdapter
      *
      * @return DOCUMENT ME!
      */
-    public Map getValueEditComponents()
+    public Map<?, ?> getValueEditComponents()
     {
         return this.valueEditComponents;
     }

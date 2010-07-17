@@ -313,7 +313,8 @@ public class FileDrop
                     // over the drag target.
                 }   // end dragOver
 
-                public void drop( java.awt.dnd.DropTargetDropEvent evt )
+                @SuppressWarnings("unchecked")
+					public void drop( java.awt.dnd.DropTargetDropEvent evt )
                 {   log( out, "FileDrop: drop event." );
                     try
                     {   // Get whatever was dropped
@@ -328,9 +329,9 @@ public class FileDrop
                             log( out, "FileDrop: file list accepted." );
 
                             // Get a useful list
-                            java.util.List fileList = (java.util.List) 
+                            java.util.List<?> fileList = (java.util.List) 
                                 tr.getTransferData(java.awt.datatransfer.DataFlavor.javaFileListFlavor);
-                            java.util.Iterator iterator = fileList.iterator();
+                            fileList.iterator();
 
                             // Convert list to array
                             java.io.File[] filesTemp = new java.io.File[ fileList.size() ];
@@ -445,7 +446,7 @@ public class FileDrop
         {   
             boolean support = false;
             try
-            {   Class arbitraryDndClass = Class.forName( "java.awt.dnd.DnDConstants" );
+            {   Class.forName( "java.awt.dnd.DnDConstants" );
                 support = true;
             }   // end try
             catch( Exception e )
@@ -462,7 +463,7 @@ public class FileDrop
      private static File[] createFileArray(BufferedReader bReader, PrintStream out)
      {
         try { 
-            java.util.List list = new java.util.ArrayList();
+            java.util.List<File> list = new java.util.ArrayList<File>();
             java.lang.String line = null;
             while ((line = bReader.readLine()) != null) {
                 try {
@@ -623,7 +624,8 @@ public class FileDrop
     
 
     /** Runs a sample program that shows dropped files */
-    public static void main( String[] args )
+    @SuppressWarnings("deprecation")
+	public static void main( String[] args )
     {
         javax.swing.JFrame frame = new javax.swing.JFrame( "FileDrop" );
         //javax.swing.border.TitledBorder dragBorder = new javax.swing.border.TitledBorder( "Drop 'em" );

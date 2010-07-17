@@ -24,7 +24,7 @@ import org.graffiti.selection.Selection;
  * This class can be used for thread safe communication between user interfaces and plugins.
  *
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class ThreadSafeOptions implements HelperClass
 {
@@ -108,12 +108,14 @@ public class ThreadSafeOptions implements HelperClass
      * which saves/caches the information about pattern type and number for
      * all nodes of a graph
      */
-    public ArrayList nodeArray;
+    @SuppressWarnings("unchecked")
+	public ArrayList nodeArray;
 
     /**
      * Used for search from Node to NodeCacheEntry (which includes the Node)
      */
-    public HashMap nodeSearch;
+    @SuppressWarnings("unchecked")
+	public HashMap nodeSearch;
     
     /**
      * Can be interpreted by the algorithm like desired.
@@ -161,7 +163,7 @@ public class ThreadSafeOptions implements HelperClass
     /**
      * Vector of parameter objects.
      */
-    private Vector paramObjects;
+    private Vector<Object> paramObjects;
 
     /**
      * Use this call to indicate that the plugin should stop it work
@@ -214,7 +216,7 @@ public class ThreadSafeOptions implements HelperClass
     public synchronized Object getParam(int index, Object defaultValue)
     {
         if (paramObjects == null) {
-            paramObjects = new Vector();
+            paramObjects = new Vector<Object>();
         }
 
         try {
@@ -235,7 +237,7 @@ public class ThreadSafeOptions implements HelperClass
     public synchronized Object setParam(int index, Object setValue)
     {
         if (paramObjects == null) {
-            paramObjects = new Vector();
+            paramObjects = new Vector<Object>();
         }
 
         threadSettingsChanged = true;

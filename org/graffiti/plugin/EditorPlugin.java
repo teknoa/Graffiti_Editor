@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorPlugin.java,v 1.4 2009/07/04 20:11:29 klukas Exp $
+// $Id: EditorPlugin.java,v 1.5 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.plugin;
 
@@ -31,7 +31,7 @@ public interface EditorPlugin
      *
      * @return DOCUMENT ME!
      */
-    public Map getAttributeComponents();
+    public Map<?, ?> getAttributeComponents();
 
     /**
      * Returns the array of <code>GraffitiComponent</code>s the plugin

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AddAttributeAction.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: AddAttributeAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,7 +21,7 @@ import org.graffiti.selection.SelectionEvent;
  * Represents an action to add an attribute to the selected item.
  *
  * @author flierl
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public class AddAttributeAction
     extends SelectionAction
@@ -29,6 +29,11 @@ public class AddAttributeAction
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructs a new add attribute action.
      *
      * @param mainFrame DOCUMENT ME!
@@ -103,7 +108,7 @@ public class AddAttributeAction
      *        the<code>enable</code> flag.
      */
     @Override
-	protected void enable(List selectedItems)
+	protected void enable(List<?> selectedItems)
     {
     }
 

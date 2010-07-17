@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditComponentNotFoundException.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: EditComponentNotFoundException.java,v 1.2 2010/07/17 22:08:36 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -18,6 +18,11 @@ public class EditComponentNotFoundException
     //~ Constructors ===========================================================
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
      * Constructor for AttributeComponentNotFoundException.
      *
      * @param message
