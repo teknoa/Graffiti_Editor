@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractTool.java,v 1.16 2010/07/17 22:08:37 klukas Exp $
+// $Id: AbstractTool.java,v 1.17 2010/07/18 14:44:54 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -557,8 +557,8 @@ public abstract class AbstractTool
             return geComps;
         }
 
-        geComps.addAll(getCompsForElems((List)selection.getNodes()));
-        geComps.addAll(getCompsForElems((List)selection.getEdges()));
+        geComps.addAll(getCompsForElems((Collection)selection.getNodes()));
+        geComps.addAll(getCompsForElems((Collection)selection.getEdges()));
 
         return geComps;
     }
