@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CopyAction.java,v 1.4 2010/07/17 22:08:36 klukas Exp $
+// $Id: CopyAction.java,v 1.5 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class CopyAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -77,7 +77,7 @@ public class CopyAction extends SelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
-		
+
 		Selection selection = getSelection();
 
 		doCopyGraphMethodImproved(sourceGraph, selection);
@@ -92,7 +92,7 @@ public class CopyAction extends SelectionAction {
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			
+
 			if (selection.getNodes().size()>0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
@@ -100,7 +100,7 @@ public class CopyAction extends SelectionAction {
 					validNodeIds.add(new Long(n.getID()));
 
 				ArrayList<org.graffiti.graph.Node> toBeDeleted = new ArrayList<org.graffiti.graph.Node>();
-				for (org.graffiti.graph.Node n : copyGraph.getNodes()) { 
+				for (org.graffiti.graph.Node n : copyGraph.getNodes()) {
 					if (!validNodeIds.contains(new Long(n.getID()))) {
 						toBeDeleted.add(n);
 					}
@@ -124,7 +124,7 @@ public class CopyAction extends SelectionAction {
 			ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
 		}
 	}
-	
+
 	public static void doCopyGraphMethodImproved(Graph sourceGraph, Selection selection) {
 		Graph resultGraph = new AdjListGraph(new ListenerManager());
 
@@ -144,35 +144,35 @@ public class CopyAction extends SelectionAction {
 						tg.getAttribute(a.getId()).setValue(a.getValue());
 					}
 				}
-				
+
 				HashMap<Node,Node> sourceGraphNode2resultGraphNode = new HashMap<Node,Node>();
 				for (Node n : selection.getNodes()) {
-	            	Node newNode = resultGraph.addNodeCopy(n);
-	            	if (newNode==null)
-	            		ErrorMsg.addErrorMessage("Error: Node "+n.getID()+" could not be copied!");
-	            	else
-	            		sourceGraphNode2resultGraphNode.put(n, newNode);
-	            }
-	            for (Node n : selNodes) {
-		        	for (Edge e : n.getAllOutEdges()) {
-		        		if (e.getSource()==n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
-		        			Node a = sourceGraphNode2resultGraphNode.get(e.getSource());
-		        			Node b = sourceGraphNode2resultGraphNode.get(e.getTarget());
-		        			if (a!=null && b!=null)
-		        			resultGraph.addEdgeCopy(
-		        					e, 
-		        					a, 
-		        					b);
-		        		}
-		        	}
-	            }            
+					Node newNode = resultGraph.addNodeCopy(n);
+					if (newNode==null)
+						ErrorMsg.addErrorMessage("Error: Node "+n.getID()+" could not be copied!");
+					else
+						sourceGraphNode2resultGraphNode.put(n, newNode);
+				}
+				for (Node n : selNodes) {
+					for (Edge e : n.getAllOutEdges()) {
+						if (e.getSource()==n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
+							Node a = sourceGraphNode2resultGraphNode.get(e.getSource());
+							Node b = sourceGraphNode2resultGraphNode.get(e.getTarget());
+							if (a!=null && b!=null)
+								resultGraph.addEdgeCopy(
+										e,
+										a,
+										b);
+						}
+					}
+				}
 			} else
 				resultGraph = sourceGraph;
 			if (os instanceof SupportsWriterOutput) {
 				StringWriter sw = new StringWriter();
 				((SupportsWriterOutput)os).write(sw, resultGraph);
 				ClipboardService.writeToClipboardAsText(sw.toString());
-				
+
 			} else {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				os.write(baos, resultGraph);
@@ -210,7 +210,7 @@ public class CopyAction extends SelectionAction {
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()
-					.getGraph();
+			.getGraph();
 			return sourceGraph.getNumberOfNodes() > 0;
 		} catch (NullPointerException npe) {
 			return false;

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AttributeComponent.java,v 1.6 2010/07/17 22:08:36 klukas Exp $
+// $Id: AttributeComponent.java,v 1.7 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -19,69 +19,69 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AttributeComponent
-    extends JComponent
-    implements GraffitiViewComponent
+extends JComponent
+implements GraffitiViewComponent
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Sets an instance of attribute which this component displays.
-     *
-     * @param attr
-     */
-    public abstract void setAttribute(Attribute attr);
+	 * Sets an instance of attribute which this component displays.
+	 *
+	 * @param attr
+	 */
+	public abstract void setAttribute(Attribute attr);
 
-    /**
-     * Returns the attribute that is displayed by this component.
-     *
-     * @return the attribute that is displayed by this component.
-     */
-    public abstract Attribute getAttribute();
+	/**
+	 * Returns the attribute that is displayed by this component.
+	 *
+	 * @return the attribute that is displayed by this component.
+	 */
+	public abstract Attribute getAttribute();
 
-    /**
-     * Sets shape of graph element to which the attribute of this component
-     * belongs.
-     *
-     * @param geShape
-     */
-    public abstract void setGraphElementShape(GraphElementShape geShape);
-    
-    public abstract void adjustComponentSize();
+	/**
+	 * Sets shape of graph element to which the attribute of this component
+	 * belongs.
+	 *
+	 * @param geShape
+	 */
+	public abstract void setGraphElementShape(GraphElementShape geShape);
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param shift DOCUMENT ME!
-     */
-    public abstract void setShift(Point shift);
+	public abstract void adjustComponentSize();
 
-    /**
-     * Called when a graphics attribute of the attribute represented by this
-     * component has changed.
-     *
-     * @param attr the attribute that has triggered the event.
-     */
-    public abstract void attributeChanged(Attribute attr)
-        throws ShapeNotFoundException;
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @param shift DOCUMENT ME!
+	 */
+	public abstract void setShift(Point shift);
 
-    /**
-     * Used when the shape changed in the datastructure. Makes the painter to
-     * create a new shape.
-     */
-    public abstract void recreate()
-        throws ShapeNotFoundException;
-    
-    public void highlight(boolean value, MouseEvent e) {
-    	
-    }
+	/**
+	 * Called when a graphics attribute of the attribute represented by this
+	 * component has changed.
+	 *
+	 * @param attr the attribute that has triggered the event.
+	 */
+	public abstract void attributeChanged(Attribute attr)
+	throws ShapeNotFoundException;
+
+	/**
+	 * Used when the shape changed in the datastructure. Makes the painter to
+	 * create a new shape.
+	 */
+	public abstract void recreate()
+	throws ShapeNotFoundException;
+
+	public void highlight(boolean value, MouseEvent e) {
+
+	}
 }
 
 //------------------------------------------------------------------------------

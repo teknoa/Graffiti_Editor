@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiMenuItem.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
+// $Id: GraffitiMenuItem.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -18,50 +18,50 @@ import org.graffiti.editor.MainFrame;
  * TODO
  */
 public class GraffitiMenuItem
-    extends JMenuItem
-    implements GraffitiComponent
+extends JMenuItem
+implements GraffitiComponent
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The id of the component the menu item prefers to be inserted in. */
-    protected String preferredComponent;
+	protected String preferredComponent;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new <code>GraffitiMenuItem</code>.
-     *
-     * @param prefComp DOCUMENT ME!
-     * @param a DOCUMENT ME!
-     */
-    public GraffitiMenuItem(String prefComp, Action a)
-    {
-        super(a);
-        this.preferredComponent = prefComp;
-    }
+	/**
+	 * Constructs a new <code>GraffitiMenuItem</code>.
+	 *
+	 * @param prefComp DOCUMENT ME!
+	 * @param a DOCUMENT ME!
+	 */
+	public GraffitiMenuItem(String prefComp, Action a)
+	{
+		super(a);
+		this.preferredComponent = prefComp;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
-     */
-    public void setMainFrame(MainFrame mf)
-    {
-    }
+	/**
+	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
+	 */
+	public void setMainFrame(MainFrame mf)
+	{
+	}
 
-    /**
-     * Returns the id of the component the menu item prefers to be inserted in.
-     *
-     * @return the id of the component the menu item prefers to be inserted in.
-     */
-    public String getPreferredComponent()
-    {
-        return this.preferredComponent;
-    }
+	/**
+	 * Returns the id of the component the menu item prefers to be inserted in.
+	 *
+	 * @return the id of the component the menu item prefers to be inserted in.
+	 */
+	public String getPreferredComponent()
+	{
+		return this.preferredComponent;
+	}
 }
 
 //------------------------------------------------------------------------------

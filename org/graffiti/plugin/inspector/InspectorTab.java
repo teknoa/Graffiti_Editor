@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorTab.java,v 1.11 2010/07/17 22:08:36 klukas Exp $
+// $Id: InspectorTab.java,v 1.12 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -30,50 +30,50 @@ import org.graffiti.plugin.view.View;
  * @see InspectorPlugin
  */
 public abstract class InspectorTab
-    extends JComponent
+extends JComponent
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * The panel that holds the table of the attributes and the buttons for
-     * adding and removing attributes as well as the "apply" button.
-     */
-    public EditPanel editPanel;
+	 * The panel that holds the table of the attributes and the buttons for
+	 * adding and removing attributes as well as the "apply" button.
+	 */
+	public EditPanel editPanel;
 
-    /**
-     * The title of the <code>InspectorTab</code> which will appear as the
-     * title of the tab.
-     */
-    protected String title;
+	/**
+	 * The title of the <code>InspectorTab</code> which will appear as the
+	 * title of the tab.
+	 */
+	protected String title;
 
 	private ImageIcon icon;
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the EditPanel of this tab.
-     *
-     * @return DOCUMENT ME!
-     */
-    public EditPanel getEditPanel()
-    {
-        return this.editPanel;
-    }
+	/**
+	 * Returns the EditPanel of this tab.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public EditPanel getEditPanel()
+	{
+		return this.editPanel;
+	}
 
-    /**
-     * Returns the title of the current <code>InspectorTab</code>.
-     *
-     * @return the title of the current <code>InspectorTab</code>.
-     */
-    public String getTitle()
-    {
-        return this.title;
-    }
+	/**
+	 * Returns the title of the current <code>InspectorTab</code>.
+	 *
+	 * @return the title of the current <code>InspectorTab</code>.
+	 */
+	public String getTitle()
+	{
+		return this.title;
+	}
 
 	@Override
 	public String getName() {
@@ -83,7 +83,7 @@ public abstract class InspectorTab
 	public abstract boolean visibleForView(View v);
 
 	private boolean currentlyHighlight = false;
-	
+
 	public void focusAndHighlight(final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
 		if (currentlyHighlight)
@@ -152,13 +152,13 @@ public abstract class InspectorTab
 						tab.setBorder(oldB);
 					tab.repaint();
 				}};
-			Thread t = new Thread(r);
-			t.setName(getName());
-			t.start();
-			return;
+				Thread t = new Thread(r);
+				t.setName(getName());
+				t.start();
+				return;
 		}
 	}
-	
+
 	public static void focusAndHighlightComponent(final JComponent thisss, final String title, final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
 		JTabbedPane tp = (JTabbedPane) thisss.getParent();
@@ -220,10 +220,10 @@ public abstract class InspectorTab
 						tab.setBorder(oldB);
 					tab.repaint();
 				}};
-			Thread t = new Thread(r);
-			t.setName(title);
-			t.start();
-			return;
+				Thread t = new Thread(r);
+				t.setName(title);
+				t.start();
+				return;
 		}
 	}
 

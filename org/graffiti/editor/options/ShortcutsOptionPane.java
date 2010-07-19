@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ShortcutsOptionPane.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: ShortcutsOptionPane.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.options;
 
@@ -20,107 +20,107 @@ import org.graffiti.options.AbstractOptionPane;
  * An option pane for shortcuts.
  *
  * @author flierl
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ShortcutsOptionPane
-    extends AbstractOptionPane
+extends AbstractOptionPane
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Constructor for ShortcutsOptionPane.
-     */
-    public ShortcutsOptionPane()
-    {
-        super("shortcuts");
-    }
+	 * Constructor for ShortcutsOptionPane.
+	 */
+	public ShortcutsOptionPane()
+	{
+		super("shortcuts");
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /*
-     * @see org.graffiti.options.AbstractOptionPane#initDefault()
-     */
-    @Override
+	/*
+	 * @see org.graffiti.options.AbstractOptionPane#initDefault()
+	 */
+	@Override
 	protected void initDefault()
-    {
-        // TODO
-    }
+	{
+		// TODO
+	}
 
-    /*
-     * @see org.graffiti.options.AbstractOptionPane#saveDefault()
-     */
-    @Override
+	/*
+	 * @see org.graffiti.options.AbstractOptionPane#saveDefault()
+	 */
+	@Override
 	protected void saveDefault()
-    {
-        // TODO
-    }
+	{
+		// TODO
+	}
 
 
-    //~ Inner Classes ==========================================================
+	//~ Inner Classes ==========================================================
 
-    /**
-     * The table of shortcuts.
-     */
-    protected class ShortcutsModel
-        extends AbstractTableModel
-    {
-        /**
+	/**
+	 * The table of shortcuts.
+	 */
+	protected class ShortcutsModel
+	extends AbstractTableModel
+	{
+		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/** Contains a list of key bindings. */
-        private List<?> bindings;
+		private List<?> bindings;
 
-        /**
-         * Constructs a new shortcuts model.
-         *
-         * @param name the name of the model.
-         * @param bindings list of keybindings.
-         */
-        ShortcutsModel(String name, List<?> bindings)
-        {
-            // TODO
-        }
+		/**
+		 * Constructs a new shortcuts model.
+		 *
+		 * @param name the name of the model.
+		 * @param bindings list of keybindings.
+		 */
+		ShortcutsModel(String name, List<?> bindings)
+		{
+			// TODO
+		}
 
-        /**
-         * Return the number of columns for this table (3).
-         *
-         * @return DOCUMENT ME!
-         */
-        public int getColumnCount()
-        {
-            return 3;
-        }
+		/**
+		 * Return the number of columns for this table (3).
+		 *
+		 * @return DOCUMENT ME!
+		 */
+		public int getColumnCount()
+		{
+			return 3;
+		}
 
-        /**
-         * Returns the number of rows of this table.
-         *
-         * @return the number of rows of this table.
-         */
-        public int getRowCount()
-        {
-            return bindings.size();
-        }
+		/**
+		 * Returns the number of rows of this table.
+		 *
+		 * @return the number of rows of this table.
+		 */
+		public int getRowCount()
+		{
+			return bindings.size();
+		}
 
-        /**
-         * DOCUMENT ME!
-         *
-         * @param row DOCUMENT ME!
-         * @param col DOCUMENT ME!
-         *
-         * @return DOCUMENT ME!
-         */
-        public Object getValueAt(int row, int col)
-        {
-            return null; // TODO
-        }
-    }
+		/**
+		 * DOCUMENT ME!
+		 *
+		 * @param row DOCUMENT ME!
+		 * @param col DOCUMENT ME!
+		 *
+		 * @return DOCUMENT ME!
+		 */
+		public Object getValueAt(int row, int col)
+		{
+			return null; // TODO
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#getCategory()
@@ -138,21 +138,21 @@ public class ShortcutsOptionPane
 		return null;
 	}
 
-    /* (non-Javadoc)
-     * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
-     */
-    public void init(JComponent options) {
-        // TODO Auto-generated method stub
-        
-    }
+	/* (non-Javadoc)
+	 * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
+	 */
+	public void init(JComponent options) {
+		// TODO Auto-generated method stub
 
-    /* (non-Javadoc)
-     * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
-     */
-    public void save(JComponent options) {
-        // TODO Auto-generated method stub
-        
-    }
+	}
+
+	/* (non-Javadoc)
+	 * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
+	 */
+	public void save(JComponent options) {
+		// TODO Auto-generated method stub
+
+	}
 }
 
 //------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CutAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: CutAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -30,7 +30,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class CutAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -68,7 +68,7 @@ public class CutAction extends SelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
-		
+
 		Selection selection = getSelection();
 
 		AdjListGraph copyGraph = new AdjListGraph(sourceGraph, new ListenerManager());
@@ -79,7 +79,7 @@ public class CutAction extends SelectionAction {
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			
+
 			if (selection.getNodes().size()>0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
@@ -87,7 +87,7 @@ public class CutAction extends SelectionAction {
 					validNodeIds.add(new Long(n.getID()));
 
 				ArrayList<org.graffiti.graph.Node> toBeDeleted = new ArrayList<org.graffiti.graph.Node>();
-				for (org.graffiti.graph.Node n : copyGraph.getNodes()) { 
+				for (org.graffiti.graph.Node n : copyGraph.getNodes()) {
 					if (!validNodeIds.contains(new Long(n.getID()))) {
 						toBeDeleted.add(n);
 					}
@@ -103,7 +103,7 @@ public class CutAction extends SelectionAction {
 			del.addAll(selection.getElements());
 			selection.clear();
 			getGraph().deleteAll(del);
-	   	MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
+			MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
 		} catch (IOException ioe) {
 			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
 		} catch (IllegalAccessException iae) {
@@ -132,7 +132,7 @@ public class CutAction extends SelectionAction {
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()
-					.getGraph();
+			.getGraph();
 			return sourceGraph.getNumberOfNodes() > 0;
 		} catch (NullPointerException npe) {
 			return false;

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.7 2010/07/17 22:08:36 klukas Exp $
+// $Id: PasteAction.java,v 1.8 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -42,7 +42,7 @@ public class PasteAction extends SelectionAction {
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final int pasteOffset = 50;
 
 	/**
@@ -65,7 +65,7 @@ public class PasteAction extends SelectionAction {
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-	
+
 	HashMap<String, Integer> pasteHash2Offset = new HashMap<String, Integer>();
 
 	/**
@@ -89,7 +89,7 @@ public class PasteAction extends SelectionAction {
 		try {
 			InputSerializer is = ioManager.createInputSerializer(null, "." + ext);
 			Graph newGraph = new AdjListGraph(new ListenerManager());
-			if (isGMLformat) 
+			if (isGMLformat)
 				is.read(new StringReader(gml), newGraph);
 			else {
 				gml = StringManipulationTools.stringReplace(gml, "\r", "");
@@ -104,15 +104,15 @@ public class PasteAction extends SelectionAction {
 					y+=100;
 				}
 			}
-		   	Graph workGraph = getGraph();
-		   	boolean showGraphInNewView = false;
-		   	if (workGraph==null) {
-		   		workGraph = new AdjListGraph();
-		   		showGraphInNewView = true;
-		   	}
+			Graph workGraph = getGraph();
+			boolean showGraphInNewView = false;
+			if (workGraph==null) {
+				workGraph = new AdjListGraph();
+				showGraphInNewView = true;
+			}
 
-			String hashCode = gml.hashCode()+"§"+workGraph.hashCode(); 
-			
+			String hashCode = gml.hashCode()+"§"+workGraph.hashCode();
+
 			if (!pasteHash2Offset.containsKey(hashCode))
 				pasteHash2Offset.put(hashCode, 0);
 			pasteHash2Offset.put(hashCode, pasteHash2Offset.get(hashCode)+pasteOffset);
@@ -122,18 +122,18 @@ public class PasteAction extends SelectionAction {
 			newGraph.setModified(false);
 
 			Collection<GraphElement> newElements = workGraph.addGraph(newGraph);
-		   	Selection sel  = getSelection();
-		   	if (sel==null) sel = new Selection();
-		   	sel.clear();
-		   	sel.addAll(newElements);
-	
-		   	if (!showGraphInNewView) {
-		   		//	   	MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
-		   		MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().completeRedraw();
-		   	} else {
-		   		MainFrame.getInstance().showGraph(workGraph, e);
-		   	}
-		      mainFrame.getActiveEditorSession().getSelectionModel().selectionChanged();
+			Selection sel  = getSelection();
+			if (sel==null) sel = new Selection();
+			sel.clear();
+			sel.addAll(newElements);
+
+			if (!showGraphInNewView) {
+				//	   	MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
+				MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().completeRedraw();
+			} else {
+				MainFrame.getInstance().showGraph(workGraph, e);
+			}
+			mainFrame.getActiveEditorSession().getSelectionModel().selectionChanged();
 		} catch (Exception err) {
 			ErrorMsg.addErrorMessage(err);
 		}

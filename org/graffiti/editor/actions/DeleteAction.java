@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DeleteAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: DeleteAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,7 +21,7 @@ import org.graffiti.undo.GraphElementsDeletionEdit;
 /**
  * Represents a graph element delete action.
  * @author klukas
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class DeleteAction extends SelectionAction
 {
@@ -63,14 +63,14 @@ public class DeleteAction extends SelectionAction
 	public void actionPerformed(ActionEvent e) {
 		Selection selection = getSelection();
 		// useful to check if the selection isn't empty
-      // before an edit is build.
-      if(!selection.isEmpty())
-      {
-          GraphElementsDeletionEdit edit = new GraphElementsDeletionEdit(selection.getElements(),
-                  getGraph(), MainFrame.getInstance().getActiveEditorSession().getGraphElementsMap());
-          edit.execute();
-          MainFrame.getInstance().getUndoSupport().postEdit(edit);
-      }
+		// before an edit is build.
+		if(!selection.isEmpty())
+		{
+			GraphElementsDeletionEdit edit = new GraphElementsDeletionEdit(selection.getElements(),
+					getGraph(), MainFrame.getInstance().getActiveEditorSession().getGraphElementsMap());
+			edit.execute();
+			MainFrame.getInstance().getUndoSupport().postEdit(edit);
+		}
 	}
 
 	@Override

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ToolBarOptionPane.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: ToolBarOptionPane.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.options;
 
@@ -27,125 +27,125 @@ import org.graffiti.options.AbstractOptionPane;
 /**
  * A tool bar editor.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class ToolBarOptionPane
-    extends AbstractOptionPane
+extends AbstractOptionPane
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/** DOCUMENT ME! */
-    private JCheckBox showToolbar;
+	private JCheckBox showToolbar;
 
-    /** The editor's preferences. */
-    private Preferences prefs;
+	/** The editor's preferences. */
+	private Preferences prefs;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructor for ToolBarOptionPane.
-     *
-     * @param prefs DOCUMENT ME!
-     */
-    public ToolBarOptionPane(Preferences prefs)
-    {
-        super("toolbar");
-        this.prefs = prefs.node("toolbar");
-    }
+	/**
+	 * Constructor for ToolBarOptionPane.
+	 *
+	 * @param prefs DOCUMENT ME!
+	 */
+	public ToolBarOptionPane(Preferences prefs)
+	{
+		super("toolbar");
+		this.prefs = prefs.node("toolbar");
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /*
-     * @see org.graffiti.options.AbstractOptionPane#initDefault()
-     */
-    @Override
+	/*
+	 * @see org.graffiti.options.AbstractOptionPane#initDefault()
+	 */
+	@Override
 	protected void initDefault()
-    {
-        setLayout(new BorderLayout());
+	{
+		setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel(new GridLayout(2, 1));
+		JPanel panel = new JPanel(new GridLayout(2, 1));
 
-        // show tool bar
-        showToolbar = new JCheckBox(sBundle.getString(
-                    "options.toolbar.showToolBar"));
-        showToolbar.setSelected(prefs.getBoolean("view.showToolBar", true));
+		// show tool bar
+		showToolbar = new JCheckBox(sBundle.getString(
+		"options.toolbar.showToolBar"));
+		showToolbar.setSelected(prefs.getBoolean("view.showToolBar", true));
 
-        panel.add(showToolbar);
+		panel.add(showToolbar);
 
-        panel.add(new JLabel(sBundle.getString("options.toolbar.caption")));
-        add(BorderLayout.NORTH, panel);
+		panel.add(new JLabel(sBundle.getString("options.toolbar.caption")));
+		add(BorderLayout.NORTH, panel);
 
-        // TODO
-    }
+		// TODO
+	}
 
-    /*
-     * @see org.graffiti.options.AbstractOptionPane#saveDefault()
-     */
-    @Override
+	/*
+	 * @see org.graffiti.options.AbstractOptionPane#saveDefault()
+	 */
+	@Override
 	protected void saveDefault()
-    {
-        // TODO
-    }
+	{
+		// TODO
+	}
 
-    //~ Inner Classes ==========================================================
+	//~ Inner Classes ==========================================================
 
-    /**
-     * The action handler for this option panel.
-     */
-    protected class ActionHandler
-        implements ActionListener
-    {
-        /**
-         * DOCUMENT ME!
-         *
-         * @param e DOCUMENT ME!
-         */
-        public void actionPerformed(ActionEvent e)
-        {
-        }
-    }
+	/**
+	 * The action handler for this option panel.
+	 */
+	protected class ActionHandler
+	implements ActionListener
+	{
+		/**
+		 * DOCUMENT ME!
+		 *
+		 * @param e DOCUMENT ME!
+		 */
+		public void actionPerformed(ActionEvent e)
+		{
+		}
+	}
 
-    /**
-     * The tool bar edit dialog.
-     */
-    protected class ToolBarEditDialog
-        extends JDialog
-    {
-        /**
+	/**
+	 * The tool bar edit dialog.
+	 */
+	protected class ToolBarEditDialog
+	extends JDialog
+	{
+		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
 		/**
-         * Constructs a new tool bar editor instance.
-         *
-         * @param parent the parent frame.
-         */
-        public ToolBarEditDialog(Frame parent)
-        {
-        }
+		 * Constructs a new tool bar editor instance.
+		 *
+		 * @param parent the parent frame.
+		 */
+		public ToolBarEditDialog(Frame parent)
+		{
+		}
 
-        /**
-         * The action handler for the edit dialog.
-         */
-        protected class ActionHandler
-            implements ActionListener
-        {
-            /**
-             * DOCUMENT ME!
-             *
-             * @param e DOCUMENT ME!
-             */
-            public void actionPerformed(ActionEvent e)
-            {
-            }
-        }
-    }
+		/**
+		 * The action handler for the edit dialog.
+		 */
+		protected class ActionHandler
+		implements ActionListener
+		{
+			/**
+			 * DOCUMENT ME!
+			 *
+			 * @param e DOCUMENT ME!
+			 */
+			public void actionPerformed(ActionEvent e)
+			{
+			}
+		}
+	}
 
 	/* (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#getCategory()
@@ -163,21 +163,21 @@ public class ToolBarOptionPane
 		return null;
 	}
 
-    /* (non-Javadoc)
-     * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
-     */
-    public void init(JComponent options) {
-        // TODO Auto-generated method stub
-        
-    }
+	/* (non-Javadoc)
+	 * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
+	 */
+	public void init(JComponent options) {
+		// TODO Auto-generated method stub
 
-    /* (non-Javadoc)
-     * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
-     */
-    public void save(JComponent options) {
-        // TODO Auto-generated method stub
-        
-    }
+	}
+
+	/* (non-Javadoc)
+	 * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
+	 */
+	public void save(JComponent options) {
+		// TODO Auto-generated method stub
+
+	}
 }
 
 //------------------------------------------------------------------------------

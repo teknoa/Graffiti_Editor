@@ -21,7 +21,7 @@ public class ClipboardService implements HelperClass {
 		StringSelection copy = new StringSelection(writeMe.toString());
 		getSystemClipboard().setContents(copy, copy);
 	}
-	
+
 	public static String readFromClipboardAsText() {
 		Transferable clipboardContents = null;
 		try {
@@ -39,10 +39,10 @@ public class ClipboardService implements HelperClass {
 			} catch (IOException e) {
 				ErrorMsg.addErrorMessage(e);
 			}
-		return null;
+			return null;
 	}
-	
+
 	private static java.awt.datatransfer.Clipboard getSystemClipboard() {
-	    return Toolkit.getDefaultToolkit().getSystemClipboard();
+		return Toolkit.getDefaultToolkit().getSystemClipboard();
 	}
 }

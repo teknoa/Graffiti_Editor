@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: UnsatisfiedConstraintException.java,v 1.2 2010/07/17 22:08:36 klukas Exp $
+// $Id: UnsatisfiedConstraintException.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.session;
 
@@ -16,34 +16,34 @@ package org.graffiti.session;
  * @see java.lang.Exception
  */
 public class UnsatisfiedConstraintException
-    extends Exception
+extends Exception
 {
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Constructs a new <code>UnsatisfiedConstraintException</code> with
-     * <code>null</code> as its detail message.
-     */
-    public UnsatisfiedConstraintException()
-    {
-        super();
-    }
+	 * Constructs a new <code>UnsatisfiedConstraintException</code> with
+	 * <code>null</code> as its detail message.
+	 */
+	public UnsatisfiedConstraintException()
+	{
+		super();
+	}
 
-    /**
-     * Constructs a new <code>UnsatisfiedConstraintException</code> with the
-     * specifiecd detail message.
-     *
-     * @param msg DOCUMENT ME!
-     */
-    public UnsatisfiedConstraintException(String msg)
-    {
-        super(msg);
-    }
+	/**
+	 * Constructs a new <code>UnsatisfiedConstraintException</code> with the
+	 * specifiecd detail message.
+	 *
+	 * @param msg DOCUMENT ME!
+	 */
+	public UnsatisfiedConstraintException(String msg)
+	{
+		super(msg);
+	}
 }
 
 //------------------------------------------------------------------------------

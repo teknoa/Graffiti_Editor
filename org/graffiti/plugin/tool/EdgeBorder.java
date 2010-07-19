@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EdgeBorder.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
+// $Id: EdgeBorder.java,v 1.4 2010/07/19 14:05:44 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -28,229 +28,229 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  *
- * @version $Revision: 1.3 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.4 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
-    extends AbstractBorder
+extends AbstractBorder
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/** Color used to paint border. */
-    protected Color color;
+	protected Color color;
 
-    /** DOCUMENT ME! */
-    protected boolean showBends;
+	/** DOCUMENT ME! */
+	protected boolean showBends;
 
-    /** Size of bullets used to mark bends. */
-    protected int bulletSize;
+	/** Size of bullets used to mark bends. */
+	protected int bulletSize;
 
-    /** DOCUMENT ME! */
-//    private final AffineTransform IDENTITY = new AffineTransform();
+	/** DOCUMENT ME! */
+	//    private final AffineTransform IDENTITY = new AffineTransform();
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    //	/**
-    //	 * Edge to mark.
-    //	 */
-    //	protected Edge edge;
-    //	/**
-    //	 * Collection of bends.
-    //	 */
-    //	protected SortedCollectionAttribute bends;
+	//	/**
+	//	 * Edge to mark.
+	//	 */
+	//	protected Edge edge;
+	//	/**
+	//	 * Collection of bends.
+	//	 */
+	//	protected SortedCollectionAttribute bends;
 
-    /**
-     * Constructor for NodeBorder.
-     *
-     * @param color DOCUMENT ME!
-     * @param size DOCUMENT ME!
-     * @param showBends DOCUMENT ME!
-     */
+	/**
+	 * Constructor for NodeBorder.
+	 *
+	 * @param color DOCUMENT ME!
+	 * @param size DOCUMENT ME!
+	 * @param showBends DOCUMENT ME!
+	 */
 
-    //	public EdgeBorder(Color color, int size, Edge edge) {
-    public EdgeBorder(Color color, int size, boolean showBends)
-    {
-        super();
-        this.color = color;
-        this.bulletSize = size;
-        this.showBends = showBends;
+	//	public EdgeBorder(Color color, int size, Edge edge) {
+	public EdgeBorder(Color color, int size, boolean showBends)
+	{
+		super();
+		this.color = color;
+		this.bulletSize = size;
+		this.showBends = showBends;
 
-        //		this.edge = edge;
-        //		this.bends = (SortedCollectionAttribute)edge.getAttribute
-        //			(GraphicAttributeConstants.GRAPHICS + 
-        //			 Attribute.SEPARATOR + GraphicAttributeConstants.BENDS);
-    }
+		//		this.edge = edge;
+		//		this.bends = (SortedCollectionAttribute)edge.getAttribute
+		//			(GraphicAttributeConstants.GRAPHICS +
+		//			 Attribute.SEPARATOR + GraphicAttributeConstants.BENDS);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Sets the insets to the value of <code>width</code>.
-     *
-     * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component,
-     *      java.awt.Insets)
-     */
-    @Override
+	/**
+	 * Sets the insets to the value of <code>width</code>.
+	 *
+	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component,
+	 *      java.awt.Insets)
+	 */
+	@Override
 	public Insets getBorderInsets(Component c, Insets insets)
-    {
-        //		insets.top = this.borderWidth;
-        //		insets.left = this.borderWidth;
-        //		insets.bottom = this.borderWidth;
-        //		insets.right = this.borderWidth;
-        Rectangle bounds = c.getBounds();
-        insets.top = bounds.height;
-        insets.left = bounds.width;
-        insets.bottom = bounds.height;
-        insets.right = bounds.width;
+	{
+		//		insets.top = this.borderWidth;
+		//		insets.left = this.borderWidth;
+		//		insets.bottom = this.borderWidth;
+		//		insets.right = this.borderWidth;
+		Rectangle bounds = c.getBounds();
+		insets.top = bounds.height;
+		insets.left = bounds.width;
+		insets.bottom = bounds.height;
+		insets.right = bounds.width;
 
-        return insets;
-    }
+		return insets;
+	}
 
-    /**
-     * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
-     */
-    @Override
+	/**
+	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
+	 */
+	@Override
 	public Insets getBorderInsets(Component c)
-    {
-        return getBorderInsets(c, new Insets(0, 0, 0, 0));
-    }
+	{
+		return getBorderInsets(c, new Insets(0, 0, 0, 0));
+	}
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return true.
-     *
-     * @see javax.swing.border.AbstractBorder#isBorderOpaque()  Returns true.
-     */
-    @Override
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @return true.
+	 *
+	 * @see javax.swing.border.AbstractBorder#isBorderOpaque()  Returns true.
+	 */
+	@Override
 	public boolean isBorderOpaque()
-    {
-        return true;
-    }
+	{
+		return true;
+	}
 
-    /**
-     * Paints the border.
-     *
-     * @param c DOCUMENT ME!
-     * @param g DOCUMENT ME!
-     * @param bx DOCUMENT ME!
-     * @param by DOCUMENT ME!
-     * @param width DOCUMENT ME!
-     * @param height DOCUMENT ME!
-     */
-    @Override
+	/**
+	 * Paints the border.
+	 *
+	 * @param c DOCUMENT ME!
+	 * @param g DOCUMENT ME!
+	 * @param bx DOCUMENT ME!
+	 * @param by DOCUMENT ME!
+	 * @param width DOCUMENT ME!
+	 * @param height DOCUMENT ME!
+	 */
+	@Override
 	public void paintBorder(Component c, Graphics g, int bx, int by, int width,
-        int height)
-    {
-        double bulletSizeHalf = bulletSize / 2d;
+			int height)
+	{
+		double bulletSizeHalf = bulletSize / 2d;
 
-        Graphics cg;
-        cg = g.create();
-        cg.translate(bx, by);
-        cg.setColor(this.color);
+		Graphics cg;
+		cg = g.create();
+		cg.translate(bx, by);
+		cg.setColor(this.color);
 
-        if(showBends)
-        {
-            Color lightColor = this.color.darker().darker();
-            cg.setColor(lightColor);
+		if(showBends)
+		{
+			Color lightColor = this.color.darker().darker();
+			cg.setColor(lightColor);
 
-            int bendBulletSize = (int) (bulletSize / 2d);
+			int bendBulletSize = (int) (bulletSize / 2d);
 
-            if(bendBulletSize == 0)
-            {
-                bendBulletSize = 1;
-            }
+			if(bendBulletSize == 0)
+			{
+				bendBulletSize = 1;
+			}
 
-            SortedCollectionAttribute bends = (SortedCollectionAttribute) ((EdgeComponentInterface) c).getGraphElement()
-                                                                           .getAttribute(GraphicAttributeConstants.BENDS_PATH);
+			SortedCollectionAttribute bends = (SortedCollectionAttribute) ((EdgeComponentInterface) c).getGraphElement()
+			.getAttribute(GraphicAttributeConstants.BENDS_PATH);
 
-            for(Iterator<?> it = bends.getCollection().values().iterator();
-                it.hasNext();)
-            {
-                CoordinateAttribute bendCoord = (CoordinateAttribute) it.next();
+			for(Iterator<?> it = bends.getCollection().values().iterator();
+			it.hasNext();)
+			{
+				CoordinateAttribute bendCoord = (CoordinateAttribute) it.next();
 
-                //                cg.setClip(0, 0, width, height);
-                //			cg.fillOval((int)bendCoord.getX()-(c.getBounds().x), 
-                //						(int)bendCoord.getY()-(c.getBounds().y), 
-                //						2*bulletSize, 2*bulletSize);
-                cg.fillOval((int) (bendCoord.getX() - c.getX() -
-                    (bendBulletSize / 2d)),
-                    (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
-                    bendBulletSize, bendBulletSize);
+				//                cg.setClip(0, 0, width, height);
+				//			cg.fillOval((int)bendCoord.getX()-(c.getBounds().x),
+						//						(int)bendCoord.getY()-(c.getBounds().y),
+						//						2*bulletSize, 2*bulletSize);
+				cg.fillOval((int) (bendCoord.getX() - c.getX() -
+						(bendBulletSize / 2d)),
+						(int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
+						bendBulletSize, bendBulletSize);
 
-                //                cg.fillOval((int) (bendCoord.getX() - c.getX() -
-                //                    (bendBulletSize / 2d)),
-                //                    (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
-                //                    bendBulletSize, bendBulletSize);
-            }
+				//                cg.fillOval((int) (bendCoord.getX() - c.getX() -
+				//                    (bendBulletSize / 2d)),
+				//                    (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
+				//                    bendBulletSize, bendBulletSize);
+			}
 
-            cg.setColor(this.color);
-        }
+			cg.setColor(this.color);
+		}
 
-        GraphElementShape grShape = ((EdgeComponentInterface) c).getShape();
+		GraphElementShape grShape = ((EdgeComponentInterface) c).getShape();
 
-        //GeneralPath grPath = new GeneralPath(grShape);
-        PathIterator pi = grShape.getPathIterator(null);
-        double[] seg = new double[6];
-        int type;
-        double x = 0;
-        double y = 0;
+		//GeneralPath grPath = new GeneralPath(grShape);
+		PathIterator pi = grShape.getPathIterator(null);
+		double[] seg = new double[6];
+		int type;
+		double x = 0;
+		double y = 0;
 
-        try
-        {
-            type = pi.currentSegment(seg);
-            x = seg[0];
-            y = seg[1];
-            cg.fillRect((int) (x - bulletSizeHalf), (int) (y - bulletSizeHalf),
-                bulletSize, bulletSize);
+		try
+		{
+			type = pi.currentSegment(seg);
+			x = seg[0];
+			y = seg[1];
+			cg.fillRect((int) (x - bulletSizeHalf), (int) (y - bulletSizeHalf),
+					bulletSize, bulletSize);
 
-            //			cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
-            while(!pi.isDone())
-            {
-                pi.next();
-                type = pi.currentSegment(seg);
+			//			cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
+			while(!pi.isDone())
+			{
+				pi.next();
+				type = pi.currentSegment(seg);
 
-                switch(type)
-                {
-                case java.awt.geom.PathIterator.SEG_MOVETO:
+				switch(type)
+				{
+					case java.awt.geom.PathIterator.SEG_MOVETO:
 
-                    //		            	x = seg[0];
-                    //		                y = seg[1];
-                    break;
+						//		            	x = seg[0];
+						//		                y = seg[1];
+						break;
 
-                case java.awt.geom.PathIterator.SEG_LINETO:
-                    x = seg[0];
-                    y = seg[1];
+					case java.awt.geom.PathIterator.SEG_LINETO:
+						x = seg[0];
+						y = seg[1];
 
-                    break;
+						break;
 
-                case java.awt.geom.PathIterator.SEG_QUADTO:
-                    x = seg[2];
-                    y = seg[3];
+					case java.awt.geom.PathIterator.SEG_QUADTO:
+						x = seg[2];
+						y = seg[3];
 
-                    break;
+						break;
 
-                case java.awt.geom.PathIterator.SEG_CUBICTO:
-                    x = seg[4];
-                    y = seg[5];
+					case java.awt.geom.PathIterator.SEG_CUBICTO:
+						x = seg[4];
+						y = seg[5];
 
-                    break;
-                }
+						break;
+				}
 
-                //		            cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
-                cg.fillRect((int) (x - bulletSizeHalf),
-                    (int) (y - bulletSizeHalf), bulletSize, bulletSize);
-            }
-        }
-        catch(java.util.NoSuchElementException e)
-        {
-        }
+				//		            cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
+				cg.fillRect((int) (x - bulletSizeHalf),
+						(int) (y - bulletSizeHalf), bulletSize, bulletSize);
+			}
+		}
+		catch(java.util.NoSuchElementException e)
+		{
+		}
 
-        cg.dispose();
-    }
+		cg.dispose();
+	}
 }
 
 //------------------------------------------------------------------------------

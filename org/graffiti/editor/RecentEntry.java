@@ -23,7 +23,7 @@ public class RecentEntry extends JMenuItem {
 		} else setVisible(false);
 		setIcon(icon);
 	}
-	
+
 	public RecentEntry(File data, boolean visible, Icon icon) {
 		super();
 		setAction(getOpenAction(data));
@@ -32,12 +32,12 @@ public class RecentEntry extends JMenuItem {
 		setVisible(visible);
 		setIcon(icon);
 	}
-	
+
 	public RecentEntry(RecentEntry from) {
 		super();
 		setNewData(from);
 	}
-	
+
 	public void setNewData(RecentEntry from) {
 		setAction(from.getAction());
 		setText(from.getText());
@@ -45,7 +45,7 @@ public class RecentEntry extends JMenuItem {
 		setVisible(from.isVisible());
 		setIcon(from.getIcon());
 	}
-	
+
 	private Action getOpenAction(final File file) {
 		return new Action() {
 			public void actionPerformed(ActionEvent e) {
@@ -66,5 +66,5 @@ public class RecentEntry extends JMenuItem {
 			public void addPropertyChangeListener(PropertyChangeListener listener) {}
 		};
 	}
-	
+
 }

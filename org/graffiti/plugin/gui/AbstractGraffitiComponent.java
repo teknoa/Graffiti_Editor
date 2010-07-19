@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiComponent.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
+// $Id: AbstractGraffitiComponent.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -16,63 +16,63 @@ import org.graffiti.editor.MainFrame;
 /**
  * Abstract class for default containers.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractGraffitiComponent
-    extends JPanel
-    implements GraffitiComponent
+extends JPanel
+implements GraffitiComponent
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-     * The component wherer the current <code>AbstractGraffitiContainer</code>
-     * prefers to be inserted.
-     */
-    protected String preferredComponent;
+	 * The component wherer the current <code>AbstractGraffitiContainer</code>
+	 * prefers to be inserted.
+	 */
+	protected String preferredComponent;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new <code>AbstractGraffitiContainer</code>.
-     */
-    protected AbstractGraffitiComponent()
-    {
-        super();
-    }
+	/**
+	 * Constructs a new <code>AbstractGraffitiContainer</code>.
+	 */
+	protected AbstractGraffitiComponent()
+	{
+		super();
+	}
 
-    /**
-     * Constructs a new <code>AbstractGraffitiContainer</code>.
-     *
-     * @param prefComp DOCUMENT ME!
-     */
-    protected AbstractGraffitiComponent(String prefComp)
-    {
-        super();
-        this.preferredComponent = prefComp;
-    }
+	/**
+	 * Constructs a new <code>AbstractGraffitiContainer</code>.
+	 *
+	 * @param prefComp DOCUMENT ME!
+	 */
+	protected AbstractGraffitiComponent(String prefComp)
+	{
+		super();
+		this.preferredComponent = prefComp;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
-     */
-    public void setMainFrame(MainFrame mf)
-    {
-    }
+	/**
+	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
+	 */
+	public void setMainFrame(MainFrame mf)
+	{
+	}
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     */
-    public String getPreferredComponent()
-    {
-        return this.preferredComponent;
-    }
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public String getPreferredComponent()
+	{
+		return this.preferredComponent;
+	}
 }
 
 //------------------------------------------------------------------------------

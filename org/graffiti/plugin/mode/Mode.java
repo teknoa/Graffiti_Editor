@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Mode.java,v 1.2 2009/06/04 18:28:20 klukas Exp $
+// $Id: Mode.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -19,42 +19,42 @@ import org.graffiti.plugin.tool.Tool;
  */
 public interface Mode
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns an array containing the <code>GraphConstraint</code>s of the
-     * current <code>Mode</code>.
-     *
-     * @return an array containing the <code>GraphConstraint</code>s of the
-     *         current <code>Mode</code>.
-     */
-    public GraphConstraint[] getConstraints();
+	/**
+	 * Returns an array containing the <code>GraphConstraint</code>s of the
+	 * current <code>Mode</code>.
+	 *
+	 * @return an array containing the <code>GraphConstraint</code>s of the
+	 *         current <code>Mode</code>.
+	 */
+	public GraphConstraint[] getConstraints();
 
-    /**
-     * Returns the name of this mode. Tools can be added to a mode by adding
-     * their ToolButtons to the toolbar with the same name as this mode.
-     *
-     * @return the name of this mode.
-     */
-    public String getId();
+	/**
+	 * Returns the name of this mode. Tools can be added to a mode by adding
+	 * their ToolButtons to the toolbar with the same name as this mode.
+	 *
+	 * @return the name of this mode.
+	 */
+	public String getId();
 
-    /**
-     * Returns an array containing all the tools belonging <code>Mode</code>.
-     *
-     * @return an array containing all the tools belonging <code>Mode</code>.
-     */
-    public List<Tool> getTools();
+	/**
+	 * Returns an array containing all the tools belonging <code>Mode</code>.
+	 *
+	 * @return an array containing all the tools belonging <code>Mode</code>.
+	 */
+	public List<Tool> getTools();
 
-    // do they really make sense in our definition of mode?
-    // public void addTool(Tool t);
-    // public void removeTool();
+	// do they really make sense in our definition of mode?
+	// public void addTool(Tool t);
+	// public void removeTool();
 
-    /**
-     * Adds the given tool to the mode.
-     *
-     * @param t the tool to add.
-     */
-    public void addTool(Tool t);
+	/**
+	 * Adds the given tool to the mode.
+	 *
+	 * @param t the tool to add.
+	 */
+	public void addTool(Tool t);
 }
 
 //------------------------------------------------------------------------------

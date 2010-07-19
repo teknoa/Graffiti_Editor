@@ -17,5 +17,5 @@ import org.graffiti.plugin.view.View;
 public interface ConfigureViewAction extends Runnable {
 
 	public void storeView(View v);
-	
+
 }

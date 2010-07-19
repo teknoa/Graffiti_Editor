@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractMode.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
+// $Id: AbstractMode.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -20,91 +20,91 @@ import org.graffiti.plugin.tool.Tool;
  * @see Mode
  */
 public class AbstractMode
-    implements Mode
+implements Mode
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
-     * The array of <code>Tool</code>s belonging to the current
-     * <code>Mode</code>.
-     */
-    protected List<Tool> tools;
+	/**
+	 * The array of <code>Tool</code>s belonging to the current
+	 * <code>Mode</code>.
+	 */
+	protected List<Tool> tools;
 
-    /**
-     * The name of this mode. Also important for tools:
-     *
-     * @see #getId()
-     */
-    protected String id;
+	/**
+	 * The name of this mode. Also important for tools:
+	 *
+	 * @see #getId()
+	 */
+	protected String id;
 
-    /** The active tool of the current <code>Mode</code>. */
+	/** The active tool of the current <code>Mode</code>. */
 
-    // needed? - where?
-    //    protected Tool activeTool;
+	// needed? - where?
+	//    protected Tool activeTool;
 
-    /**
-     * The array of <code>GraphConstraints</code> belonging to the current
-     * <code>Mode</code>.
-     */
-    protected GraphConstraint[] constraints;
+	/**
+	 * The array of <code>GraphConstraints</code> belonging to the current
+	 * <code>Mode</code>.
+	 */
+	protected GraphConstraint[] constraints;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    // cf. Mode.java
-    // public void addTool(Tool t){ }
-    // public void removeTool(){ }
+	// cf. Mode.java
+	// public void addTool(Tool t){ }
+	// public void removeTool(){ }
 
-    /**
-     * Constructs an <code>AbstractMode</code>.
-     */
-    protected AbstractMode()
-    {
-    }
+	/**
+	 * Constructs an <code>AbstractMode</code>.
+	 */
+	protected AbstractMode()
+	{
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns an array containing the <code>GraphConstraint</code>s of the
-     * current <code>Mode</code>.
-     *
-     * @return an array containing the <code>GraphConstraint</code>s of the
-     *         current <code>Mode</code>.
-     */
-    public GraphConstraint[] getConstraints()
-    {
-        return constraints;
-    }
+	/**
+	 * Returns an array containing the <code>GraphConstraint</code>s of the
+	 * current <code>Mode</code>.
+	 *
+	 * @return an array containing the <code>GraphConstraint</code>s of the
+	 *         current <code>Mode</code>.
+	 */
+	public GraphConstraint[] getConstraints()
+	{
+		return constraints;
+	}
 
-    /**
-     * Returns the name of this mode. Tools can be added to a mode by adding
-     * their ToolButtons to the toolbar with the same name as this mode.
-     *
-     * @return the name of this mode.
-     */
-    public String getId()
-    {
-        return this.id;
-    }
+	/**
+	 * Returns the name of this mode. Tools can be added to a mode by adding
+	 * their ToolButtons to the toolbar with the same name as this mode.
+	 *
+	 * @return the name of this mode.
+	 */
+	public String getId()
+	{
+		return this.id;
+	}
 
-    /**
-     * Returns an array containing all the tools belonging <code>Mode</code>.
-     *
-     * @return an array containing all the tools belonging <code>Mode</code>.
-     */
-    public List<Tool> getTools()
-    {
-        return tools;
-    }
+	/**
+	 * Returns an array containing all the tools belonging <code>Mode</code>.
+	 *
+	 * @return an array containing all the tools belonging <code>Mode</code>.
+	 */
+	public List<Tool> getTools()
+	{
+		return tools;
+	}
 
-    /**
-     * Adds the given tool to the mode.
-     *
-     * @param t tool to add.
-     */
-    public void addTool(Tool t)
-    {
-        this.tools.add(t);
-    }
+	/**
+	 * Adds the given tool to the mode.
+	 *
+	 * @param t tool to add.
+	 */
+	public void addTool(Tool t)
+	{
+		this.tools.add(t);
+	}
 }
 
 //------------------------------------------------------------------------------

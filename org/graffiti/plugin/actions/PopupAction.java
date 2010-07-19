@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PopupAction.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
+// $Id: PopupAction.java,v 1.4 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -19,72 +19,72 @@ import org.graffiti.help.HelpContext;
  * Represents an action, which is called, if there should be displayed a popup
  * menu.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class PopupAction
-    extends SelectionAction
+extends SelectionAction
 {
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
+	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Constructs a new popup action.
-     *
-     * @param mainFrame DOCUMENT ME!
-     */
-    public PopupAction(MainFrame mainFrame)
-    {
-        super("action.popup", mainFrame);
-    }
+	 * Constructs a new popup action.
+	 *
+	 * @param mainFrame DOCUMENT ME!
+	 */
+	public PopupAction(MainFrame mainFrame)
+	{
+		super("action.popup", mainFrame);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the help context for the action.
-     *
-     * @return HelpContext, the help context for the action
-     */
-    @Override
+	/**
+	 * Returns the help context for the action.
+	 *
+	 * @return HelpContext, the help context for the action
+	 */
+	@Override
 	public HelpContext getHelpContext()
-    {
-        return null; // TODO
-    }
+	{
+		return null; // TODO
+	}
 
-    /**
-     * Returns the name of this action.
-     *
-     * @return String, the name
-     */
-    @Override
+	/**
+	 * Returns the name of this action.
+	 *
+	 * @return String, the name
+	 */
+	@Override
 	public String getName()
-    {
-        return null; // TODO
-    }
+	{
+		return null; // TODO
+	}
 
-    /**
-     * Executes this action.
-     *
-     * @param e DOCUMENT ME!
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-    }
+	/**
+	 * Executes this action.
+	 *
+	 * @param e DOCUMENT ME!
+	 */
+	public void actionPerformed(ActionEvent e)
+	{
+	}
 
-    /**
-     * Sets the internal <code>enable</code> flag, which depends on the given
-     * list of selected items.
-     *
-     * @param items the items, which determine the internal state of the
-     *        <code>enable</code> flag.
-     */
-    @Override
+	/**
+	 * Sets the internal <code>enable</code> flag, which depends on the given
+	 * list of selected items.
+	 *
+	 * @param items the items, which determine the internal state of the
+	 *        <code>enable</code> flag.
+	 */
+	@Override
 	protected void enable(List<?> items)
-    {
-    }
+	{
+	}
 
 	/* (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()

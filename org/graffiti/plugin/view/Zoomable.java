@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Zoomable.java,v 1.2 2009/12/02 10:00:02 klukas Exp $
+// $Id: Zoomable.java,v 1.3 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -18,14 +18,14 @@ import java.awt.geom.AffineTransform;
  */
 public interface Zoomable
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     */
-    public AffineTransform getZoom();
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public AffineTransform getZoom();
 
 	/**
 	 * @return

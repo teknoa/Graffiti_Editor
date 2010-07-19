@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodePosition.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: NodePosition.java,v 1.2 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -15,36 +15,36 @@ import org.graffiti.graph.Node;
  * DOCUMENT ME!
  *
  * @author $author$
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 public class NodePosition
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /** DOCUMENT ME! */
-    Node n;
+	/** DOCUMENT ME! */
+	Node n;
 
-    /** DOCUMENT ME! */
-    double x;
+	/** DOCUMENT ME! */
+	double x;
 
-    /** DOCUMENT ME! */
-    double y;
+	/** DOCUMENT ME! */
+	double y;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Creates a new NodePosition object.
-     *
-     * @param n DOCUMENT ME!
-     * @param x DOCUMENT ME!
-     * @param y DOCUMENT ME!
-     */
-    NodePosition(Node n, double x, double y)
-    {
-        this.n = n;
-        this.x = x;
-        this.y = y;
-    }
+	/**
+	 * Creates a new NodePosition object.
+	 *
+	 * @param n DOCUMENT ME!
+	 * @param x DOCUMENT ME!
+	 * @param y DOCUMENT ME!
+	 */
+	NodePosition(Node n, double x, double y)
+	{
+		this.n = n;
+		this.x = x;
+		this.y = y;
+	}
 }
 
 //------------------------------------------------------------------------------

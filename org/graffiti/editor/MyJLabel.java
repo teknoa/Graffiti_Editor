@@ -19,26 +19,26 @@ public class MyJLabel extends JLabel {
 	public MyJLabel(String text) {
 		super();
 		setText(text);
-		
+
 		KeyStroke statusHotkey = KeyStroke.getKeyStroke(
-			    KeyEvent.VK_F2, 0, false);
+				KeyEvent.VK_F2, 0, false);
 		String STATUS_KEY = "MyStatus";
 		Action uirobot = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
-				public void actionPerformed(ActionEvent e) {
-			      setEnabled(false); // stop any other events from interfering
-			      if (fullText!=null && fullText.trim().length()>0)
-			    	  MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
-			      setEnabled(true);
-			    }
-			  };
-		
-		 GlobalHotkeyManager hotkeyManager = GlobalHotkeyManager.getInstance();
-	    hotkeyManager.getInputMap().put(statusHotkey, STATUS_KEY);
-	    hotkeyManager.getActionMap().put(STATUS_KEY, uirobot);
-		
-	    this.addMouseListener(new MouseListener() {
+			public void actionPerformed(ActionEvent e) {
+				setEnabled(false); // stop any other events from interfering
+				if (fullText!=null && fullText.trim().length()>0)
+					MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
+				setEnabled(true);
+			}
+		};
+
+		GlobalHotkeyManager hotkeyManager = GlobalHotkeyManager.getInstance();
+		hotkeyManager.getInputMap().put(statusHotkey, STATUS_KEY);
+		hotkeyManager.getActionMap().put(STATUS_KEY, uirobot);
+
+		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
 				if (fullText!=null && fullText.trim().length()>0)
@@ -47,25 +47,25 @@ public class MyJLabel extends JLabel {
 
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}});
 	}
-	
+
 	@Override
 	public void setText(String text) {
 		fullText = text;

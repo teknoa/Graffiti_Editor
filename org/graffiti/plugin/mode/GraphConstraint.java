@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraphConstraint.java,v 1.2 2009/06/23 07:14:49 klukas Exp $
+// $Id: GraphConstraint.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -21,16 +21,16 @@ import org.graffiti.session.UnsatisfiedConstraintException;
  */
 public interface GraphConstraint
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Checks whether the specified graph satisfies the defined constraint.
-     *
-     * @throws UnsatisfiedConstraintException if the graph does not satisfy the
-     *         defined constraint.
-     */
-    public void validate(Graph g)
-        throws UnsatisfiedConstraintException;
+	/**
+	 * Checks whether the specified graph satisfies the defined constraint.
+	 *
+	 * @throws UnsatisfiedConstraintException if the graph does not satisfy the
+	 *         defined constraint.
+	 */
+	public void validate(Graph g)
+	throws UnsatisfiedConstraintException;
 }
 
 //------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PluginManagerEditAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: PluginManagerEditAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,65 +20,65 @@ import org.graffiti.plugin.actions.GraffitiAction;
 /**
  * Called, if the plugin manager dialog should be shown.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class PluginManagerEditAction
-    extends GraffitiAction
+extends GraffitiAction
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** DOCUMENT ME! */
-    PluginManager pluginmgr;
+	PluginManager pluginmgr;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Creates a new PluginManagerEditAction object.
-     *
-     * @param mainFrame DOCUMENT ME!
-     * @param pluginmgr DOCUMENT ME!
-     */
-    public PluginManagerEditAction(MainFrame mainFrame, PluginManager pluginmgr)
-    {
-        super("pluginmgr.edit", mainFrame, null);
-        this.pluginmgr = pluginmgr;
-    }
+	/**
+	 * Creates a new PluginManagerEditAction object.
+	 *
+	 * @param mainFrame DOCUMENT ME!
+	 * @param pluginmgr DOCUMENT ME!
+	 */
+	public PluginManagerEditAction(MainFrame mainFrame, PluginManager pluginmgr)
+	{
+		super("pluginmgr.edit", mainFrame, null);
+		this.pluginmgr = pluginmgr;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * @see javax.swing.Action#isEnabled()
-     */
-    @Override
+	/**
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	@Override
 	public boolean isEnabled()
-    {
-        return true;
-    }
+	{
+		return true;
+	}
 
-    /**
-     * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
-     */
-    @Override
+	/**
+	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
+	 */
+	@Override
 	public HelpContext getHelpContext()
-    {
-        return null;
-    }
+	{
+		return null;
+	}
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param e DOCUMENT ME!
-     */
-    @SuppressWarnings("deprecation")
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @param e DOCUMENT ME!
+	 */
+	@SuppressWarnings("deprecation")
 	public void actionPerformed(ActionEvent e)
-    {
-        PluginManagerDialog pmd = new PluginManagerDialog(mainFrame, pluginmgr);
-        pmd.show();
-    }
+	{
+		PluginManagerDialog pmd = new PluginManagerDialog(mainFrame, pluginmgr);
+		pmd.show();
+	}
 }
 
 //------------------------------------------------------------------------------

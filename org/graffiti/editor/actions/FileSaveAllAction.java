@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAllAction.java,v 1.5 2010/07/17 22:08:36 klukas Exp $
+// $Id: FileSaveAllAction.java,v 1.6 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,68 +20,68 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for saving all open graphs.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FileSaveAllAction
-    extends GraffitiAction
+extends GraffitiAction
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-     * Creates a new FileSaveAllAction object.
-     *
-     * @param mainFrame DOCUMENT ME!
-     * @param ioManager DOCUMENT ME!
-     */
-    public FileSaveAllAction(MainFrame mainFrame, IOManager ioManager)
-    {
-        super("file.saveAll", mainFrame, null);
-    }
+	 * Creates a new FileSaveAllAction object.
+	 *
+	 * @param mainFrame DOCUMENT ME!
+	 * @param ioManager DOCUMENT ME!
+	 */
+	public FileSaveAllAction(MainFrame mainFrame, IOManager ioManager)
+	{
+		super("file.saveAll", mainFrame, null);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     */
-    @Override
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	@Override
 	public boolean isEnabled()
-    {
-        return false;
-    }
+	{
+		return false;
+	}
 
-    /**
-     * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
-     */
-    @Override
+	/**
+	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
+	 */
+	@Override
 	public HelpContext getHelpContext()
-    {
-        return null;
-    }
+	{
+		return null;
+	}
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param e DOCUMENT ME!
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-        String dv = mainFrame.getDefaultView();
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @param e DOCUMENT ME!
+	 */
+	public void actionPerformed(ActionEvent e)
+	{
+		String dv = mainFrame.getDefaultView();
 
-        if(dv != null)
-        {
-            mainFrame.createInternalFrame(dv, "", false, false);
-        }
-        else
-        {
-            mainFrame.showViewChooserDialog(new EditorSession(), false, e);
-        }
-    }
+		if(dv != null)
+		{
+			mainFrame.createInternalFrame(dv, "", false, false);
+		}
+		else
+		{
+			mainFrame.showViewChooserDialog(new EditorSession(), false, e);
+		}
+	}
 }
 
 //------------------------------------------------------------------------------

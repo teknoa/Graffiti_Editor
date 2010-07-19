@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditComponentManager.java,v 1.5 2010/07/17 22:08:37 klukas Exp $
+// $Id: EditComponentManager.java,v 1.6 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.managers;
 
@@ -27,92 +27,92 @@ import org.graffiti.util.InstanceLoader;
  * <code>AttributeComponent</code> classes.
  *
  * @author ph
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class EditComponentManager
-    implements PluginManagerListener
+implements PluginManagerListener
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /** Maps displayable classes to ValueEditComponent classes. */
-    private Map<Displayable,ValueEditComponent> valueEditComponents;
+	/** Maps displayable classes to ValueEditComponent classes. */
+	private Map<Displayable,ValueEditComponent> valueEditComponents;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs an EditComponentManager.
-     */
-    public EditComponentManager()
-    {
-        this.valueEditComponents = new HashMap<Displayable,ValueEditComponent>();
-    }
+	/**
+	 * Constructs an EditComponentManager.
+	 */
+	public EditComponentManager()
+	{
+		this.valueEditComponents = new HashMap<Displayable,ValueEditComponent>();
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the map of value edit components.
-     *
-     * @return DOCUMENT ME!
-     */
-    public Map<Displayable,ValueEditComponent> getEditComponents()
-    {
-        return valueEditComponents;
-    }
+	/**
+	 * Returns the map of value edit components.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public Map<Displayable,ValueEditComponent> getEditComponents()
+	{
+		return valueEditComponents;
+	}
 
-    /**
-     * Returns an instance of the ValueEditComponent that is capable of
-     * providing a possibility to alter the value of the displayable with type
-     * <code>aType</code>.
-     *
-     * @param aType the class of the displayable to retrieve a component for.
-     *
-     * @return an instance of an ValueEditComponent.
-     *
-     * @throws EditComponentNotFoundException DOCUMENT ME!
-     */
-    public ValueEditComponent getValueEditComponent(Displayable aType)
-        throws EditComponentNotFoundException
-    {
-        if(!(valueEditComponents.containsKey(aType)))
-        {
-            throw new EditComponentNotFoundException(
-                "No registered ValueEditComponent for displayable type " +
-                aType);
-        }
+	/**
+	 * Returns an instance of the ValueEditComponent that is capable of
+	 * providing a possibility to alter the value of the displayable with type
+	 * <code>aType</code>.
+	 *
+	 * @param aType the class of the displayable to retrieve a component for.
+	 *
+	 * @return an instance of an ValueEditComponent.
+	 *
+	 * @throws EditComponentNotFoundException DOCUMENT ME!
+	 */
+	public ValueEditComponent getValueEditComponent(Displayable aType)
+	throws EditComponentNotFoundException
+	{
+		if(!(valueEditComponents.containsKey(aType)))
+		{
+			throw new EditComponentNotFoundException(
+					"No registered ValueEditComponent for displayable type " +
+					aType);
+		}
 
-        ValueEditComponent ac = valueEditComponents.get(aType);
+		ValueEditComponent ac = valueEditComponents.get(aType);
 
-        try
-        {
-      	  ValueEditComponent component = (ValueEditComponent) InstanceLoader.createInstance(ac.getClass(),
-                    null);
+		try
+		{
+			ValueEditComponent component = (ValueEditComponent) InstanceLoader.createInstance(ac.getClass(),
+					null);
 
-            return component;
-        }
-        catch(InstanceCreationException ice)
-        {
-            throw new EditComponentNotFoundException(ice.getMessage());
-        }
-    }
+			return component;
+		}
+		catch(InstanceCreationException ice)
+		{
+			throw new EditComponentNotFoundException(ice.getMessage());
+		}
+	}
 
-    /**
-     * Called by the plugin manager, iff a plugin has been added.
-     *
-     * @param plugin the added plugin.
-     * @param desc the description of the new plugin.
-     */
-    @SuppressWarnings("unchecked")
+	/**
+	 * Called by the plugin manager, iff a plugin has been added.
+	 *
+	 * @param plugin the added plugin.
+	 * @param desc the description of the new plugin.
+	 */
+	@SuppressWarnings("unchecked")
 	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
-    {
-        //System.out.println("putting: " + plugin.getAttributeComponents());
-        if(plugin instanceof EditorPlugin)
-        {
-            if (((EditorPlugin) plugin).getValueEditComponents() != null &&
-                    ((EditorPlugin) plugin).getValueEditComponents().size()>0) {
-            	valueEditComponents.putAll(((EditorPlugin) plugin).getValueEditComponents());
-            }
-        }
-    }
+	{
+		//System.out.println("putting: " + plugin.getAttributeComponents());
+		if(plugin instanceof EditorPlugin)
+		{
+			if (((EditorPlugin) plugin).getValueEditComponents() != null &&
+					((EditorPlugin) plugin).getValueEditComponents().size()>0) {
+				valueEditComponents.putAll(((EditorPlugin) plugin).getValueEditComponents());
+			}
+		}
+	}
 }
 
 //------------------------------------------------------------------------------

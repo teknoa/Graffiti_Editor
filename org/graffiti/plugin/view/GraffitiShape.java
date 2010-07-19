@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiShape.java,v 1.1 2007/06/14 09:36:44 klukas Exp $
+// $Id: GraffitiShape.java,v 1.2 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -15,15 +15,15 @@ import java.awt.Shape;
  *
  */
 public interface GraffitiShape
-    extends Shape
+extends Shape
 {
-    /**
-     * Shapes itself according to the graphics attribute found in the
-     * CollectionAttribute <code>graphics</code>
-     */
+	/**
+	 * Shapes itself according to the graphics attribute found in the
+	 * CollectionAttribute <code>graphics</code>
+	 */
 
-    //    public void create(CollectionAttribute graphics) 
-    //        throws ShapeNotFoundException;
+	//    public void create(CollectionAttribute graphics)
+	//        throws ShapeNotFoundException;
 }
 
 //------------------------------------------------------------------------------

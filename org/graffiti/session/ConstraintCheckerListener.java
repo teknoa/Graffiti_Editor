@@ -5,10 +5,10 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ConstraintCheckerListener.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+// $Id: ConstraintCheckerListener.java,v 1.2 2010/07/19 14:05:43 morla Exp $
 
 /*
- * $Id: ConstraintCheckerListener.java,v 1.1 2007/06/14 09:36:47 klukas Exp $
+ * $Id: ConstraintCheckerListener.java,v 1.2 2010/07/19 14:05:43 morla Exp $
  */
 package org.graffiti.session;
 
@@ -21,15 +21,15 @@ package org.graffiti.session;
  */
 public interface ConstraintCheckerListener
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Handles the message received by the constraint checker indicating an
-     * unsatisfied constraint.
-     *
-     * @param msg the message telling about the unsatisfied constraint.
-     */
-    public void checkFailed(String msg);
+	/**
+	 * Handles the message received by the constraint checker indicating an
+	 * unsatisfied constraint.
+	 *
+	 * @param msg the message telling about the unsatisfied constraint.
+	 */
+	public void checkFailed(String msg);
 }
 
 //------------------------------------------------------------------------------

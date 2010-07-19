@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ModeManager.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: ModeManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.managers;
 
@@ -15,35 +15,35 @@ import org.graffiti.plugin.mode.Mode;
 /**
  * Provides an interface for a modes manager.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  *
  * @see org.graffiti.managers.pluginmgr.PluginManagerListener
  */
 public interface ModeManager
-    extends PluginManagerListener
+extends PluginManagerListener
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the specified mode from the list of modes.
-     *
-     * @return the specified mode from the list of modes.
-     */
-    public Mode getMode(String mode);
+	/**
+	 * Returns the specified mode from the list of modes.
+	 *
+	 * @return the specified mode from the list of modes.
+	 */
+	public Mode getMode(String mode);
 
-    /**
-     * Adds the specified mode to the list of modes this manager contains.
-     *
-     * @param mode the mode to be added to the list.
-     */
-    public void addMode(Mode mode);
+	/**
+	 * Adds the specified mode to the list of modes this manager contains.
+	 *
+	 * @param mode the mode to be added to the list.
+	 */
+	public void addMode(Mode mode);
 
-    /**
-     * Removes the specified mode from the list of modes the manager contains.
-     *
-     * @param mode the mode to be removed.
-     */
-    public void removeMode(Mode mode);
+	/**
+	 * Removes the specified mode from the list of modes the manager contains.
+	 *
+	 * @param mode the mode to be removed.
+	 */
+	public void removeMode(Mode mode);
 }
 
 //------------------------------------------------------------------------------

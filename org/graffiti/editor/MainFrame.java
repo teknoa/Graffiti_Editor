@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.134 2010/07/17 22:08:36 klukas Exp $
+// $Id: MainFrame.java,v 1.135 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,10 +193,10 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.134 $
+ * @version $Revision: 1.135 $
  */
 public class MainFrame extends JFrame implements SessionManager,
-SessionListener, PluginManagerListener, 
+SessionListener, PluginManagerListener,
 UndoableEditListener, EditorDefaultValues,
 IOManager.IOManagerListener, ViewManager.ViewManagerListener,
 SelectionListener, DropTargetListener
@@ -459,7 +459,7 @@ SelectionListener, DropTargetListener
 		instance = this;
 
 		this.setTitle(getDefaultFrameTitle());
-		GraffitiInternalFrame.startTitle = getDefaultFrameTitle(); 
+		GraffitiInternalFrame.startTitle = getDefaultFrameTitle();
 		this.sessionListeners = new HashSet<SessionListener>();
 		this.selectionListeners = new HashSet<SelectionListener>();
 		this.zoomListeners = new HashSet<ZoomListener>();
@@ -512,7 +512,7 @@ SelectionListener, DropTargetListener
 		selectionListeners.add(this);
 		if (showVantedHelp) {
 			setHelpIntroduction();
-		} 
+		}
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
 		//		getContentPane().setBackground(null);
 
@@ -637,7 +637,7 @@ SelectionListener, DropTargetListener
 	//	public DesktopMenuManager getDesktopMenuManager() {
 	//		return desktopMenuManager;
 	//	}
-	//	
+	//
 	//	public JDesktopPane getJDesktopPane() {
 	//		return desktop;
 	//	}
@@ -728,7 +728,7 @@ SelectionListener, DropTargetListener
 
 	//	/**
 	//	 * Get the algorithm manager.
-	//	 * 
+	//	 *
 	//	 * @return the algorithm manager.
 	//	 */
 	//	public AlgorithmManager getAlgorithmManager() {
@@ -859,7 +859,7 @@ SelectionListener, DropTargetListener
 				ToolButton tb = (ToolButton) component;
 				modeManager.getMode(tb.getPreferredComponent()).addTool(tb.getTool());
 
-				// if the tool provides undo information the undoSupport has 
+				// if the tool provides undo information the undoSupport has
 				// to be set.
 				if (tb.getTool() instanceof Undoable) {
 					((Undoable) tb.getTool()).setUndoSupport(undoSupport);
@@ -894,7 +894,7 @@ SelectionListener, DropTargetListener
 				} catch(Exception e) {
 					container.add(component);
 				}
-			} else 
+			} else
 				container.add(component);
 
 			if (container.getParent() instanceof JSplitPane) {
@@ -1066,12 +1066,12 @@ SelectionListener, DropTargetListener
 		}
 
 		ListenerManager lm = session.getGraph().getListenerManager();
-		lm.addDelayedAttributeListener(view); 
+		lm.addDelayedAttributeListener(view);
 		lm.addDelayedEdgeListener(view);
 		lm.addDelayedNodeListener(view);
 		lm.addDelayedGraphListener(view);
 		if (statusBar!=null)
-			lm.addDelayedGraphListener(statusBar); 
+			lm.addDelayedGraphListener(statusBar);
 
 		view.setGraph(session.getGraph());
 
@@ -1183,28 +1183,28 @@ SelectionListener, DropTargetListener
 			boolean right = view.getViewToolbarComponentRight()!=null;
 			boolean background = view.getViewToolbarComponentBackground()!=null;
 
-			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent          ? (JComponent) view.getViewToolbarComponentTop() : new JLabel(); 
-			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view.getViewToolbarComponentBottom() : new JLabel(); 
-			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent       ? (JComponent) view.getViewToolbarComponentLeft() : new JLabel(); 
+			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent          ? (JComponent) view.getViewToolbarComponentTop() : new JLabel();
+			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view.getViewToolbarComponentBottom() : new JLabel();
+			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent       ? (JComponent) view.getViewToolbarComponentLeft() : new JLabel();
 			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent    ? (JComponent) view.getViewToolbarComponentRight() : new JLabel();
 
-			double topS = top && view.getViewToolbarComponentTop() instanceof Double          ? (Double) view.getViewToolbarComponentTop() : TableLayout.PREFERRED; 
-			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view.getViewToolbarComponentBottom() : TableLayout.PREFERRED; 
-			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double       ? (Double) view.getViewToolbarComponentLeft() : TableLayout.PREFERRED; 
+			double topS = top && view.getViewToolbarComponentTop() instanceof Double          ? (Double) view.getViewToolbarComponentTop() : TableLayout.PREFERRED;
+			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
+			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double       ? (Double) view.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
 			double rightS = right && view.getViewToolbarComponentRight() instanceof Double    ? (Double) view.getViewToolbarComponentRight() : TableLayout.PREFERRED;
 
 			j.setLayout(new TableLayout(new double[][] {
-					new double[] { TableLayout.FILL },	
-					new double[] { 
-							topS, 
-							TableLayout.FILL, 
-							bottomS },	
+					new double[] { TableLayout.FILL },
+					new double[] {
+							topS,
+							TableLayout.FILL,
+							bottomS },
 			}));
 			if (top)
 				j.add(topC, "0,0");
 			if (left || right) {
 				j.add(TableLayout.get3Split(
-						leftC, 
+						leftC,
 						scrollPane !=null ? scrollPane : view.getViewComponent(),
 								rightC,
 								leftS, TableLayout.FILL, rightS), "0,1");
@@ -1469,10 +1469,10 @@ SelectionListener, DropTargetListener
 		enclosingseparator.setVisible(true);
 		//check if entry already in list
 		int pos=5;
-		for(int i=4;i>=0;i--) 
+		for(int i=4;i>=0;i--)
 			if(file.toString().equalsIgnoreCase(recentfileslist[i].getToolTipText()))
 				pos=i;
-		for(int j=Math.min(pos,4);j>0;j--) 
+		for(int j=Math.min(pos,4);j>0;j--)
 			recentfileslist[j].setNewData(recentfileslist[j-1]);
 		recentfileslist[0].setNewData(new RecentEntry(file,true, iBundle.getImageIcon("menu.file.open.icon")));
 
@@ -1482,9 +1482,9 @@ SelectionListener, DropTargetListener
 				recentlist.createNewFile();
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
-			}			
+			}
 			String content= new String("");
-			for(JMenuItem jmi : recentfileslist) 
+			for(JMenuItem jmi : recentfileslist)
 				if(jmi.getToolTipText()!=null)
 					content+=jmi.getToolTipText()+System.getProperty("line.separator");
 			try {
@@ -1872,7 +1872,7 @@ SelectionListener, DropTargetListener
 										childVisible = true;
 										break;
 									}
-								}	
+								}
 								parent.setVisible(childVisible);
 							}
 						}
@@ -2006,9 +2006,9 @@ SelectionListener, DropTargetListener
 	 * If the property is not available. (The newly added menu items should NOT have
 	 * this property set). If no immeadiatly change from true to false is found, then
 	 * the new position should be set in a way so that a resulting order is achieved where
-	 * the titles are sorted alphabetically.  
+	 * the titles are sorted alphabetically.
 	 * @param menu
-	 * @param title Title of the new menu to be added to the target menu (<code>menu</code>). 
+	 * @param title Title of the new menu to be added to the target menu (<code>menu</code>).
 	 * @return The target position where the menu should be added to.
 	 */
 	private int getTargetMenuPosition(JMenuBar menu, String title) {
@@ -2043,7 +2043,7 @@ SelectionListener, DropTargetListener
 				// ErrorMsg.addErrorMessage(e);
 			}
 		}
-		// search the first one in the remaining list 
+		// search the first one in the remaining list
 		while (menuItems.size() > 0) {
 			JMenuItem firstItem = menuItems.get(0);
 			for (int im = 0; im < menuItems.size(); im++) {
@@ -2091,7 +2091,7 @@ SelectionListener, DropTargetListener
 	 *
 	 * @param session the session to be removed.
 	 */
-	public boolean closeSession(Session session) { 
+	public boolean closeSession(Session session) {
 		if (session == null) return false;
 		// check if changes have been made
 
@@ -2104,7 +2104,7 @@ SelectionListener, DropTargetListener
 					"<html>"+sBundle.getString("frame.close_save")+"<p>"+
 					"Graph "+graphName+" contains<br>"+
 					session.getGraph().getNodes().size()+" node(s) and "+
-					session.getGraph().getEdges().size()+" edge(s)!", 
+					session.getGraph().getEdges().size()+" edge(s)!",
 					sBundle.getString("frame.close_save_title"),
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
@@ -2207,7 +2207,7 @@ SelectionListener, DropTargetListener
 			undoSupport.addUndoableEditListener(((EditorSession) s)
 					.getUndoManager());
 
-			// registering the MainFrame at undoSupport 
+			// registering the MainFrame at undoSupport
 			undoSupport.addUndoableEditListener(this);
 
 			// changing the graph in the tools of the new mode
@@ -2323,8 +2323,8 @@ SelectionListener, DropTargetListener
 	 * Method <code>showMesssage</code> displays a message on GUI components
 	 * according to the specified type. The message will be displayed for some
 	 * defined number of seconds.
-	 * This method can be called from a background thread. 
-	 *  
+	 * This method can be called from a background thread.
+	 * 
 	 *
 	 * @param message a message string to be displayed
 	 * @param type a type of the message (e.g. MessageType.INFO)
@@ -2428,8 +2428,8 @@ SelectionListener, DropTargetListener
 	 *
 	 * @param session the session in which to open the new view.
 	 * @param returnScrollPane DOCUMENT ME!
-	 * @param e 
-	 * @param interaction 
+	 * @param e
+	 * @param interaction
 	 *
 	 * @return DOCUMENT ME!
 	 */
@@ -2454,7 +2454,7 @@ SelectionListener, DropTargetListener
 				return createInternalFrame(views[0], session.getGraph().getName(),
 						returnScrollPane, false);
 			} else {
-				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], 
+				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0],
 						session.getGraph().getName(), session, returnScrollPane, false, false, configNewView, true);
 				return jsp;
 			}
@@ -2462,11 +2462,11 @@ SelectionListener, DropTargetListener
 			if (ReleaseInfo.getRunningReleaseStatus()!=Release.KGML_EDITOR) {
 				if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY && session.getGraph()!=null &&
 						( (session.getGraph().getNumberOfNodes()+session.getGraph().getNumberOfEdges()>1000)
-								|| ((e!=null && (e.getModifiers() & ActionEvent.SHIFT_MASK)==ActionEvent.SHIFT_MASK)) 
+								|| ((e!=null && (e.getModifiers() & ActionEvent.SHIFT_MASK)==ActionEvent.SHIFT_MASK))
 						)
 				)
 					interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view chooser dialog in case the graph size is large
-			} 
+			}
 			if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
 				interaction=LoadSetting.VIEW_CHOOSER_NEVER;
 
@@ -2475,7 +2475,7 @@ SelectionListener, DropTargetListener
 			if (interaction==LoadSetting.VIEW_CHOOSER_NEVER || interaction==LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION) {
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
-					return createInternalFrame(defaultView, session.getGraph().getName(), 
+					return createInternalFrame(defaultView, session.getGraph().getName(),
 							session, returnScrollPane, false, configNewView);
 				} else {
 					Graph g = session.getGraph();
@@ -2484,14 +2484,14 @@ SelectionListener, DropTargetListener
 						name = g.getName();
 					if (name==null)
 						name = "[NULL]";
-					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name, 
+					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name,
 							session, returnScrollPane, false, false, configNewView,
 							interaction!=LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION);
 					return jsp;
 				}
 			} else {
 				// interaction is VIEW_CHOOSER_ALWAYS
-				ViewTypeChooser viewChooser = new ViewTypeChooser(this, 
+				ViewTypeChooser viewChooser = new ViewTypeChooser(this,
 						sBundle.getString("viewchooser.title")+" ("+session.getGraph().getNumberOfNodes()+" nodes, "+session.getGraph().getNumberOfEdges()+" edges)",
 						viewManager.getViewDescriptions());
 
@@ -2509,17 +2509,17 @@ SelectionListener, DropTargetListener
 							return createInternalFrame(selectedView, session.getGraph().getName(),
 									session, returnScrollPane, false, configNewView);
 						} else {
-							return (JScrollPane)createInternalFrame(selectedView, 
-									session.getGraph().getName(), session, returnScrollPane, 
+							return (JScrollPane)createInternalFrame(selectedView,
+									session.getGraph().getName(), session, returnScrollPane,
 									false, false, configNewView, true);
 						}
-					} 
+					}
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
-									selectedView, session.getGraph().getName(), session, 
-									false, true, false, configNewView, true); 
+									selectedView, session.getGraph().getName(), session,
+									false, true, false, configNewView, true);
 							GraffitiFrame gf = new GraffitiFrame(gif,false);
 							gf.setExtendedState(Frame.MAXIMIZED_BOTH);
 							gf.setVisible(true);
@@ -2583,8 +2583,8 @@ SelectionListener, DropTargetListener
 	 * @return the active <code>Tool</code>.
 	 */
 	Tool getActiveTool() {
-		if (isSessionActive()) { 
-			return ((ModeToolbar) guiMap.get(getActiveEditorSession().getActiveMode().getId())).getActiveTool(); 
+		if (isSessionActive()) {
+			return ((ModeToolbar) guiMap.get(getActiveEditorSession().getActiveMode().getId())).getActiveTool();
 		} else
 			return null;
 	}
@@ -2743,7 +2743,7 @@ SelectionListener, DropTargetListener
 				recentlist.createNewFile();
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
-			}			
+			}
 
 			String[] sb = {"","","","",""};
 			int cnt=0;
@@ -2819,11 +2819,11 @@ SelectionListener, DropTargetListener
 			editMenu.add(createMenuItem(editPaste));
 			editMenu.addSeparator();
 			editMenu.add(createMenuItem(editDelete));
-			JMenuItem selectCmd = createMenuItem(editSelectAll); 
+			JMenuItem selectCmd = createMenuItem(editSelectAll);
 			selectCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
 			editMenu.add(selectCmd);
 			// editMenu.addSeparator();
-			// JMenuItem redrawCmd = createMenuItem(redrawView); 
+			// JMenuItem redrawCmd = createMenuItem(redrawView);
 			// redrawCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
 			// editMenu.add(redrawCmd);
 
@@ -2988,7 +2988,7 @@ SelectionListener, DropTargetListener
 							ref = ReleaseInfo.getApplet();
 						else
 							ref = MainFrame.getInstance();
-						JOptionPane.showMessageDialog(ref, shownMessages, 
+						JOptionPane.showMessageDialog(ref, shownMessages,
 								title, JOptionPane.INFORMATION_MESSAGE);
 					}
 
@@ -3174,7 +3174,7 @@ SelectionListener, DropTargetListener
 				+ ".icon"));
 
 		//a little bag of tricks: java developers use a string value for this property
-		// instead of a constant, moreover is this string value not documented.ww 
+		// instead of a constant, moreover is this string value not documented.ww
 
 		button.putClientProperty("hideActionText", new Boolean(true));
 
@@ -3252,7 +3252,7 @@ SelectionListener, DropTargetListener
 
 			ListenerManager lm = session.getGraph().getListenerManager();
 			try {
-				lm.removeAttributeListener(view); 
+				lm.removeAttributeListener(view);
 				lm.removeEdgeListener(view);
 				lm.removeNodeListener(view);
 				lm.removeGraphListener(view);
@@ -3331,7 +3331,7 @@ SelectionListener, DropTargetListener
 
 			ListenerManager lm = session.getGraph().getListenerManager();
 			try {
-				lm.removeAttributeListener(view); 
+				lm.removeAttributeListener(view);
 				lm.removeEdgeListener(view);
 				lm.removeNodeListener(view);
 				lm.removeGraphListener(view);
@@ -3386,7 +3386,7 @@ SelectionListener, DropTargetListener
 			int res = JOptionPane.showConfirmDialog(this,
 					"<html><b>Do you really want to close the application?</b><p><p>"+
 					"The following graph(s) have not been saved, yet:<br><ol>"+
-					names, 
+					names,
 					unsavedGraphs.size()+" graph(s) not saved",
 					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (res == JOptionPane.YES_OPTION) {
@@ -3458,7 +3458,7 @@ SelectionListener, DropTargetListener
 	}
 
 	//	public List<JPanel> getStatusPanels() {
-	//		ArrayList<JPanel> result = new ArrayList<JPanel>();	
+	//		ArrayList<JPanel> result = new ArrayList<JPanel>();
 	//		synchronized(activeProgressPanels) {
 	//			if (activeProgressPanels!=null)
 	//				result.addAll(activeProgressPanels);
@@ -3586,7 +3586,7 @@ SelectionListener, DropTargetListener
 
 	public void addDetachedFrame(GraffitiFrame frame) {
 		if (!detachedFrames.contains(frame))
-			detachedFrames.add(frame);		
+			detachedFrames.add(frame);
 	}
 
 	public void removeDetachedFrame(GraffitiFrame frame) {
@@ -3677,7 +3677,7 @@ SelectionListener, DropTargetListener
 				if (file.isDirectory())
 					MainFrame.showMessageDialog("Drag & Drop is only supported for files, not folders!", "Error");
 				else {
-					if (file.exists() && file.canRead()) 
+					if (file.exists() && file.canRead())
 						loadGraph(file);
 				}
 			}
@@ -3783,7 +3783,7 @@ SelectionListener, DropTargetListener
 
 		ListenerManager lm = session.getGraph().getListenerManager();
 		try {
-			lm.removeAttributeListener(view); 
+			lm.removeAttributeListener(view);
 			lm.removeEdgeListener(view);
 			lm.removeNodeListener(view);
 			lm.removeGraphListener(view);
@@ -3805,7 +3805,7 @@ SelectionListener, DropTargetListener
 		//		fireSessionChanged(null);
 		//		activeSession = null;
 
-		//		updateActions();		
+		//		updateActions();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -3828,8 +3828,8 @@ SelectionListener, DropTargetListener
 			Runtime r = Runtime.getRuntime();
 			if (r.maxMemory()/1024/1024<400) {
 				int divisor=1024;
-				String memoryConfig = "Used/free/max memory: " + 
-				((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+ 
+				String memoryConfig = "Used/free/max memory: " +
+				((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+
 				"/" + (r.freeMemory()/divisor/divisor) +"/<u>"+(r.maxMemory()/divisor/divisor)+"</u> MB &lt;-- possible problem detected";
 				MainFrame.showMessageDialog("<html>" +
 						"Low memory configuration detected!<br><br>" +
@@ -3922,12 +3922,12 @@ SelectionListener, DropTargetListener
 							String t = sh.getTabbedPane().getTitleAt(idx);
 							if (t.equals(title)) {
 								JComponent c = (JComponent)sh.getTabbedPane().getComponentAt(idx);
-								InspectorTab.focusAndHighlightComponent(c, title, 
+								InspectorTab.focusAndHighlightComponent(c, title,
 										null, true, cycle);
 								found = true;
 							}
 						}
-					} 
+					}
 				}
 			}
 		}
@@ -3944,7 +3944,7 @@ SelectionListener, DropTargetListener
 	public void setSidePanel(int width) {
 		int availableSpace = getWidth();
 		int newWidth = availableSpace-width;
-		vertSplitter.setDividerLocation(newWidth); 
+		vertSplitter.setDividerLocation(newWidth);
 	}
 
 
@@ -3969,7 +3969,7 @@ SelectionListener, DropTargetListener
 				"To avoid data loss, try saving the file in a different format,<br>" +
 				"as a different file in a different place.<br>" +
 				"Consider to print the graph view, to avoid complete loss<br>" +
-				"of information.", 
+				"of information.",
 		"Error");
 	}
 	public void copyBufferInFrame(JFrame cloneframe) {

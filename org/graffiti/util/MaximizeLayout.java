@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MaximizeLayout.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: MaximizeLayout.java,v 1.2 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.util;
 
@@ -23,85 +23,85 @@ import javax.swing.JInternalFrame;
  * used together with {@link org.graffiti.util.MaximizeManager}.
  *
  * @author Michael Forster
- * @version $Revision: 1.1 $ $Date: 2007/06/14 09:36:46 $
+ * @version $Revision: 1.2 $ $Date: 2010/07/19 14:05:42 $
  *
  * @see org.graffiti.util.MaximizeManager
  * @see org.graffiti.util.MaximizeFrame
  */
 public class MaximizeLayout
-    implements LayoutManager
+implements LayoutManager
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /** Original layout of the frame. Handles most of the method calls. */
-    private LayoutManager originalLayout;
+	/** Original layout of the frame. Handles most of the method calls. */
+	private LayoutManager originalLayout;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Wrap an existing layout and overide its behaviour for maximized frames.
-     *
-     * @param originalLayout The wrapped layout.
-     */
-    public MaximizeLayout(LayoutManager originalLayout)
-    {
-        this.originalLayout = originalLayout;
-    }
+	/**
+	 * Wrap an existing layout and overide its behaviour for maximized frames.
+	 *
+	 * @param originalLayout The wrapped layout.
+	 */
+	public MaximizeLayout(LayoutManager originalLayout)
+	{
+		this.originalLayout = originalLayout;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /*
-     * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String, java.awt.Component)
-     */
-    public void addLayoutComponent(String name, Component comp)
-    {
-        originalLayout.addLayoutComponent(name, comp);
-    }
+	/*
+	 * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String, java.awt.Component)
+	 */
+	public void addLayoutComponent(String name, Component comp)
+	{
+		originalLayout.addLayoutComponent(name, comp);
+	}
 
-    /*
-     * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
-     */
-    public void layoutContainer(Container parent)
-    {
-        if((parent != null) && parent instanceof JInternalFrame)
-        {
-            JInternalFrame frame = (JInternalFrame) parent;
+	/*
+	 * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
+	 */
+	public void layoutContainer(Container parent)
+	{
+		if((parent != null) && parent instanceof JInternalFrame)
+		{
+			JInternalFrame frame = (JInternalFrame) parent;
 
-            if(frame.isMaximum())
-            {
-                frame.getRootPane().setBounds(0, 0, frame.getWidth(),
-                    frame.getHeight());
+			if(frame.isMaximum())
+			{
+				frame.getRootPane().setBounds(0, 0, frame.getWidth(),
+						frame.getHeight());
 
-                return;
-            }
-        }
+				return;
+			}
+		}
 
-        originalLayout.layoutContainer(parent);
-    }
+		originalLayout.layoutContainer(parent);
+	}
 
-    /*
-     * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
-     */
-    public Dimension minimumLayoutSize(Container parent)
-    {
-        return originalLayout.minimumLayoutSize(parent);
-    }
+	/*
+	 * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
+	 */
+	public Dimension minimumLayoutSize(Container parent)
+	{
+		return originalLayout.minimumLayoutSize(parent);
+	}
 
-    /*
-     * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
-     */
-    public Dimension preferredLayoutSize(Container parent)
-    {
-        return originalLayout.preferredLayoutSize(parent);
-    }
+	/*
+	 * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
+	 */
+	public Dimension preferredLayoutSize(Container parent)
+	{
+		return originalLayout.preferredLayoutSize(parent);
+	}
 
-    /*
-     * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
-     */
-    public void removeLayoutComponent(Component comp)
-    {
-        originalLayout.removeLayoutComponent(comp);
-    }
+	/*
+	 * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
+	 */
+	public void removeLayoutComponent(Component comp)
+	{
+		originalLayout.removeLayoutComponent(comp);
+	}
 }
 
 //------------------------------------------------------------------------------

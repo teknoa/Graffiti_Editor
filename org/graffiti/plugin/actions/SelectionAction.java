@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: SelectionAction.java,v 1.3 2010/07/17 22:08:37 klukas Exp $
+// $Id: SelectionAction.java,v 1.4 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -20,7 +20,7 @@ import org.graffiti.session.EditorSession;
 /**
  * Represents an action, which depends on a selection.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class SelectionAction extends GraffitiAction {
 	//~ Constructors ===========================================================
@@ -60,7 +60,7 @@ public abstract class SelectionAction extends GraffitiAction {
 		}
 		return result;
 	}
-	
+
 	public Selection getSelection() {
 		EditorSession session = MainFrame.getInstance().getActiveEditorSession();
 		if (session!=null) {

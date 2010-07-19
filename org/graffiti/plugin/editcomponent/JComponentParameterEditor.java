@@ -19,7 +19,7 @@ public class JComponentParameterEditor implements ValueEditComponent {
 	public JComponentParameterEditor(Displayable disp) {
 		this.disp = disp;
 	}
-	
+
 	public JComponent getComponent() {
 		return (JComponent) disp.getValue();
 	}
@@ -251,7 +251,7 @@ public class JComponentParameterEditor implements ValueEditComponent {
 		}
 	}
 
-	public void setParameter(String setting, Object value) 
+	public void setParameter(String setting, Object value)
 	{
 	}
 }

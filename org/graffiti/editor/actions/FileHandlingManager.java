@@ -11,10 +11,10 @@ public class FileHandlingManager {
 	private LinkedHashSet<FileHandlingListeners> listeners = new LinkedHashSet<FileHandlingListeners>();
 
 	private FileHandlingManager() {}
-	
+
 	public static synchronized FileHandlingManager getInstance() {
 		if(instance==null)
-			instance = new FileHandlingManager();		
+			instance = new FileHandlingManager();
 		return instance;
 	}
 
@@ -22,21 +22,21 @@ public class FileHandlingManager {
 		if (l == null) throw new IllegalArgumentException("The argument " + "may not be null");
 		else listeners.add(l);
 	}
-	
+
 	public synchronized boolean removeFileHandlingListener(FileHandlingListeners l) {
 		return listeners.remove(l);
 	}
-	
+
 	public synchronized void throwFileSavedAs(File oldFile, File newFile) {
 		for(FileHandlingListeners fhl : listeners)
 			fhl.fileSavedAs(oldFile, newFile);
-		
+
 	}
-	
+
 	public synchronized void throwFileSaved(File file, String ext, Graph graph) {
 		for(FileHandlingListeners fhl : listeners)
 			fhl.fileSaved(file, ext, graph);
-		
+
 	}
 
 	public synchronized void throwFileOpened(File f) {

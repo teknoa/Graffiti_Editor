@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ValueEditComponent.java,v 1.4 2010/07/13 16:14:57 klukas Exp $
+// $Id: ValueEditComponent.java,v 1.5 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -34,90 +34,90 @@ import org.graffiti.plugin.Displayable;
  * @see javax.swing.JComponent
  */
 public interface ValueEditComponent
-    extends AttributeListener, EdgeListener, GraphListener, NodeListener,
-        TransactionListener
+extends AttributeListener, EdgeListener, GraphListener, NodeListener,
+TransactionListener
 {
-    //~ Static fields/initializers =============================================
+	//~ Static fields/initializers =============================================
 
-    /**
-     * Preferred string to be displayed by edit components that have a
-     * showEmpty value of true.
-     */
-    public static final String EMPTY_STRING = "~";
+	/**
+	 * Preferred string to be displayed by edit components that have a
+	 * showEmpty value of true.
+	 */
+	public static final String EMPTY_STRING = "~";
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
-     *
-     * @return the <code>ValueEditComponent</code>'s <code>JComponent</code>.
-     */
-    public JComponent getComponent();
+	/**
+	 * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
+	 *
+	 * @return the <code>ValueEditComponent</code>'s <code>JComponent</code>.
+	 */
+	public JComponent getComponent();
 
-    /**
-     * Sets the object that will be displayed.
-     *
-     * @param disp the object to connect to this component.
-     */
-    public void setDisplayable(Displayable disp);
+	/**
+	 * Sets the object that will be displayed.
+	 *
+	 * @param disp the object to connect to this component.
+	 */
+	public void setDisplayable(Displayable disp);
 
-    /**
-     * Returns the <code>Displayable</code> instance the current
-     * <code>ValueEditComponent</code> contains.
-     *
-     * @return the <code>Displayable</code> instance the current
-     *         <code>ValueEditComponent</code> contains.
-     */
-    public Displayable getDisplayable();
+	/**
+	 * Returns the <code>Displayable</code> instance the current
+	 * <code>ValueEditComponent</code> contains.
+	 *
+	 * @return the <code>Displayable</code> instance the current
+	 *         <code>ValueEditComponent</code> contains.
+	 */
+	public Displayable getDisplayable();
 
-    /**
-     * Sets the current value of the <code>Displayable</code> in the
-     * corresponding <code>JComponent</code>. If <code>showEmpty</code> is set
-     * to true, this component should instead show only empty fields.
-     */
-    public void setEditFieldValue();
+	/**
+	 * Sets the current value of the <code>Displayable</code> in the
+	 * corresponding <code>JComponent</code>. If <code>showEmpty</code> is set
+	 * to true, this component should instead show only empty fields.
+	 */
+	public void setEditFieldValue();
 
-    /**
-     * Specifies whether this component should allow editing.
-     *
-     * @param enabled
-     */
-    public void setEnabled(boolean enabled);
+	/**
+	 * Specifies whether this component should allow editing.
+	 *
+	 * @param enabled
+	 */
+	public void setEnabled(boolean enabled);
 
-    /**
-     * Returns whether this component allows editing.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean isEnabled();
+	/**
+	 * Returns whether this component allows editing.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean isEnabled();
 
-    /**
-     * Called with a value of true when this component should display nothing
-     * instead of the value of its associated displayable. This is used when
-     * several displayables use this component but have different values. When
-     * set to false, the value of the displayable associated with this
-     * component is used.
-     */
-    public void setShowEmpty(boolean showEmpty);
+	/**
+	 * Called with a value of true when this component should display nothing
+	 * instead of the value of its associated displayable. This is used when
+	 * several displayables use this component but have different values. When
+	 * set to false, the value of the displayable associated with this
+	 * component is used.
+	 */
+	public void setShowEmpty(boolean showEmpty);
 
-    /**
-     * Returns true when this component actually does not represent the value
-     * of an attribute.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean getShowEmpty();
+	/**
+	 * Returns true when this component actually does not represent the value
+	 * of an attribute.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean getShowEmpty();
 
-    /**
-     * Sets the value of the <code>Displayable</code> specified in the
-     * <code>JComponent</code>. Should only change the value if the value is
-     * really different otherwise too many events will be sent.
-     */
-    public void setValue();
-    
-    public void setValue(Collection<Displayable> attributes);
+	/**
+	 * Sets the value of the <code>Displayable</code> specified in the
+	 * <code>JComponent</code>. Should only change the value if the value is
+	 * really different otherwise too many events will be sent.
+	 */
+	public void setValue();
 
-    public void setParameter(String setting, Object value);
+	public void setValue(Collection<Displayable> attributes);
+
+	public void setParameter(String setting, Object value);
 }
 
 //------------------------------------------------------------------------------

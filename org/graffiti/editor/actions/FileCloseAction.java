@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileCloseAction.java,v 1.5 2009/08/14 09:06:01 klukas Exp $
+// $Id: FileCloseAction.java,v 1.6 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -26,7 +26,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for closing a graph.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class FileCloseAction extends GraffitiAction {
 	// ~ Constructors
@@ -94,10 +94,10 @@ public class FileCloseAction extends GraffitiAction {
 				if (viewComponent.getParent() != null)
 					ErrorMsg.addErrorMessage("View component parent of type: "
 							+ viewComponent.getParent().getClass()
-									.getCanonicalName());
+							.getCanonicalName());
 				else
 					ErrorMsg
-							.addErrorMessage("View component parent of type: [null]");
+					.addErrorMessage("View component parent of type: [null]");
 			}
 		}
 	}

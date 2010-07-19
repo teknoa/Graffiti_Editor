@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: CloseViewAction.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: CloseViewAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -18,64 +18,64 @@ import org.graffiti.plugin.actions.GraffitiAction;
  * Represents a clone view action.
  */
 public class CloseViewAction
-    extends GraffitiAction
+extends GraffitiAction
 {
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Constructs a new close view action.
-     */
-    public CloseViewAction()
-    {
-        super("action.view.close", null, "filemenu_close"); // TODO
-    }
+	 * Constructs a new close view action.
+	 */
+	public CloseViewAction()
+	{
+		super("action.view.close", null, "filemenu_close"); // TODO
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * @see javax.swing.Action#isEnabled()
-     */
-    @Override
+	/**
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	@Override
 	public boolean isEnabled()
-    {
-        return false;
-    }
+	{
+		return false;
+	}
 
-    /**
-     * Returns the help context for this action.
-     *
-     * @return the help context for this action.
-     */
-    @Override
+	/**
+	 * Returns the help context for this action.
+	 *
+	 * @return the help context for this action.
+	 */
+	@Override
 	public HelpContext getHelpContext()
-    {
-        return null;
-    }
+	{
+		return null;
+	}
 
-    /**
-     * Returns the name of this action.
-     *
-     * @return String, the name of this action.
-     */
-    @Override
+	/**
+	 * Returns the name of this action.
+	 *
+	 * @return String, the name of this action.
+	 */
+	@Override
 	public String getName()
-    {
-        return null;
-    }
+	{
+		return null;
+	}
 
-    /**
-     * Executes this action.
-     *
-     * @param e DOCUMENT ME!
-     */
-    public void actionPerformed(ActionEvent e)
-    {
-    }
+	/**
+	 * Executes this action.
+	 *
+	 * @param e DOCUMENT ME!
+	 */
+	public void actionPerformed(ActionEvent e)
+	{
+	}
 }
 
 //------------------------------------------------------------------------------

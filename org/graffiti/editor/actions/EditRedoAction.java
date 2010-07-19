@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditRedoAction.java,v 1.6 2010/07/16 20:33:03 klukas Exp $
+// $Id: EditRedoAction.java,v 1.7 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,80 +23,80 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for redo capabilities.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class EditRedoAction
-    extends GraffitiAction {
-    //~ Constructors ===========================================================
+extends GraffitiAction {
+	//~ Constructors ===========================================================
 	private static final long serialVersionUID = 1L;
 
 	/**
-     * Creates a new EditRedoAction object.
-     *
-     * @param mainFrame DOCUMENT ME!
-     */
-    public EditRedoAction(MainFrame mainFrame) {
-        super("edit.redo", mainFrame, "editmenu_redo");
-        enabled = false;
-    }
+	 * Creates a new EditRedoAction object.
+	 *
+	 * @param mainFrame DOCUMENT ME!
+	 */
+	public EditRedoAction(MainFrame mainFrame) {
+		super("edit.redo", mainFrame, "editmenu_redo");
+		enabled = false;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * @see javax.swing.Action#isEnabled()
-     */
-    @Override
+	/**
+	 * @see javax.swing.Action#isEnabled()
+	 */
+	@Override
 	public boolean isEnabled() {
-        return enabled;
-    }
+		return enabled;
+	}
 
-    /**
-     * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
-     */
-    @Override
+	/**
+	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
+	 */
+	@Override
 	public HelpContext getHelpContext() {
-        return null;
-    }
+		return null;
+	}
 
-    /**
-     * <b>Implementation Note:</b> The status of the GUIComponents has to be
-     * updated after actionPerformed was executed.
-     *
-     * @param e DOCUMENT ME!
-     */
-    public void actionPerformed(ActionEvent e) {
-    	try {
-    		mainFrame.getActiveEditorSession().getUndoManager().redo();
-        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
-        mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
-    	} catch(CannotRedoException cre) {
-    		MainFrame.showMessageDialog("<html>" +
-    				"Can't redo command!<br>" +
-    				"Error cause: "+cre.getMessage(), "Error");
-    	}
-        mainFrame.updateActions();
-    }
+	/**
+	 * <b>Implementation Note:</b> The status of the GUIComponents has to be
+	 * updated after actionPerformed was executed.
+	 *
+	 * @param e DOCUMENT ME!
+	 */
+	public void actionPerformed(ActionEvent e) {
+		try {
+			mainFrame.getActiveEditorSession().getUndoManager().redo();
+			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
+			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
+		} catch(CannotRedoException cre) {
+			MainFrame.showMessageDialog("<html>" +
+					"Can't redo command!<br>" +
+					"Error cause: "+cre.getMessage(), "Error");
+		}
+		mainFrame.updateActions();
+	}
 
-    /**
-     * Updates the state of this action.
-     */
-    @Override
+	/**
+	 * Updates the state of this action.
+	 */
+	@Override
 	public void update() {
-        if(mainFrame.isSessionActive()) {
-           EditorSession session = mainFrame.getActiveEditorSession();
-           UndoManager um = session.getUndoManager();
-           setEnabled(um.canRedo());
-           putValue(NAME, StringManipulationTools.removeHTMLtags(um.getRedoPresentationName()));
-           putValue(SHORT_DESCRIPTION, StringManipulationTools.removeHTMLtags(um.getRedoPresentationName()));
-       } else {
-           setEnabled(false);
-           putValue(NAME, sBundle.getString("menu." + getName()));
-           putValue(SHORT_DESCRIPTION, getName());
-       }
+		if(mainFrame.isSessionActive()) {
+			EditorSession session = mainFrame.getActiveEditorSession();
+			UndoManager um = session.getUndoManager();
+			setEnabled(um.canRedo());
+			putValue(NAME, StringManipulationTools.removeHTMLtags(um.getRedoPresentationName()));
+			putValue(SHORT_DESCRIPTION, StringManipulationTools.removeHTMLtags(um.getRedoPresentationName()));
+		} else {
+			setEnabled(false);
+			putValue(NAME, sBundle.getString("menu." + getName()));
+			putValue(SHORT_DESCRIPTION, getName());
+		}
 
-       putValue(SMALL_ICON,
-           iBundle.getImageIcon("toolbar." + getName() + ".icon"));
-    }
+		putValue(SMALL_ICON,
+				iBundle.getImageIcon("toolbar." + getName() + ".icon"));
+	}
 }
 
 //------------------------------------------------------------------------------

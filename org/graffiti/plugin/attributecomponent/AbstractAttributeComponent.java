@@ -5,10 +5,10 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.6 2010/07/17 22:08:37 klukas Exp $
+// $Id: AbstractAttributeComponent.java,v 1.7 2010/07/19 14:05:44 morla Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.6 2010/07/17 22:08:37 klukas Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.7 2010/07/19 14:05:44 morla Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
@@ -24,116 +24,116 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class AbstractAttributeComponent
-    extends AttributeComponent
-    implements GraffitiViewComponent
+extends AttributeComponent
+implements GraffitiViewComponent
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/** The attribute that this component displays. */
-    protected Attribute attr;
+	protected Attribute attr;
 
-    /** The shape of the node or edge to which this attribute belongs. */
-    protected GraphElementShape geShape;
+	/** The shape of the node or edge to which this attribute belongs. */
+	protected GraphElementShape geShape;
 
-    /** DOCUMENT ME! */
-    protected Point shift;
+	/** DOCUMENT ME! */
+	protected Point shift;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Instantiates an <code>AttributeComponent</code>
-     */
-    public AbstractAttributeComponent()
-    {
-        super();
-    }
+	/**
+	 * Instantiates an <code>AttributeComponent</code>
+	 */
+	public AbstractAttributeComponent()
+	{
+		super();
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Sets an instance of attribute which this component displays.
-     *
-     * @param attr
-     */
-    @Override
+	/**
+	 * Sets an instance of attribute which this component displays.
+	 *
+	 * @param attr
+	 */
+	@Override
 	public void setAttribute(Attribute attr)
-    {
-        this.attr = attr;
-    }
+	{
+		this.attr = attr;
+	}
 
-    /**
-     * Returns the attribute that is displayed by this component.
-     *
-     * @return the attribute that is displayed by this component.
-     */
-    @Override
+	/**
+	 * Returns the attribute that is displayed by this component.
+	 *
+	 * @return the attribute that is displayed by this component.
+	 */
+	@Override
 	public Attribute getAttribute()
-    {
-        return this.attr;
-    }
+	{
+		return this.attr;
+	}
 
-    /**
-     * Sets shape of graph element to which the attribute of this component
-     * belongs.
-     *
-     * @param geShape
-     */
-    @Override
+	/**
+	 * Sets shape of graph element to which the attribute of this component
+	 * belongs.
+	 *
+	 * @param geShape
+	 */
+	@Override
 	public void setGraphElementShape(GraphElementShape geShape)
-    {
-        this.geShape = geShape;
-    }
+	{
+		this.geShape = geShape;
+	}
 
-    /**
-     * DOCUMENT ME!
-     *
-     * @param shift DOCUMENT ME!
-     */
-    @Override
+	/**
+	 * DOCUMENT ME!
+	 *
+	 * @param shift DOCUMENT ME!
+	 */
+	@Override
 	public void setShift(Point shift)
-    {
-        this.shift = shift;
-    }
+	{
+		this.shift = shift;
+	}
 
-    /**
-     * Called when a graphics attribute of the attribute represented by this
-     * component has changed.
-     *
-     * @param attr the attribute that has triggered the event.
-     */
-    @Override
+	/**
+	 * Called when a graphics attribute of the attribute represented by this
+	 * component has changed.
+	 *
+	 * @param attr the attribute that has triggered the event.
+	 */
+	@Override
 	public abstract void attributeChanged(Attribute attr)
-        throws ShapeNotFoundException;
+	throws ShapeNotFoundException;
 
-    /**
-     * Called to initialise the component of this attribute correctly. Also
-     * calls <code>repaint()</code>.
-     *
-     * @exception ShapeNotFoundException thrown when the shapeclass couldn't be
-     *            resolved.
-     */
-    public void createNewShape(CoordinateSystem coordSys)
-        throws ShapeNotFoundException
-    {
-        this.recreate();
-    }
+	/**
+	 * Called to initialise the component of this attribute correctly. Also
+	 * calls <code>repaint()</code>.
+	 *
+	 * @exception ShapeNotFoundException thrown when the shapeclass couldn't be
+	 *            resolved.
+	 */
+	public void createNewShape(CoordinateSystem coordSys)
+	throws ShapeNotFoundException
+	{
+		this.recreate();
+	}
 
-    
-    /**
-     * Used when the shape changed in the datastructure. Makes the painter to
-     * create a new shape.
-     */
-    @Override
+
+	/**
+	 * Used when the shape changed in the datastructure. Makes the painter to
+	 * create a new shape.
+	 */
+	@Override
 	public abstract void recreate()
-        throws ShapeNotFoundException;
+	throws ShapeNotFoundException;
 }
 
 //------------------------------------------------------------------------------

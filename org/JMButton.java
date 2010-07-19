@@ -9,7 +9,7 @@ import javax.swing.UIManager;
 public class JMButton extends JButton {
 	private static final long serialVersionUID = 4853578108818002186L;
 
-	
+
 	public JMButton(String text) {
 		super(text);
 	}
@@ -47,5 +47,5 @@ public class JMButton extends JButton {
 		super();
 	}
 
-	
+
 }

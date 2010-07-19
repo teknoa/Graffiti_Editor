@@ -26,7 +26,7 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 	protected RootPaneContainer createFloatingWindow(JToolBar toolbar) {
 		JDialog detachedToolbar = (JDialog) super.createFloatingWindow(toolbar);
 		detachedToolbar.setResizable(true);
-		
+
 		final JToolBar fToolbar = toolbar;
 
 		detachedToolbar.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -36,7 +36,7 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 		}
 		for (WindowListener wl : windowListeners)
 			detachedToolbar.removeWindowListener(wl);
-		
+
 		detachedToolbar.addWindowListener(new WindowListener() {
 			public void windowActivated(WindowEvent e) {
 				fToolbar.setFloatable(false);
@@ -50,7 +50,7 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 				fToolbar.validate();
 				fToolbar.repaint();
 			}
-			
+
 			public void windowClosing(WindowEvent e) {}
 			public void windowDeactivated(WindowEvent e) {}
 			public void windowDeiconified(WindowEvent e) {}
@@ -58,15 +58,15 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 			public void windowOpened(WindowEvent e) {}
 		});
 		detachedToolbar.validate();
-		detachedToolbar.pack();	
+		detachedToolbar.pack();
 		return detachedToolbar;
 	}
 
 	@Override
 	public boolean canDock(Component c, Point p) {
 		return false;//super.canDock(c, p);
-	}	
-	
-	
-	
+	}
+
+
+
 }

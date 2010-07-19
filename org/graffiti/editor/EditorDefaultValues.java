@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: EditorDefaultValues.java,v 1.1 2007/06/14 09:36:45 klukas Exp $
+// $Id: EditorDefaultValues.java,v 1.2 2010/07/19 14:05:42 morla Exp $
 
 package org.graffiti.editor;
 
@@ -13,20 +13,20 @@ package org.graffiti.editor;
  * Contains static final constant default values for the various user
  * preferences.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  */
 interface EditorDefaultValues
 {
-    //~ Static fields/initializers =============================================
+	//~ Static fields/initializers =============================================
 
-    /** The default width of the main frame. */
-    public static final int SIZE_WIDTH = 640;
+	/** The default width of the main frame. */
+	public static final int SIZE_WIDTH = 640;
 
-    /** The default height of the main frame. */
-    public static final int SIZE_HEIGHT = 480;
+	/** The default height of the main frame. */
+	public static final int SIZE_HEIGHT = 480;
 
-    /** The number of pixels for the vertical splitter's divider location. */
-    public static final int VERT_SPLITTER = 500;
+	/** The number of pixels for the vertical splitter's divider location. */
+	public static final int VERT_SPLITTER = 500;
 }
 
 //------------------------------------------------------------------------------

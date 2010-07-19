@@ -5,12 +5,13 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: ParameterDialog.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: ParameterDialog.java,v 1.4 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.editor.dialog;
 
 import java.util.Collection;
 import java.util.List;
+
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.session.Session;
 
@@ -22,37 +23,37 @@ import org.graffiti.session.Session;
  */
 public interface ParameterDialog
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the array of edited parameters.
-     *
-     * @return the array of edited parameters.
-     */
-    Parameter[] getEditedParameters();
+	/**
+	 * Returns the array of edited parameters.
+	 *
+	 * @return the array of edited parameters.
+	 */
+	Parameter[] getEditedParameters();
 
-    /**
-     * Returns <code>true</code>, if the user selected the ok button.
-     *
-     * @return DOCUMENT ME!
-     */
-    boolean isOkSelected();
+	/**
+	 * Returns <code>true</code>, if the user selected the ok button.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	boolean isOkSelected();
 
-    /**
-     * Sets the <code>ValueEditContainer</code> of this
-     * <code>ParameterDialog</code> to the specified value.
-     *
-     * @param vec the <code>ValueEditContainer</code> to be set.
-     */
-    void setValueEditContainer(ValueEditContainer vec);
+	/**
+	 * Sets the <code>ValueEditContainer</code> of this
+	 * <code>ParameterDialog</code> to the specified value.
+	 *
+	 * @param vec the <code>ValueEditContainer</code> to be set.
+	 */
+	void setValueEditContainer(ValueEditContainer vec);
 
-    /**
-     * Checks if all the edit components have a syntactically correct input.
-     *
-     * @return a <code>java.util.List</code> of <code>EditComponent</code>s
-     *         which have a syntactically incorrect input.
-     */
-    List<?> validateComponents();
+	/**
+	 * Checks if all the edit components have a syntactically correct input.
+	 *
+	 * @return a <code>java.util.List</code> of <code>EditComponent</code>s
+	 *         which have a syntactically incorrect input.
+	 */
+	List<?> validateComponents();
 
 	Collection<Session> getTargetSessions();
 }

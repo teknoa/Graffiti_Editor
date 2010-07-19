@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: GraffitiAction.java,v 1.6 2010/07/17 22:08:37 klukas Exp $
+// $Id: GraffitiAction.java,v 1.7 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -24,12 +24,12 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public abstract class GraffitiAction
-    extends AbstractAction {
-    //~ Instance fields ========================================================
-	
+extends AbstractAction {
+	//~ Instance fields ========================================================
+
 	/**
 	 * 
 	 */
@@ -37,129 +37,129 @@ public abstract class GraffitiAction
 
 	private static HashSet<GraffitiAction> knownActions = new HashSet<GraffitiAction>();
 
-    /** The <code>ImageBundle</code> instance. */
-    protected ImageBundle iBundle = ImageBundle.getInstance();
+	/** The <code>ImageBundle</code> instance. */
+	protected ImageBundle iBundle = ImageBundle.getInstance();
 
-    /** The main frame. */
-    protected MainFrame mainFrame;
+	/** The main frame. */
+	protected MainFrame mainFrame;
 
-    /** The abstract name of the action. */
-    protected String name;
-    
-    protected String helpID;
+	/** The abstract name of the action. */
+	protected String name;
 
-    /** The <code>StringBundle</code> instance. */
-    protected StringBundle sBundle = StringBundle.getInstance();
+	protected String helpID;
 
-    //~ Constructors ===========================================================
+	/** The <code>StringBundle</code> instance. */
+	protected StringBundle sBundle = StringBundle.getInstance();
 
-    /**
-     * Constructs a new GraffitiAction from the given name.
-     *
-     * @param name the name for the action
-     * @param mainFrame DOCUMENT ME!
-     */
-    public GraffitiAction(String name, MainFrame mainFrame, String helpID) {
-        super(name);
-        putValue("name", name);
-        this.name = name;
-        this.mainFrame = mainFrame;
-        this.helpID = helpID;
-        knownActions.add(this);
-    }
-    
-    public static boolean performAction(String name) {
-    	GraffitiAction ka = null;
-    	for (GraffitiAction g : knownActions) {
-    		if (g.getName().equals(name)) {
-    			ka = g;
-    			break;
-    		}
-    	}
-    	if (ka!=null) {
-    		ka.actionPerformed(null);
-    		return true;
-    	} else
-    		return false;
-    }
-    
-    protected Graph getGraph() {
-    	if (mainFrame==null || mainFrame.getActiveSession()==null)
-    		return null;
-    	else
-        return mainFrame.getActiveSession().getGraph();
-    }
+	//~ Constructors ===========================================================
 
-    //~ Methods ================================================================
+	/**
+	 * Constructs a new GraffitiAction from the given name.
+	 *
+	 * @param name the name for the action
+	 * @param mainFrame DOCUMENT ME!
+	 */
+	public GraffitiAction(String name, MainFrame mainFrame, String helpID) {
+		super(name);
+		putValue("name", name);
+		this.name = name;
+		this.mainFrame = mainFrame;
+		this.helpID = helpID;
+		knownActions.add(this);
+	}
 
-    /**
-     * Returns <code>true</code>, if this action is enabled.
-     *
-     * @return <code>true</code>, if this action is enabled.
-     */
-    @Override
+	public static boolean performAction(String name) {
+		GraffitiAction ka = null;
+		for (GraffitiAction g : knownActions) {
+			if (g.getName().equals(name)) {
+				ka = g;
+				break;
+			}
+		}
+		if (ka!=null) {
+			ka.actionPerformed(null);
+			return true;
+		} else
+			return false;
+	}
+
+	protected Graph getGraph() {
+		if (mainFrame==null || mainFrame.getActiveSession()==null)
+			return null;
+		else
+			return mainFrame.getActiveSession().getGraph();
+	}
+
+	//~ Methods ================================================================
+
+	/**
+	 * Returns <code>true</code>, if this action is enabled.
+	 *
+	 * @return <code>true</code>, if this action is enabled.
+	 */
+	@Override
 	public abstract boolean isEnabled();
 
-    /**
-     * Returns the help context for this action.
-     *
-     * @return the help context for this action.
-     */
-    public HelpContext getHelpContext() {
-   	 return new HelpContext(helpID);
-    }
+	/**
+	 * Returns the help context for this action.
+	 *
+	 * @return the help context for this action.
+	 */
+	public HelpContext getHelpContext() {
+		return new HelpContext(helpID);
+	}
 
-    /**
-     * @see javax.swing.AbstractAction#setEnabled(boolean)
-     */
-    @Override
+	/**
+	 * @see javax.swing.AbstractAction#setEnabled(boolean)
+	 */
+	@Override
 	public void setEnabled(boolean enableNow) {
-    	// needs to be called once with opposite value, so that menu items and buttons
-    	// are correctly informed about the new state, otherwise optimization kicks in
-    	// and buttons and menu items are not informed about call to this method
+		// needs to be called once with opposite value, so that menu items and buttons
+		// are correctly informed about the new state, otherwise optimization kicks in
+		// and buttons and menu items are not informed about call to this method
 		if (isEnabled()==enableNow)
 			super.setEnabled(!enableNow);
 		super.setEnabled(enableNow);
-    }
+	}
 
-    /**
-     * Returns the abstract name of the action.
-     *
-     * @return the abstract name of the action.
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Returns the abstract name of the action.
+	 *
+	 * @return the abstract name of the action.
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * Updates the state of the action.  Calls:
-     * <code>setEnabled(isEnabled());</code>.
-     */
-    public void update() {
-        setEnabled(isEnabled());
-    }
+	/**
+	 * Updates the state of the action.  Calls:
+	 * <code>setEnabled(isEnabled());</code>.
+	 */
+	public void update() {
+		setEnabled(isEnabled());
+	}
 
-    /**
-     * Shows an error in a modal dialog box.
-     *
-     * @param msg the message to be shown.
-     */
-    protected void showError(String msg) {
-        JOptionPane.showMessageDialog(mainFrame, msg,
-            StringBundle.getInstance().getString("message.dialog.title"),
-            JOptionPane.ERROR_MESSAGE);
-    }
+	/**
+	 * Shows an error in a modal dialog box.
+	 *
+	 * @param msg the message to be shown.
+	 */
+	protected void showError(String msg) {
+		JOptionPane.showMessageDialog(mainFrame, msg,
+				StringBundle.getInstance().getString("message.dialog.title"),
+				JOptionPane.ERROR_MESSAGE);
+	}
 
-    /**
-     * Shows a warning in a modal dialog box.
-     *
-     * @param msg the message to be shown.
-     */
-    protected void showWarning(String msg) {
-        JOptionPane.showMessageDialog(mainFrame, msg,
-            StringBundle.getInstance().getString("message.dialog.title"),
-            JOptionPane.WARNING_MESSAGE);
-    }
+	/**
+	 * Shows a warning in a modal dialog box.
+	 *
+	 * @param msg the message to be shown.
+	 */
+	protected void showWarning(String msg) {
+		JOptionPane.showMessageDialog(mainFrame, msg,
+				StringBundle.getInstance().getString("message.dialog.title"),
+				JOptionPane.WARNING_MESSAGE);
+	}
 
 	public static void updateAllActions() {
 		if (MainFrame.blockUpdates)

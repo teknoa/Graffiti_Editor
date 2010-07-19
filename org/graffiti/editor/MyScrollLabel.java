@@ -24,7 +24,7 @@ public class MyScrollLabel extends JPanel {
 		add(jsp, "0,0");
 		validate();
 	}
-	
+
 	public MyScrollLabel(String msg, double width, double height) {
 		this.setLayout(TableLayout.getLayout(width, height));
 		final JScrollPane jsp = new JScrollPane(new JEditorPane("text/html", msg));

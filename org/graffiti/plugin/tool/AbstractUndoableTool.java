@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractUndoableTool.java,v 1.3 2009/06/23 07:14:49 klukas Exp $
+// $Id: AbstractUndoableTool.java,v 1.4 2010/07/19 14:05:44 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,104 +21,104 @@ import org.graffiti.undo.Undoable;
 /**
  * Superclass for all tools that provide undo information for their actions.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractUndoableTool
-    extends AbstractTool
-    implements Undoable
+extends AbstractTool
+implements Undoable
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
-     * The reference for the map between graph elements recreated after undo
-     * processing and original graph elements
-     */
-    protected static Map<GraphElement, GraphElement> geMap;
+	/**
+	 * The reference for the map between graph elements recreated after undo
+	 * processing and original graph elements
+	 */
+	protected static Map<GraphElement, GraphElement> geMap;
 
-    /** This object helps doing undo properly. */
-    protected static UndoableEditSupport undoSupport;
-    
-    //~ Methods ================================================================
+	/** This object helps doing undo properly. */
+	protected static UndoableEditSupport undoSupport;
 
-    /**
-     * Specifies if this tool wants to receive selectionChanged events.
-     *
-     * @return DOCUMENT ME!
-     */
-    @Override
+	//~ Methods ================================================================
+
+	/**
+	 * Specifies if this tool wants to receive selectionChanged events.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	@Override
 	public boolean isSelectionListener()
-    {
-        return true;
-    }
+	{
+		return true;
+	}
 
-    /**
-     * Specifies if this tool wants to receive sessionChanged events.
-     *
-     * @return DOCUMENT ME!
-     */
-    @Override
+	/**
+	 * Specifies if this tool wants to receive sessionChanged events.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	@Override
 	public boolean isSessionListener()
-    {
-        return true;
-    }
+	{
+		return true;
+	}
 
-    /**
-     * Sets the undo support object this object uses.
-     *
-     * @param us the undo support object this object uses.
-     */
-    public void setUndoSupport(UndoableEditSupport us)
-    {
-        AbstractUndoableTool.undoSupport = us;
-    }
+	/**
+	 * Sets the undo support object this object uses.
+	 *
+	 * @param us the undo support object this object uses.
+	 */
+	public void setUndoSupport(UndoableEditSupport us)
+	{
+		AbstractUndoableTool.undoSupport = us;
+	}
 
-    /**
-     * @see org.graffiti.session.SessionListener#sessionChanged(Session)
-     */
-    @Override
+	/**
+	 * @see org.graffiti.session.SessionListener#sessionChanged(Session)
+	 */
+	@Override
 	public void sessionChanged(Session s)
-    {
-        super.sessionChanged(s);
+	{
+		super.sessionChanged(s);
 
-        if(s != null)
-        {
-            AbstractUndoableTool.geMap = ((EditorSession) s).getGraphElementsMap();
-        }
-    }
+		if(s != null)
+		{
+			AbstractUndoableTool.geMap = ((EditorSession) s).getGraphElementsMap();
+		}
+	}
 
-    /**
-     * Empty method.
-     *
-     * @see org.graffiti.session.SessionListener#sessionDataChanged(Session)
-     */
-    public void sessionDataChanged(Session s)
-    {
-        //nothing to do here
-    }
+	/**
+	 * Empty method.
+	 *
+	 * @see org.graffiti.session.SessionListener#sessionDataChanged(Session)
+	 */
+	public void sessionDataChanged(Session s)
+	{
+		//nothing to do here
+	}
 
-    /**
-     * Returne a new graph element reference through the mapping from old ones
-     *
-     * @param ge DOCUMENT ME!
-     *
-     * @return DOCUMENT ME!
-     */
-    protected GraphElement getCurrentGraphElement(GraphElement ge)
-    {
-        GraphElement newGE = ge;
+	/**
+	 * Returne a new graph element reference through the mapping from old ones
+	 *
+	 * @param ge DOCUMENT ME!
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	protected GraphElement getCurrentGraphElement(GraphElement ge)
+	{
+		GraphElement newGE = ge;
 
-        if(geMap.containsKey(ge))
-        {
-            newGE = geMap.get(ge);
+		if(geMap.containsKey(ge))
+		{
+			newGE = geMap.get(ge);
 
-            while(geMap.containsKey(newGE))
-            {
-                newGE = geMap.get(newGE);
-            }
-        }
+			while(geMap.containsKey(newGE))
+			{
+				newGE = geMap.get(newGE);
+			}
+		}
 
-        return newGE;
-    }
+		return newGE;
+	}
 }
 
 //------------------------------------------------------------------------------

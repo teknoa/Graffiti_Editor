@@ -5,61 +5,61 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractGraffitiContainer.java,v 1.2 2010/07/17 22:08:37 klukas Exp $
+// $Id: AbstractGraffitiContainer.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.gui;
 
 /**
  * Abstract class for default containers.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  */
 public abstract class AbstractGraffitiContainer
-    extends AbstractGraffitiComponent
-    implements GraffitiContainer
+extends AbstractGraffitiComponent
+implements GraffitiContainer
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The id of the <code>AbstractGraffitiContainer</code>. */
-    protected String id;
+	protected String id;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new <code>AbstractGraffitiContainer</code>.
-     */
-    protected AbstractGraffitiContainer()
-    {
-        super();
-    }
+	/**
+	 * Constructs a new <code>AbstractGraffitiContainer</code>.
+	 */
+	protected AbstractGraffitiContainer()
+	{
+		super();
+	}
 
-    /**
-     * Constructs a new <code>AbstractGraffitiContainer</code>.
-     *
-     * @param id DOCUMENT ME!
-     * @param prefComp DOCUMENT ME!
-     */
-    protected AbstractGraffitiContainer(String id, String prefComp)
-    {
-        super(prefComp);
-        this.id = id;
-    }
+	/**
+	 * Constructs a new <code>AbstractGraffitiContainer</code>.
+	 *
+	 * @param id DOCUMENT ME!
+	 * @param prefComp DOCUMENT ME!
+	 */
+	protected AbstractGraffitiContainer(String id, String prefComp)
+	{
+		super(prefComp);
+		this.id = id;
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns an unique identifier for this <code>GraffitiContainer</code>.
-     *
-     * @return an unique identifier for this <code>GraffitiContainer</code>.
-     */
-    public String getId()
-    {
-        return this.id;
-    }
+	/**
+	 * Returns an unique identifier for this <code>GraffitiContainer</code>.
+	 *
+	 * @return an unique identifier for this <code>GraffitiContainer</code>.
+	 */
+	public String getId()
+	{
+		return this.id;
+	}
 }
 
 //------------------------------------------------------------------------------

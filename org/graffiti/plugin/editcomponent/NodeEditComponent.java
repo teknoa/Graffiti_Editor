@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: NodeEditComponent.java,v 1.2 2009/06/23 07:14:48 klukas Exp $
+// $Id: NodeEditComponent.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -19,42 +19,42 @@ import org.graffiti.plugin.parameter.NodeParameter;
  * @see SingleGraphElementEditComponent
  */
 public class NodeEditComponent
-    extends SingleGraphElementEditComponent
+extends SingleGraphElementEditComponent
 {
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new <code>NodeEditComponent</code>.
-     *
-     * @param disp DOCUMENT ME!
-     */
-    public NodeEditComponent(Displayable disp)
-    {
-        super(disp);
-    }
+	/**
+	 * Constructs a new <code>NodeEditComponent</code>.
+	 *
+	 * @param disp DOCUMENT ME!
+	 */
+	public NodeEditComponent(Displayable disp)
+	{
+		super(disp);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /*
-     * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setDisplayable(org.graffiti.plugin.Displayable)
-     */
-    @Override
+	/*
+	 * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setDisplayable(org.graffiti.plugin.Displayable)
+	 */
+	@Override
 	public void setDisplayable(Displayable disp)
-    {
-        displayable=disp;
-    }
+	{
+		displayable=disp;
+	}
 
-    /**
-     * @see org.graffiti.plugin.editcomponent.ValueEditComponent#setValue()
-     */
-    public void setValue()
-    {
-    }
-    
-    @Override
+	/**
+	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#setValue()
+	 */
+	public void setValue()
+	{
+	}
+
+	@Override
 	protected Object[] getPossibilities() {
-        return ((NodeParameter)displayable).getPossibleNodes();
-    }
+		return ((NodeParameter)displayable).getPossibleNodes();
+	}
 }
 
 //------------------------------------------------------------------------------

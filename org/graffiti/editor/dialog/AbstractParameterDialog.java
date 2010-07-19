@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractParameterDialog.java,v 1.3 2010/07/17 22:08:36 klukas Exp $
+// $Id: AbstractParameterDialog.java,v 1.4 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -24,65 +24,65 @@ import javax.swing.JDialog;
  * @see ParameterDialog
  */
 public abstract class AbstractParameterDialog
-    extends JDialog
-    implements ParameterDialog
+extends JDialog
+implements ParameterDialog
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The <code>ValueEditContainer</code> for this dialog. */
-    protected ValueEditContainer valueEditContainer;
+	protected ValueEditContainer valueEditContainer;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new abstract parameter dialog.
-     *
-     * @param parent the parent frame.
-     * @param modal <code>true</code>, if this dialog should be modal.
-     */
-    public AbstractParameterDialog(Frame parent, boolean modal)
-    {
-        super(parent, modal);
-    }
+	/**
+	 * Constructs a new abstract parameter dialog.
+	 *
+	 * @param parent the parent frame.
+	 * @param modal <code>true</code>, if this dialog should be modal.
+	 */
+	public AbstractParameterDialog(Frame parent, boolean modal)
+	{
+		super(parent, modal);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Sets the <code>ValueEditContainer</code> of this
-     * <code>ParameterDialog</code> to the specified value.
-     *
-     * @param vec the <code>ValueEditContainer</code> to be set.
-     */
-    public void setValueEditContainer(ValueEditContainer vec)
-    {
-        this.valueEditContainer = vec;
-    }
+	/**
+	 * Sets the <code>ValueEditContainer</code> of this
+	 * <code>ParameterDialog</code> to the specified value.
+	 *
+	 * @param vec the <code>ValueEditContainer</code> to be set.
+	 */
+	public void setValueEditContainer(ValueEditContainer vec)
+	{
+		this.valueEditContainer = vec;
+	}
 
-    /**
-     * Checks if all the edit components have a syntactically correct input.
-     *
-     * @return a <code>java.util.List</code> of <code>EditComponent</code>s
-     *         which have a syntactically incorrect input.
-     */
-    public List<?> validateComponents()
-    {
-        List<?> badComponents = new ArrayList<Object>();
+	/**
+	 * Checks if all the edit components have a syntactically correct input.
+	 *
+	 * @return a <code>java.util.List</code> of <code>EditComponent</code>s
+	 *         which have a syntactically incorrect input.
+	 */
+	public List<?> validateComponents()
+	{
+		List<?> badComponents = new ArrayList<Object>();
 
-        for(Iterator<?> i = valueEditContainer.getEditComponents().iterator();
-            i.hasNext();)
-        {
-            // check each of the components
-            // e.g. by looking if an exception is thrown when settin the
-            // value
-            // create a list with all the components having bad entries
-        }
+		for(Iterator<?> i = valueEditContainer.getEditComponents().iterator();
+		i.hasNext();)
+		{
+			// check each of the components
+			// e.g. by looking if an exception is thrown when settin the
+			// value
+			// create a list with all the components having bad entries
+		}
 
-        return badComponents;
-    }
+		return badComponents;
+	}
 }
 
 //------------------------------------------------------------------------------

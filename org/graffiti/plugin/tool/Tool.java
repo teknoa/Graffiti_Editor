@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: Tool.java,v 1.3 2009/06/25 19:06:54 klukas Exp $
+// $Id: Tool.java,v 1.4 2010/07/19 14:05:44 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,75 +21,75 @@ import org.graffiti.options.GravistoPreferences;
  * @see MouseInputListener
  */
 public interface Tool
-    extends MouseInputListener
+extends MouseInputListener
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns true if the tool is active.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean isActive();
+	/**
+	 * Returns true if the tool is active.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean isActive();
 
-    /**
-     * States whether this class wants to be registered as a
-     * <code>SelectionListener</code>.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean isSelectionListener();
+	/**
+	 * States whether this class wants to be registered as a
+	 * <code>SelectionListener</code>.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean isSelectionListener();
 
-    /**
-     * States whether this class wants to be registered as a
-     * <code>SessionListener</code>.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean isSessionListener();
+	/**
+	 * States whether this class wants to be registered as a
+	 * <code>SessionListener</code>.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean isSessionListener();
 
-    /**
-     * States whether this class wants to be registered as a
-     * <code>ViewListener</code>, i.e. if it wants to get informed when
-     * another view in the same session becomes active. This method is not
-     * called when another session is activated. Implement
-     * <code>SessionListener</code> if you are interested in session changed
-     * events.
-     *
-     * @return DOCUMENT ME!
-     */
-    public boolean isViewListener();
+	/**
+	 * States whether this class wants to be registered as a
+	 * <code>ViewListener</code>, i.e. if it wants to get informed when
+	 * another view in the same session becomes active. This method is not
+	 * called when another session is activated. Implement
+	 * <code>SessionListener</code> if you are interested in session changed
+	 * events.
+	 *
+	 * @return DOCUMENT ME!
+	 */
+	public boolean isViewListener();
 
-    /**
-     * Called when the tool is activated.
-     */
-    public void activate();
+	/**
+	 * Called when the tool is activated.
+	 */
+	public void activate();
 
-    /**
-     * Resets the state of the tool. Called when another tool is activated.
-     */
-    public void deactivate();
+	/**
+	 * Resets the state of the tool. Called when another tool is activated.
+	 */
+	public void deactivate();
 
-    /**
-     * Sets the graph this tool works on.
-     *
-     * @param g the graph this tool should work on.
-     */
-    void setGraph(Graph g);
+	/**
+	 * Sets the graph this tool works on.
+	 *
+	 * @param g the graph this tool should work on.
+	 */
+	void setGraph(Graph g);
 
-    /**
-     * Sets the preferences of this tool.
-     *
-     * @param p the preferences of this tool.
-     */
-    void setPrefs(GravistoPreferences p);
+	/**
+	 * Sets the preferences of this tool.
+	 *
+	 * @param p the preferences of this tool.
+	 */
+	void setPrefs(GravistoPreferences p);
 
 	public void deactivateAll();
 
 	public void preProcessImageCreation();
 
 	public void postProcessImageCreation();
-	
+
 	public String getToolName();
 }
 

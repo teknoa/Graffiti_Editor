@@ -28,16 +28,16 @@ import org.graffiti.editor.MainFrame;
 public class JLabelJavaHelpLink extends JLabel {
 	private static final long serialVersionUID = 1L;
 	String labelText;
-	
-	
+
+
 	public JLabelJavaHelpLink(String label, final String topic) {
 		super(label);
-		
+
 		if (!ReleaseInfo.getIsAllowedFeature(FeatureSet.GravistoJavaHelp)) {
 			setText("");
 			return;
 		}
-		
+
 		labelText = label;
 		setToolTipText("Show Help-Topic \""+topic+"\"");
 		setForeground(Color.BLUE);
@@ -73,12 +73,12 @@ public class JLabelJavaHelpLink extends JLabel {
 				setText("<html>"+labelText);
 			}});
 	}
-	
-//	private static HelpBroker hb;
-//	private static HelpSet hs;
-	
+
+	//	private static HelpBroker hb;
+	//	private static HelpSet hs;
+
 	private static HashSet<String> invalidTopics = new HashSet<String>();
-	
+
 	public static ActionListener getHelpActionListener(final String topic) {
 		if (!ReleaseInfo.getIsAllowedFeature(FeatureSet.GravistoJavaHelp)) {
 			ActionListener al = new ActionListener() {
@@ -88,42 +88,42 @@ public class JLabelJavaHelpLink extends JLabel {
 			};
 			return al;
 		}
-		
+
 		if (topic==null)
 			return null;
 		ActionListener al = new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					if (invalidTopics.contains(topic))
-						return;
-					try {
-						ActionListener res; 
-						HelpBroker hb = null;
-						HelpSet hs = null;
-						if (hs==null) {
-							String helpHS = "main.hs";
-							URL hsURL = HelpSet.findHelpSet(JLabelJavaHelpLink.class.getClassLoader(), helpHS);
-							hs = new HelpSet(JLabelJavaHelpLink.class.getClassLoader(), hsURL);
-						}
-						if (hb==null) {
-							hb = hs.createHelpBroker();
-						}
-						try {
-							hb.setCurrentID(topic);
-						} catch(BadIDException err) {
-							ErrorMsg.addErrorMessage("Internal Error: Help Topic "+topic+" is unknown!");
-							res=null;
-						}
-						res = new CSH.DisplayHelpFromSource( hb );
-						if (res!=null)
-							res.actionPerformed(e);
-						else {
-							if (topic!=null)
-								invalidTopics.add(topic);
-						}
-					} catch (Exception ee) {
-						ErrorMsg.addErrorMessage(ee);
+			public void actionPerformed(ActionEvent e) {
+				if (invalidTopics.contains(topic))
+					return;
+				try {
+					ActionListener res;
+					HelpBroker hb = null;
+					HelpSet hs = null;
+					if (hs==null) {
+						String helpHS = "main.hs";
+						URL hsURL = HelpSet.findHelpSet(JLabelJavaHelpLink.class.getClassLoader(), helpHS);
+						hs = new HelpSet(JLabelJavaHelpLink.class.getClassLoader(), hsURL);
 					}
-				}};
+					if (hb==null) {
+						hb = hs.createHelpBroker();
+					}
+					try {
+						hb.setCurrentID(topic);
+					} catch(BadIDException err) {
+						ErrorMsg.addErrorMessage("Internal Error: Help Topic "+topic+" is unknown!");
+						res=null;
+					}
+					res = new CSH.DisplayHelpFromSource( hb );
+					if (res!=null)
+						res.actionPerformed(e);
+					else {
+						if (topic!=null)
+							invalidTopics.add(topic);
+					}
+				} catch (Exception ee) {
+					ErrorMsg.addErrorMessage(ee);
+				}
+			}};
 			return al;
 	}
 

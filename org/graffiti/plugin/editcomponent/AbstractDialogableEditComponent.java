@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: AbstractDialogableEditComponent.java,v 1.1 2007/06/14 09:36:46 klukas Exp $
+// $Id: AbstractDialogableEditComponent.java,v 1.2 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -24,49 +24,49 @@ import org.graffiti.plugin.Displayable;
  * @see javax.swing.JDialog
  */
 public abstract class AbstractDialogableEditComponent
-    extends AbstractValueEditComponent
+extends AbstractValueEditComponent
 {
-    //~ Instance fields ========================================================
+	//~ Instance fields ========================================================
 
-    /** The button for opening the dialog. */
-    protected JButton button;
+	/** The button for opening the dialog. */
+	protected JButton button;
 
-    /** The dialog for specifying the value. */
-    protected JDialog dialog;
+	/** The dialog for specifying the value. */
+	protected JDialog dialog;
 
-    //~ Constructors ===========================================================
+	//~ Constructors ===========================================================
 
-    /**
-     * Constructs a new <code>AbstractDialogableEditComponent</code>.
-     *
-     * @param disp DOCUMENT ME!
-     */
-    protected AbstractDialogableEditComponent(Displayable disp)
-    {
-        super(disp);
-    }
+	/**
+	 * Constructs a new <code>AbstractDialogableEditComponent</code>.
+	 *
+	 * @param disp DOCUMENT ME!
+	 */
+	protected AbstractDialogableEditComponent(Displayable disp)
+	{
+		super(disp);
+	}
 
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns the button of the <code>AbstractDialogableEditComponent</code>.
-     *
-     * @return the button of the <code>AbstractDialogableEditComponent</code>.
-     */
-    public JButton getButton()
-    {
-        return this.button;
-    }
+	/**
+	 * Returns the button of the <code>AbstractDialogableEditComponent</code>.
+	 *
+	 * @return the button of the <code>AbstractDialogableEditComponent</code>.
+	 */
+	public JButton getButton()
+	{
+		return this.button;
+	}
 
-    /**
-     * Returns the dialog of this <code>AbstractDialogableEditComponent</code>.
-     *
-     * @return the dialog of this <code>AbstractDialogableEditComponent</code>.
-     */
-    public JDialog getDialog()
-    {
-        return this.dialog;
-    }
+	/**
+	 * Returns the dialog of this <code>AbstractDialogableEditComponent</code>.
+	 *
+	 * @return the dialog of this <code>AbstractDialogableEditComponent</code>.
+	 */
+	public JDialog getDialog()
+	{
+		return this.dialog;
+	}
 }
 
 //------------------------------------------------------------------------------

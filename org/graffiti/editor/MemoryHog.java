@@ -31,23 +31,23 @@ public abstract class MemoryHog {
 			}
 		});
 		t.setRepeats(true);
-		
+
 		boolean autofree = false;
-		
+
 		if (autofree)
 			t.start();
 	}
-	
+
 	static long lastUsageTime = 0;
-	
+
 	protected static boolean doFreeMemory() {
 		return System.currentTimeMillis()-lastUsageTime>2000;
 	}
-	
+
 	protected static void noteRequest() {
-			lastUsageTime = System.currentTimeMillis();
+		lastUsageTime = System.currentTimeMillis();
 	}
-	
+
 	public abstract void freeMemory();
 
 }

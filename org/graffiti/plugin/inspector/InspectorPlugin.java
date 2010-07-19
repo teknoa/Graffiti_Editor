@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: InspectorPlugin.java,v 1.2 2009/03/17 22:33:09 klukas Exp $
+// $Id: InspectorPlugin.java,v 1.3 2010/07/19 14:05:43 morla Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -26,27 +26,27 @@ import org.graffiti.plugin.EditorPlugin;
  * @see org.graffiti.plugin.inspector.InspectorTab
  */
 public interface InspectorPlugin
-    extends EditorPlugin
+extends EditorPlugin
 {
-    //~ Methods ================================================================
+	//~ Methods ================================================================
 
-    /**
-     * Returns an array containing all the <code>InspectorTab</code>s of the
-     * <code>InspectorPlugin</code>.
-     *
-     * @return an array containing all the <code>InspectorTab</code>s of the
-     *         <code>InspectorPlugin</code>.
-     */
-    public InspectorTab[] getTabs();
+	/**
+	 * Returns an array containing all the <code>InspectorTab</code>s of the
+	 * <code>InspectorPlugin</code>.
+	 *
+	 * @return an array containing all the <code>InspectorTab</code>s of the
+	 *         <code>InspectorPlugin</code>.
+	 */
+	public InspectorTab[] getTabs();
 
-    /**
-     * Adds another <code>InspectorTab</code> to the current
-     * <code>InspectorPlugin</code>.
-     *
-     * @param tab the <code>InspectorTab</code> to be added to the
-     *        <code>InspectorPlugin</code>.
-     */
-    public void addTab(InspectorTab tab);
+	/**
+	 * Adds another <code>InspectorTab</code> to the current
+	 * <code>InspectorPlugin</code>.
+	 *
+	 * @param tab the <code>InspectorTab</code> to be added to the
+	 *        <code>InspectorPlugin</code>.
+	 */
+	public void addTab(InspectorTab tab);
 
 	public void setSelectedTab(InspectorTab tab);
 }

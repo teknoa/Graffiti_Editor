@@ -27,13 +27,13 @@ import org.graffiti.session.SessionListener;
  * @author klukas
  */
 public class SubtabHostTab extends InspectorTab
-	implements SessionListener, ViewListener, ContainsTabbedPane, SelectionListener, AttributeListener {
+implements SessionListener, ViewListener, ContainsTabbedPane, SelectionListener, AttributeListener {
 	private static final long serialVersionUID = -3810951162912767447L;
-	
+
 	private Collection<InspectorTab> subtabs;
 
 	JTabbedPane hc = new JTabbedPane();
-	
+
 	private LinkedHashSet<InspectorTab> hiddenTabs = new LinkedHashSet<InspectorTab>();
 
 
@@ -55,11 +55,11 @@ public class SubtabHostTab extends InspectorTab
 	private void initComponents() {
 		double[][] sizeM = { { TableLayoutConstants.FILL }, // Columns
 				{ TableLayoutConstants.FILL } }; // Rows
-		
+
 		setLayout(new TableLayout(sizeM));
 		setBackground(null);
 		setOpaque(false);
-		
+
 
 		for (InspectorTab tab : subtabs) {
 			hc.addTab(tab.getTitle(), tab);
@@ -74,7 +74,7 @@ public class SubtabHostTab extends InspectorTab
 	public boolean visibleForView(View v) {
 		boolean visible = false;
 		for (InspectorTab tab : subtabs)
-			visible = visible || ((tab.visibleForView(v) && (v==null || (v !=null && v.worksWithTab(tab))))); 
+			visible = visible || ((tab.visibleForView(v) && (v==null || (v !=null && v.worksWithTab(tab)))));
 		return visible;
 	}
 
@@ -86,7 +86,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-	
+
 	public Collection<InspectorTab> getTabs() {
 		return subtabs;
 	}
@@ -108,7 +108,7 @@ public class SubtabHostTab extends InspectorTab
 						int idx = hc.indexOfTab(tab.getName());
 						if (idx>=0)
 							hc.removeTabAt(idx);;
-						hiddenTabs.add(tab);
+							hiddenTabs.add(tab);
 					} else {
 						if (hiddenTabs.contains(tab))
 							hc.addTab(tab.getTitle(), tab);
@@ -122,7 +122,7 @@ public class SubtabHostTab extends InspectorTab
 	public JTabbedPane getTabbedPane() {
 		return hc;
 	}
-	
+
 	public boolean isSelectionListener() {
 		return true;
 	}
@@ -216,7 +216,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-	
+
 	@Override
 	public void setEditPanelInformation(
 			Map<?, ?> valueEditComponents,

@@ -13,5 +13,5 @@ public interface FileHandlingListeners {
 	public void fileOpened(File f);
 
 	public void fileNew();
-	
+
 }
