@@ -189,7 +189,7 @@ public class GravistoService implements HelperClass {
 		Set<Session> sessions = MainFrame.getSessions();
 
 		for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
-			Session curS = (Session) it.next();
+			Session curS = it.next();
 
 			if ((patternSessions == null) || (patternSessions.indexOf(curS) < 0)) {
 				result.add(curS);
@@ -229,7 +229,7 @@ public class GravistoService implements HelperClass {
 
 		for (Iterator<Session> it = getMainFrame().getSessionsIterator(); it
 		.hasNext();) {
-			Session curS = (Session) it.next();
+			Session curS = it.next();
 
 			if ((patternSessions == null) || (patternSessions.indexOf(curS) < 0)) {
 				result.add(curS.getGraph());
@@ -251,7 +251,7 @@ public class GravistoService implements HelperClass {
 		if (patternSessions != null) {
 			for (int i = 0; i < patternSessions.size(); i++) {
 				if (patternSessions.get(i) != null) {
-					result.add(((Session) patternSessions.get(i)).getGraph());
+					result.add((patternSessions.get(i)).getGraph());
 				}
 			}
 		}
@@ -303,7 +303,7 @@ public class GravistoService implements HelperClass {
 			// MainFrame mf=getInstance().getMainFrame();
 			// Session currentSession=mf.getActiveSession();
 			for (Iterator<JInternalFrame> it = frames.iterator(); it.hasNext();) {
-				JInternalFrame frame = (JInternalFrame) it.next();
+				JInternalFrame frame = it.next();
 
 				// TODO check: a saved frame should never be null!
 				if (frame != null) {
@@ -820,7 +820,7 @@ public class GravistoService implements HelperClass {
 	public static BufferedImage blurImage(BufferedImage image, int blurRadius) {
 		float[] matrix = new float[blurRadius * blurRadius];
 		for (int i = 0; i < blurRadius * blurRadius; i++) {
-			matrix[i] = 1.0f / (float) blurRadius / (float) blurRadius;
+			matrix[i] = 1.0f / blurRadius / blurRadius;
 		}
 
 		Map map = new HashMap();
@@ -1026,10 +1026,10 @@ public class GravistoService implements HelperClass {
 			Iterator<Session> itSessions = MainFrame.getSessions().iterator();
 			boolean found = false;
 			while (itSessions.hasNext() && !found) {
-				Session mySession = (Session) itSessions.next();
+				Session mySession = itSessions.next();
 				Iterator<View> itViews = mySession.getViews().iterator();
 				while (itViews.hasNext() && !found) {
-					View myView = (View) itViews.next();
+					View myView = itViews.next();
 					if (myView == v) {
 						mySession.setActiveView(myView);
 						if (GravistoService.getInstance().getMainFrame()
@@ -1147,6 +1147,15 @@ public class GravistoService implements HelperClass {
 		in.close();
 		out.close();
 	}
+
+	public static void enableContent(JComponent comp, boolean enabled) {
+		for(int i=0;i<comp.getComponentCount();i++)
+			if(comp.getComponent(i) instanceof JComponent)
+				enableContent((JComponent) comp.getComponent(i),enabled);
+		comp.setEnabled(enabled);
+	}
+
+
 }
 
 class ShowImage extends Panel {
@@ -1157,6 +1166,7 @@ class ShowImage extends Panel {
 		image = img;
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		g.drawImage(image, 0, 0, null);
 	}
