@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.135 2010/07/19 14:05:42 morla Exp $
+// $Id: MainFrame.java,v 1.136 2010/08/05 14:04:49 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.135 $
+ * @version $Revision: 1.136 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 SessionListener, PluginManagerListener,
@@ -208,6 +208,7 @@ SelectionListener, DropTargetListener
 	 */
 	private static MainFrame instance;
 
+	@Override
 	public void setTitle(String title) {
 		super.setTitle(title);
 	}
@@ -839,7 +840,7 @@ SelectionListener, DropTargetListener
 	 */
 	private void addGUIComponent(String id, JComponent component) {
 		// all GraffitiContainers should be JComponents
-		JComponent container = (JComponent) guiMap.get(id);
+		JComponent container = guiMap.get(id);
 
 		if (container != null) {
 
@@ -1857,6 +1858,7 @@ SelectionListener, DropTargetListener
 				final JMenuItem menu = new JMenuItem(action) {
 					private static final long serialVersionUID = 8398436010665548408L;
 
+					@Override
 					public void setEnabled(boolean b) {
 						super.setEnabled(b);
 						if (getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU)
@@ -1989,6 +1991,7 @@ SelectionListener, DropTargetListener
 		return result;
 	}
 
+	@Override
 	public JMenuBar getJMenuBar() {
 		JMenuBar res = super.getJMenuBar();
 		if (res==null)
@@ -2081,8 +2084,12 @@ SelectionListener, DropTargetListener
 		}
 	}
 
-	public void saveActiveSession() {
+	public void saveActiveFileAs() {
 		fileSaveAs.actionPerformed(new ActionEvent(this, 0, null));
+	}
+
+	public void saveActiveFile() {
+		fileSave.actionPerformed(new ActionEvent(this, 0, null));
 	}
 
 	/**
@@ -3212,6 +3219,7 @@ SelectionListener, DropTargetListener
 		/**
 		 * @see javax.swing.event.InternalFrameListener#internalFrameActivated(InternalFrameEvent)
 		 */
+		@Override
 		public void internalFrameActivated(InternalFrameEvent e) {
 			super.internalFrameActivated(e);
 
@@ -3222,6 +3230,7 @@ SelectionListener, DropTargetListener
 		/**
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosed(InternalFrameEvent)
 		 */
+		@Override
 		public void internalFrameClosed(InternalFrameEvent e) {
 			super.internalFrameClosed(e);
 
@@ -3266,7 +3275,7 @@ SelectionListener, DropTargetListener
 			session.removeView(f.getView());
 
 			if (session.getViews().size()==0) {
-				undoSupport.removeUndoableEditListener(((EditorSession) session).getUndoManager());
+				undoSupport.removeUndoableEditListener((session).getUndoManager());
 				session.getUndoManager().discardAllEdits();
 				//				session.getGraph().clear();
 				sessions.remove(session);
@@ -3285,6 +3294,7 @@ SelectionListener, DropTargetListener
 		/* (non-Javadoc)
 		 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
 		 */
+		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 
 			GraffitiInternalFrame f = (GraffitiInternalFrame) e.getInternalFrame();
@@ -3412,6 +3422,7 @@ SelectionListener, DropTargetListener
 	/* (non-Javadoc)
 	 * @see java.awt.Component#processEvent(java.awt.AWTEvent)
 	 */
+	@Override
 	protected void processEvent(AWTEvent e) {
 		super.processEvent(e);
 		if (e.getID() == 201) closeGravisto();
