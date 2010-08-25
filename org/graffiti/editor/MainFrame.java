@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.136 2010/08/05 14:04:49 morla Exp $
+// $Id: MainFrame.java,v 1.137 2010/08/25 09:44:16 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  *
- * @version $Revision: 1.136 $
+ * @version $Revision: 1.137 $
  */
 public class MainFrame extends JFrame implements SessionManager,
 SessionListener, PluginManagerListener,
@@ -3982,10 +3982,6 @@ SelectionListener, DropTargetListener
 				"Consider to print the graph view, to avoid complete loss<br>" +
 				"of information.",
 		"Error");
-	}
-	public void copyBufferInFrame(JFrame cloneframe) {
-		if (cloneframe!=null&&cloneframe.getGraphics()!=null)
-			super.paint(cloneframe.getGraphics());
 	}
 
 	public JDesktopPane getDesktop() {
