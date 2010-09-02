@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.137 2010/08/25 09:44:16 morla Exp $
+// $Id: MainFrame.java,v 1.138 2010/09/02 20:03:39 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -189,17 +189,14 @@ import org.graffiti.util.InstanceCreationException;
 
 import scenario.ScenarioService;
 
-
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
- *
- * @version $Revision: 1.137 $
+ * 
+ * @version $Revision: 1.138 $
  */
-public class MainFrame extends JFrame implements SessionManager,
-SessionListener, PluginManagerListener,
-UndoableEditListener, EditorDefaultValues,
-IOManager.IOManagerListener, ViewManager.ViewManagerListener,
-SelectionListener, DropTargetListener
+public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
+		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
+		SelectionListener, DropTargetListener
 
 {
 
@@ -213,26 +210,24 @@ SelectionListener, DropTargetListener
 		super.setTitle(title);
 	}
 
-	//~ Static fields/initializers =============================================
+	// ~ Static fields/initializers =============================================
 
 	private static final long serialVersionUID = 1L;
 
 	/** The size of an internal frame for first displaying. */
-	public static final Dimension PREFERRED_INTERNALFRAME_SIZE = new Dimension(
-			1000, 1000);
+	public static final Dimension PREFERRED_INTERNALFRAME_SIZE = new Dimension(1000, 1000);
 
 	private static HideOrDeactivateMenu hideDeactivateSwitch = HideOrDeactivateMenu.DISABLE_INACTIVE_MENUITEMS;
 
 	public static boolean blockUpdates;
 
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	public static HideOrDeactivateMenu getHideDeactivateSwitch() {
 		return hideDeactivateSwitch;
 	}
 
-	public static void setHideDeactivateSwitch(
-			HideOrDeactivateMenu hideDeactivateSwitch) {
+	public static void setHideDeactivateSwitch(HideOrDeactivateMenu hideDeactivateSwitch) {
 		MainFrame.hideDeactivateSwitch = hideDeactivateSwitch;
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -257,7 +252,7 @@ SelectionListener, DropTargetListener
 	HashSet<ZoomListener> zoomListeners;
 
 	/** Maps from views to internal frames. */
-	Map<View,GraffitiInternalFrame> viewFrameMapper;
+	Map<View, GraffitiInternalFrame> viewFrameMapper;
 
 	/** Contains all <code>Session</code>s. */
 	Set<Session> sessions = new HashSet<Session>();
@@ -304,8 +299,8 @@ SelectionListener, DropTargetListener
 	/** The main frame's static actions */
 	private GraffitiAction fileSave;
 
-	//	/** The main frame's static actions */
-	//	private GraffitiAction fileSaveAll;
+	// /** The main frame's static actions */
+	// private GraffitiAction fileSaveAll;
 
 	/** The main frame's static actions */
 	private FileSaveAsAction fileSaveAs;
@@ -316,8 +311,8 @@ SelectionListener, DropTargetListener
 	/** The main frame's static actions */
 	private GraffitiAction pluginManagerEdit;
 	//
-	//	/** The main frame's static actions */
-	//	private GraffitiAction redrawView;
+	// /** The main frame's static actions */
+	// private GraffitiAction redrawView;
 
 	/** The main frame's static actions */
 	private GraffitiAction viewNew;
@@ -332,35 +327,34 @@ SelectionListener, DropTargetListener
 	private URLattributeActionManager urlAttributeActionManager;
 
 	/** The <code>ImageBundle</code> of the main frame. */
-	private ImageBundle iBundle = ImageBundle.getInstance();
+	private final ImageBundle iBundle = ImageBundle.getInstance();
 
 	/** The desktop pane for the internal frames. */
 	private JDesktopPane desktop;
 
 	public JComponent sidepanel;
 
-
-
 	/** The main frame's menu entries. */
 	private JMenu pluginMenu;
 
-	/** Each algorithm menu item is sorted into a category. This
-	 * structure holds the names of the known categories and its menu items.
+	/**
+	 * Each algorithm menu item is sorted into a category. This structure holds
+	 * the names of the known categories and its menu items.
 	 */
-	private HashMap<String,JMenuItem> categoriesForAlgorithms = new HashMap<String,JMenuItem>();
+	private final HashMap<String, JMenuItem> categoriesForAlgorithms = new HashMap<String, JMenuItem>();
 
-	//	/** Container for toolbars at the left of the main frame. */
-	//	private JPanel leftToolBarPanel;
+	// /** Container for toolbars at the left of the main frame. */
+	// private JPanel leftToolBarPanel;
 	//
-	//	/** Container for toolbars at the top of the main frame. */
-	//	private JPanel topToolBarPanel;
+	// /** Container for toolbars at the top of the main frame. */
+	// private JPanel topToolBarPanel;
 
 	/** The split pane between the center and the pluginPanel. */
 	private JSplitPane vertSplitter;
 
 	/**
 	 * The list of algorithm actions.
-	 *
+	 * 
 	 * @see org.graffiti.editor.actions.RunAlgorithm
 	 */
 	private HashSet<Action> algorithmActions;
@@ -375,7 +369,7 @@ SelectionListener, DropTargetListener
 	 * Contains a mapping between the identifiers of gui-components and the
 	 * corresponding gui-component.
 	 */
-	private Map<String,JComponent> guiMap = new HashMap<String,JComponent>();
+	private Map<String, JComponent> guiMap = new HashMap<String, JComponent>();
 
 	/** The mode manager. */
 	private ModeManager modeManager;
@@ -392,11 +386,11 @@ SelectionListener, DropTargetListener
 	/**
 	 * The default view type, that will be always displayed if the user
 	 * deactivates the view chooser dialog. This variable is initialized with
-	 * null per default. for setting the default view this member variable
-	 * have to be initialized with a valid view type by the method
+	 * null per default. for setting the default view this member variable have
+	 * to be initialized with a valid view type by the method
 	 * <code>getDefaultView()</code>.
 	 */
-	private String defaultView = null;
+	private final String defaultView = null;
 
 	/** The <code>StringBundle</code> of the main frame. */
 	StringBundle sBundle = StringBundle.getInstance();
@@ -423,11 +417,12 @@ SelectionListener, DropTargetListener
 
 	private JMenuBar storedMenuBar;
 
-	//for the recentfilelist
+	// for the recentfilelist
 	private RecentEntry[] recentfileslist;
 	private Component enclosingseparator;
-	private File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt");
-	//~ Constructors ===========================================================
+	private final File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep() + "recentfiles.txt");
+
+	// ~ Constructors ===========================================================
 
 	public MainFrame() {
 		// empty
@@ -436,9 +431,11 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Constructs a new <code>MainFrame</code>.
-	 *
-	 * @param pluginmgr DOCUMENT ME!
-	 * @param prefs DOCUMENT ME!
+	 * 
+	 * @param pluginmgr
+	 *           DOCUMENT ME!
+	 * @param prefs
+	 *           DOCUMENT ME!
 	 */
 	public MainFrame(PluginManager pluginmgr, GravistoPreferences prefs) {
 		this(pluginmgr, prefs, null, false);
@@ -446,17 +443,18 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Constructs a new <code>MainFrame</code>.
-	 *
-	 * @param pluginmgr DOCUMENT ME!
-	 * @param prefs DOCUMENT ME!
+	 * 
+	 * @param pluginmgr
+	 *           DOCUMENT ME!
+	 * @param prefs
+	 *           DOCUMENT ME!
 	 */
-	public MainFrame(PluginManager pluginmgr, GravistoPreferences prefs,
-			JPanel progressPanel, boolean showVantedHelp) {
+	public MainFrame(PluginManager pluginmgr, GravistoPreferences prefs, JPanel progressPanel, boolean showVantedHelp) {
 		super();
-		//		if (instance != null) {
-		//			System.err.println("Only one MainFrame instance is allowed. Application is shut down.");
-		//			System.exit(1);
-		//		}
+		// if (instance != null) {
+		// System.err.println("Only one MainFrame instance is allowed. Application is shut down.");
+		// System.exit(1);
+		// }
 		instance = this;
 
 		this.setTitle(getDefaultFrameTitle());
@@ -464,7 +462,7 @@ SelectionListener, DropTargetListener
 		this.sessionListeners = new HashSet<SessionListener>();
 		this.selectionListeners = new HashSet<SelectionListener>();
 		this.zoomListeners = new HashSet<ZoomListener>();
-		this.viewFrameMapper = new HashMap<View,GraffitiInternalFrame>();
+		this.viewFrameMapper = new HashMap<View, GraffitiInternalFrame>();
 		this.algorithmActions = new HashSet<Action>();
 		this.addSessionListener(this);
 
@@ -502,7 +500,7 @@ SelectionListener, DropTargetListener
 		createActions();
 
 		// initialize map of gui components and create menu bar
-		guiMap = new Hashtable<String,JComponent>();
+		guiMap = new Hashtable<String, JComponent>();
 
 		// the editor's status bar
 		statusBar = new StatusBar(sBundle);
@@ -515,8 +513,7 @@ SelectionListener, DropTargetListener
 			setHelpIntroduction();
 		}
 		getContentPane().add(statusBar, BorderLayout.SOUTH);
-		//		getContentPane().setBackground(null);
-
+		// getContentPane().setBackground(null);
 
 		// create the desktop
 		// desktop = new JDesktopPane();
@@ -530,11 +527,12 @@ SelectionListener, DropTargetListener
 		pluginPanel.setLayout(new BoxLayout(pluginPanel, BoxLayout.Y_AXIS));
 		guiMap.put(pluginPanel.getId(), pluginPanel);
 
-		UIManager.put("SplitPaneDivider.border",new EmptyBorder(0,0,0,0));
+		UIManager.put("SplitPaneDivider.border", new EmptyBorder(0, 0, 0, 0));
 
 		if (progressPanel != null) {
-			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel, TableLayout.FILL, TableLayout.PREFERRED);
-			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0,0));
+			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel,
+					TableLayout.FILL, TableLayout.PREFERRED);
+			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0, 0));
 			sidepanel = jSplitPane_pluginPanelAndProgressView;
 		} else {
 			sidepanel = pluginPanel;
@@ -545,19 +543,19 @@ SelectionListener, DropTargetListener
 
 		vertSplitter.setContinuousLayout(true);
 
-		//vertSplitter.setOneTouchExpandable(true);
+		// vertSplitter.setOneTouchExpandable(true);
 
-		//vertSplitter.setBorder(null);
-		//vertSplitter.setDividerSize(4);
+		// vertSplitter.setBorder(null);
+		// vertSplitter.setDividerSize(4);
 
 		vertSplitter.setDividerLocation(uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
 
 		// vertSplitter.setDividerSize(5);
 		// vertSplitter.setBackground(null);
 		// vertSplitter.setOpaque(false);
-		//		if (ReleaseInfo.isRunningAsApplet())
-		//			getContentPane().add(desktop, BorderLayout.CENTER);
-		//		else
+		// if (ReleaseInfo.isRunningAsApplet())
+		// getContentPane().add(desktop, BorderLayout.CENTER);
+		// else
 		getContentPane().add(vertSplitter, BorderLayout.CENTER);
 
 		JToolBar toolBar = createToolBar();
@@ -568,88 +566,88 @@ SelectionListener, DropTargetListener
 		// create and set the menu bar
 
 		JMenu windowMenu = createMenu("window");
-		//		if (ReleaseInfo.isRunningAsApplet()) {
-		//			JMenuBar jmb = createMenuBar(windowMenu);
-		//			storedMenuBar = jmb;
-		//			getContentPane().add(toolBar, BorderLayout.PAGE_START);
-		//		} else {
+		// if (ReleaseInfo.isRunningAsApplet()) {
+		// JMenuBar jmb = createMenuBar(windowMenu);
+		// storedMenuBar = jmb;
+		// getContentPane().add(toolBar, BorderLayout.PAGE_START);
+		// } else {
 		setJMenuBar(createMenuBar(windowMenu));
 		desktopMenuManager = new DesktopMenuManager(desktop, windowMenu);
 		addSessionListener(desktopMenuManager);
 		getContentPane().add(toolBar, BorderLayout.PAGE_START);
-		//		}
+		// }
 
-		//		// left toolbars
-		//		leftToolBarPanel = new JPanel();
-		//		// leftToolBarPanel.setLayout(new BoxLayout(leftToolBarPanel, BoxLayout.Y_AXIS));
-		//		leftToolBarPanel.setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.CENTER, 2));
-		//		getContentPane().add(leftToolBarPanel, BorderLayout.WEST);
+		// // left toolbars
+		// leftToolBarPanel = new JPanel();
+		// // leftToolBarPanel.setLayout(new BoxLayout(leftToolBarPanel,
+		// BoxLayout.Y_AXIS));
+		// leftToolBarPanel.setLayout(new
+		// SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.CENTER,
+		// 2));
+		// getContentPane().add(leftToolBarPanel, BorderLayout.WEST);
 
 		// window settings like position and size
-		setSize(uiPrefs.getInt("sizeWidth", SIZE_WIDTH), uiPrefs.getInt(
-				"sizeHeight", SIZE_HEIGHT));
+		setSize(uiPrefs.getInt("sizeWidth", SIZE_WIDTH), uiPrefs.getInt("sizeHeight", SIZE_HEIGHT));
 
 		setSize(900, 700);
 
-		//		if (!ReleaseInfo.isRunningAsApplet())
+		// if (!ReleaseInfo.isRunningAsApplet())
 		setLocationByPlatform(true);
 
-
-		//		if (!ReleaseInfo.isRunningAsApplet())
+		// if (!ReleaseInfo.isRunningAsApplet())
 		setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		getContentPane().validate();
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				addStatusPanel(null);
-			}});
+			}
+		});
 	}
 
-	//	public void hideSidePanel() {
-	//		getContentPane().remove(vertSplitter);
-	//		getContentPane().add(desktop, BorderLayout.CENTER);
-	//		validate();
-	//	}
+	// public void hideSidePanel() {
+	// getContentPane().remove(vertSplitter);
+	// getContentPane().add(desktop, BorderLayout.CENTER);
+	// validate();
+	// }
 
 	private String getDefaultFrameTitle() {
-		return sBundle.getString("name") + " "
-		+ sBundle.getString("version") + " "
-		+ sBundle.getString("version.Release") + "."
-		+ sBundle.getString("version.Major") + "."
-		+ sBundle.getString("version.Minor");
+		return sBundle.getString("name") + " " + sBundle.getString("version") + " "
+				+ sBundle.getString("version.Release") + "." + sBundle.getString("version.Major") + "."
+				+ sBundle.getString("version.Minor");
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	private void setHelpIntroduction() {
 		String s = ReleaseInfo.getHelpIntroductionText();
-		if (s!=null && s.length()>0)
+		if (s != null && s.length() > 0)
 			showMessage(s, MessageType.INFO);
 	}
 
 	/**
 	 * Returns the current active editor session.
-	 *
+	 * 
 	 * @return the current active editor session.
 	 */
 	public EditorSession getActiveEditorSession() {
 		return activeEditorSession;
 	}
 
-	//	public DesktopMenuManager getDesktopMenuManager() {
-	//		return desktopMenuManager;
-	//	}
+	// public DesktopMenuManager getDesktopMenuManager() {
+	// return desktopMenuManager;
+	// }
 	//
-	//	public JDesktopPane getJDesktopPane() {
-	//		return desktop;
-	//	}
+	// public JDesktopPane getJDesktopPane() {
+	// return desktop;
+	// }
 
-	//	public List<GraffitiInternalFrame> getActiveFrames() {
-	//		return activeFrames;
-	//	}
+	// public List<GraffitiInternalFrame> getActiveFrames() {
+	// return activeFrames;
+	// }
 
 	/**
 	 * Returns the current active session.
-	 *
+	 * 
 	 * @return the current active session.
 	 */
 	public Session getActiveSession() {
@@ -658,7 +656,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Sets the current active session.
-	 * @param s The session to be activated.
+	 * 
+	 * @param s
+	 *           The session to be activated.
 	 */
 	public void setActiveSession(Session s, final View targetView) {
 		activeEditorSession = (EditorSession) s;
@@ -666,7 +666,7 @@ SelectionListener, DropTargetListener
 			if (!gif.isVisible())
 				continue;
 			try {
-				if (gif.getSession()==s && targetView!=null && gif.getView()==targetView) {
+				if (gif.getSession() == s && targetView != null && gif.getView() == targetView) {
 					gif.setSelected(true);
 				}
 			} catch (PropertyVetoException e) {
@@ -676,33 +676,33 @@ SelectionListener, DropTargetListener
 		MainFrame.blockUpdates = true;
 		fireViewChanged(targetView);
 		fireSessionChanged(activeEditorSession);
-		if (activeEditorSession!=null)
+		if (activeEditorSession != null)
 			fireSelectionChanged(activeEditorSession);
 		MainFrame.blockUpdates = false;
 		updateActions();
 	}
 
-	//	/**
-	//	 * DOCUMENT ME!
-	//	 *
-	//	 * @return DOCUMENT ME!
-	//	 */
-	//	public Collection<Action> getAlgorithmActions() {
-	//		return algorithmActions;
-	//	}
+	// /**
+	// * DOCUMENT ME!
+	// *
+	// * @return DOCUMENT ME!
+	// */
+	// public Collection<Action> getAlgorithmActions() {
+	// return algorithmActions;
+	// }
 
-	//	/**
-	//	 * Sets the defaultView.
-	//	 *
-	//	 * @param defaultView The defaultView to set
-	//	 */
-	//	public void setDefaultView(String defaultView) {
-	//		this.defaultView = defaultView;
-	//	}
+	// /**
+	// * Sets the defaultView.
+	// *
+	// * @param defaultView The defaultView to set
+	// */
+	// public void setDefaultView(String defaultView) {
+	// this.defaultView = defaultView;
+	// }
 
 	/**
 	 * Returns the defaultView.
-	 *
+	 * 
 	 * @return String
 	 */
 	public String getDefaultView() {
@@ -711,7 +711,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public EditComponentManager getEditComponentManager() {
@@ -720,25 +720,25 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public IOManager getIoManager() {
 		return ioManager;
 	}
 
-	//	/**
-	//	 * Get the algorithm manager.
-	//	 *
-	//	 * @return the algorithm manager.
-	//	 */
-	//	public AlgorithmManager getAlgorithmManager() {
-	//		return algorithmManager;
-	//	}
+	// /**
+	// * Get the algorithm manager.
+	// *
+	// * @return the algorithm manager.
+	// */
+	// public AlgorithmManager getAlgorithmManager() {
+	// return algorithmManager;
+	// }
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public PluginManager getPluginManager() {
@@ -747,7 +747,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Returns <code>true</code>, if a session is active.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isSessionActive() {
@@ -756,7 +756,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public SessionManager getSessionManager() {
@@ -764,7 +764,7 @@ SelectionListener, DropTargetListener
 	}
 
 	public static Set<Session> getSessions() {
-		if (instance!=null)
+		if (instance != null)
 			return instance.sessions;
 		else
 			return new HashSet<Session>();
@@ -774,35 +774,35 @@ SelectionListener, DropTargetListener
 		HashSet<EditorSession> result = new HashSet<EditorSession>();
 		for (Session s : getSessions()) {
 			if (s instanceof EditorSession)
-				result.add((EditorSession)s);
+				result.add((EditorSession) s);
 		}
 		return result;
 	}
 
 	/**
 	 * Returns an iterator over all sessions.
-	 *
+	 * 
 	 * @return an iterator over all sessions.
-	 *
+	 * 
 	 * @see org.graffiti.session.Session
 	 */
 	public Iterator<Session> getSessionsIterator() {
 		return sessions.iterator();
 	}
 
-	//    /**
-	//     * DOCUMENT ME!
-	//     *
-	//     * @return DOCUMENT ME!
-	//     */
-	//    public Preferences getUiPrefs()
-	//    {
-	//        return uiPrefs;
-	//    }
+	// /**
+	// * DOCUMENT ME!
+	// *
+	// * @return DOCUMENT ME!
+	// */
+	// public Preferences getUiPrefs()
+	// {
+	// return uiPrefs;
+	// }
 
 	/**
 	 * Returns the class for undoSupport.
-	 *
+	 * 
 	 * @return the class for undoSupport.
 	 */
 	public UndoableEditSupport getUndoSupport() {
@@ -811,32 +811,33 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Returns the viewManager.
-	 *
+	 * 
 	 * @return ViewManager
 	 */
 	public ViewManager getViewManager() {
 		return viewManager;
 	}
 
-	//	/**
-	//	 * Returns the zoomListeners.
-	//	 *
-	//	 * @return List
-	//	 */
-	//	public Collection<ZoomListener> getZoomListeners() {
-	//		return zoomListeners;
-	//	}
+	// /**
+	// * Returns the zoomListeners.
+	// *
+	// * @return List
+	// */
+	// public Collection<ZoomListener> getZoomListeners() {
+	// return zoomListeners;
+	// }
 
 	/**
-	 * Adds the <code>JComponent</code> component to the gui-component
-	 * specified by id. If the specified gui-component does not exist a new
-	 * one will be created with id id and the newly created gui-component will
-	 * be added to the gui of the editor.
-	 *
-	 * @param id the id of the gui-component where the component shall be
-	 *        added.
-	 * @param component the <code>JComponent</code> which shall be added to the
-	 *        specified gui-component.
+	 * Adds the <code>JComponent</code> component to the gui-component specified
+	 * by id. If the specified gui-component does not exist a new one will be
+	 * created with id id and the newly created gui-component will be added to
+	 * the gui of the editor.
+	 * 
+	 * @param id
+	 *           the id of the gui-component where the component shall be added.
+	 * @param component
+	 *           the <code>JComponent</code> which shall be added to the
+	 *           specified gui-component.
 	 */
 	private void addGUIComponent(String id, JComponent component) {
 		// all GraffitiContainers should be JComponents
@@ -851,7 +852,7 @@ SelectionListener, DropTargetListener
 			// if the component is itself a container, then add it to the guiMap
 			if (component instanceof GraffitiContainer) {
 				GraffitiContainer con = (GraffitiContainer) component;
-				guiMap.put(con.getId(), (JComponent)con);
+				guiMap.put(con.getId(), (JComponent) con);
 			}
 
 			// if the component is a ToolButton, the represented tool has to be
@@ -871,19 +872,19 @@ SelectionListener, DropTargetListener
 				}
 
 				if (component instanceof SessionListener) {
-					this.sessionListeners.add((SessionListener)component);
+					this.sessionListeners.add((SessionListener) component);
 				}
 			}
 
 			if (component instanceof JToolBar) {
-				JToolBar jt = (JToolBar)component;
+				JToolBar jt = (JToolBar) component;
 				try {
 					JToolBar toolbar = (JToolBar) getGUIcomponentFromMap("defaultToolbar");
 					toolbar.addSeparator();
 					for (Component jc : jt.getComponents()) {
 						if (jc instanceof JButton) {
-							JButton jjjbbb = (JButton)jc;
-							if (jjjbbb.getIcon()!=null) {
+							JButton jjjbbb = (JButton) jc;
+							if (jjjbbb.getIcon() != null) {
 								jjjbbb.setBorderPainted(false);
 								jjjbbb.setOpaque(false);
 								jjjbbb.setBackground(null);
@@ -892,7 +893,7 @@ SelectionListener, DropTargetListener
 						toolbar.add(jc);
 					}
 					toolbar.validate();
-				} catch(Exception e) {
+				} catch (Exception e) {
 					container.add(component);
 				}
 			} else
@@ -904,8 +905,7 @@ SelectionListener, DropTargetListener
 				pane.setResizeWeight(1.0);
 
 				if (pane.getWidth() != 0)
-					pane.setDividerLocation(1 - ((container.getPreferredSize()
-							.getWidth() + 10) / pane.getWidth()));
+					pane.setDividerLocation(1 - ((container.getPreferredSize().getWidth() + 10) / pane.getWidth()));
 
 				if (container.getPreferredSize().getWidth() < 20) {
 					container.setMinimumSize(new Dimension(160, pane.getHeight()));
@@ -915,14 +915,15 @@ SelectionListener, DropTargetListener
 			}
 			container.revalidate();
 		} else {
-			ErrorMsg.addErrorMessage("Don't know where to put component "+component+" with target id "+id);
+			ErrorMsg.addErrorMessage("Don't know where to put component " + component + " with target id " + id);
 		}
 	}
 
 	/**
 	 * Adds a <code>SelectionListener</code>.
-	 *
-	 * @param sl DOCUMENT ME!
+	 * 
+	 * @param sl
+	 *           DOCUMENT ME!
 	 */
 	public void addSelectionListener(SelectionListener sl) {
 		this.selectionListeners.add(sl);
@@ -934,8 +935,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Adds the given session to the list of sessions.
-	 *
-	 * @param s the new session to add.
+	 * 
+	 * @param s
+	 *           the new session to add.
 	 */
 	public void addSession(Session s) {
 		sessions.add(s);
@@ -955,8 +957,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Adds a <code>SessionListener</code>.
-	 *
-	 * @param sl DOCUMENT ME!
+	 * 
+	 * @param sl
+	 *           DOCUMENT ME!
 	 */
 	public void addSessionListener(SessionListener sl) {
 		this.sessionListeners.add(sl);
@@ -966,66 +969,70 @@ SelectionListener, DropTargetListener
 		this.getViewManager().addViewListener(vl);
 	}
 
-	//	/**
-	//	 * Removes any messages displayed by calls to <code>showMessage</code> or
-	//	 * <code>showError</code>.
-	//	 */
-	//	public void clearMessages() {
-	//		statusBar.clear();
-	//	}
-
-
+	// /**
+	// * Removes any messages displayed by calls to <code>showMessage</code> or
+	// * <code>showError</code>.
+	// */
+	// public void clearMessages() {
+	// statusBar.clear();
+	// }
 
 	/**
 	 * Creates and adds a new internal frame to the desktop within an existing
 	 * session.
-	 *
-	 * @param viewName a name of the new view
-	 * @param newFrameTitle the title for the frame, if <code>null</code> or
-	 *        the empty String no title will be set.
-	 * @param returnScrollpane DOCUMENT ME!
-	 *
+	 * 
+	 * @param viewName
+	 *           a name of the new view
+	 * @param newFrameTitle
+	 *           the title for the frame, if <code>null</code> or the empty
+	 *           String no title will be set.
+	 * @param returnScrollpane
+	 *           DOCUMENT ME!
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane createInternalFrame(String viewName,
-			String newFrameTitle, boolean returnScrollpane, boolean otherViewWillBeClosed) {
-		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, getActiveEditorSession(),
-				returnScrollpane, false, otherViewWillBeClosed, null, true);
-	}
-
-	public JScrollPane createInternalFrame(String viewName,
-			String newFrameTitle, EditorSession session, boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
-		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, session,
-				returnScrollpane, false, otherViewWillBeClosed, c, true);
-	}
-
-	public Object createInternalFrame(String viewName,
-			String newFrameTitle, EditorSession session,
-			boolean returnScrollPane, boolean returnGraffitiFrame,
+	public JScrollPane createInternalFrame(String viewName, String newFrameTitle, boolean returnScrollpane,
 			boolean otherViewWillBeClosed) {
-		return createInternalFrame(viewName, newFrameTitle, session, returnScrollPane, returnGraffitiFrame, otherViewWillBeClosed, null, true);
+		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, getActiveEditorSession(), returnScrollpane,
+				false, otherViewWillBeClosed, null, true);
+	}
+
+	public JScrollPane createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
+			boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
+		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, session, returnScrollpane, false,
+				otherViewWillBeClosed, c, true);
+	}
+
+	public Object createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
+			boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed) {
+		return createInternalFrame(viewName, newFrameTitle, session, returnScrollPane, returnGraffitiFrame,
+				otherViewWillBeClosed, null, true);
 	}
 
 	/**
-	 * Creates and adds a new internal frame to the desktop within a new
-	 * session.
-	 *
-	 * @param viewName a name of the new view
-	 * @param newFrameTitle the title for the frame, if <code>null</code> or
-	 *        the empty String no title will be set.
-	 * @param session a new session.
-	 * @param returnScrollPane A scrollpane or a graffitiinternalframe
-	 *
+	 * Creates and adds a new internal frame to the desktop within a new session.
+	 * 
+	 * @param viewName
+	 *           a name of the new view
+	 * @param newFrameTitle
+	 *           the title for the frame, if <code>null</code> or the empty
+	 *           String no title will be set.
+	 * @param session
+	 *           a new session.
+	 * @param returnScrollPane
+	 *           A scrollpane or a graffitiinternalframe
+	 * 
 	 * @return DOCUMENT ME!
-	 *
-	 * @throws RuntimeException DOCUMENT ME!
+	 * 
+	 * @throws RuntimeException
+	 *            DOCUMENT ME!
 	 */
-	public Object createInternalFrame(String viewName,
-			String newFrameTitle, EditorSession session,
-			boolean returnScrollPane, boolean returnGraffitiFrame,
-			boolean otherViewWillBeClosed, ConfigureViewAction configNewView, boolean addViewToEditorSession) {
+	public Object createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
+			boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed,
+			ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 
-		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread()) {
+		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance() != null
+				&& !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
 
@@ -1035,13 +1042,12 @@ SelectionListener, DropTargetListener
 				viewManager = new DefaultViewManager();
 			}
 			view = viewManager.createView(viewName);
-			if (configNewView!=null) {
+			if (configNewView != null) {
 				configNewView.storeView(view);
 				configNewView.run();
 			}
 		} catch (InstanceCreationException e) {
-			ErrorMsg.addErrorMessage("Could not create view " + viewName
-					+ ". Error: " + e.getLocalizedMessage());
+			ErrorMsg.addErrorMessage("Could not create view " + viewName + ". Error: " + e.getLocalizedMessage());
 			return null;
 		}
 
@@ -1056,7 +1062,7 @@ SelectionListener, DropTargetListener
 		view.setAttributeComponentManager(this.attributeComponentManager);
 
 		String modeName = "org.graffiti.plugins.modes.defaultEditMode";
-		if (modeManager!=null)
+		if (modeManager != null)
 			session.changeActiveMode(modeManager.getMode(modeName));
 
 		GraffitiInternalFrame frame = null;
@@ -1071,7 +1077,7 @@ SelectionListener, DropTargetListener
 		lm.addDelayedEdgeListener(view);
 		lm.addDelayedNodeListener(view);
 		lm.addDelayedGraphListener(view);
-		if (statusBar!=null)
+		if (statusBar != null)
 			lm.addDelayedGraphListener(statusBar);
 
 		view.setGraph(session.getGraph());
@@ -1081,7 +1087,7 @@ SelectionListener, DropTargetListener
 			session.setActiveView(view);
 		}
 
-		//		this.activeSession = session;
+		// this.activeSession = session;
 
 		if (!returnScrollPane)
 			sessions.add(session);
@@ -1090,7 +1096,7 @@ SelectionListener, DropTargetListener
 			SelectionModel selModel = new SelectionModel();
 			session.setSelectionModel(selModel);
 
-			if (MainFrame.getInstance()!=null) {
+			if (MainFrame.getInstance() != null) {
 				this.fireSessionChanged(session);
 
 				for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
@@ -1101,9 +1107,8 @@ SelectionListener, DropTargetListener
 			selModel.setActiveSelection(sBundle.getString("activeSelection"));
 		}
 
-		//        this.addSession(session);
-		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(),
-				ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
+		// this.addSession(session);
+		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
@@ -1134,10 +1139,10 @@ SelectionListener, DropTargetListener
 				frame.setVisible(true);
 				try {
 					desktop.add(frame);
-				} catch(IllegalArgumentException e) {
-					MainFrame.showMessageDialog("<html>Error occured during creation of a new internal frame.<br>" +
-							"Please keep application window at your first screen at any time!<p>"+
-							"It is recommended to restart the application.","Error: Other Graphics Device Detected!");
+				} catch (IllegalArgumentException e) {
+					MainFrame.showMessageDialog("<html>Error occured during creation of a new internal frame.<br>"
+							+ "Please keep application window at your first screen at any time!<p>"
+							+ "It is recommended to restart the application.", "Error: Other Graphics Device Detected!");
 					return null;
 				}
 				Java_1_5_compatibility.setComponentZorder(desktop, frame);
@@ -1162,7 +1167,7 @@ SelectionListener, DropTargetListener
 			activeFrames.add(frame);
 		}
 
-		if (zoomListeners!=null)
+		if (zoomListeners != null)
 			this.zoomListeners.add(view);
 
 		if (scrollPane == null) {
@@ -1174,64 +1179,63 @@ SelectionListener, DropTargetListener
 			return scrollPane;
 	}
 
-	static void placeViewInContainer(View view, JScrollPane scrollPane,
-			Container j) {
+	static void placeViewInContainer(View view, JScrollPane scrollPane, Container j) {
 		if (isViewProvidingToolbar(view)) {
 
-			boolean top = view.getViewToolbarComponentTop()!=null;
-			boolean bottom = view.getViewToolbarComponentBottom()!=null;
-			boolean left = view.getViewToolbarComponentLeft()!=null;
-			boolean right = view.getViewToolbarComponentRight()!=null;
-			boolean background = view.getViewToolbarComponentBackground()!=null;
+			boolean top = view.getViewToolbarComponentTop() != null;
+			boolean bottom = view.getViewToolbarComponentBottom() != null;
+			boolean left = view.getViewToolbarComponentLeft() != null;
+			boolean right = view.getViewToolbarComponentRight() != null;
+			boolean background = view.getViewToolbarComponentBackground() != null;
 
-			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent          ? (JComponent) view.getViewToolbarComponentTop() : new JLabel();
-			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view.getViewToolbarComponentBottom() : new JLabel();
-			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent       ? (JComponent) view.getViewToolbarComponentLeft() : new JLabel();
-			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent    ? (JComponent) view.getViewToolbarComponentRight() : new JLabel();
+			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentTop() : new JLabel();
+			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentBottom() : new JLabel();
+			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentLeft() : new JLabel();
+			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentRight() : new JLabel();
 
-			double topS = top && view.getViewToolbarComponentTop() instanceof Double          ? (Double) view.getViewToolbarComponentTop() : TableLayout.PREFERRED;
-			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
-			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double       ? (Double) view.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
-			double rightS = right && view.getViewToolbarComponentRight() instanceof Double    ? (Double) view.getViewToolbarComponentRight() : TableLayout.PREFERRED;
+			double topS = top && view.getViewToolbarComponentTop() instanceof Double ? (Double) view
+					.getViewToolbarComponentTop() : TableLayout.PREFERRED;
+			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view
+					.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
+			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double ? (Double) view
+					.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
+			double rightS = right && view.getViewToolbarComponentRight() instanceof Double ? (Double) view
+					.getViewToolbarComponentRight() : TableLayout.PREFERRED;
 
-			j.setLayout(new TableLayout(new double[][] {
-					new double[] { TableLayout.FILL },
-					new double[] {
-							topS,
-							TableLayout.FILL,
-							bottomS },
-			}));
+			j.setLayout(new TableLayout(new double[][] { new double[] { TableLayout.FILL },
+					new double[] { topS, TableLayout.FILL, bottomS }, }));
 			if (top)
 				j.add(topC, "0,0");
 			if (left || right) {
-				j.add(TableLayout.get3Split(
-						leftC,
-						scrollPane !=null ? scrollPane : view.getViewComponent(),
-								rightC,
-								leftS, TableLayout.FILL, rightS), "0,1");
+				j.add(TableLayout.get3Split(leftC, scrollPane != null ? scrollPane : view.getViewComponent(), rightC,
+						leftS, TableLayout.FILL, rightS), "0,1");
 			} else
-				j.add(scrollPane !=null ? scrollPane : view.getViewComponent(), "0,1");
+				j.add(scrollPane != null ? scrollPane : view.getViewComponent(), "0,1");
 			if (bottom)
 				j.add(bottomC, "0,2");
 			if (background)
 				j.add(view.getViewToolbarComponentBackground(), "0,0,0,2");
 		} else
-			j.add(scrollPane !=null ? scrollPane : view.getViewComponent());
+			j.add(scrollPane != null ? scrollPane : view.getViewComponent());
 	}
 
 	/**
 	 * Creates and returns a new editor session.
-	 *
+	 * 
 	 * @return New session
 	 */
 	public EditorSession createNewSession() {
-		EditorSession es =  new EditorSession();
+		EditorSession es = new EditorSession();
 		addSession(es);
 		return es;
 	}
 
 	public EditorSession createNewSession(Graph g) {
-		EditorSession es =  new EditorSession(g);
+		EditorSession es = new EditorSession(g);
 		addSession(es);
 		return es;
 	}
@@ -1239,8 +1243,9 @@ SelectionListener, DropTargetListener
 	/**
 	 * Informs all <code>SessionListener</code>s that the active session has
 	 * changed.
-	 *
-	 * @param session DOCUMENT ME!
+	 * 
+	 * @param session
+	 *           DOCUMENT ME!
 	 */
 	public void fireSessionChanged(Session session) {
 		GravistoService.checkEventDispatchThread();
@@ -1260,15 +1265,16 @@ SelectionListener, DropTargetListener
 			sl.addAll(selectionListeners);
 		}
 		for (SelectionListener s : sl) {
-			s.selectionChanged(new SelectionEvent(((EditorSession)session).getSelectionModel().getActiveSelection()));
+			s.selectionChanged(new SelectionEvent(((EditorSession) session).getSelectionModel().getActiveSelection()));
 		}
 	}
 
 	/**
 	 * Called, if the session or data (except graph data) in the session have
 	 * been changed.
-	 *
-	 * @param session DOCUMENT ME!
+	 * 
+	 * @param session
+	 *           DOCUMENT ME!
 	 */
 	public void fireSessionDataChanged(Session session) {
 		for (Iterator<SessionListener> it = this.sessionListeners.iterator(); it.hasNext();) {
@@ -1277,7 +1283,9 @@ SelectionListener, DropTargetListener
 	}
 
 	/*
-	 * @see org.graffiti.managers.IOManager.IOManagerListener#inputSerializerAdded(org.graffiti.plugin.io.InputSerializer)
+	 * @see
+	 * org.graffiti.managers.IOManager.IOManagerListener#inputSerializerAdded
+	 * (org.graffiti.plugin.io.InputSerializer)
 	 */
 	public void inputSerializerAdded(InputSerializer is) {
 		updateActions();
@@ -1285,8 +1293,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Loads a graph from a file;
-	 *
-	 * @param file File containing the graph;
+	 * 
+	 * @param file
+	 *           File containing the graph;
 	 */
 	public Graph loadGraph(String fileName, URL url) {
 		String ext = fileName.substring(fileName.lastIndexOf("."));
@@ -1294,49 +1303,41 @@ SelectionListener, DropTargetListener
 			MyInputStreamCreator ic = new MyInputStreamCreator(url);
 			InputSerializer is = ioManager.createInputSerializer(ic, ext);
 			if (is == null) {
-				ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. InputSerializer is NULL.");
+				ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. InputSerializer is NULL.");
 				return null;
 			}
 			Graph g = is.read(ic.getNewInputStream());
 			if (g == null) {
-				ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. File loader result is NULL.");
+				ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. File loader result is NULL.");
 				return null;
 			}
 			g.setName(fileName);
 			g.setModified(false);
 			EditorSession es = new EditorSession(g);
 			if (es == null) {
-				ErrorMsg.addErrorMessage("Graph "
-						+ fileName
+				ErrorMsg.addErrorMessage("Graph " + fileName
 						+ " could not be loaded. Editor session could not be created from graph (EditorSession=NULL).");
 				return null;
 			}
 			try {
 				es.setFileName(url.toString());
-			} catch(Exception e) {
+			} catch (Exception e) {
 				ErrorMsg.addErrorMessage(e);
 			}
 			showViewChooserDialog(es, false, null);
 
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
-			JOptionPane.showMessageDialog(null, sBundle.getString("fileFormatError")
-					.replaceAll("\\[err\\]", e1.getLocalizedMessage()),
-					sBundle.getString("fileFormatErrorTitle"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, sBundle.getString("fileFormatError").replaceAll("\\[err\\]",
+					e1.getLocalizedMessage()), sBundle.getString("fileFormatErrorTitle"), JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-					+ " could not be loaded. IO Exception<br>"
-					+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. IO Exception<br>" + "Exception: <code>"
+					+ e.getLocalizedMessage() + "</code>");
 		} catch (IllegalAccessException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-					+ " could not be loaded. IllegalAccessException<br>"
+			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. IllegalAccessException<br>"
 					+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
 		} catch (InstantiationException e) {
-			ErrorMsg.addErrorMessage("Graph " + fileName
-					+ " could not be loaded. InstantiationException<br>"
+			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. InstantiationException<br>"
 					+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
 		}
 		return null;
@@ -1348,19 +1349,17 @@ SelectionListener, DropTargetListener
 			MyInputStreamCreator ic = new MyInputStreamCreator(url);
 			InputSerializer is = ioManager.createInputSerializer(ic, ext);
 			if (is == null) {
-				ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. InputSerializer is NULL.");
+				ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. InputSerializer is NULL.");
 				return null;
 			}
 			Graph g = is.read(ic.getNewInputStream());
 			if (g == null) {
-				ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. File loader result is NULL.");
+				ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. File loader result is NULL.");
 				return null;
 			}
 			String u = url.toString();
-			if (u!=null && u.indexOf("/")>=0) {
-				u = u.substring(0, u.lastIndexOf("/"))+"/"+fileName;
+			if (u != null && u.indexOf("/") >= 0) {
+				u = u.substring(0, u.lastIndexOf("/")) + "/" + fileName;
 			}
 			g.setName(u);
 			g.setModified(false);
@@ -1377,22 +1376,22 @@ SelectionListener, DropTargetListener
 		return null;
 	}
 
-
 	/**
-	 * Loads a graph in the background (using a background thread).
-	 * During loading a progress bar is shown.
-	 * Do not use this command if you want to work with a given graph after
-	 * loading a file. The graph will not be completely loaded or shown after this
-	 * method returns. Instead the graph will be shown as soon as the file loading is
-	 * finished.
+	 * Loads a graph in the background (using a background thread). During
+	 * loading a progress bar is shown. Do not use this command if you want to
+	 * work with a given graph after loading a file. The graph will not be
+	 * completely loaded or shown after this method returns. Instead the graph
+	 * will be shown as soon as the file loading is finished.
+	 * 
 	 * @param file
 	 */
 	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
-	throws IllegalAccessException, InstantiationException {
+			throws IllegalAccessException, InstantiationException {
 		loadGraphInBackground(new File[] { file }, ae, autoSwitch);
 	}
 
 	final ExecutorService loader = Executors.newFixedThreadPool(1);
+
 	public void loadGraphInBackground(final File[] proposedFiles, final ActionEvent ae, boolean autoSwitch)
 
 	throws IllegalAccessException, InstantiationException {
@@ -1403,8 +1402,8 @@ SelectionListener, DropTargetListener
 			EditorSession esf = null;
 			for (Session s : getSessions()) {
 				if (s instanceof EditorSession) {
-					EditorSession es = (EditorSession)s;
-					if (es.getFileNameFull()==null)
+					EditorSession es = (EditorSession) s;
+					if (es.getFileNameFull() == null)
 						continue;
 					if (es.getFileNameFull().equals(file.toURI())) {
 						esf = es;
@@ -1421,25 +1420,26 @@ SelectionListener, DropTargetListener
 			if (!filesToBeIgnored.contains(f))
 				files.add(f);
 
-		if (files.size()>0)
+		if (files.size() > 0)
 			loader.submit(new Runnable() {
 				public void run() {
 					int i = 1;
 					StringBuilder errors = new StringBuilder();
 					int errcnt = 0;
 					errors.append("<html><h3>File Load - Errors: </h3>");
-					for (final File file : files)  {
+					for (final File file : files) {
 						try {
-							System.out.println("Read file: "+file.getAbsolutePath());
+							System.out.println("Read file: " + file.getAbsolutePath());
 							final String fileName = file.getName();
-							showMessage("Loading graph file ("+fileName+")... ["+i+"/"+files.size()+"]", MessageType.PERMANENT_INFO);
+							showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
+									MessageType.PERMANENT_INFO);
 							i++;
 							final Graph newGraph = getGraph(file);
-							System.out.println("File reading finished: "+file.getAbsolutePath());
+							System.out.println("File reading finished: " + file.getAbsolutePath());
 							SwingUtilities.invokeAndWait(new Runnable() {
 								public void run() {
 									showMessage("Graph file is loaded. Create view... (please wait)", MessageType.PERMANENT_INFO);
-									System.out.println("Create view for file: "+file.getAbsolutePath());
+									System.out.println("Create view for file: " + file.getAbsolutePath());
 									EditorSession es = new EditorSession(newGraph);
 									es.setFileName(file.getAbsolutePath());
 									showViewChooserDialog(es, false, ae);
@@ -1451,72 +1451,73 @@ SelectionListener, DropTargetListener
 							});
 						} catch (Exception e) {
 							errcnt++;
-							errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded. Error: " + e.getLocalizedMessage() + "");
-						} catch(AssertionError e) {
+							errors.append("<p>File <b>" + file.getName() + "</b> could not be loaded. Error: "
+									+ e.getLocalizedMessage() + "");
+						} catch (AssertionError e) {
 							errcnt++;
-							errors.append("<p>File <b>"+file.getName()+"</b> could not be loaded. Error: " + e.getLocalizedMessage() + "");
+							errors.append("<p>File <b>" + file.getName() + "</b> could not be loaded. Error: "
+									+ e.getLocalizedMessage() + "");
 						}
 					}
-					if (errcnt>0)
+					if (errcnt > 0)
 						showMessageDialogWithScrollBars(errors.toString(), "File(s) could not be loaded");
 				}
 			});
 	}
 
-
 	public void addNewRecentFileMenuItem(final File file) {
-		if(!file.exists())
+		if (!file.exists())
 			return;
 		enclosingseparator.setVisible(true);
-		//check if entry already in list
-		int pos=5;
-		for(int i=4;i>=0;i--)
-			if(file.toString().equalsIgnoreCase(recentfileslist[i].getToolTipText()))
-				pos=i;
-		for(int j=Math.min(pos,4);j>0;j--)
-			recentfileslist[j].setNewData(recentfileslist[j-1]);
-		recentfileslist[0].setNewData(new RecentEntry(file,true, iBundle.getImageIcon("menu.file.open.icon")));
+		// check if entry already in list
+		int pos = 5;
+		for (int i = 4; i >= 0; i--)
+			if (file.toString().equalsIgnoreCase(recentfileslist[i].getToolTipText()))
+				pos = i;
+		for (int j = Math.min(pos, 4); j > 0; j--)
+			recentfileslist[j].setNewData(recentfileslist[j - 1]);
+		recentfileslist[0].setNewData(new RecentEntry(file, true, iBundle.getImageIcon("menu.file.open.icon")));
 
-		//save recentfile-list in textfile
-		if(!recentlist.exists())
+		// save recentfile-list in textfile
+		if (!recentlist.exists())
 			try {
 				recentlist.createNewFile();
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
-			String content= new String("");
-			for(JMenuItem jmi : recentfileslist)
-				if(jmi.getToolTipText()!=null)
-					content+=jmi.getToolTipText()+System.getProperty("line.separator");
-			try {
-				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(
-						recentlist)));
-				out.print(content);
-				out.close();
-			} catch (IOException e) {
-				ErrorMsg.addErrorMessage(e);
-			}
+		String content = new String("");
+		for (JMenuItem jmi : recentfileslist)
+			if (jmi.getToolTipText() != null)
+				content += jmi.getToolTipText() + System.getProperty("line.separator");
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(recentlist)));
+			out.print(content);
+			out.close();
+		} catch (IOException e) {
+			ErrorMsg.addErrorMessage(e);
+		}
 	}
 
 	/**
 	 * @return true, if file should be loaded, false if file is already loaded
 	 */
 	private boolean windowCheck(EditorSession fesf, String fileName, boolean autoSwitch) {
-		if (fesf!=null) {
-			Object[] options = {"Activate View", "Load Graph"};
-			if(autoSwitch || JOptionPane.showOptionDialog(this,
-					"<html>The graph file <i>" + fileName + "</i> is already loaded!", "Activate existing view?",
-					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]) == JOptionPane.YES_OPTION)
-			{
+		if (fesf != null) {
+			Object[] options = { "Activate View", "Load Graph" };
+			if (autoSwitch
+					|| JOptionPane.showOptionDialog(this, "<html>The graph file <i>" + fileName + "</i> is already loaded!",
+							"Activate existing view?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+							options[0]) == JOptionPane.YES_OPTION) {
 				for (GraffitiInternalFrame f : activeFrames) {
-					if (f.getSession()==fesf) {
+					if (f.getSession() == fesf) {
 						desktop.getDesktopManager().deiconifyFrame(f);
 						desktop.getDesktopManager().activateFrame(f);
-						MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
+						MainFrame.showMessage("Existing view for graph file " + fileName + " has been activated",
+								MessageType.INFO);
 						final GraffitiInternalFrame gif = f;
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
-								if (desktop.getAllFrames()!=null && desktop.getAllFrames().length>0) {
+								if (desktop.getAllFrames() != null && desktop.getAllFrames().length > 0) {
 									try {
 										for (JInternalFrame jif : desktop.getAllFrames())
 											jif.setSelected(false);
@@ -1525,7 +1526,8 @@ SelectionListener, DropTargetListener
 										ErrorMsg.addErrorMessage(e);
 									}
 								}
-							}});
+							}
+						});
 						return false;
 					}
 				}
@@ -1538,8 +1540,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Loads a graph from a file;
-	 *
-	 * @param file File containing the graph;
+	 * 
+	 * @param file
+	 *           File containing the graph;
 	 */
 	public void loadGraph(File file) {
 		Graph g;
@@ -1559,7 +1562,7 @@ SelectionListener, DropTargetListener
 			String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 			boolean gz = false;
 			if (fileName.toLowerCase().endsWith(".gz")) {
-				fileName = fileName.substring(0, fileName.length()-".gz".length());
+				fileName = fileName.substring(0, fileName.length() - ".gz".length());
 				ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 				gz = true;
 			}
@@ -1574,15 +1577,15 @@ SelectionListener, DropTargetListener
 				InputSerializer is;
 				MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
 				is = ioManager.createInputSerializer(inputStream, ext);
-				if (is!=null) {
+				if (is != null) {
 					synchronized (ioManager) {
 						newGraph = is.read(inputStream.getNewInputStream());
 					}
 				} else {
-					showMessageDialog("No known input serializer for file extension "+ext+"!", "Error");
+					showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
 				}
 			}
-			if (newGraph!=null) {
+			if (newGraph != null) {
 				newGraph.setName(file.getAbsolutePath());
 				newGraph.setModified(false);
 			}
@@ -1597,7 +1600,7 @@ SelectionListener, DropTargetListener
 		String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 		boolean gz = false;
 		if (fileName.toLowerCase().endsWith(".gz")) {
-			fileName = fileName.substring(0, fileName.length()-".gz".length());
+			fileName = fileName.substring(0, fileName.length() - ".gz".length());
 			ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 			gz = true;
 		}
@@ -1605,12 +1608,12 @@ SelectionListener, DropTargetListener
 			if (ext.equalsIgnoreCase(".net")) {
 				InputSerializer is;
 				is = ioManager.createInputSerializer(null, ext);
-				return is!=null;
+				return is != null;
 			} else {
 				InputSerializer is;
 				MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
 				is = ioManager.createInputSerializer(inputStream, ext);
-				return is!=null;
+				return is != null;
 			}
 		} catch (Exception e) {
 			return false;
@@ -1621,11 +1624,11 @@ SelectionListener, DropTargetListener
 		String ext = FileSaveAction.getFileExt(fileName);
 		OutputSerializer os = ioManager.createOutputSerializer(ext);
 		OutputStream outpS = new FileOutputStream(fileName);
-		if (os==null)
-			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension "+ext);
+		if (os == null)
+			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension " + ext);
 
-		if (outpS==null)
-			ErrorMsg.addErrorMessage("Invalid outputstream created for filename "+fileName);
+		if (outpS == null)
+			ErrorMsg.addErrorMessage("Invalid outputstream created for filename " + fileName);
 		os.write(outpS, graph);
 		outpS.close();
 	}
@@ -1640,7 +1643,7 @@ SelectionListener, DropTargetListener
 			EditorSession es = new EditorSession(g);
 			try {
 				es.setFileName(g.getName(true));
-			} catch(Exception err) {
+			} catch (Exception err) {
 				ErrorMsg.addErrorMessage(err);
 			}
 			showViewChooserDialog(es, false, e, interaction);
@@ -1650,16 +1653,19 @@ SelectionListener, DropTargetListener
 					EditorSession es = new EditorSession(g);
 					try {
 						es.setFileName(g.getName(true));
-					} catch(Exception err) {
+					} catch (Exception err) {
 						ErrorMsg.addErrorMessage(err);
 					}
 					showViewChooserDialog(es, false, e, interaction);
-				}});
+				}
+			});
 		}
 	}
 
 	/*
-	 * @see org.graffiti.managers.IOManager.IOManagerListener#outputSerializerAdded(org.graffiti.plugin.io.OutputSerializer)
+	 * @see
+	 * org.graffiti.managers.IOManager.IOManagerListener#outputSerializerAdded
+	 * (org.graffiti.plugin.io.OutputSerializer)
 	 */
 	public void outputSerializerAdded(OutputSerializer os) {
 		updateActions();
@@ -1667,12 +1673,13 @@ SelectionListener, DropTargetListener
 
 	InspectorPlugin inspectorPlugin = null;
 
-
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
-	 *
-	 * @param plugin the added plugin.
-	 * @param desc the description of the new plugin.
+	 * 
+	 * @param plugin
+	 *           the added plugin.
+	 * @param desc
+	 *           the description of the new plugin.
 	 */
 	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
 
@@ -1684,7 +1691,7 @@ SelectionListener, DropTargetListener
 		addExtensionMenuItems(plugin);
 
 		if (plugin.isViewListener())
-			viewManager.addViewListener((ViewListener)plugin);
+			viewManager.addViewListener((ViewListener) plugin);
 
 		// Registers all plugins that are session listeners.
 		checkSelectionListener(plugin);
@@ -1694,14 +1701,14 @@ SelectionListener, DropTargetListener
 		}
 
 		if (plugin instanceof InspectorPlugin) {
-			if (inspectorPlugin!=null) {
+			if (inspectorPlugin != null) {
 				ErrorMsg.addErrorMessage("Tried to load more than one InpsectorPlugin!");
 			} else {
 				inspectorPlugin = (InspectorPlugin) plugin;
 				for (PluginEntry p : pluginmgr.getPluginEntries()) {
-					if (p.getPlugin()!=null && p.getPlugin() instanceof EditorPlugin) {
+					if (p.getPlugin() != null && p.getPlugin() instanceof EditorPlugin) {
 						EditorPlugin ep = (EditorPlugin) p.getPlugin();
-						if (ep!=plugin) {
+						if (ep != plugin) {
 							processTabs(ep);
 						}
 					}
@@ -1725,13 +1732,14 @@ SelectionListener, DropTargetListener
 			});
 			return;
 		}
-		if (ep.getInspectorTabs()!=null) {
+		if (ep.getInspectorTabs() != null) {
 			for (InspectorTab it : ep.getInspectorTabs()) {
-				if (inspectorPlugin==null) {
+				if (inspectorPlugin == null) {
 					// ErrorMsg.addErrorMessage("Inspector Plugin not available. Can't add side-panel tabs.");
 				} else {
-					if (it==null)
-						ErrorMsg.addErrorMessage("Plugin "+ep.getClass().getCanonicalName()+" contains InspectorTab with value NULL!");
+					if (it == null)
+						ErrorMsg.addErrorMessage("Plugin " + ep.getClass().getCanonicalName()
+								+ " contains InspectorTab with value NULL!");
 					else {
 						if (isAddon(ep))
 							it.setIcon(new ImageIcon(GravistoService.getScaledImage(ep.getIcon().getImage(), 16, 16)));
@@ -1762,14 +1770,13 @@ SelectionListener, DropTargetListener
 		}
 
 		if (plugin.isSelectionListener()) {
-			selectionListeners.add((SelectionListener)plugin);
+			selectionListeners.add((SelectionListener) plugin);
 
 			for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
 				Session sess = it.next();
 
 				if (sess instanceof EditorSession) {
-					((EditorSession) sess).getSelectionModel().addSelectionListener(
-							(SelectionListener) plugin);
+					((EditorSession) sess).getSelectionModel().addSelectionListener((SelectionListener) plugin);
 				}
 
 				// TODO: check what todo if non-EditorSession ...
@@ -1782,7 +1789,8 @@ SelectionListener, DropTargetListener
 	 */
 	private void processEditorPlugin(GenericPlugin plugin) {
 
-		if (!(plugin instanceof EditorPlugin)) return;
+		if (!(plugin instanceof EditorPlugin))
+			return;
 
 		EditorPlugin eplugin = (EditorPlugin) plugin;
 
@@ -1795,8 +1803,8 @@ SelectionListener, DropTargetListener
 
 				guiMap.put(mtb.getId(), mtb);
 				getContentPane().add(mtb, BorderLayout.WEST);
-				//				leftToolBarPanel.add(mtb);
-				//				mtb.setVisible(false);
+				// leftToolBarPanel.add(mtb);
+				// mtb.setVisible(false);
 			}
 		}
 
@@ -1819,14 +1827,12 @@ SelectionListener, DropTargetListener
 					viewManager.addViewListener((ViewListener) tools[i]);
 
 				if (tools[i].isSelectionListener()) {
-					selectionListeners.add((SelectionListener)tools[i]);
+					selectionListeners.add((SelectionListener) tools[i]);
 					for (Iterator<Session> it = sessions.iterator(); it.hasNext();) {
 						Session sess = it.next();
 						if (sess instanceof EditorSession) {
 							if (((EditorSession) sess).getSelectionModel() != null)
-								((EditorSession) sess).getSelectionModel()
-								.addSelectionListener(
-										(SelectionListener) tools[i]);
+								((EditorSession) sess).getSelectionModel().addSelectionListener((SelectionListener) tools[i]);
 						}
 						// TODO: check what todo if non-EditorSession ...
 					}
@@ -1849,8 +1855,8 @@ SelectionListener, DropTargetListener
 					// System.out.println("Skip Layouter: "+a.getName());
 					continue; // skip layout algorithms
 				}
-				final RunAlgorithm action = new RunAlgorithm(a.getClass().getName(), a.getName(), this, editComponentManager, a);
-
+				final RunAlgorithm action = new RunAlgorithm(a.getClass().getName(), a.getName(), this,
+						editComponentManager, a);
 
 				algorithmActions.add(action);
 				String cat = a.getCategory();
@@ -1861,15 +1867,15 @@ SelectionListener, DropTargetListener
 					@Override
 					public void setEnabled(boolean b) {
 						super.setEnabled(b);
-						if (getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU)
+						if (getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU)
 							setVisible(b);
 
-						if (getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_MENU_IF_ALL_DISABLED||
-								getHideDeactivateSwitch()==HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU) {
+						if (getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_MENU_IF_ALL_DISABLED
+								|| getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU) {
 							JMenu parent = (JMenu) getClientProperty(myKey);
-							if (parent!=null) {
+							if (parent != null) {
 								boolean childVisible = false;
-								for(Component c : parent.getMenuComponents()) {
+								for (Component c : parent.getMenuComponents()) {
 									if (c.isEnabled()) {
 										childVisible = true;
 										break;
@@ -1886,11 +1892,11 @@ SelectionListener, DropTargetListener
 					if (a instanceof EditorAlgorithm) {
 						icon = ((EditorAlgorithm) a).getIcon();
 					}
-					if (icon==null)
+					if (icon == null)
 						icon = plugin.getIcon();
 					menu.setIcon(new ImageIcon(GravistoService.getScaledImage(icon.getImage(), 16, 16)));
 				}
-				if (a.getAcceleratorKeyStroke()!=null)
+				if (a.getAcceleratorKeyStroke() != null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
 
 				JMenu target = addMenuItemForAlgorithmOrExtension(menu, cat);
@@ -1902,7 +1908,7 @@ SelectionListener, DropTargetListener
 
 	private boolean isAddon(GenericPlugin plugin) {
 		for (PluginEntry pe : pluginmgr.getPluginEntries()) {
-			if (pe.getPlugin()==plugin) {
+			if (pe.getPlugin() == plugin) {
 				if (pe.getDescription().isAddon()) {
 					return true;
 				}
@@ -1918,16 +1924,17 @@ SelectionListener, DropTargetListener
 	private void addExtensionMenuItems(GenericPlugin plugin) {
 		Extension[] extensions = plugin.getExtensions();
 		// for every algorithm: add a menu entry
-		if (extensions != null) for (int i = extensions.length - 1; i >= 0; i--) {
-			Extension e = extensions[i];
-			if (e != null && e.getName() != null) {
-				String cat = e.getCategory();
-				for (Iterator<JMenuItem> it = e.getMenuItems().iterator(); it.hasNext();) {
-					JMenuItem mi = it.next();
-					addMenuItemForAlgorithmOrExtension(mi, cat);
+		if (extensions != null)
+			for (int i = extensions.length - 1; i >= 0; i--) {
+				Extension e = extensions[i];
+				if (e != null && e.getName() != null) {
+					String cat = e.getCategory();
+					for (Iterator<JMenuItem> it = e.getMenuItems().iterator(); it.hasNext();) {
+						JMenuItem mi = it.next();
+						addMenuItemForAlgorithmOrExtension(mi, cat);
+					}
 				}
 			}
-		}
 	}
 
 	/**
@@ -1947,16 +1954,16 @@ SelectionListener, DropTargetListener
 		if (guiMap.containsKey(cat) && guiMap.get(cat) instanceof JMenu) {
 			JMenu targetNativeMenu = (JMenu) guiMap.get(cat);
 			Boolean pluginMenuAddEmptySpaceInFrontOfMenuItem = (Boolean) targetNativeMenu
-			.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
+					.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
 			if (pluginMenuAddEmptySpaceInFrontOfMenuItem != null
 					&& pluginMenuAddEmptySpaceInFrontOfMenuItem.booleanValue() == true) {
 				if (item.getIcon() == null)
 					item.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
 			}
 			int addAfter = targetNativeMenu.getItemCount();
-			Integer pmp = (Integer) targetNativeMenu
-			.getClientProperty("pluginMenuPosition");
-			if (pmp != null) addAfter = pmp.intValue();
+			Integer pmp = (Integer) targetNativeMenu.getClientProperty("pluginMenuPosition");
+			if (pmp != null)
+				addAfter = pmp.intValue();
 			targetNativeMenu.add(item, addAfter);
 			result = targetNativeMenu;
 		} else {
@@ -1965,13 +1972,19 @@ SelectionListener, DropTargetListener
 			if (categoriesForAlgorithms.get(cat) == null) {
 				JMenu newCatMenu = new JMenu(cat);
 				// PLUGIN MENUS
-				// pluginMenu.add(newCatMenu); // add the new category menu to the plugin menu
+				// pluginMenu.add(newCatMenu); // add the new category menu to the
+				// plugin menu
 
-				getJMenuBar()
-				.add(
-						newCatMenu,
-						getTargetMenuPosition(getJMenuBar(), newCatMenu
-								.getText())); // add the new category as a top level menu item
+				getJMenuBar().add(newCatMenu, getTargetMenuPosition(getJMenuBar(), newCatMenu.getText())); // add
+				// the
+				// new
+				// category
+				// as
+				// a
+				// top
+				// level
+				// menu
+				// item
 
 				categoriesForAlgorithms.put(cat, newCatMenu);
 			}
@@ -1983,9 +1996,9 @@ SelectionListener, DropTargetListener
 			result = targetMenu;
 		}
 		int sortFrom = 0;
-		Integer pmp = (Integer) pluginMenu
-		.getClientProperty("pluginMenuPosition");
-		if (pmp != null) sortFrom = pmp.intValue();
+		Integer pmp = (Integer) pluginMenu.getClientProperty("pluginMenuPosition");
+		if (pmp != null)
+			sortFrom = pmp.intValue();
 		sortMenuItems(pluginMenu, sortFrom);
 		validate();
 		return result;
@@ -1994,55 +2007,61 @@ SelectionListener, DropTargetListener
 	@Override
 	public JMenuBar getJMenuBar() {
 		JMenuBar res = super.getJMenuBar();
-		if (res==null)
+		if (res == null)
 			res = storedMenuBar;
 		return res;
 	}
 
 	/**
-	 * Determines the target menu position of a new category sub menu.
-	 * This menu will be placed inside the menu (given with the parameter <code>menu</code>).
-	 * While looking for the target position the client property "pluginMenuAddAfter"
-	 * will be checked. If this is <code>true</code>, then the menu item will be ignored
-	 * and the first starting point is increased. If the property changes to <code>false</code>,
-	 * then the target menu must be inserted before this menu, with the property set to <code>true</code>.
-	 * If the property is not available. (The newly added menu items should NOT have
-	 * this property set). If no immeadiatly change from true to false is found, then
-	 * the new position should be set in a way so that a resulting order is achieved where
-	 * the titles are sorted alphabetically.
+	 * Determines the target menu position of a new category sub menu. This menu
+	 * will be placed inside the menu (given with the parameter <code>menu</code>
+	 * ). While looking for the target position the client property
+	 * "pluginMenuAddAfter" will be checked. If this is <code>true</code>, then
+	 * the menu item will be ignored and the first starting point is increased.
+	 * If the property changes to <code>false</code>, then the target menu must
+	 * be inserted before this menu, with the property set to <code>true</code>.
+	 * If the property is not available. (The newly added menu items should NOT
+	 * have this property set). If no immeadiatly change from true to false is
+	 * found, then the new position should be set in a way so that a resulting
+	 * order is achieved where the titles are sorted alphabetically.
+	 * 
 	 * @param menu
-	 * @param title Title of the new menu to be added to the target menu (<code>menu</code>).
+	 * @param title
+	 *           Title of the new menu to be added to the target menu (
+	 *           <code>menu</code>).
 	 * @return The target position where the menu should be added to.
 	 */
 	private int getTargetMenuPosition(JMenuBar menu, String title) {
 		for (int i = 0; i < menu.getMenuCount(); i++) {
 			JMenu testMenu = menu.getMenu(i);
-			Boolean addAfter = (Boolean) testMenu
-			.getClientProperty("pluginMenuAddAfter");
+			Boolean addAfter = (Boolean) testMenu.getClientProperty("pluginMenuAddAfter");
 			if (addAfter != null) {
-				if (addAfter.booleanValue() == true) continue; // jump ahead
-				if (addAfter.booleanValue() == false) return i; // or i-1 ? add before this item
+				if (addAfter.booleanValue() == true)
+					continue; // jump ahead
+				if (addAfter.booleanValue() == false)
+					return i; // or i-1 ? add before this item
 			}
 			// else... add in alphabetic order (insertion sort)
-			if (testMenu.getText().compareTo(title) > 0) return i;
+			if (testMenu.getText().compareTo(title) > 0)
+				return i;
 		}
 		return 0;
 	}
 
 	private void sortMenuItems(JMenu menuToSort, int startPoint) {
-		if (startPoint<0)
+		if (startPoint < 0)
 			return;
 		// sort menu items, beginning from the 3rd entry (after the ---)
 		// author: c. klukas
 		Vector<JMenuItem> menuItems = new Vector<JMenuItem>();
 		// remove all entries and memorize them
-		if (menuToSort.getItemCount()>1) {
+		if (menuToSort.getItemCount() > 1) {
 			try {
-				while (menuToSort.getItemCount() > startPoint && menuToSort.getItemCount()>0) {
+				while (menuToSort.getItemCount() > startPoint && menuToSort.getItemCount() > 0) {
 					menuItems.add(menuToSort.getItem(startPoint));
 					menuToSort.remove(menuToSort.getItem(startPoint));
 				}
-			} catch(Exception e) {
+			} catch (Exception e) {
 				// ErrorMsg.addErrorMessage(e);
 			}
 		}
@@ -2050,8 +2069,7 @@ SelectionListener, DropTargetListener
 		while (menuItems.size() > 0) {
 			JMenuItem firstItem = menuItems.get(0);
 			for (int im = 0; im < menuItems.size(); im++) {
-				if (getText(menuItems.get(im)).compareToIgnoreCase(
-						getText(firstItem)) <= 0) {
+				if (getText(menuItems.get(im)).compareToIgnoreCase(getText(firstItem)) <= 0) {
 					firstItem = menuItems.get(im);
 				}
 			}
@@ -2063,9 +2081,9 @@ SelectionListener, DropTargetListener
 	}
 
 	private String getText(JMenuItem menuItem) {
-		if (menuItem.getIcon()!=null) {
+		if (menuItem.getIcon() != null) {
 			String lbl = menuItem.getText();
-			lbl = "ZZZ"+lbl;
+			lbl = "ZZZ" + lbl;
 			return lbl;
 		} else
 			return menuItem.getText();
@@ -2073,8 +2091,9 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Removes a <code>SelectionListener</code>.
-	 *
-	 * @param sl DOCUMENT ME!
+	 * 
+	 * @param sl
+	 *           DOCUMENT ME!
 	 */
 	public void removeSelectionListener(SelectionListener sl) {
 		this.selectionListeners.remove(sl);
@@ -2095,24 +2114,23 @@ SelectionListener, DropTargetListener
 	/**
 	 * Closes all views of the given session and removes the session from the
 	 * list of sessions.
-	 *
-	 * @param session the session to be removed.
+	 * 
+	 * @param session
+	 *           the session to be removed.
 	 */
 	public boolean closeSession(Session session) {
-		if (session == null) return false;
+		if (session == null)
+			return false;
 		// check if changes have been made
 
 		boolean askForSave = true;
 		if (askForSave && session.getGraph().isModified()) {
 			String graphName = session.getGraph().getName();
 			if (graphName == null)
-				graphName = "["+session.getGraph().getName()+"]";
-			int res = JOptionPane.showConfirmDialog(this,
-					"<html>"+sBundle.getString("frame.close_save")+"<p>"+
-					"Graph "+graphName+" contains<br>"+
-					session.getGraph().getNodes().size()+" node(s) and "+
-					session.getGraph().getEdges().size()+" edge(s)!",
-					sBundle.getString("frame.close_save_title"),
+				graphName = "[" + session.getGraph().getName() + "]";
+			int res = JOptionPane.showConfirmDialog(this, "<html>" + sBundle.getString("frame.close_save") + "<p>"
+					+ "Graph " + graphName + " contains<br>" + session.getGraph().getNodes().size() + " node(s) and "
+					+ session.getGraph().getEdges().size() + " edge(s)!", sBundle.getString("frame.close_save_title"),
 					JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				// save current graph
@@ -2120,7 +2138,7 @@ SelectionListener, DropTargetListener
 				View av;
 				try {
 					av = MainFrame.getInstance().getActiveEditorSession().getActiveView();
-				} catch(Exception e) {
+				} catch (Exception e) {
 					av = null;
 				}
 				MainFrame.getInstance().setActiveSession(session, null);
@@ -2133,7 +2151,8 @@ SelectionListener, DropTargetListener
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						MainFrame.getInstance().showGraph(gg, null);
-					}});
+					}
+				});
 			}
 			// continue, close view/session
 		}
@@ -2146,7 +2165,7 @@ SelectionListener, DropTargetListener
 		// ConcurrentModificationExceptions
 		views.addAll(session.getViews());
 		for (GraffitiFrame gf : getDetachedFrames()) {
-			if (gf.getSession()==session) {
+			if (gf.getSession() == session) {
 				removeDetachedFrame(gf);
 				gf.setVisible(false);
 				// gf.dispose();
@@ -2163,7 +2182,7 @@ SelectionListener, DropTargetListener
 			if (frame != null) {
 				frame.setVisible(false);
 				frame.dispose();
-				//				frame.doDefaultCloseAction();
+				// frame.doDefaultCloseAction();
 				// doDefaultCloseAction();
 			}
 
@@ -2173,17 +2192,18 @@ SelectionListener, DropTargetListener
 		session.close();
 		for (SessionListener sl : sessionListeners) {
 			if (sl instanceof SessionListenerExt)
-				((SessionListenerExt)sl).sessionClosed(session);
+				((SessionListenerExt) sl).sessionClosed(session);
 		}
 
-		//		session.getGraph().clear();
+		// session.getGraph().clear();
 		return true;
 	}
 
 	/**
 	 * Removes a <code>SessionListener</code>.
-	 *
-	 * @param sl DOCUMENT ME!
+	 * 
+	 * @param sl
+	 *           DOCUMENT ME!
 	 */
 	public void removeSessionListener(SessionListener sl) {
 		this.sessionListeners.remove(sl);
@@ -2191,12 +2211,13 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Invoked when the session changed.
-	 *
-	 * @param s the new session.
+	 * 
+	 * @param s
+	 *           the new session.
 	 */
 	public void sessionChanged(Session s) {
 		Tool lastActive = AbstractTool.getActiveTool();
-		if (lastActive!=null)
+		if (lastActive != null)
 			lastActive.deactivateAll();
 
 		if (isSessionActive()) {
@@ -2211,8 +2232,7 @@ SelectionListener, DropTargetListener
 			this.activeEditorSession = (EditorSession) s;
 
 			// registering the new session at undoSupport
-			undoSupport.addUndoableEditListener(((EditorSession) s)
-					.getUndoManager());
+			undoSupport.addUndoableEditListener(((EditorSession) s).getUndoManager());
 
 			// registering the MainFrame at undoSupport
 			undoSupport.addUndoableEditListener(this);
@@ -2230,7 +2250,7 @@ SelectionListener, DropTargetListener
 				}
 
 				ModeToolbar newtb = ((ModeToolbar) (guiMap.get(newMode.getId())));
-				//				newtb.setVisible(true);
+				// newtb.setVisible(true);
 				getContentPane().validate();
 				// registering the new activeTool with the views of the new session
 				t = newtb.getActiveTool();
@@ -2243,21 +2263,20 @@ SelectionListener, DropTargetListener
 
 				MouseListener[] ml = view.getViewComponent().getMouseListeners();
 
-				//                System.out.println("#MouseListeners: " + ml.length);
+				// System.out.println("#MouseListeners: " + ml.length);
 				for (int i = ml.length - 1; i >= 0; i--) {
 					view.getViewComponent().removeMouseListener(ml[i]);
 
-					//                    System.out.println("deleting listeners");
+					// System.out.println("deleting listeners");
 				}
 
-				MouseMotionListener[] mml = view.getViewComponent()
-				.getMouseMotionListeners();
+				MouseMotionListener[] mml = view.getViewComponent().getMouseMotionListeners();
 
-				//                System.out.println("#MouseListeners: " + mml.length);
+				// System.out.println("#MouseListeners: " + mml.length);
 				for (int i = mml.length; --i >= 0;) {
 					view.getViewComponent().removeMouseMotionListener(mml[i]);
 
-					//                    System.out.println("deleting listeners");
+					// System.out.println("deleting listeners");
 				}
 
 				if (t != null) {
@@ -2265,7 +2284,6 @@ SelectionListener, DropTargetListener
 					view.getViewComponent().addMouseMotionListener(t);
 				}
 			}
-
 
 		} else
 			this.activeEditorSession = null;
@@ -2280,7 +2298,7 @@ SelectionListener, DropTargetListener
 		for (GraffitiInternalFrame frame : activeFrames) {
 			frame.setTitle(frame.getSession().getGraph().getName());
 			boolean mod = frame.getSession().getGraph().isModified();
-			if (frame.getBorder()!=null)
+			if (frame.getBorder() != null)
 				frame.putClientProperty("windowModified", mod);
 			if (mod)
 				oneModified = true;
@@ -2288,12 +2306,11 @@ SelectionListener, DropTargetListener
 		getRootPane().putClientProperty("windowModified", oneModified);
 	}
 
-
-
 	/**
 	 * Invoked when the session data changed.
-	 *
-	 * @param s DOCUMENT ME!
+	 * 
+	 * @param s
+	 *           DOCUMENT ME!
 	 */
 	public void sessionDataChanged(Session s) {
 		EditorSession es = (EditorSession) s;
@@ -2317,7 +2334,7 @@ SelectionListener, DropTargetListener
 		}
 		getRootPane().putClientProperty("windowModified", oneModified);
 		for (GraffitiFrame jf : getDetachedFrames()) {
-			if (jf.getSession()==s || s==null)
+			if (jf.getSession() == s || s == null)
 				jf.setTitle(jf.getSession().getGraph().getName());
 		}
 
@@ -2329,12 +2346,14 @@ SelectionListener, DropTargetListener
 	/**
 	 * Method <code>showMesssage</code> displays a message on GUI components
 	 * according to the specified type. The message will be displayed for some
-	 * defined number of seconds.
-	 * This method can be called from a background thread.
+	 * defined number of seconds. This method can be called from a background
+	 * thread.
 	 * 
-	 *
-	 * @param message a message string to be displayed
-	 * @param type a type of the message (e.g. MessageType.INFO)
+	 * 
+	 * @param message
+	 *           a message string to be displayed
+	 * @param type
+	 *           a type of the message (e.g. MessageType.INFO)
 	 */
 	public static void showMessage(final String message, final MessageType type) {
 		int time;
@@ -2342,9 +2361,11 @@ SelectionListener, DropTargetListener
 			time = Integer.MAX_VALUE;
 		else
 			time = 10000;
-		if (message==null && lastStatusMessage==null) return;
-		if (message!=null && message.equals(lastStatusMessage)) return;
-		lastStatusMessage=message;
+		if (message == null && lastStatusMessage == null)
+			return;
+		if (message != null && message.equals(lastStatusMessage))
+			return;
+		lastStatusMessage = message;
 		if (SwingUtilities.isEventDispatchThread()) {
 			showMessageDirect(message, type, time);
 		} else {
@@ -2358,14 +2379,15 @@ SelectionListener, DropTargetListener
 	}
 
 	/**
-	 * Use <code>showMessage</code> instead of this method. This method
-	 * is used by showMessage, but showMessage is thread-safe.
+	 * Use <code>showMessage</code> instead of this method. This method is used
+	 * by showMessage, but showMessage is thread-safe.
+	 * 
 	 * @param message
 	 * @param type
 	 */
 	private static void showMessageDirect(String message, MessageType type, int timeMillis) {
-		if (getInstance()==null) {
-			System.out.println(type.toString()+": "+message);
+		if (getInstance() == null) {
+			System.out.println(type.toString() + ": " + message);
 			return;
 		}
 		if (type == MessageType.ERROR) {
@@ -2379,15 +2401,17 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Method <code>showMesssage</code> displays a message on GUI components
-	 * according to the specified type for the given interval.
-	 * This method is thread safe.
-	 *
-	 * @param message a message string to be displayed
-	 * @param type a type of the message (e.g. ERROR)
-	 * @param timeMillis number of milliseconds the message should be displayed
+	 * according to the specified type for the given interval. This method is
+	 * thread safe.
+	 * 
+	 * @param message
+	 *           a message string to be displayed
+	 * @param type
+	 *           a type of the message (e.g. ERROR)
+	 * @param timeMillis
+	 *           number of milliseconds the message should be displayed
 	 */
-	public static void showMessage(final String message, final MessageType type,
-			final int timeMillis) {
+	public static void showMessage(final String message, final MessageType type, final int timeMillis) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			showMessageDirect(message, type, timeMillis);
 		} else {
@@ -2401,133 +2425,133 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Method <code>showViewChooserDialog </code> invokes a view chooser dialog
-	 * for choosing view types. The parameter withNewSession  specifies
-	 * whether the new view starts within an existing session or within a new
-	 * session.
-	 *
-	 * @param returnScrollpane DOCUMENT ME!
-	 *
+	 * for choosing view types. The parameter withNewSession specifies whether
+	 * the new view starts within an existing session or within a new session.
+	 * 
+	 * @param returnScrollpane
+	 *           DOCUMENT ME!
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean useDefaultViewForSmallGraphs, ActionEvent ae) {
+	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean useDefaultViewForSmallGraphs,
+			ActionEvent ae) {
 		if (useDefaultViewForSmallGraphs)
-			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
+			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae,
+					LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
 		else
 			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_ALWAYS);
 	}
 
-	public JScrollPane showViewChooserDialog(EditorSession session,
-			boolean returnScrollPane, ActionEvent e) {
+	public JScrollPane showViewChooserDialog(EditorSession session, boolean returnScrollPane, ActionEvent e) {
 		return showViewChooserDialog(session, returnScrollPane, e, LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
 	}
 
-
-	public JScrollPane showViewChooserDialog(EditorSession session,
-			boolean returnScrollPane, ActionEvent e, LoadSetting interaction) {
+	public JScrollPane showViewChooserDialog(EditorSession session, boolean returnScrollPane, ActionEvent e,
+			LoadSetting interaction) {
 		return showViewChooserDialog(session, returnScrollPane, e, interaction, null);
 	}
 
 	/**
 	 * Method <code>showViewChooserDialog </code> invokes a view chooser dialog
-	 * for choosing view types. The parameter withNewSession  specifies
-	 * whether the new view starts within an existing session or within a new
-	 * session.
-	 *
-	 * @param session the session in which to open the new view.
-	 * @param returnScrollPane DOCUMENT ME!
+	 * for choosing view types. The parameter withNewSession specifies whether
+	 * the new view starts within an existing session or within a new session.
+	 * 
+	 * @param session
+	 *           the session in which to open the new view.
+	 * @param returnScrollPane
+	 *           DOCUMENT ME!
 	 * @param e
 	 * @param interaction
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public JScrollPane showViewChooserDialog(final EditorSession session,
-			boolean returnScrollPane, ActionEvent e, LoadSetting interaction, final ConfigureViewAction configNewView) {
-		if (!returnScrollPane && MainFrame.getInstance()!=null && !SwingUtilities.isEventDispatchThread())
+	public JScrollPane showViewChooserDialog(final EditorSession session, boolean returnScrollPane, ActionEvent e,
+			LoadSetting interaction, final ConfigureViewAction configNewView) {
+		if (!returnScrollPane && MainFrame.getInstance() != null && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		String[] views;
-		if (viewManager!=null)
+		if (viewManager != null)
 			views = viewManager.getViewNames();
 		else
-			views = new String[] {
-				"org.graffiti.plugins.views.defaults.GraffitiView"
-		};
+			views = new String[] { "org.graffiti.plugins.views.defaults.GraffitiView" };
 		if (views.length == 0) {
-			JOptionPane.showMessageDialog(this, sBundle
-					.getString("viewchooser.pluginNotAdded"), sBundle
-					.getString("viewchooser.errorDialog.title"),
-					JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, sBundle.getString("viewchooser.pluginNotAdded"), sBundle
+					.getString("viewchooser.errorDialog.title"), JOptionPane.ERROR_MESSAGE);
 		} else if (views.length == 1) {
 			if (sessions.contains(session)) {
-				return createInternalFrame(views[0], session.getGraph().getName(),
-						returnScrollPane, false);
+				return createInternalFrame(views[0], session.getGraph().getName(), returnScrollPane, false);
 			} else {
-				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0],
-						session.getGraph().getName(), session, returnScrollPane, false, false, configNewView, true);
+				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], session.getGraph().getName(), session,
+						returnScrollPane, false, false, configNewView, true);
 				return jsp;
 			}
 		} else {
-			if (ReleaseInfo.getRunningReleaseStatus()!=Release.KGML_EDITOR) {
-				if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY && session.getGraph()!=null &&
-						( (session.getGraph().getNumberOfNodes()+session.getGraph().getNumberOfEdges()>1000)
-								|| ((e!=null && (e.getModifiers() & ActionEvent.SHIFT_MASK)==ActionEvent.SHIFT_MASK))
-						)
-				)
-					interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view chooser dialog in case the graph size is large
+			if (ReleaseInfo.getRunningReleaseStatus() != Release.KGML_EDITOR) {
+				if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY
+						&& session.getGraph() != null
+						&& ((session.getGraph().getNumberOfNodes() + session.getGraph().getNumberOfEdges() > 1000) || ((e != null && (e
+								.getModifiers() & ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK))))
+					interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view
+				// chooser dialog
+				// in case the
+				// graph size is
+				// large
 			}
-			if (interaction==LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
-				interaction=LoadSetting.VIEW_CHOOSER_NEVER;
+			if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
+				interaction = LoadSetting.VIEW_CHOOSER_NEVER;
 
-			// from here on only VIEW_CHOOSER_ALWAYS or VIEW_CHOOSER_NEVER_ALWAYS_DEFAULT should be set
+			// from here on only VIEW_CHOOSER_ALWAYS or
+			// VIEW_CHOOSER_NEVER_ALWAYS_DEFAULT should be set
 
-			if (interaction==LoadSetting.VIEW_CHOOSER_NEVER || interaction==LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION) {
+			if (interaction == LoadSetting.VIEW_CHOOSER_NEVER
+					|| interaction == LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION) {
 				String defaultView = viewManager.getDefaultView();
 				if (sessions.contains(session)) {
-					return createInternalFrame(defaultView, session.getGraph().getName(),
-							session, returnScrollPane, false, configNewView);
+					return createInternalFrame(defaultView, session.getGraph().getName(), session, returnScrollPane, false,
+							configNewView);
 				} else {
 					Graph g = session.getGraph();
 					String name = null;
-					if (g!=null)
+					if (g != null)
 						name = g.getName();
-					if (name==null)
+					if (name == null)
 						name = "[NULL]";
-					JScrollPane jsp = (JScrollPane)createInternalFrame(defaultView, name,
-							session, returnScrollPane, false, false, configNewView,
-							interaction!=LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION);
+					JScrollPane jsp = (JScrollPane) createInternalFrame(defaultView, name, session, returnScrollPane, false,
+							false, configNewView, interaction != LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION);
 					return jsp;
 				}
 			} else {
 				// interaction is VIEW_CHOOSER_ALWAYS
-				ViewTypeChooser viewChooser = new ViewTypeChooser(this,
-						sBundle.getString("viewchooser.title")+" ("+session.getGraph().getNumberOfNodes()+" nodes, "+session.getGraph().getNumberOfEdges()+" edges)",
-						viewManager.getViewDescriptions());
+				ViewTypeChooser viewChooser = new ViewTypeChooser(this, sBundle.getString("viewchooser.title") + " ("
+						+ session.getGraph().getNumberOfNodes() + " nodes, " + session.getGraph().getNumberOfEdges()
+						+ " edges)", viewManager.getViewDescriptions());
 
 				viewChooser.setLocationRelativeTo(MainFrame.getInstance());
 				viewChooser.setVisible(true);
 
 				// The user did not select a view.
-				if (viewChooser.getSelectedView() == -1) { return null; }
+				if (viewChooser.getSelectedView() == -1) {
+					return null;
+				}
 
 				final String selectedView = views[viewChooser.getSelectedView()];
 
 				if (viewChooser.getUserSelectionCreateInternalFrame()) {
 					if (selectedView != null) {
 						if (sessions.contains(session)) {
-							return createInternalFrame(selectedView, session.getGraph().getName(),
-									session, returnScrollPane, false, configNewView);
+							return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane,
+									false, configNewView);
 						} else {
-							return (JScrollPane)createInternalFrame(selectedView,
-									session.getGraph().getName(), session, returnScrollPane,
-									false, false, configNewView, true);
+							return (JScrollPane) createInternalFrame(selectedView, session.getGraph().getName(), session,
+									returnScrollPane, false, false, configNewView, true);
 						}
 					}
 				} else {
 					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
-							GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(
-									selectedView, session.getGraph().getName(), session,
-									false, true, false, configNewView, true);
-							GraffitiFrame gf = new GraffitiFrame(gif,false);
+							GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session
+									.getGraph().getName(), session, false, true, false, configNewView, true);
+							GraffitiFrame gf = new GraffitiFrame(gif, false);
 							gf.setExtendedState(Frame.MAXIMIZED_BOTH);
 							gf.setVisible(true);
 							addDetachedFrame(gf);
@@ -2542,7 +2566,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * This method is called when an undoableEdit happened.
-	 *
+	 * 
 	 * @see javax.swing.event.UndoableEditListener
 	 */
 	public void undoableEditHappened(UndoableEditEvent e) {
@@ -2558,7 +2582,9 @@ SelectionListener, DropTargetListener
 	}
 
 	/*
-	 * @see org.graffiti.managers.ViewManager.ViewManagerListener#viewTypeAdded(java.lang.String)
+	 * @see
+	 * org.graffiti.managers.ViewManager.ViewManagerListener#viewTypeAdded(java
+	 * .lang.String)
 	 */
 	public void viewTypeAdded(String viewType) {
 		updateActions();
@@ -2566,14 +2592,13 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Shows an error in a modal dialog box. (thread safe)
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
 	protected void showError(final String msg) {
 		if (SwingUtilities.isEventDispatchThread()) {
-			JOptionPane
-			.showMessageDialog(this, msg, StringBundle.getInstance()
-					.getString("message.dialog.title"),
+			JOptionPane.showMessageDialog(this, msg, StringBundle.getInstance().getString("message.dialog.title"),
 					JOptionPane.ERROR_MESSAGE);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
@@ -2586,7 +2611,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Returns the active <code>Tool</code>.
-	 *
+	 * 
 	 * @return the active <code>Tool</code>.
 	 */
 	Tool getActiveTool() {
@@ -2598,7 +2623,7 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Method fireViewChanged.
-	 *
+	 * 
 	 * @param newView
 	 */
 	void fireViewChanged(View newView) {
@@ -2608,14 +2633,14 @@ SelectionListener, DropTargetListener
 		}
 	}
 
-
-
 	/**
-	 * Sets the accel key of the given item.  The accel key information is
+	 * Sets the accel key of the given item. The accel key information is
 	 * gathered from the <code>sBundle</code>.
-	 *
-	 * @param item DOCUMENT ME!
-	 * @param action DOCUMENT ME!
+	 * 
+	 * @param item
+	 *           DOCUMENT ME!
+	 * @param action
+	 *           DOCUMENT ME!
 	 */
 	private void setAccelKey(JMenuItem item, GraffitiAction action) {
 		String accel = sBundle.getString("menu." + action.getName() + ".accel");
@@ -2625,7 +2650,7 @@ SelectionListener, DropTargetListener
 				int mask = 0;
 				String vers = System.getProperty("os.name").toLowerCase();
 				if (vers.indexOf("mac") >= 0) {
-					accel = StringManipulationTools.stringReplace(accel,"CTRL", "META");
+					accel = StringManipulationTools.stringReplace(accel, "CTRL", "META");
 					if (accel.equalsIgnoreCase("ALT_F4"))
 						accel = "META_Q";
 				}
@@ -2668,7 +2693,7 @@ SelectionListener, DropTargetListener
 		fileClose = new FileCloseAction(this);
 
 		fileSaveAs = new FileSaveAsAction(this, ioManager, this, sBundle);
-		//		fileSaveAll = new FileSaveAllAction(this, ioManager);
+		// fileSaveAll = new FileSaveAllAction(this, ioManager);
 
 		fileExit = new ExitAction(this);
 
@@ -2686,17 +2711,17 @@ SelectionListener, DropTargetListener
 		editDelete = new DeleteAction(this);
 		editSelectAll = new SelectAllAction(this);
 
-		//		redrawView = new RedrawViewAction(this);
+		// redrawView = new RedrawViewAction(this);
 	}
 
 	/**
-	 * Constructs a menu, and returns the menu.  &quot;menu.&quot;<tt>name</tt>
-	 * is read from the string bundle.
-	 * &uqot;menu.&quot;<tt>name</tt>&quot;.icon&quot; is read from the image
-	 * bundle.
-	 *
-	 * @param name the name of the menu item.
-	 *
+	 * Constructs a menu, and returns the menu. &quot;menu.&quot;<tt>name</tt> is
+	 * read from the string bundle. &uqot;menu.&quot;<tt>name</tt>
+	 * &quot;.icon&quot; is read from the image bundle.
+	 * 
+	 * @param name
+	 *           the name of the menu item.
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JMenu createMenu(String name) {
@@ -2709,12 +2734,10 @@ SelectionListener, DropTargetListener
 			String mnem = sBundle.getString("menu." + name + ".mnemonic");
 
 			if (mnem != null) {
-				menu.setMnemonic(Class.forName("java.awt.event.KeyEvent").getField(
-						mnem).getInt(null));
+				menu.setMnemonic(Class.forName("java.awt.event.KeyEvent").getField(mnem).getInt(null));
 			}
 		} catch (Exception e) {
-			ErrorMsg.addErrorMessage("Create menu error: "
-					+ e.getLocalizedMessage());
+			ErrorMsg.addErrorMessage("Create menu error: " + e.getLocalizedMessage());
 		}
 
 		return menu;
@@ -2722,13 +2745,14 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Creates and returns the menu bar.
-	 *
+	 * 
 	 * @return the menu bar.
 	 */
 	private JMenuBar createMenuBar(JMenu windowMenu) {
 		JMenuBar menuBar = new JMenuBar();
 
-		//		menuBar.putClientProperty(Options.HEADER_STYLE_KEY, HeaderStyle.SINGLE);
+		// menuBar.putClientProperty(Options.HEADER_STYLE_KEY,
+		// HeaderStyle.SINGLE);
 		guiMap.put("menu", menuBar);
 
 		// menu for file operations
@@ -2744,199 +2768,196 @@ SelectionListener, DropTargetListener
 
 		fileMenu.addSeparator();
 
-		//get recentfile-list from previous run(s)
-		if(!recentlist.exists())
+		// get recentfile-list from previous run(s)
+		if (!recentlist.exists())
 			try {
 				recentlist.createNewFile();
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
 
-			String[] sb = {"","","","",""};
-			int cnt=0;
+		String[] sb = { "", "", "", "", "" };
+		int cnt = 0;
 
-			try{
-				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(ReleaseInfo.getAppFolderWithFinalSep()+"recentfiles.txt"))));
-				String s;
-				while ((s = in.readLine()) != null && cnt<5) {
-					sb[cnt++]=s;
-				}
-				in.close();
-			} catch (IOException e1) {
-				ErrorMsg.addErrorMessage(e1);
-				e1.printStackTrace();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(ReleaseInfo
+					.getAppFolderWithFinalSep()
+					+ "recentfiles.txt"))));
+			String s;
+			while ((s = in.readLine()) != null && cnt < 5) {
+				sb[cnt++] = s;
 			}
+			in.close();
+		} catch (IOException e1) {
+			ErrorMsg.addErrorMessage(e1);
+			e1.printStackTrace();
+		}
 
-			fileMenu.addSeparator();
-			enclosingseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount()-1);
-			if(cnt>0&&!sb[0].equalsIgnoreCase(""))
-				enclosingseparator.setVisible(true);
-			else
-				enclosingseparator.setVisible(false);
+		fileMenu.addSeparator();
+		enclosingseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount() - 1);
+		if (cnt > 0 && !sb[0].equalsIgnoreCase(""))
+			enclosingseparator.setVisible(true);
+		else
+			enclosingseparator.setVisible(false);
 
+		recentfileslist = new RecentEntry[5];
 
-			recentfileslist = new RecentEntry[5];
+		recentfileslist[0] = new RecentEntry(sb[0], cnt > 0, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[0]);
+		// recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
+		// KeyEvent.VK_1, ActionEvent.C));
 
-			recentfileslist[0] = new RecentEntry(sb[0],cnt>0, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[0]);
-			//		recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
-			//		        KeyEvent.VK_1, ActionEvent.C));
+		recentfileslist[1] = new RecentEntry(sb[1], cnt > 1, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[1]);
+		recentfileslist[2] = new RecentEntry(sb[2], cnt > 2, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[2]);
+		recentfileslist[3] = new RecentEntry(sb[3], cnt > 3, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[3]);
+		recentfileslist[4] = new RecentEntry(sb[4], cnt > 4, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[4]);
 
-			recentfileslist[1] = new RecentEntry(sb[1],cnt>1, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[1]);
-			recentfileslist[2] = new RecentEntry(sb[2],cnt>2, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[2]);
-			recentfileslist[3] = new RecentEntry(sb[3],cnt>3, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[3]);
-			recentfileslist[4] = new RecentEntry(sb[4],cnt>4, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[4]);
+		fileMenu.addSeparator();
 
-			fileMenu.addSeparator();
+		fileMenu.add(createMenuItem(fileClose));
+		fileMenu.add(createMenuItem(fileExit));
 
-			fileMenu.add(createMenuItem(fileClose));
-			fileMenu.add(createMenuItem(fileExit));
+		// plugin menu entries will be added after position 7
+		// the default commands like open file, save file etc. should be the first
+		// menu items
+		fileMenu.putClientProperty("pluginMenuPosition", new Integer(7));
 
-			// plugin menu entries will be added after position 7
-			// the default commands like open file, save file etc. should be the first
-			// menu items
-			fileMenu.putClientProperty("pluginMenuPosition", new Integer(7));
+		// top level plugin menu entries (category menus) should be added
+		// after the file menu, and also after the edit menu, but
+		// before the window menu, this property controls this behavior
+		// the plugin menu entries will be added alphabetically sorted between
+		// the menu items which have first the value true and later the value
+		// false
+		fileMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			// top level plugin menu entries (category menus) should be added
-			// after the file menu, and also after the edit menu, but
-			// before the window menu, this property controls this behavior
-			// the plugin menu entries will be added alphabetically sorted between
-			// the menu items which have first the value true and later the value false
-			fileMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		// plugin menu entries should have empty space, where a icon could be
+		// displayed, this
+		// way the plugin menu items will be inline with the other menu items,
+		// which have a menu icon
+		fileMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
 
-			// plugin menu entries should have empty space, where a icon could be displayed, this
-			// way the plugin menu items will be inline with the other menu items, which have a menu icon
-			fileMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem",
-					new Boolean(true));
+		JMenu editMenu = createMenu("edit");
+		editMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
+		menuBar.add(editMenu);
 
-			JMenu editMenu = createMenu("edit");
-			editMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem",
-					new Boolean(true));
-			menuBar.add(editMenu);
+		editMenu.add(createMenuItem(editUndo));
+		editMenu.add(createMenuItem(editRedo));
+		editMenu.addSeparator();
+		editMenu.add(createMenuItem(editCut));
+		editMenu.add(createMenuItem(editCopy));
+		editMenu.add(createMenuItem(editPaste));
+		editMenu.addSeparator();
+		editMenu.add(createMenuItem(editDelete));
+		JMenuItem selectCmd = createMenuItem(editSelectAll);
+		selectCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
+		editMenu.add(selectCmd);
+		// editMenu.addSeparator();
+		// JMenuItem redrawCmd = createMenuItem(redrawView);
+		// redrawCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
+		// editMenu.add(redrawCmd);
 
-			editMenu.add(createMenuItem(editUndo));
-			editMenu.add(createMenuItem(editRedo));
-			editMenu.addSeparator();
-			editMenu.add(createMenuItem(editCut));
-			editMenu.add(createMenuItem(editCopy));
-			editMenu.add(createMenuItem(editPaste));
-			editMenu.addSeparator();
-			editMenu.add(createMenuItem(editDelete));
-			JMenuItem selectCmd = createMenuItem(editSelectAll);
-			selectCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
-			editMenu.add(selectCmd);
-			// editMenu.addSeparator();
-			// JMenuItem redrawCmd = createMenuItem(redrawView);
-			// redrawCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
-			// editMenu.add(redrawCmd);
+		editMenu.putClientProperty("pluginMenuPosition", new Integer(9));
+		editMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			editMenu.putClientProperty("pluginMenuPosition", new Integer(9));
-			editMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		pluginMenu = createMenu("plugin");
+		pluginMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			pluginMenu = createMenu("plugin");
-			pluginMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		if (uiPrefs.get("showPluginMenu", "true").equalsIgnoreCase("true"))
+			menuBar.add(pluginMenu);
 
-			if (uiPrefs.get("showPluginMenu", "true").equalsIgnoreCase("true"))
-				menuBar.add(pluginMenu);
+		if (uiPrefs.get("showPluginManagerMenuOptions", "true").equals("true")) {
+			pluginMenu.add(createMenuItem(pluginManagerEdit));
 
-			if (uiPrefs.get("showPluginManagerMenuOptions", "true").equals("true")) {
-				pluginMenu.add(createMenuItem(pluginManagerEdit));
-
-				// NEW SAVE / LOmenuBarAD PREFRENCES ***************************************
-				JMenuItem pluginPrefsSave = new JMenuItem("Save Preferences...");
-				JMenuItem pluginPrefsLoad = new JMenuItem("Load Preferences...");
-				pluginPrefsLoad.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser fc = new JFileChooser();
-						fc.showOpenDialog(null);
-						File selFile = fc.getSelectedFile();
-						String err = null;
-						try {
-							Preferences.importPreferences(new FileInputStream(selFile));
-						} catch (FileNotFoundException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (IOException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (InvalidPreferencesFormatException e1) {
-							err = e1.getLocalizedMessage();
-						}
-						if (err != null)
-							JOptionPane.showMessageDialog(null,
-									"Error while reading preferences: " + err, "Error",
-									JOptionPane.ERROR_MESSAGE);
-						try {
-							getPluginManager().loadStartupPlugins();
-						} catch (PluginManagerException e2) {
-							String errm = e2.getLocalizedMessage();
-							JOptionPane.showMessageDialog(null,
-									"Error while loading plugins: " + errm, "Error",
-									JOptionPane.ERROR_MESSAGE);
-						}
+			// NEW SAVE / LOmenuBarAD PREFRENCES
+			// ***************************************
+			JMenuItem pluginPrefsSave = new JMenuItem("Save Preferences...");
+			JMenuItem pluginPrefsLoad = new JMenuItem("Load Preferences...");
+			pluginPrefsLoad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.showOpenDialog(null);
+					File selFile = fc.getSelectedFile();
+					String err = null;
+					try {
+						Preferences.importPreferences(new FileInputStream(selFile));
+					} catch (FileNotFoundException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (IOException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (InvalidPreferencesFormatException e1) {
+						err = e1.getLocalizedMessage();
 					}
-				});
-				pluginPrefsSave.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser fc = new JFileChooser();
-						fc.showSaveDialog(null);
-						File selFile = fc.getSelectedFile();
-						String err = null;
-						try {
-							Preferences prefs = Preferences
-							.userNodeForPackage(GraffitiEditor.class);
-							prefs.exportSubtree(new FileOutputStream(selFile));
-						} catch (FileNotFoundException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (IOException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (BackingStoreException e1) {
-							err = e1.getLocalizedMessage();
-						}
-						if (err != null)
-							JOptionPane.showMessageDialog(null,
-									"Error while saving preferences: " + err, "Error",
-									JOptionPane.ERROR_MESSAGE);
+					if (err != null)
+						JOptionPane.showMessageDialog(null, "Error while reading preferences: " + err, "Error",
+								JOptionPane.ERROR_MESSAGE);
+					try {
+						getPluginManager().loadStartupPlugins();
+					} catch (PluginManagerException e2) {
+						String errm = e2.getLocalizedMessage();
+						JOptionPane.showMessageDialog(null, "Error while loading plugins: " + errm, "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
-				});
-				pluginMenu.add(pluginPrefsSave);
-				pluginMenu.add(pluginPrefsLoad);
+				}
+			});
+			pluginPrefsSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.showSaveDialog(null);
+					File selFile = fc.getSelectedFile();
+					String err = null;
+					try {
+						Preferences prefs = Preferences.userNodeForPackage(GraffitiEditor.class);
+						prefs.exportSubtree(new FileOutputStream(selFile));
+					} catch (FileNotFoundException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (IOException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (BackingStoreException e1) {
+						err = e1.getLocalizedMessage();
+					}
+					if (err != null)
+						JOptionPane.showMessageDialog(null, "Error while saving preferences: " + err, "Error",
+								JOptionPane.ERROR_MESSAGE);
+				}
+			});
+			pluginMenu.add(pluginPrefsSave);
+			pluginMenu.add(pluginPrefsLoad);
 
-				// ******************************************************************
-				pluginMenu.addSeparator();
-				pluginMenu.putClientProperty("pluginMenuPosition", new Integer(4));
-			} else
-				pluginMenu.putClientProperty("pluginMenuPosition", new Integer(0));
+			// ******************************************************************
+			pluginMenu.addSeparator();
+			pluginMenu.putClientProperty("pluginMenuPosition", new Integer(4));
+		} else
+			pluginMenu.putClientProperty("pluginMenuPosition", new Integer(0));
 
-			windowMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem",
-					new Boolean(false));
-			windowMenu.putClientProperty("pluginMenuAddAfter", new Boolean(false));
-			// windowMenu.add(redrawCmd);
-			menuBar.add(windowMenu);
+		windowMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(false));
+		windowMenu.putClientProperty("pluginMenuAddAfter", new Boolean(false));
+		// windowMenu.add(redrawCmd);
+		menuBar.add(windowMenu);
 
-			// menuBar.setBorderPainted(false);
+		// menuBar.setBorderPainted(false);
 
-			return menuBar;
+		return menuBar;
 	}
 
 	/**
 	 * Shows an arbitrary message dialog.
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
 	public void showMessageDialog(String msg) {
-		showMessageDialog(msg, StringBundle.getInstance().getString(
-		"message.dialog.title"));
+		showMessageDialog(msg, StringBundle.getInstance().getString("message.dialog.title"));
 	}
 
 	private JComponent getGUIcomponentFromMap(String id) {
 		return guiMap.get(id);
 	}
 
-	public void setGUIcomponent(String id, JComponent o)
-	{
+	public void setGUIcomponent(String id, JComponent o) {
 		if (guiMap.containsKey(id))
 			guiMap.remove(id);
 		guiMap.put(id, o);
@@ -2946,14 +2967,15 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Shows an arbitrary message dialog.
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
 	public static void showMessageDialog(final String msg, final String title) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
-					if (shownMessages==null) {
+					if (shownMessages == null) {
 						shownMessages = new FolderPanel("", false, false, false, null);
 						shownMessages.setFrameColor(null, null, 0, 2);
 						shownMessages.setBackground(null);
@@ -2962,8 +2984,10 @@ SelectionListener, DropTargetListener
 							public void ancestorRemoved(AncestorEvent event) {
 								shownMessages.clearGuiComponentList();
 							}
+
 							public void ancestorMoved(AncestorEvent event) {
 							}
+
 							public void ancestorAdded(AncestorEvent event) {
 							}
 						});
@@ -2973,30 +2997,28 @@ SelectionListener, DropTargetListener
 
 					shownMessages.addGuiComponentRow(null, lbl, false);
 
-					if (shownMessages.getRowCount()>1) {
+					if (shownMessages.getRowCount() > 1) {
 						shownMessages.setMaximumRowCount(1, true);
-						shownMessages.setTitle("<html><small><font color='gray'>"+
-								(shownMessages.getRowCount()-1)+" additional message" +
-								((shownMessages.getRowCount()-1)>1 ? "s" : "") +
-						" available (use arrow buttons to navigate)");
-						//						shownMessages.setIconSize(Iconsize.MIDDLE);
+						shownMessages.setTitle("<html><small><font color='gray'>" + (shownMessages.getRowCount() - 1)
+								+ " additional message" + ((shownMessages.getRowCount() - 1) > 1 ? "s" : "")
+								+ " available (use arrow buttons to navigate)");
+						// shownMessages.setIconSize(Iconsize.MIDDLE);
 					} else {
 						shownMessages.setMaximumRowCount(-1, true);
 						shownMessages.setTitle("");
-						//						shownMessages.setIconSize(Iconsize.SMALL);
+						// shownMessages.setIconSize(Iconsize.SMALL);
 					}
 
 					shownMessages.layoutRows();
 
-					if (shownMessages.getRowCount()==1) {
+					if (shownMessages.getRowCount() == 1) {
 						boolean vis = MainFrame.getInstance().isVisible();
 						Component ref;
 						if (!vis)
 							ref = ReleaseInfo.getApplet();
 						else
 							ref = MainFrame.getInstance();
-						JOptionPane.showMessageDialog(ref, shownMessages,
-								title, JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(ref, shownMessages, title, JOptionPane.INFORMATION_MESSAGE);
 					}
 
 					shownMessages.dialogSizeUpdate();
@@ -3020,7 +3042,7 @@ SelectionListener, DropTargetListener
 				public void run() {
 					try {
 						showMessageDialogWithScrollBars(msg, title);
-					} catch(Exception e) {
+					} catch (Exception e) {
 
 					}
 				}
@@ -3037,7 +3059,7 @@ SelectionListener, DropTargetListener
 				public void run() {
 					try {
 						showMessageDialogWithScrollBars2(msg, title);
-					} catch(Exception e) {
+					} catch (Exception e) {
 
 					}
 				}
@@ -3051,12 +3073,13 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Constructs a menu item, registers this class as action listener and
-	 * returns the menu item.  &quot;menu.&quot;<tt>name</tt> is read from the
+	 * returns the menu item. &quot;menu.&quot;<tt>name</tt> is read from the
 	 * string bundle. &uqot;menu.&quot;<tt>name</tt>&quot;.icon&quot; is read
 	 * from the image bundle.
-	 *
-	 * @param action the action, which should be executed by this menu item.
-	 *
+	 * 
+	 * @param action
+	 *           the action, which should be executed by this menu item.
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JMenuItem createMenuItem(final GraffitiAction action) {
@@ -3068,12 +3091,14 @@ SelectionListener, DropTargetListener
 			public void actionPerformed(ActionEvent arg0) {
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						//						GraffitiAction.updateAllActions();
+						// GraffitiAction.updateAllActions();
 						if (ScenarioService.isRecording()) {
 							ScenarioService.postWorkflowStep(action);
 						}
-					}});
-			}});
+					}
+				});
+			}
+		});
 
 		item.setText(sBundle.getString("menu." + actionName));
 		item.setIcon(iBundle.getImageIcon("menu." + actionName + ".icon"));
@@ -3082,8 +3107,7 @@ SelectionListener, DropTargetListener
 			String mnem = sBundle.getString("menu." + actionName + ".mnemonic");
 
 			if (mnem != null) {
-				item.setMnemonic(Class.forName("java.awt.event.KeyEvent").getField(
-						mnem).getInt(null));
+				item.setMnemonic(Class.forName("java.awt.event.KeyEvent").getField(mnem).getInt(null));
 			}
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e.getLocalizedMessage());
@@ -3095,34 +3119,36 @@ SelectionListener, DropTargetListener
 	}
 
 	public void installDragNDropForGraphFiles(final JButton target) {
-		target.setToolTipText("<html>"+target.getToolTipText()+"<br>(Drag & Drop supported)");
+		target.setToolTipText("<html>" + target.getToolTipText() + "<br>(Drag & Drop supported)");
 		FileDrop.Listener fdl = new FileDrop.Listener() {
 			public void filesDropped(File[] files) {
 				GravistoService.getInstance().loadFiles(files);
 			}
 		};
 
-		Runnable dragdetected =  new Runnable() {
+		Runnable dragdetected = new Runnable() {
 			public void run() {
-				MainFrame.showMessage("<html><b>Drag &amp; Drop action detected:</b> release mouse button to load graph file", MessageType.PERMANENT_INFO);
+				MainFrame.showMessage(
+						"<html><b>Drag &amp; Drop action detected:</b> release mouse button to load graph file",
+						MessageType.PERMANENT_INFO);
 				target.setBorderPainted(true);
 				target.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 			}
 		};
 
-		Runnable dragenddetected =  new Runnable() {
+		Runnable dragenddetected = new Runnable() {
 			public void run() {
-				// MainFrame.showMessage("Drag & Drop action canceled", MessageType.INFO);
+				// MainFrame.showMessage("Drag & Drop action canceled",
+				// MessageType.INFO);
 				target.setBorderPainted(false);
 			}
 		};
 		new FileDrop(target, fdl, dragdetected, dragenddetected);
 	}
 
-
 	/**
 	 * Creates the editor's tool bar.
-	 *
+	 * 
 	 * @return the toolbar for the editor.
 	 */
 	private JToolBar createToolBar() {
@@ -3136,9 +3162,8 @@ SelectionListener, DropTargetListener
 		ErrorMsg.addOnAppLoadingFinishedAction(new Runnable() {
 			public void run() {
 				installDragNDropForGraphFiles(toolbarButtonFileOpen);
-			}});
-
-
+			}
+		});
 
 		toolBar.add(toolbarButtonFileOpen);
 		toolBar.addSeparator();
@@ -3146,12 +3171,12 @@ SelectionListener, DropTargetListener
 		toolBar.add(createToolBarButton(fileSaveAs));
 
 		toolBar.addSeparator();
-		//		if (!ReleaseInfo.isRunningAsApplet()) {
+		// if (!ReleaseInfo.isRunningAsApplet()) {
 		toolBar.add(createToolBarButton(editCut));
 		toolBar.add(createToolBarButton(editCopy));
 		toolBar.add(createToolBarButton(editPaste));
 		toolBar.addSeparator();
-		//		}
+		// }
 		toolBar.add(createToolBarButton(editUndo));
 		toolBar.add(createToolBarButton(editRedo));
 
@@ -3162,9 +3187,10 @@ SelectionListener, DropTargetListener
 
 	/**
 	 * Constructs and returns a button.
-	 *
-	 * @param action the action, which is associated with this button.
-	 *
+	 * 
+	 * @param action
+	 *           the action, which is associated with this button.
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JButton createToolBarButton(GraffitiAction action) {
@@ -3175,23 +3201,20 @@ SelectionListener, DropTargetListener
 		button.setBackground(null);
 
 		button.setText(sBundle.getString("toolbar." + action.getName()));
-		button.setToolTipText(sBundle.getString("toolbar." + action.getName()
-				+ ".tooltip"));
-		button.setIcon(iBundle.getImageIcon("toolbar." + action.getName()
-				+ ".icon"));
+		button.setToolTipText(sBundle.getString("toolbar." + action.getName() + ".tooltip"));
+		button.setIcon(iBundle.getImageIcon("toolbar." + action.getName() + ".icon"));
 
-		//a little bag of tricks: java developers use a string value for this property
+		// a little bag of tricks: java developers use a string value for this
+		// property
 		// instead of a constant, moreover is this string value not documented.ww
 
 		button.putClientProperty("hideActionText", new Boolean(true));
 
 		try {
-			String mnem = sBundle.getString("toolbar." + action.getName()
-					+ ".mnemonic");
+			String mnem = sBundle.getString("toolbar." + action.getName() + ".mnemonic");
 
 			if (mnem != null) {
-				button.setMnemonic(Class.forName("java.awt.event.KeyEvent")
-						.getField(mnem).getInt(null));
+				button.setMnemonic(Class.forName("java.awt.event.KeyEvent").getField(mnem).getInt(null));
 			}
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
@@ -3203,7 +3226,7 @@ SelectionListener, DropTargetListener
 		return button;
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
 	 * Listener for the internal frames.
@@ -3236,14 +3259,12 @@ SelectionListener, DropTargetListener
 
 			GraffitiInternalFrame f = (GraffitiInternalFrame) e.getInternalFrame();
 
-			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
-			.getSession();
+			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame()).getSession();
 
-			if (session==null) {
+			if (session == null) {
 				// already processed
 				return;
 			}
-
 
 			activeFrames.remove(f);
 
@@ -3252,11 +3273,11 @@ SelectionListener, DropTargetListener
 			viewFrameMapper.remove(view);
 			zoomListeners.remove(view);
 
-			if (session==null)
+			if (session == null)
 				System.out.println("ERROR 123");
-			if (session.getGraph()==null)
+			if (session.getGraph() == null)
 				System.out.println("ERROR 987");
-			if (session.getGraph().getListenerManager()==null)
+			if (session.getGraph().getListenerManager() == null)
 				System.out.println("ERROR 654");
 
 			ListenerManager lm = session.getGraph().getListenerManager();
@@ -3274,54 +3295,56 @@ SelectionListener, DropTargetListener
 
 			session.removeView(f.getView());
 
-			if (session.getViews().size()==0) {
+			if (session.getViews().size() == 0) {
 				undoSupport.removeUndoableEditListener((session).getUndoManager());
 				session.getUndoManager().discardAllEdits();
-				//				session.getGraph().clear();
+				// session.getGraph().clear();
 				sessions.remove(session);
 				session.close();
 				for (SessionListener sl : sessionListeners) {
 					if (sl instanceof SessionListenerExt)
-						((SessionListenerExt)sl).sessionClosed(session);
+						((SessionListenerExt) sl).sessionClosed(session);
 				}
 			}
 
-			if (getEditorSessions().size()==0)
+			if (getEditorSessions().size() == 0)
 				setActiveSession(null, null);
-			//			System.out.println("Open sessions: "+getEditorSessions().size());
+			// System.out.println("Open sessions: "+getEditorSessions().size());
 		}
 
-		/* (non-Javadoc)
-		 * @see javax.swing.event.InternalFrameListener#internalFrameClosing(javax.swing.event.InternalFrameEvent)
+		/*
+		 * (non-Javadoc)
+		 * 
+		 * @see
+		 * javax.swing.event.InternalFrameListener#internalFrameClosing(javax.
+		 * swing.event.InternalFrameEvent)
 		 */
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 
 			GraffitiInternalFrame f = (GraffitiInternalFrame) e.getInternalFrame();
 
-			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame())
-			.getSession();
+			EditorSession session = ((GraffitiInternalFrame) e.getInternalFrame()).getSession();
 
 			if (session.getViews().size() >= 2) {
 				detachedFrames.remove(f);
 			}
-
 
 			View view = f.getView();
 			view.closing(e);
 		}
 
 		public void windowActivated(WindowEvent e) {
-			//			GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
-			//			graffitiFrameActivated(iframe.getSession(), iframe.getView());
+			// GraffitiFrame iframe = (GraffitiFrame) e.getWindow();
+			// graffitiFrameActivated(iframe.getSession(), iframe.getView());
 		}
 
 		private void graffitiFrameActivated(EditorSession session, View view) {
-			//			if (session != activeSession) {
-			//				setActiveSession(session, view);
-			//			} else {
-			//				fireViewChanged(view);
-			//			}
+			// if (session != activeSession) {
+			// setActiveSession(session, view);
+			// } else {
+			// fireViewChanged(view);
+			// }
 		}
 
 		public void windowClosed(WindowEvent e) {
@@ -3332,7 +3355,6 @@ SelectionListener, DropTargetListener
 			if (session.getViews().size() >= 2) {
 				detachedFrames.remove(f);
 			}
-
 
 			View view = f.getView();
 
@@ -3354,7 +3376,6 @@ SelectionListener, DropTargetListener
 
 			session.removeView(f.getView());
 
-
 			setTitle(GraffitiInternalFrame.startTitle);
 			mainFrame.updateActions();
 
@@ -3368,15 +3389,21 @@ SelectionListener, DropTargetListener
 				detachedFrames.remove(f);
 			}
 
-
 			View view = f.getView();
 			view.closing(e);
 		}
 
-		public void windowDeactivated(WindowEvent e) { }
-		public void windowDeiconified(WindowEvent e) { }
-		public void windowIconified(WindowEvent e) { }
-		public void windowOpened(WindowEvent e) { }
+		public void windowDeactivated(WindowEvent e) {
+		}
+
+		public void windowDeiconified(WindowEvent e) {
+		}
+
+		public void windowIconified(WindowEvent e) {
+		}
+
+		public void windowOpened(WindowEvent e) {
+		}
 	}
 
 	public void closeGravisto() {
@@ -3389,29 +3416,27 @@ SelectionListener, DropTargetListener
 					unsavedGraphs.add(s.getGraph());
 			l.add(s);
 		}
-		if (unsavedGraphs.size()>0) {
+		if (unsavedGraphs.size() > 0) {
 			String names = "";
 			for (Graph g : unsavedGraphs)
-				names+="<li>"+g.getName()+(unsavedGraphs.indexOf(g)<unsavedGraphs.size()-1 ? "<br>":"");
+				names += "<li>" + g.getName() + (unsavedGraphs.indexOf(g) < unsavedGraphs.size() - 1 ? "<br>" : "");
 			int res = JOptionPane.showConfirmDialog(this,
-					"<html><b>Do you really want to close the application?</b><p><p>"+
-					"The following graph(s) have not been saved, yet:<br><ol>"+
-					names,
-					unsavedGraphs.size()+" graph(s) not saved",
-					JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+					"<html><b>Do you really want to close the application?</b><p><p>"
+							+ "The following graph(s) have not been saved, yet:<br><ol>" + names, unsavedGraphs.size()
+							+ " graph(s) not saved", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (res == JOptionPane.YES_OPTION) {
-				/*for (Iterator it = l.iterator(); it.hasNext();) {
-					removeSession((Session) it.next());
-				}
-				savePreferences();*/
-				//HomeFolder.deleteTemporaryFolder();
+				/*
+				 * for (Iterator it = l.iterator(); it.hasNext();) {
+				 * removeSession((Session) it.next()); } savePreferences();
+				 */
+				// HomeFolder.deleteTemporaryFolder();
 				if (!ReleaseInfo.isRunningAsApplet())
 					System.exit(0);
 				else
 					setVisible(false);
 			}
 		} else {
-			//HomeFolder.deleteTemporaryFolder();
+			// HomeFolder.deleteTemporaryFolder();
 			if (!ReleaseInfo.isRunningAsApplet())
 				System.exit(0);
 			else
@@ -3419,64 +3444,67 @@ SelectionListener, DropTargetListener
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.awt.Component#processEvent(java.awt.AWTEvent)
 	 */
 	@Override
 	protected void processEvent(AWTEvent e) {
 		super.processEvent(e);
-		if (e.getID() == 201) closeGravisto();
+		if (e.getID() == 201)
+			closeGravisto();
 	}
 
-	//	/**
-	//	 * Adds a JComponent to a JFrame which is shown in the Desktop
-	//	 * @param component
-	//	 */
-	//	public void addFrame(JComponent component, String title) {
-	//		JFrame frame = new JFrame(title);
-	//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	// /**
+	// * Adds a JComponent to a JFrame which is shown in the Desktop
+	// * @param component
+	// */
+	// public void addFrame(JComponent component, String title) {
+	// JFrame frame = new JFrame(title);
+	// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	//
-	//		JPanel panel = new JPanel();
-	//		panel.setLayout(new BorderLayout());
-	//		panel.setPreferredSize(new Dimension(700, 500));
-	//		panel.add(component, BorderLayout.CENTER);
+	// JPanel panel = new JPanel();
+	// panel.setLayout(new BorderLayout());
+	// panel.setPreferredSize(new Dimension(700, 500));
+	// panel.add(component, BorderLayout.CENTER);
 	//
-	//		frame.getContentPane().add(panel, BorderLayout.CENTER);
-	//		frame.pack();
-	//		frame.setVisible(true);
+	// frame.getContentPane().add(panel, BorderLayout.CENTER);
+	// frame.pack();
+	// frame.setVisible(true);
 	//
-	//	}
+	// }
 
 	/**
-	 * @param panel A status panel that will be shown in the progress area.
-	 * A timer calls isVisible to this panel. If it is not visible any more,
-	 * it will be removed from the status area.
+	 * @param panel
+	 *           A status panel that will be shown in the progress area. A timer
+	 *           calls isVisible to this panel. If it is not visible any more, it
+	 *           will be removed from the status area.
 	 */
 	public void addStatusPanel(JPanel panel) {
-		if (jSplitPane_pluginPanelAndProgressView != null
-				&& progressPanel != null) {
+		if (jSplitPane_pluginPanelAndProgressView != null && progressPanel != null) {
 			if (activeProgressPanels == null)
 				activeProgressPanels = new ArrayList<JPanel>();
 
 			// create and install status check for the panels
-			if (timerCheckActiveProgressPanels == null) initProgressGuiTimer();
+			if (timerCheckActiveProgressPanels == null)
+				initProgressGuiTimer();
 
-			synchronized(activeProgressPanels) {
-				if (panel!=null)
+			synchronized (activeProgressPanels) {
+				if (panel != null)
 					activeProgressPanels.add(panel);
 			}
 		}
 	}
 
-	//	public List<JPanel> getStatusPanels() {
-	//		ArrayList<JPanel> result = new ArrayList<JPanel>();
-	//		synchronized(activeProgressPanels) {
-	//			if (activeProgressPanels!=null)
-	//				result.addAll(activeProgressPanels);
-	//		}
-	//		return result;
-	//	}
-
+	// public List<JPanel> getStatusPanels() {
+	// ArrayList<JPanel> result = new ArrayList<JPanel>();
+	// synchronized(activeProgressPanels) {
+	// if (activeProgressPanels!=null)
+	// result.addAll(activeProgressPanels);
+	// }
+	// return result;
+	// }
 
 	private boolean firstGuiTimerCall = true;
 	private long redrawGUIcount = 0;
@@ -3487,19 +3515,19 @@ SelectionListener, DropTargetListener
 				redrawGUIcount++;
 				ArrayList<JPanel> toBeDeleted = new ArrayList<JPanel>();
 				boolean foundSomething = false;
-				synchronized(activeProgressPanels) {
+				synchronized (activeProgressPanels) {
 					for (JPanel jp : activeProgressPanels) {
 						if (!jp.isVisible()) {
 							toBeDeleted.add(jp);
 							foundSomething = true;
 						}
 					}
-					if (foundSomething) activeProgressPanels.removeAll(toBeDeleted);
+					if (foundSomething)
+						activeProgressPanels.removeAll(toBeDeleted);
 
-					if (firstGuiTimerCall
-							|| (redrawGUIcount % 10 == 0)
+					if (firstGuiTimerCall || (redrawGUIcount % 10 == 0)
 							|| (progressPanel.getComponentCount() != activeProgressPanels.size())) {
-						if (jSplitPane_pluginPanelAndProgressView.getHeight()>0)
+						if (jSplitPane_pluginPanelAndProgressView.getHeight() > 0)
 							firstGuiTimerCall = false;
 						updatePanelGUI();
 					}
@@ -3510,15 +3538,15 @@ SelectionListener, DropTargetListener
 	}
 
 	private void updatePanelGUI() {
-		synchronized(activeProgressPanels) {
-			//			int height = 0;
-			//			for (JPanel jp : activeProgressPanels) {
-			//				height += jp.getPreferredSize().height; // ??? -15 ????
-			//			}
-			//			jSplitPane_pluginPanelAndProgressView
-			//						.setDividerLocation(jSplitPane_pluginPanelAndProgressView
-			//									.getHeight()
-			//									- height);
+		synchronized (activeProgressPanels) {
+			// int height = 0;
+			// for (JPanel jp : activeProgressPanels) {
+			// height += jp.getPreferredSize().height; // ??? -15 ????
+			// }
+			// jSplitPane_pluginPanelAndProgressView
+			// .setDividerLocation(jSplitPane_pluginPanelAndProgressView
+			// .getHeight()
+			// - height);
 
 			progressPanel.removeAll();
 			// progressPanel.validate();
@@ -3542,8 +3570,12 @@ SelectionListener, DropTargetListener
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.graffiti.selection.SelectionListener#selectionChanged(org.graffiti.selection.SelectionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.graffiti.selection.SelectionListener#selectionChanged(org.graffiti
+	 * .selection.SelectionEvent)
 	 */
 	public void selectionChanged(SelectionEvent e) {
 		if (SwingUtilities.isEventDispatchThread()) {
@@ -3553,11 +3585,11 @@ SelectionListener, DropTargetListener
 			for (GraffitiInternalFrame frame : activeFrames) {
 				frame.setTitle(frame.getSession().getGraph().getName());
 				boolean mod = frame.getSession().getGraph().isModified();
-				if (frame.getBorder()!=null)
+				if (frame.getBorder() != null)
 					frame.putClientProperty("windowModified", mod);
 				if (mod) {
 					oneModified = true;
-					frame.setTitle(frame.getTitle()+"*");
+					frame.setTitle(frame.getTitle() + "*");
 				}
 			}
 			getRootPane().putClientProperty("windowModified", oneModified);
@@ -3566,15 +3598,19 @@ SelectionListener, DropTargetListener
 				boolean mod = gf.getSession().getGraph().isModified();
 				if (mod) {
 					oneModified = true;
-					gf.setTitle(gf.getTitle()+"*");
+					gf.setTitle(gf.getTitle() + "*");
 				}
 			}
 		} else
 			repaint(100);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti.selection.SelectionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti
+	 * .selection.SelectionEvent)
 	 */
 	public void selectionListChanged(SelectionEvent e) {
 		if (SwingUtilities.isEventDispatchThread()) {
@@ -3586,10 +3622,9 @@ SelectionListener, DropTargetListener
 
 	private boolean graphLoadingInProgress;
 
-
-	//	public JSplitPane getAttributePanel() {
-	//		return jSplitPane_pluginPanelAndProgressView;
-	//	}
+	// public JSplitPane getAttributePanel() {
+	// return jSplitPane_pluginPanelAndProgressView;
+	// }
 
 	public GraffitiFrame[] getDetachedFrames() {
 		return detachedFrames.toArray(new GraffitiFrame[] {});
@@ -3607,7 +3642,7 @@ SelectionListener, DropTargetListener
 	public GraffitiFrame getActiveDetachedFrame() {
 		EditorSession es = getActiveEditorSession();
 		for (GraffitiFrame gf : getDetachedFrames()) {
-			if (gf.getSession()==es) {
+			if (gf.getSession() == es) {
 				return gf;
 			}
 		}
@@ -3618,9 +3653,9 @@ SelectionListener, DropTargetListener
 		Rectangle r = MainFrame.getInstance().getBounds();
 		int w = md.getWidth();
 		int h = md.getHeight();
-		int x = r.x+r.width/2-w/2;
-		int y = r.y+r.height/2-h/2;
-		return new Rectangle(x,y,w,h);
+		int x = r.x + r.width / 2 - w / 2;
+		int y = r.y + r.height / 2 - h / 2;
+		return new Rectangle(x, y, w, h);
 	}
 
 	public void dragEnter(DropTargetDragEvent dtde) {
@@ -3649,7 +3684,7 @@ SelectionListener, DropTargetListener
 		System.out.println("Drop");
 		e.acceptDrop(DnDConstants.ACTION_COPY_OR_MOVE);
 
-		String s0=null;
+		String s0 = null;
 		if (e.isDataFlavorSupported(DataFlavor.stringFlavor)) {
 			try {
 				s0 = (String) e.getTransferable().getTransferData(DataFlavor.stringFlavor);
@@ -3658,18 +3693,17 @@ SelectionListener, DropTargetListener
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
-			s0=StringManipulationTools.stringReplace(s0, ""+"\n", ""+"\r");
+			s0 = StringManipulationTools.stringReplace(s0, "" + "\n", "" + "\r");
 		}
-		final String s=s0;
+		final String s = s0;
 
 		File f = new File(s);
 		if (f.exists() && f.canRead()) {
 			loadGraph(f);
 		}
 
-		Object data0=null;
-		if (e.isDataFlavorSupported(DataFlavor.javaFileListFlavor))
-		{
+		Object data0 = null;
+		if (e.isDataFlavorSupported(DataFlavor.javaFileListFlavor)) {
 			try {
 				data0 = e.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
 			} catch (UnsupportedFlavorException e1) {
@@ -3678,11 +3712,10 @@ SelectionListener, DropTargetListener
 				ErrorMsg.addErrorMessage(e1);
 			}
 		}
-		Object data=data0;
+		Object data = data0;
 
-		if (data!=null)
-			for (int i = 0; i < ((java.util.List) data).size(); i++)
-			{
+		if (data != null)
+			for (int i = 0; i < ((java.util.List) data).size(); i++) {
 				final File file = (File) ((java.util.List) data).get(i);
 
 				if (file.isDirectory())
@@ -3696,16 +3729,30 @@ SelectionListener, DropTargetListener
 
 	public static void showMessageDialog(String title, JComponent comp) {
 		comp.setPreferredSize(new Dimension(640, 480));
-		JOptionPane.showMessageDialog(MainFrame.getInstance(), comp, title,
-				JOptionPane.INFORMATION_MESSAGE);
+		JOptionPane.showMessageDialog(MainFrame.getInstance(), comp, title, JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public static void showMessageDialogPlain(String title, JComponent comp) {
-		JOptionPane.showMessageDialog(MainFrame.getInstance(), comp, title,
-				JOptionPane.PLAIN_MESSAGE);
+		JOptionPane.showMessageDialog(MainFrame.getInstance(), comp, title, JOptionPane.PLAIN_MESSAGE);
 	}
 
-	public static void showMessageWindow(String title, JComponent jc) {
+	public static void showMessageWindowUpdate(JFrame jf, String title, JComponent jc) {
+		jf.setTitle(title);
+		jf.removeAll();
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jf.setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
+		jf.add(jc, "0,0");
+		jf.validate();
+		jf.pack();
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		jf.setVisible(true);
+	}
+
+	public static JFrame showMessageWindow(String title, JComponent jc) {
+		return showMessageWindow(title, jc, true);
+	}
+
+	public static JFrame showMessageWindow(String title, JComponent jc, boolean show) {
 		JFrame jf = new JFrame(title);
 		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		jf.setLocationByPlatform(true);
@@ -3714,14 +3761,17 @@ SelectionListener, DropTargetListener
 		jf.add(jc, "0,0");
 		jf.validate();
 		jf.pack();
-		jf.setVisible(true);
+		jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		if (show)
+			jf.setVisible(true);
+		return jf;
 	}
 
 	public boolean isTaskPanelVisible(String string) {
-		synchronized(activeProgressPanels) {
+		synchronized (activeProgressPanels) {
 			for (JPanel jp : activeProgressPanels) {
-				String title = (String)jp.getClientProperty("title");
-				if (title!=null && title.toUpperCase().contains(string.toUpperCase()))
+				String title = (String) jp.getClientProperty("title");
+				if (title != null && title.toUpperCase().contains(string.toUpperCase()))
 					return true;
 			}
 		}
@@ -3729,24 +3779,26 @@ SelectionListener, DropTargetListener
 	}
 
 	public boolean lookUpAndSwitchToNamedSession(String fileName) {
-		if (fileName.indexOf("/")>0) {
-			fileName = fileName.substring(fileName.lastIndexOf("/")+"/".length());
+		if (fileName.indexOf("/") > 0) {
+			fileName = fileName.substring(fileName.lastIndexOf("/") + "/".length());
 		}
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileNameFull()!=null && (es.getFileNameFull().toString().endsWith(fileName)))
+			if (es.getFileNameFull() != null && (es.getFileNameFull().toString().endsWith(fileName)))
 				validSessions.add(es);
 		}
-		if (validSessions.size()>=1) {
+		if (validSessions.size() >= 1) {
 			EditorSession es = validSessions.iterator().next();
 			for (GraffitiInternalFrame f : activeFrames) {
-				if (f.getSession()==es) {
+				if (f.getSession() == es) {
 					desktop.getDesktopManager().deiconifyFrame(f);
 					desktop.getDesktopManager().activateFrame(f);
 					try {
 						f.setSelected(true);
-					} catch (PropertyVetoException e) { }
-					MainFrame.showMessage("Existing view for graph file "+fileName+" has been activated", MessageType.INFO);
+					} catch (PropertyVetoException e) {
+					}
+					MainFrame.showMessage("Existing view for graph file " + fileName + " has been activated",
+							MessageType.INFO);
 					return true;
 				}
 			}
@@ -3756,7 +3808,7 @@ SelectionListener, DropTargetListener
 
 	public EditorSession lookUpSession(Graph g, boolean createIfNotFound) {
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getGraph()==g)
+			if (es.getGraph() == g)
 				return es;
 		}
 		if (createIfNotFound) {
@@ -3768,15 +3820,15 @@ SelectionListener, DropTargetListener
 	public EditorSession lookUpNamedSession(String fileName) {
 		if (fileName.startsWith(AttributeHelper.preFilePath))
 			fileName = fileName.substring(AttributeHelper.preFilePath.length());
-		if (fileName.indexOf("/")>0) {
-			fileName = fileName.substring(fileName.lastIndexOf("/")+"/".length());
+		if (fileName.indexOf("/") > 0) {
+			fileName = fileName.substring(fileName.lastIndexOf("/") + "/".length());
 		}
 		Set<EditorSession> validSessions = new HashSet<EditorSession>();
 		for (EditorSession es : getEditorSessions()) {
-			if (es.getFileNameFull()!=null && (es.getFileNameFull().toString().endsWith(fileName)))
+			if (es.getFileNameFull() != null && (es.getFileNameFull().toString().endsWith(fileName)))
 				validSessions.add(es);
 		}
-		if (validSessions.size()>=1) {
+		if (validSessions.size() >= 1) {
 			EditorSession es = validSessions.iterator().next();
 			return es;
 		}
@@ -3807,27 +3859,27 @@ SelectionListener, DropTargetListener
 			view.close();
 			session.removeView(view);
 
-
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
 			MainFrame.getInstance().closeSession(session);
 		}
-		//		fireSessionChanged(null);
-		//		activeSession = null;
+		// fireSessionChanged(null);
+		// activeSession = null;
 
-		//		updateActions();
+		// updateActions();
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				if (desktop.getAllFrames()!=null && desktop.getAllFrames().length>0) {
+				if (desktop.getAllFrames() != null && desktop.getAllFrames().length > 0) {
 					try {
 						desktop.getAllFrames()[0].setSelected(true);
 					} catch (PropertyVetoException e) {
 						ErrorMsg.addErrorMessage(e);
 					}
 				}
-			}});
+			}
+		});
 
 	}
 
@@ -3837,51 +3889,51 @@ SelectionListener, DropTargetListener
 
 		try {
 			Runtime r = Runtime.getRuntime();
-			if (r.maxMemory()/1024/1024<400) {
-				int divisor=1024;
-				String memoryConfig = "Used/free/max memory: " +
-				((r.totalMemory()/divisor/divisor)-(r.freeMemory()/divisor/divisor)) +""+
-				"/" + (r.freeMemory()/divisor/divisor) +"/<u>"+(r.maxMemory()/divisor/divisor)+"</u> MB &lt;-- possible problem detected";
-				MainFrame.showMessageDialog("<html>" +
-						"Low memory configuration detected!<br><br>" +
-						"The current memory configuration (see bottom of this dialog window)<br>" +
-						"may cause severe performance problems and yield to unrecoverable<br>" +
-						"out of memory exceptions and thus to unexpected program failures.<br>" +
-						"Please check developer information on how to modify Java memory<br>" +
-						"configuration. If you are not a software developer, please inform the<br>" +
-						"main developer of the VANTED system about this problem.<br>" +
-						"This message should not appear in case the program is started using<br>" +
-						"the provided launch configurations (Java WebStart or command line<br>" +
-						"based launch scripts).<br><br>" +
-						"Please close the application and fix this problem before proceeding.<br><br>" +
-						memoryConfig, ReleaseInfo.getRunningReleaseStatus()+" Information");
+			if (r.maxMemory() / 1024 / 1024 < 400) {
+				int divisor = 1024;
+				String memoryConfig = "Used/free/max memory: "
+						+ ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + "/"
+						+ (r.freeMemory() / divisor / divisor) + "/<u>" + (r.maxMemory() / divisor / divisor)
+						+ "</u> MB &lt;-- possible problem detected";
+				MainFrame.showMessageDialog("<html>" + "Low memory configuration detected!<br><br>"
+						+ "The current memory configuration (see bottom of this dialog window)<br>"
+						+ "may cause severe performance problems and yield to unrecoverable<br>"
+						+ "out of memory exceptions and thus to unexpected program failures.<br>"
+						+ "Please check developer information on how to modify Java memory<br>"
+						+ "configuration. If you are not a software developer, please inform the<br>"
+						+ "main developer of the VANTED system about this problem.<br>"
+						+ "This message should not appear in case the program is started using<br>"
+						+ "the provided launch configurations (Java WebStart or command line<br>"
+						+ "based launch scripts).<br><br>"
+						+ "Please close the application and fix this problem before proceeding.<br><br>" + memoryConfig,
+						ReleaseInfo.getRunningReleaseStatus() + " Information");
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
 		}
-		//		try {
-		//			if (b)
-		//				fireSessionChanged(activeSession);
-		//		} catch(Exception e) {
-		//			ErrorMsg.addErrorMessage(e);
-		//		}
+		// try {
+		// if (b)
+		// fireSessionChanged(activeSession);
+		// } catch(Exception e) {
+		// ErrorMsg.addErrorMessage(e);
+		// }
 	}
 
-	public View createExternalFrame(String viewClassName, EditorSession session,
-			boolean otherViewWillBeClosed, boolean fullscreen) {
-		return createExternalFrame(viewClassName, null, session, otherViewWillBeClosed,fullscreen);
+	public View createExternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed,
+			boolean fullscreen) {
+		return createExternalFrame(viewClassName, null, session, otherViewWillBeClosed, fullscreen);
 	}
 
 	public View createExternalFrame(String viewClassName, String framename, EditorSession session,
 			boolean otherViewWillBeClosed, boolean fullscreen) {
 		GraffitiInternalFrame gif;
-		if(framename==null)
-			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
-					session.getGraph().getName(), session, false, true, otherViewWillBeClosed);
+		if (framename == null)
+			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, session.getGraph().getName(), session, false,
+					true, otherViewWillBeClosed);
 		else
-			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName,
-					framename, session, false, true, otherViewWillBeClosed);
-		GraffitiFrame gf = new GraffitiFrame(gif,fullscreen);
+			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, framename, session, false, true,
+					otherViewWillBeClosed);
+		GraffitiFrame gf = new GraffitiFrame(gif, fullscreen);
 		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
 		MainFrame.getInstance().addDetachedFrame(gf);
@@ -3893,7 +3945,8 @@ SelectionListener, DropTargetListener
 		return session.getActiveView();
 	}
 
-	public View createInternalFrame(String viewClassName, String newFrameTitle, EditorSession session, boolean otherViewWillBeClosed) {
+	public View createInternalFrame(String viewClassName, String newFrameTitle, EditorSession session,
+			boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, newFrameTitle, session, false, false, otherViewWillBeClosed);
 		return session.getActiveView();
 	}
@@ -3904,10 +3957,12 @@ SelectionListener, DropTargetListener
 			public void run() {
 				try {
 					Thread.sleep(800);
-				} catch (InterruptedException e) { }
+				} catch (InterruptedException e) {
+				}
 				showAndHighlightSidePanelTab(subtabtitle, false);
-			}});
-		if(subtabtitle!=null)
+			}
+		});
+		if (subtabtitle != null)
 			t.start();
 	}
 
@@ -3919,7 +3974,7 @@ SelectionListener, DropTargetListener
 				found = true;
 			} else {
 				if (it instanceof SubtabHostTab) {
-					SubtabHostTab sh = (SubtabHostTab)it;
+					SubtabHostTab sh = (SubtabHostTab) it;
 					for (InspectorTab it2 : sh.getTabs()) {
 						if (it2.getTitle().equals(title)) {
 							it.focusAndHighlight(it2, true, cycle);
@@ -3928,13 +3983,12 @@ SelectionListener, DropTargetListener
 					}
 				} else {
 					if (it instanceof ContainsTabbedPane) {
-						ContainsTabbedPane sh = (ContainsTabbedPane)it;
-						for (int idx = 0; idx<sh.getTabbedPane().getTabCount(); idx++) {
+						ContainsTabbedPane sh = (ContainsTabbedPane) it;
+						for (int idx = 0; idx < sh.getTabbedPane().getTabCount(); idx++) {
 							String t = sh.getTabbedPane().getTitleAt(idx);
 							if (t.equals(title)) {
-								JComponent c = (JComponent)sh.getTabbedPane().getComponentAt(idx);
-								InspectorTab.focusAndHighlightComponent(c, title,
-										null, true, cycle);
+								JComponent c = (JComponent) sh.getTabbedPane().getComponentAt(idx);
+								InspectorTab.focusAndHighlightComponent(c, title, null, true, cycle);
 								found = true;
 							}
 						}
@@ -3943,21 +3997,21 @@ SelectionListener, DropTargetListener
 			}
 		}
 		if (!found)
-			System.err.println("Internal Error: side panel "+title+" not found!");
+			System.err.println("Internal Error: side panel " + title + " not found!");
 	}
 
 	public void setSidePanel(JToolBar component, int width) {
 		vertSplitter.setRightComponent(component);
 		vertSplitter.validate();
-		vertSplitter.setDividerLocation(vertSplitter.getWidth()-width); // uiPrefs.getInt("vertSplitter", VERT_SPLITTER));
+		vertSplitter.setDividerLocation(vertSplitter.getWidth() - width); // uiPrefs.getInt("vertSplitter",
+		// VERT_SPLITTER));
 	}
 
 	public void setSidePanel(int width) {
 		int availableSpace = getWidth();
-		int newWidth = availableSpace-width;
+		int newWidth = availableSpace - width;
 		vertSplitter.setDividerLocation(newWidth);
 	}
-
 
 	public enum HideOrDeactivateMenu {
 		/**
@@ -3975,13 +4029,10 @@ SelectionListener, DropTargetListener
 	}
 
 	public void warnUserAboutFileSaveProblem(Exception ioe) {
-		MainFrame.showMessageDialog(
-				"<html>Saving file caused and error ("+ioe.getMessage()+"),<br>" +
-				"To avoid data loss, try saving the file in a different format,<br>" +
-				"as a different file in a different place.<br>" +
-				"Consider to print the graph view, to avoid complete loss<br>" +
-				"of information.",
-		"Error");
+		MainFrame.showMessageDialog("<html>Saving file caused and error (" + ioe.getMessage() + "),<br>"
+				+ "To avoid data loss, try saving the file in a different format,<br>"
+				+ "as a different file in a different place.<br>"
+				+ "Consider to print the graph view, to avoid complete loss<br>" + "of information.", "Error");
 	}
 
 	public JDesktopPane getDesktop() {
@@ -3989,12 +4040,10 @@ SelectionListener, DropTargetListener
 	}
 
 	public static boolean isViewProvidingToolbar(View view) {
-		return view!=null && (
-				view.getViewToolbarComponentTop()!=null
-				|| view.getViewToolbarComponentBottom()!=null
-				|| view.getViewToolbarComponentLeft()!=null
-				|| view.getViewToolbarComponentRight()!=null
-				|| view.getViewToolbarComponentBackground()!=null);
+		return view != null
+				&& (view.getViewToolbarComponentTop() != null || view.getViewToolbarComponentBottom() != null
+						|| view.getViewToolbarComponentLeft() != null || view.getViewToolbarComponentRight() != null || view
+						.getViewToolbarComponentBackground() != null);
 	}
 
 	/**
@@ -4003,7 +4052,7 @@ SelectionListener, DropTargetListener
 	 */
 	public Session getEditorSessionForGraph(Graph graph) {
 		for (Session s : sessions)
-			if (s.getGraph()==graph)
+			if (s.getGraph() == graph)
 				return s;
 		return null;
 	}
@@ -4017,7 +4066,6 @@ SelectionListener, DropTargetListener
 	}
 }
 
-
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------
