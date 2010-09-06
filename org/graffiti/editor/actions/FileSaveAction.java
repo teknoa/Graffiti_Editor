@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: FileSaveAction.java,v 1.10 2010/07/19 14:05:42 morla Exp $
+// $Id: FileSaveAction.java,v 1.11 2010/09/06 07:15:44 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -26,7 +26,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class FileSaveAction
 extends GraffitiAction
@@ -161,7 +161,8 @@ extends GraffitiAction
 					getGraph().setModified(false);
 					long fs = file.length();
 					MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath()+" ("+(fs/1024)+"KB)", MessageType.INFO);
-					MainFrame.getInstance().addNewRecentFileMenuItem(file);
+					// a recent menu entry will be already built, if a graph is loaded or "saved as"... so we dont need to add a menu entry here
+					//MainFrame.getInstance().addNewRecentFileMenuItem(file);
 				}
 			}
 			catch(Exception ioe)
