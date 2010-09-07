@@ -4,16 +4,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Panel;
-import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.awt.image.BufferedImageOp;
-import java.awt.image.ConvolveOp;
-import java.awt.image.Kernel;
 import java.beans.PropertyVetoException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
@@ -27,11 +23,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 import java.util.zip.ZipEntry;
@@ -93,9 +87,9 @@ public class GravistoService implements HelperClass {
 	 * Contains <code>optionPanelRecord</code> structures which describe a option
 	 * window.
 	 */
-	private ArrayList<OptionPane> optionPane = new ArrayList<OptionPane>();
+	private final ArrayList<OptionPane> optionPane = new ArrayList<OptionPane>();
 
-	private ArrayList<Object> optionPaneIdentifiers = new ArrayList<Object>();
+	private final ArrayList<Object> optionPaneIdentifiers = new ArrayList<Object>();
 
 	/**
 	 * DOCUMENT ME!
@@ -227,8 +221,7 @@ public class GravistoService implements HelperClass {
 	public Vector<Graph> getMainGraphs() {
 		Vector<Graph> result = new Vector<Graph>();
 
-		for (Iterator<Session> it = getMainFrame().getSessionsIterator(); it
-		.hasNext();) {
+		for (Iterator<Session> it = getMainFrame().getSessionsIterator(); it.hasNext();) {
 			Session curS = it.next();
 
 			if ((patternSessions == null) || (patternSessions.indexOf(curS) < 0)) {
@@ -348,8 +341,7 @@ public class GravistoService implements HelperClass {
 	 * @return The algorithm instance.
 	 */
 	public Algorithm getAlgorithmInstanceFromFriendlyName(String name) {
-		Collection<PluginEntry> plugins = getMainFrame().getPluginManager()
-		.getPluginEntries();
+		Collection<PluginEntry> plugins = getMainFrame().getPluginManager().getPluginEntries();
 
 		for (Iterator<PluginEntry> pi = plugins.iterator(); pi.hasNext();) {
 			DefaultPluginEntry curPluginEntry = (DefaultPluginEntry) pi.next();
@@ -357,20 +349,17 @@ public class GravistoService implements HelperClass {
 
 			if (myAlgos.length > 0) {
 				for (int i = 0; i < myAlgos.length; i++) {
-					if (myAlgos[i] instanceof ProvidesGeneralContextMenu
-							&& myAlgos[i] instanceof RunAlgorithm) {
+					if (myAlgos[i] instanceof ProvidesGeneralContextMenu && myAlgos[i] instanceof RunAlgorithm) {
 						ProvidesGeneralContextMenu acm = (ProvidesGeneralContextMenu) myAlgos[i];
 
-						if (acm.getCurrentContextMenuItem().toString()
-								.equalsIgnoreCase(name)
+						if (acm.getCurrentContextMenuItem().toString().equalsIgnoreCase(name)
 								|| myAlgos[i].getName().equalsIgnoreCase(name)) {
 							return myAlgos[i];
 						}
 					}
 					Algorithm algo = myAlgos[i];
 
-					if (algo.getName() != null
-							&& algo.getName().equalsIgnoreCase(name)) {
+					if (algo.getName() != null && algo.getName().equalsIgnoreCase(name)) {
 						return myAlgos[i];
 					}
 
@@ -378,8 +367,7 @@ public class GravistoService implements HelperClass {
 						ProvidesAccessToOtherAlgorithms pa = (ProvidesAccessToOtherAlgorithms) algo;
 						if (pa.getAlgorithmList() != null)
 							for (Algorithm a : pa.getAlgorithmList()) {
-								if (a.getName() != null
-										&& a.getName().equalsIgnoreCase(name)) {
+								if (a.getName() != null && a.getName().equalsIgnoreCase(name)) {
 									return a;
 								}
 							}
@@ -397,15 +385,12 @@ public class GravistoService implements HelperClass {
 	 * @param pluginDescription
 	 * @return The plugin instance, if the plugin is loaded.
 	 */
-	public DefaultPluginEntry getPluginInstanceFromPluginDescription(
-			String pluginDescription) {
-		Collection<PluginEntry> plugins = getMainFrame().getPluginManager()
-		.getPluginEntries();
+	public DefaultPluginEntry getPluginInstanceFromPluginDescription(String pluginDescription) {
+		Collection<PluginEntry> plugins = getMainFrame().getPluginManager().getPluginEntries();
 
 		for (Iterator<PluginEntry> pi = plugins.iterator(); pi.hasNext();) {
 			DefaultPluginEntry curPluginEntry = (DefaultPluginEntry) pi.next();
-			if (curPluginEntry.getDescription().getName().toUpperCase().indexOf(
-					pluginDescription.toUpperCase()) >= 0) {
+			if (curPluginEntry.getDescription().getName().toUpperCase().indexOf(pluginDescription.toUpperCase()) >= 0) {
 				return curPluginEntry;
 			}
 		}
@@ -413,8 +398,7 @@ public class GravistoService implements HelperClass {
 		return null;
 	}
 
-	public static void run(String pluginNameOrClassName,
-			ActionEvent event) {
+	public static void run(String pluginNameOrClassName, ActionEvent event) {
 		Graph g = MainFrame.getInstance().getActiveSession().getGraph();
 		getInstance().runPlugin(pluginNameOrClassName, g, event);
 	}
@@ -429,29 +413,22 @@ public class GravistoService implements HelperClass {
 	 *           Graph instance the plugin should work with.
 	 * 
 	 */
-	public void runPlugin(final String pluginNameOrClassName, final Graph g,
-			final ActionEvent event) {
+	public void runPlugin(final String pluginNameOrClassName, final Graph g, final ActionEvent event) {
 		try {
 			if (SwingUtilities.isEventDispatchThread()) {
-				Algorithm algo = new GravistoService()
-				.getAlgorithmInstanceFromFriendlyName(pluginNameOrClassName);
-				MainFrame.showMessage("Execute plugin " + pluginNameOrClassName
-						+ "", MessageType.INFO);
+				Algorithm algo = new GravistoService().getAlgorithmInstanceFromFriendlyName(pluginNameOrClassName);
+				MainFrame.showMessage("Execute plugin " + pluginNameOrClassName + "", MessageType.INFO);
 				if (algo == null)
-					MainFrame.showMessageDialog("Unknown Algorithm: "
-							+ pluginNameOrClassName, "Internal Error");
+					MainFrame.showMessageDialog("Unknown Algorithm: " + pluginNameOrClassName, "Internal Error");
 				else
 					runAlgorithm(algo, event);
 			} else
 				SwingUtilities.invokeAndWait(new Runnable() {
 					public void run() {
-						Algorithm algo = new GravistoService()
-						.getAlgorithmInstanceFromFriendlyName(pluginNameOrClassName);
-						MainFrame.showMessage("Execute plugin "
-								+ pluginNameOrClassName + "", MessageType.INFO);
+						Algorithm algo = new GravistoService().getAlgorithmInstanceFromFriendlyName(pluginNameOrClassName);
+						MainFrame.showMessage("Execute plugin " + pluginNameOrClassName + "", MessageType.INFO);
 						if (algo == null)
-							MainFrame.showMessageDialog("Unknown Algorithm: "
-									+ pluginNameOrClassName, "Internal Error");
+							MainFrame.showMessageDialog("Unknown Algorithm: " + pluginNameOrClassName, "Internal Error");
 						else
 							runAlgorithm(algo, event);
 					}
@@ -480,12 +457,10 @@ public class GravistoService implements HelperClass {
 		runAlgorithm(algorithm, algorithm.mayWorkOnMultipleGraphs(), event);
 	}
 
-	public void runAlgorithm(Algorithm algorithm,
-			boolean enableMultipleSessionProcessing, ActionEvent event) {
+	public void runAlgorithm(Algorithm algorithm, boolean enableMultipleSessionProcessing, ActionEvent event) {
 		Selection activeSel = null;
 		try {
-			activeSel = getMainFrame().getActiveEditorSession()
-			.getSelectionModel().getActiveSelection();
+			activeSel = getMainFrame().getActiveEditorSession().getSelectionModel().getActiveSelection();
 		} catch (NullPointerException npe) {
 			// ignore here, the algorithm should make correct error handling for
 			// null graph or selection
@@ -498,8 +473,7 @@ public class GravistoService implements HelperClass {
 			// null graph or selection
 		}
 
-		runAlgorithm(algorithm, graph, activeSel,
-				enableMultipleSessionProcessing, event);
+		runAlgorithm(algorithm, graph, activeSel, enableMultipleSessionProcessing, event);
 	}
 
 	/**
@@ -507,12 +481,12 @@ public class GravistoService implements HelperClass {
 	 */
 	public void algorithmAttachData(Algorithm algorithm) {
 		Graph graph = null;
-		if (getMainFrame().getActiveSession()!=null)
+		if (getMainFrame().getActiveSession() != null)
 			graph = getMainFrame().getActiveSession().getGraph();
 
 		EditorSession session = getMainFrame().getActiveEditorSession();
 		Selection selection = null;
-		if (session!=null)
+		if (session != null)
 			selection = session.getSelectionModel().getActiveSelection();
 		algorithm.attach(graph, selection);
 	}
@@ -521,8 +495,7 @@ public class GravistoService implements HelperClass {
 		getInstance().algorithmAttachData(algorithm);
 	}
 
-	public void runAlgorithm(Algorithm algorithm, Graph graph,
-			Selection selection, ActionEvent event) {
+	public void runAlgorithm(Algorithm algorithm, Graph graph, Selection selection, ActionEvent event) {
 		runAlgorithm(algorithm, graph, selection, false, event);
 	}
 
@@ -531,9 +504,8 @@ public class GravistoService implements HelperClass {
 	 * @param nonInteractiveGraph
 	 * @param nonInteractiveSelection
 	 */
-	public void runAlgorithm(Algorithm algorithm, Graph graph,
-			Selection selection, boolean enableMultipleSessionProcessing,
-			ActionEvent event) {
+	public void runAlgorithm(Algorithm algorithm, Graph graph, Selection selection,
+			boolean enableMultipleSessionProcessing, ActionEvent event) {
 		algorithm.attach(graph, selection);
 		algorithm.setActionEvent(event);
 		try {
@@ -541,61 +513,50 @@ public class GravistoService implements HelperClass {
 		} catch (PreconditionException e) {
 			StringBuilder sb = new StringBuilder();
 			processError(algorithm, graph, sb, e);
-			MainFrame.showMessageDialog("<html>" + sb.toString(),
-			"Execution Error");
+			MainFrame.showMessageDialog("<html>" + sb.toString(), "Execution Error");
 			return;
 		}
 		Parameter[] parameters = algorithm.getParameters();
 		ThreadSafeOptions tsoParamDialogReturn = new ThreadSafeOptions();
-		if ((parameters != null) && (parameters.length != 0)
-				|| (algorithm instanceof AlgorithmWithComponentDescription)) {
+		if ((parameters != null) && (parameters.length != 0) || (algorithm instanceof AlgorithmWithComponentDescription)) {
 			boolean doReturn = false;
 
-			doReturn = doThreadSafe(algorithm, selection,
-					enableMultipleSessionProcessing, parameters, doReturn, tsoParamDialogReturn);
+			doReturn = doThreadSafe(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn,
+					tsoParamDialogReturn);
 
 			if (doReturn)
 				return;
 		}
 		ParameterDialog paramDialog = (ParameterDialog) tsoParamDialogReturn.getParam(0, null);
 		if (parameters == null && algorithm instanceof EditorAlgorithm) {
-			paramDialog = ((EditorAlgorithm) algorithm)
-			.getParameterDialog(selection);
+			paramDialog = ((EditorAlgorithm) algorithm).getParameterDialog(selection);
 		}
 
-		Parameter[] params = (paramDialog == null) ? new Parameter[] {}
-		: paramDialog.getEditedParameters();
+		Parameter[] params = (paramDialog == null) ? new Parameter[] {} : paramDialog.getEditedParameters();
 
 		boolean stop = false;
-		if (!(algorithm instanceof AlgorithmWithComponentDescription)
-				&& algorithm.getDescription() != null
-				&& algorithm.getDescription().trim().length() > 0
-				&& (parameters == null || parameters.length <= 0)
+		if (!(algorithm instanceof AlgorithmWithComponentDescription) && algorithm.getDescription() != null
+				&& algorithm.getDescription().trim().length() > 0 && (parameters == null || parameters.length <= 0)
 				&& SwingUtilities.isEventDispatchThread()) {
-			int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(),
-					algorithm.getDescription(), StringManipulationTools.removeHTMLtags(algorithm
-							.getName()), JOptionPane.OK_CANCEL_OPTION,
-							JOptionPane.PLAIN_MESSAGE, null);
+			int res = JOptionPane.showConfirmDialog(MainFrame.getInstance(), algorithm.getDescription(),
+					StringManipulationTools.removeHTMLtags(algorithm.getName()), JOptionPane.OK_CANCEL_OPTION,
+					JOptionPane.PLAIN_MESSAGE, null);
 			if (res == JOptionPane.CANCEL_OPTION) {
 				stop = true;
-				MainFrame.showMessage(algorithm.getName() + " not started",
-						MessageType.INFO);
+				MainFrame.showMessage(algorithm.getName() + " not started", MessageType.INFO);
 			}
 		}
 		if (!stop) {
 			StringBuilder errors = new StringBuilder();
 			if (enableMultipleSessionProcessing) {
-				multiGraphExecution(algorithm, graph, selection, event,
-						paramDialog, params, errors);
+				multiGraphExecution(algorithm, graph, selection, event, paramDialog, params, errors);
 			} else {
 				algorithm.setParameters(params);
 				algorithm.execute();
 				ScenarioService.postWorkflowStep(algorithm, params);
 				if (algorithm instanceof CalculatingAlgorithm) {
-					JOptionPane.showMessageDialog(null,
-							"<html>Result of algorithm:<p>"
-							+ ((CalculatingAlgorithm) algorithm).getResult()
-							.toString());
+					JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+							+ ((CalculatingAlgorithm) algorithm).getResult().toString());
 				}
 				algorithm.reset();
 			}
@@ -604,33 +565,31 @@ public class GravistoService implements HelperClass {
 	}
 
 	private boolean doThreadSafe(final Algorithm algorithm, final Selection selection,
-			final boolean enableMultipleSessionProcessing, final Parameter[] parameters,
-			final boolean doReturn, final ThreadSafeOptions tsoParamDialogReturn) {
+			final boolean enableMultipleSessionProcessing, final Parameter[] parameters, final boolean doReturn,
+			final ThreadSafeOptions tsoParamDialogReturn) {
 		final ThreadSafeOptions tso = new ThreadSafeOptions();
 		tso.executeThreadSafe(new Runnable() {
 			public void run() {
-				boolean res = doThreadSafeDoIt(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn, tsoParamDialogReturn);
+				boolean res = doThreadSafeDoIt(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn,
+						tsoParamDialogReturn);
 				tso.setParam(0, res);
 			}
 		});
 		return (Boolean) tso.getParam(0, null);
 	}
 
-	private boolean doThreadSafeDoIt(Algorithm algorithm, Selection selection,
-			boolean enableMultipleSessionProcessing, Parameter[] parameters,
-			boolean doReturn, ThreadSafeOptions tsoParamDialogReturn) {
+	private boolean doThreadSafeDoIt(Algorithm algorithm, Selection selection, boolean enableMultipleSessionProcessing,
+			Parameter[] parameters, boolean doReturn, ThreadSafeOptions tsoParamDialogReturn) {
 		ParameterDialog paramDialog = null;
 		if (algorithm instanceof EditorAlgorithm) {
-			paramDialog = ((EditorAlgorithm) algorithm)
-			.getParameterDialog(selection);
+			paramDialog = ((EditorAlgorithm) algorithm).getParameterDialog(selection);
 		}
 
 		if (paramDialog == null) {
 			JComponent desc = null;
 			if (algorithm instanceof AlgorithmWithComponentDescription) {
 				try {
-					desc = ((AlgorithmWithComponentDescription) algorithm)
-					.getDescriptionComponent();
+					desc = ((AlgorithmWithComponentDescription) algorithm).getDescriptionComponent();
 				} catch (Exception e) {
 					ErrorMsg.addErrorMessage(e);
 					desc = null;
@@ -640,12 +599,9 @@ public class GravistoService implements HelperClass {
 			if (algorithm instanceof EditorAlgorithm) {
 				algName = ((EditorAlgorithm) algorithm).getShortName();
 			}
-			paramDialog = new DefaultParameterDialog(getMainFrame()
-					.getEditComponentManager(), getMainFrame(), parameters,
-					selection, StringManipulationTools.removeHTMLtags(algName), algorithm
-					.getDescription(), desc, checkRelease(algorithm
-							.mayWorkOnMultipleGraphs()
-							&& enableMultipleSessionProcessing));
+			paramDialog = new DefaultParameterDialog(getMainFrame().getEditComponentManager(), getMainFrame(), parameters,
+					selection, StringManipulationTools.removeHTMLtags(algName), algorithm.getDescription(), desc,
+					checkRelease(algorithm.mayWorkOnMultipleGraphs() && enableMultipleSessionProcessing));
 		}
 
 		if (!paramDialog.isOkSelected()) {
@@ -655,28 +611,21 @@ public class GravistoService implements HelperClass {
 		return doReturn;
 	}
 
-	private void multiGraphExecution(Algorithm algorithm, Graph graph,
-			Selection selection, ActionEvent event, ParameterDialog paramDialog,
-			Parameter[] params, StringBuilder errors) {
+	private void multiGraphExecution(Algorithm algorithm, Graph graph, Selection selection, ActionEvent event,
+			ParameterDialog paramDialog, Parameter[] params, StringBuilder errors) {
 		Collection<Session> sessions;
 		if (paramDialog != null)
 			sessions = paramDialog.getTargetSessions();
 		else {
 			sessions = new ArrayList<Session>();
-			if (MainFrame.getSessions().size() == 1
-					|| !algorithm.mayWorkOnMultipleGraphs()) {
+			if (MainFrame.getSessions().size() == 1 || !algorithm.mayWorkOnMultipleGraphs()) {
 				if (MainFrame.getInstance().isSessionActive())
 					sessions.add(MainFrame.getInstance().getActiveSession());
 			} else if (MainFrame.getSessions().size() > 1) {
-				Object[] options = { "Active Graph",
-						"Open Graphs (" + MainFrame.getSessions().size() + ")" };
-				int res = JOptionPane
-				.showOptionDialog(MainFrame.getInstance(),
-						"Please select the working set.", StringManipulationTools
-						.removeHTMLtags(algorithm.getName()),
-						JOptionPane.YES_NO_OPTION,
-						JOptionPane.QUESTION_MESSAGE, null, options,
-						options[0]);
+				Object[] options = { "Active Graph", "Open Graphs (" + MainFrame.getSessions().size() + ")" };
+				int res = JOptionPane.showOptionDialog(MainFrame.getInstance(), "Please select the working set.",
+						StringManipulationTools.removeHTMLtags(algorithm.getName()), JOptionPane.YES_NO_OPTION,
+						JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
 				if (res == JOptionPane.YES_OPTION) {
 					sessions.add(MainFrame.getInstance().getActiveSession());
 				} else
@@ -704,10 +653,8 @@ public class GravistoService implements HelperClass {
 				algorithm.execute();
 				runnn = true;
 				if (algorithm instanceof CalculatingAlgorithm) {
-					JOptionPane.showMessageDialog(null,
-							"<html>Result of algorithm:<p>"
-							+ ((CalculatingAlgorithm) algorithm)
-							.getResult().toString());
+					JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+							+ ((CalculatingAlgorithm) algorithm).getResult().toString());
 				}
 			} catch (PreconditionException e) {
 				processError(algorithm, g, errors, e);
@@ -724,10 +671,8 @@ public class GravistoService implements HelperClass {
 				algorithm.execute();
 				ScenarioService.postWorkflowStep(algorithm, params);
 				if (algorithm instanceof CalculatingAlgorithm) {
-					JOptionPane.showMessageDialog(null,
-							"<html>Result of algorithm:<p>"
-							+ ((CalculatingAlgorithm) algorithm)
-							.getResult().toString());
+					JOptionPane.showMessageDialog(null, "<html>Result of algorithm:<p>"
+							+ ((CalculatingAlgorithm) algorithm).getResult().toString());
 				}
 				algorithm.reset();
 			} catch (PreconditionException e) {
@@ -735,8 +680,7 @@ public class GravistoService implements HelperClass {
 			}
 		}
 		if (errors.length() > 0) {
-			MainFrame.showMessageDialogWithScrollBars("<html>"
-					+ errors.toString(), "Execution Error");
+			MainFrame.showMessageDialogWithScrollBars("<html>" + errors.toString(), "Execution Error");
 		}
 	}
 
@@ -747,18 +691,16 @@ public class GravistoService implements HelperClass {
 			return mayWorkOnMultipleGraphs;
 	}
 
-	private void processError(Algorithm algorithm, Graph graph,
-			StringBuilder errors, PreconditionException e) {
+	private void processError(Algorithm algorithm, Graph graph, StringBuilder errors, PreconditionException e) {
 		String name = algorithm.getName();
 		if (name == null) {
 			name = algorithm.getClass().getSimpleName();
 		}
 		if (graph != null)
-			errors.append("Can not start <i>" + name + "</i> on graph "
-					+ graph.getName() + ":<br><br>" + e.getMessage() + "<br><br>");
+			errors.append("Can not start <i>" + name + "</i> on graph " + graph.getName() + ":<br><br>" + e.getMessage()
+					+ "<br><br>");
 		else
-			errors.append("Can not start <i>" + name + "</i>" + ":<br><br>"
-					+ e.getMessage() + "<br><br>");
+			errors.append("Can not start <i>" + name + "</i>" + ":<br><br>" + e.getMessage() + "<br><br>");
 	}
 
 	/**
@@ -774,7 +716,7 @@ public class GravistoService implements HelperClass {
 		synchronized (fileNames) {
 			fileNames.add(fileName);
 		}
-		if (ErrorMsg.getAppLoadingStatus()!=ApplicationStatus.INITIALIZATION) {
+		if (ErrorMsg.getAppLoadingStatus() != ApplicationStatus.INITIALIZATION) {
 			loadFiles();
 		}
 	}
@@ -790,8 +732,7 @@ public class GravistoService implements HelperClass {
 			fileNames.clear();
 		}
 		try {
-			MainFrame.getInstance().loadGraphInBackground(
-					toDo.toArray(new File[] {}), null, true);
+			MainFrame.getInstance().loadGraphInBackground(toDo.toArray(new File[] {}), null, true);
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
 		}
@@ -810,62 +751,69 @@ public class GravistoService implements HelperClass {
 		return null;
 	}
 
-	public static void addActionOnKeystroke(JDialog comp, ActionListener action,
-			KeyStroke key) {
-		comp.getRootPane().registerKeyboardAction(action, key,
-				JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+	public static void addActionOnKeystroke(JDialog comp, ActionListener action, KeyStroke key) {
+		comp.getRootPane().registerKeyboardAction(action, key, JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
 	}
 
-	@SuppressWarnings("unchecked")
-	public static BufferedImage blurImage(BufferedImage image, int blurRadius) {
-		float[] matrix = new float[blurRadius * blurRadius];
-		for (int i = 0; i < blurRadius * blurRadius; i++) {
-			matrix[i] = 1.0f / blurRadius / blurRadius;
-		}
-
-		Map map = new HashMap();
-
-		map.put(RenderingHints.KEY_INTERPOLATION,
-				RenderingHints.VALUE_INTERPOLATION_BICUBIC);
-
-		map
-		.put(RenderingHints.KEY_RENDERING,
-				RenderingHints.VALUE_RENDER_QUALITY);
-
-		map.put(RenderingHints.KEY_ANTIALIASING,
-				RenderingHints.VALUE_ANTIALIAS_ON);
-
-		RenderingHints hints = new RenderingHints(map);
-		BufferedImageOp op = new ConvolveOp(new Kernel(blurRadius, blurRadius,
-				matrix), ConvolveOp.EDGE_NO_OP, hints);
-		try {
-			BufferedImage bi = op.filter(image, null);
-			return bi;
-		} catch (Exception e) {
-			System.out.println("Can't blur with radius "+blurRadius);
-			return image;
-		}
+	public static BufferedImage blurImage(BufferedImage image, float blurRadius) {
+		return new GaussFilter(blurRadius / 1.5f).filter(image, null);
 	}
+
+	// @SuppressWarnings("unchecked")
+	// public static BufferedImage blurImage(BufferedImage image, int blurRadius)
+	// {
+	// float[] matrix = new float[blurRadius * blurRadius];
+	// for (int i = 0; i < blurRadius * blurRadius; i++) {
+	// matrix[i] = 1.0f / blurRadius / blurRadius;
+	// }
+	//
+	// Map map = new HashMap();
+	//
+	// map.put(RenderingHints.KEY_INTERPOLATION,
+	// RenderingHints.VALUE_INTERPOLATION_BICUBIC);
+	//
+	// map.put(RenderingHints.KEY_RENDERING,
+	// RenderingHints.VALUE_RENDER_QUALITY);
+	//
+	// map.put(RenderingHints.KEY_ANTIALIASING,
+	// RenderingHints.VALUE_ANTIALIAS_ON);
+	//
+	// RenderingHints hints = new RenderingHints(map);
+	// BufferedImageOp op = new ConvolveOp(new Kernel(blurRadius, blurRadius,
+	// matrix), ConvolveOp.EDGE_NO_OP, hints);
+	// try {
+	// BufferedImage bi = op.filter(image, null);
+	// showImage(bi, "Test");
+	// return bi;
+	// } catch (Exception e) {
+	// System.out.println("Can't blur with radius " + blurRadius);
+	// return image;
+	// }
+	// }
 
 	public static BufferedImage getImage(URL fileUrl) throws IOException {
 		return ImageIO.read(fileUrl);
 	}
 
 	/**
-	 * @param w negative values have special meaning, they are ignored
-	 * @param h at least w or h needs to be positive
+	 * @param w
+	 *           negative values have special meaning, they are ignored
+	 * @param h
+	 *           at least w or h needs to be positive
 	 */
 	public static BufferedImage getScaledImage(Image icon, int w, int h) {
-		BufferedImage destImage = new BufferedImage(icon.getWidth(null), icon
-				.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+		BufferedImage destImage = new BufferedImage(icon.getWidth(null), icon.getHeight(null),
+				BufferedImage.TYPE_INT_ARGB);
 		Graphics2D graphics = destImage.createGraphics();
 		graphics.drawImage(icon, 0, 0, null);
 		return getScaledImage(destImage, w, h);
 	}
 
 	/**
-	 * @param w negative values have special meaning, they are ignored
-	 * @param h at least w or h needs to be positive
+	 * @param w
+	 *           negative values have special meaning, they are ignored
+	 * @param h
+	 *           at least w or h needs to be positive
 	 */
 	public static BufferedImage getScaledImage(BufferedImage icon, int w, int h) {
 		if (icon.getWidth() <= w && icon.getHeight() <= h)
@@ -875,8 +823,8 @@ public class GravistoService implements HelperClass {
 			double srcHeight = icon.getHeight();
 
 			// ignore negative target values so that the other value is solely used
-			double longSideForSource = w>0 ? (h>0 ? (double) Math.max(srcWidth, srcHeight) : srcWidth) : srcHeight;
-			double longSideForDest = w>0 ? (h>0 ? (double) Math.max(w, h) : w) : h;
+			double longSideForSource = w > 0 ? (h > 0 ? (double) Math.max(srcWidth, srcHeight) : srcWidth) : srcHeight;
+			double longSideForDest = w > 0 ? (h > 0 ? (double) Math.max(w, h) : w) : h;
 			double multiplier = longSideForDest / longSideForSource;
 			int destWidth = (int) (srcWidth * multiplier);
 			int destHeight = (int) (srcHeight * multiplier);
@@ -885,11 +833,9 @@ public class GravistoService implements HelperClass {
 
 			icon = blurImage(icon, blur);
 
-			BufferedImage destImage = new BufferedImage(destWidth, destHeight,
-					BufferedImage.TYPE_INT_ARGB);
+			BufferedImage destImage = new BufferedImage(destWidth, destHeight, BufferedImage.TYPE_INT_ARGB);
 			Graphics2D graphics = destImage.createGraphics();
-			AffineTransform affineTransform = AffineTransform.getScaleInstance(
-					multiplier, multiplier);
+			AffineTransform affineTransform = AffineTransform.getScaleInstance(multiplier, multiplier);
 			graphics.drawImage(icon, affineTransform, null);
 
 			return destImage;
@@ -939,8 +885,7 @@ public class GravistoService implements HelperClass {
 			public void actionPerformed(ActionEvent e) {
 				memLabel.setText(getCurrentMemoryInfo(shortInfo));
 				if (shortInfo)
-					memLabel.setToolTipText(getCurrentMemoryInfo(false)
-							.replaceFirst(":", " (click to garbage-collect):")
+					memLabel.setToolTipText(getCurrentMemoryInfo(false).replaceFirst(":", " (click to garbage-collect):")
 							.replaceFirst("<font color='gray'>", ""));
 				memLabel.repaint(1000);
 			}
@@ -954,32 +899,23 @@ public class GravistoService implements HelperClass {
 		int divisor = 1024;
 		String memoryConfig;
 		if (shortInfo) {
-			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r
-					.freeMemory()
-					/ divisor / divisor))
-					+ "" + "&nbsp;MB";
+			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + ""
+					+ "&nbsp;MB";
 			return "<html>" + "<font color='gray'><small>" + memoryConfig + "<br>"
-			+ MainFrame.getInstance().getNumberOfOpenSessions() + "&nbsp;ES";
+					+ MainFrame.getInstance().getNumberOfOpenSessions() + "&nbsp;ES";
 
 		} else {
-			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r
-					.freeMemory()
-					/ divisor / divisor))
-					+ ""
-					+ " MB, "
-					+ (r.totalMemory() / divisor / divisor)
-					+ " MB, "
-					+ (r.maxMemory() / divisor / divisor) + " MB";
-			return "<html>"
-			+ "<font color='gray'><small>Memory info:<br>&nbsp;&nbsp;&nbsp;active, alloc, max memory: "
-			+ memoryConfig;
+			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + " MB, "
+					+ (r.totalMemory() / divisor / divisor) + " MB, " + (r.maxMemory() / divisor / divisor) + " MB";
+			return "<html>" + "<font color='gray'><small>Memory info:<br>&nbsp;&nbsp;&nbsp;active, alloc, max memory: "
+					+ memoryConfig;
 		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public static ImageIcon loadIcon(Class class1, String name) {
 		URL url = getResource(class1, name);
-		if(url==null)
+		if (url == null)
 			return null;
 		else
 			return new ImageIcon(url);
@@ -988,10 +924,10 @@ public class GravistoService implements HelperClass {
 	@SuppressWarnings("unchecked")
 	public static ImageIcon loadIcon(Class class1, String name, int w, int h) {
 		URL url = getResource(class1, name);
-		if(url==null)
+		if (url == null)
 			return null;
 		else
-			return new ImageIcon(GravistoService.getScaledImage(new ImageIcon(url).getImage(),w,h));
+			return new ImageIcon(GravistoService.getScaledImage(new ImageIcon(url).getImage(), w, h));
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1011,17 +947,16 @@ public class GravistoService implements HelperClass {
 
 	public static void addKnownMemoryHog(MemoryHog memoryHog) {
 		synchronized (memoryHogs) {
-			for(MemoryHog mh : memoryHogs)
-				if(mh.getClass()==memoryHog.getClass())
-					return ;
+			for (MemoryHog mh : memoryHogs)
+				if (mh.getClass() == memoryHog.getClass())
+					return;
 			memoryHogs.add(memoryHog);
 		}
 	}
 
 	public static void ensureActiveViewAndSession(MouseEvent e) {
 		try {
-			View v = (View) ErrorMsg.findParentComponent(e.getComponent(),
-					View.class);
+			View v = (View) ErrorMsg.findParentComponent(e.getComponent(), View.class);
 
 			Iterator<Session> itSessions = MainFrame.getSessions().iterator();
 			boolean found = false;
@@ -1032,10 +967,8 @@ public class GravistoService implements HelperClass {
 					View myView = itViews.next();
 					if (myView == v) {
 						mySession.setActiveView(myView);
-						if (GravistoService.getInstance().getMainFrame()
-								.getActiveEditorSession() != mySession)
-							GravistoService.getInstance().getMainFrame()
-							.setActiveSession(mySession, myView);
+						if (GravistoService.getInstance().getMainFrame().getActiveEditorSession() != mySession)
+							GravistoService.getInstance().getMainFrame().setActiveSession(mySession, myView);
 						found = true;
 					}
 				}
@@ -1045,8 +978,7 @@ public class GravistoService implements HelperClass {
 		}
 	}
 
-	public static String getFileModificationDateAndTime(File file,
-			String returnIfNotFound) {
+	public static String getFileModificationDateAndTime(File file, String returnIfNotFound) {
 		File f = file;
 		if (f.exists()) {
 			long lm = f.lastModified();
@@ -1069,13 +1001,14 @@ public class GravistoService implements HelperClass {
 
 	public EditorSession getSessionFromGraph(Graph graph) {
 		for (EditorSession es : MainFrame.getEditorSessions()) {
-			if (es.getGraph()==graph)
+			if (es.getGraph() == graph)
 				return es;
 		}
 		return null;
 	}
 
-	//based on http://www.tutorials.de/forum/java/255281-zip-entpacken-problem.html
+	// based on
+	// http://www.tutorials.de/forum/java/255281-zip-entpacken-problem.html
 	public static void unzipFile(File archive) throws Exception {
 		try {
 			File destDir = new File(archive.getParent());
@@ -1099,7 +1032,8 @@ public class GravistoService implements HelperClass {
 				}
 
 				if (!entry.isDirectory()) {
-					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(new File(destDir, entryFileName)));
+					BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(
+							new File(destDir, entryFileName)));
 					BufferedInputStream bis = new BufferedInputStream(zipFile.getInputStream(entry));
 
 					while ((len = bis.read(buffer)) > 0) {
@@ -1111,14 +1045,14 @@ public class GravistoService implements HelperClass {
 					bis.close();
 				}
 			}
-		} catch(Exception e) {
+		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
 		}
 	}
 
 	private static File buildDirectoryHierarchyFor(String entryName, File destDir) {
 		int lastIndex = entryName.lastIndexOf('/');
-		//		String entryFileName = entryName.substring(lastIndex + 1);
+		// String entryFileName = entryName.substring(lastIndex + 1);
 		String internalPathToEntry = entryName.substring(0, lastIndex + 1);
 		return new File(destDir, internalPathToEntry);
 	}
@@ -1127,7 +1061,8 @@ public class GravistoService implements HelperClass {
 	 * ToDo Test this method (untested copy).
 	 */
 	@SuppressWarnings("unchecked")
-	public static void saveRessource(Class reference, String folder, String fileName, String targetFileName) throws IOException {
+	public static void saveRessource(Class reference, String folder, String fileName, String targetFileName)
+			throws IOException {
 		ClassLoader cl = reference.getClassLoader();
 
 		String path = reference.getPackage().getName().replace('.', '/');
@@ -1135,11 +1070,11 @@ public class GravistoService implements HelperClass {
 		File tgt = new File(targetFileName);
 		FileOutputStream out = new FileOutputStream(tgt);
 		long sz = 0;
-		InputStream inpS = cl.getResourceAsStream(path+"/"+folder+"/"+fileName);
+		InputStream inpS = cl.getResourceAsStream(path + "/" + folder + "/" + fileName);
 		InputStream in = inpS;
 
 		int b;
-		while ((b=inpS.read())!=-1) {
+		while ((b = inpS.read()) != -1) {
 			out.write(b);
 			sz++;
 		}
@@ -1149,12 +1084,11 @@ public class GravistoService implements HelperClass {
 	}
 
 	public static void enableContent(JComponent comp, boolean enabled) {
-		for(int i=0;i<comp.getComponentCount();i++)
-			if(comp.getComponent(i) instanceof JComponent)
-				enableContent((JComponent) comp.getComponent(i),enabled);
+		for (int i = 0; i < comp.getComponentCount(); i++)
+			if (comp.getComponent(i) instanceof JComponent)
+				enableContent((JComponent) comp.getComponent(i), enabled);
 		comp.setEnabled(enabled);
 	}
-
 
 }
 
