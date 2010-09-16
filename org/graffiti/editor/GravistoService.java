@@ -849,7 +849,7 @@ public class GravistoService implements HelperClass {
 		JFrame frame = new JFrame(title);
 		Panel panel = new ShowImage(img);
 		frame.getContentPane().add(panel);
-		frame.setSize(500, 500);
+		frame.setSize(img.getWidth(), img.getHeight());
 		frame.setVisible(true);
 	}
 
