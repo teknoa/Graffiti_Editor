@@ -1,9 +1,7 @@
 package org.graffiti.editor;
 
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -845,12 +843,13 @@ public class GravistoService implements HelperClass {
 		}
 	}
 
-	public static void showImage(BufferedImage img, String title) {
+	public static ShowImage showImage(BufferedImage img, String title) {
 		JFrame frame = new JFrame(title);
-		Panel panel = new ShowImage(img);
+		ShowImage panel = new ShowImage(img);
 		frame.getContentPane().add(panel);
 		frame.setSize(img.getWidth(), img.getHeight());
 		frame.setVisible(true);
+		return panel;
 	}
 
 	private static HashSet<MemoryHog> memoryHogs = new HashSet<MemoryHog>();
@@ -1092,19 +1091,6 @@ public class GravistoService implements HelperClass {
 
 }
 
-class ShowImage extends Panel {
-	private static final long serialVersionUID = 2163700797926226041L;
-	BufferedImage image;
-
-	public ShowImage(BufferedImage img) {
-		image = img;
-	}
-
-	@Override
-	public void paint(Graphics g) {
-		g.drawImage(image, 0, 0, null);
-	}
-}
 // ------------------------------------------------------------------------------
 // end of file
 // ------------------------------------------------------------------------------
