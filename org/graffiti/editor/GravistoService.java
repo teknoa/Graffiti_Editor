@@ -807,6 +807,14 @@ public class GravistoService implements HelperClass {
 		return getScaledImage(destImage, w, h);
 	}
 
+	public static BufferedImage getBufferedImage(Image icon) {
+		BufferedImage destImage = new BufferedImage(icon.getWidth(null), icon.getHeight(null),
+				BufferedImage.TYPE_INT_ARGB);
+		Graphics2D graphics = destImage.createGraphics();
+		graphics.drawImage(icon, 0, 0, null);
+		return destImage;
+	}
+
 	/**
 	 * @param w
 	 *           negative values have special meaning, they are ignored
@@ -827,7 +835,10 @@ public class GravistoService implements HelperClass {
 			int destWidth = (int) (srcWidth * multiplier);
 			int destHeight = (int) (srcHeight * multiplier);
 
-			int blur = (int) (0.6d / multiplier) + 1;
+			double abc = 0.6d;
+			if (Math.abs(w) < 32)
+				abc = 1.2;
+			int blur = (int) (abc / multiplier) + 1;
 
 			icon = blurImage(icon, blur);
 
