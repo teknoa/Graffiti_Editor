@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.142 2010/10/20 12:10:44 morla Exp $
+// $Id: MainFrame.java,v 1.143 2010/10/21 14:08:10 morla Exp $
 
 package org.graffiti.editor;
 
@@ -46,8 +46,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -171,9 +169,6 @@ import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.inspector.SubtabHostTab;
 import org.graffiti.plugin.io.InputSerializer;
 import org.graffiti.plugin.io.OutputSerializer;
-import org.graffiti.plugin.io.resources.IOurl;
-import org.graffiti.plugin.io.resources.ReourceIOConfigObject;
-import org.graffiti.plugin.io.resources.ResourceIOManager;
 import org.graffiti.plugin.mode.Mode;
 import org.graffiti.plugin.tool.AbstractTool;
 import org.graffiti.plugin.tool.Tool;
@@ -198,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.142 $
+ * @version $Revision: 1.143 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -4110,31 +4105,6 @@ SelectionListener, DropTargetListener
 	public boolean isGraphLoadingInProgress() {
 		return graphLoadingInProgress;
 	}
-
-	public static IOurl saveGraph(String targetHandlerPrefix, String srcFileName, final Graph g, ReourceIOConfigObject config) throws Exception {
-
-		String ext = FileSaveAction.getFileExt(srcFileName);
-		final OutputSerializer os = getInstance().getIoManager().createOutputSerializer(ext);
-		final PipedOutputStream pout = new PipedOutputStream();
-		PipedInputStream pin = new PipedInputStream(pout);
-
-		Thread t = new Thread(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					os.write(pout, g);
-				} catch (IOException e) {
-					ErrorMsg.addErrorMessage(e);
-					System.out.println("Could not write to piped output stream!");
-				}
-			}
-		});
-		t.setName("Write graph to piped output stream (" + srcFileName + ")");
-		t.start();
-
-		return ResourceIOManager.copyDataAndReplaceURLPrefix(targetHandlerPrefix, srcFileName, pin, config);
-	}
-
 
 }
 
