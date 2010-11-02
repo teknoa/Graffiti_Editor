@@ -870,13 +870,7 @@ public class GravistoService implements HelperClass {
 		memLabel.setToolTipText("Click for memory garbage collection (incl. Database Flush)<br>Shift-Click for pure GC.");
 		memLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
-				if (!e.isShiftDown())
-					synchronized (memoryHogs) {
-						for (MemoryHog mh : memoryHogs) {
-							mh.freeMemory();
-						}
-					}
-				System.gc();
+				freeMemory(!e.isShiftDown());
 			}
 
 			public void mouseEntered(MouseEvent e) {
@@ -910,15 +904,15 @@ public class GravistoService implements HelperClass {
 		String memoryConfig;
 		if (shortInfo) {
 			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + ""
-					+ "&nbsp;MB";
+			+ "&nbsp;MB";
 			return "<html>" + "<font color='gray'><small>" + memoryConfig + "<br>"
-					+ MainFrame.getInstance().getNumberOfOpenSessions() + "&nbsp;ES";
+			+ MainFrame.getInstance().getNumberOfOpenSessions() + "&nbsp;ES";
 
 		} else {
 			memoryConfig = ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + " MB, "
-					+ (r.totalMemory() / divisor / divisor) + " MB, " + (r.maxMemory() / divisor / divisor) + " MB";
+			+ (r.totalMemory() / divisor / divisor) + " MB, " + (r.maxMemory() / divisor / divisor) + " MB";
 			return "<html>" + "<font color='gray'><small>Memory info:<br>&nbsp;&nbsp;&nbsp;active, alloc, max memory: "
-					+ memoryConfig;
+			+ memoryConfig;
 		}
 	}
 
@@ -1017,6 +1011,16 @@ public class GravistoService implements HelperClass {
 		return null;
 	}
 
+	public static void freeMemory(boolean freeAlsoMemoryHogs) {
+		if (freeAlsoMemoryHogs)
+			synchronized (memoryHogs) {
+				for (MemoryHog mh : memoryHogs) {
+					mh.freeMemory();
+				}
+			}
+		System.gc();
+	}
+
 	// based on
 	// http://www.tutorials.de/forum/java/255281-zip-entpacken-problem.html
 	public static void unzipFile(File archive) throws Exception {
@@ -1072,7 +1076,7 @@ public class GravistoService implements HelperClass {
 	 */
 	@SuppressWarnings("unchecked")
 	public static void saveRessource(Class reference, String folder, String fileName, String targetFileName)
-			throws IOException {
+	throws IOException {
 		ClassLoader cl = reference.getClassLoader();
 
 		String path = reference.getPackage().getName().replace('.', '/');
