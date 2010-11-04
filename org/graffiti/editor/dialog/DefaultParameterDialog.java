@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.17 2010/07/19 14:05:43 morla Exp $
+// $Id: DefaultParameterDialog.java,v 1.18 2010/11/04 14:07:58 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -61,7 +61,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 ActionListener, WindowListener {
@@ -136,8 +136,16 @@ ActionListener, WindowListener {
 			String algorithmName, Object descriptionOrComponent,
 			JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
 			String okOnlyButtonText) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets, "OK", true);
+	}
 
-		super(parent instanceof Frame ? (Frame)parent : null, true);
+	public DefaultParameterDialog(EditComponentManager editComponentManager,
+			Component parent, Parameter[] parameters, Selection selection,
+			String algorithmName, Object descriptionOrComponent,
+			JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
+			String okOnlyButtonText, boolean modal) {
+
+		super(parent instanceof Frame ? (Frame)parent : null, modal);
 
 		validSessions.clear();
 		try {
@@ -526,6 +534,18 @@ ActionListener, WindowListener {
 													p[i] = ip;
 												}
 		}
+		boolean modal = true;
+		if(description!=null && description!=null && description instanceof String && ((String)description).startsWith("["))
+			if(((String)description).indexOf("nonmodal,")>0) {
+				modal = false;
+				description = StringManipulationTools.stringReplace((String) description, "nonmodal,", "");
+			} else
+				if(((String)description).indexOf("nonmodal")>0) {
+					modal = false;
+					description = StringManipulationTools.stringReplace((String) description, "nonmodal", "");
+				}
+
+
 		boolean noButton = (description!=null && description instanceof String && ((String)description).startsWith("[]"));
 		if (noButton) {
 			description = ((String)description).substring("[]".length());
@@ -563,7 +583,7 @@ ActionListener, WindowListener {
 								MainFrame.getInstance().getActiveEditorSession().
 								getSelectionModel().getActiveSelection() : null
 						),
-						title, description, null, showOnlyOneButton, noButton, false, buttonDesc);
+						title, description, null, showOnlyOneButton, noButton, false, buttonDesc, modal);
 		if (paramDialog.isOkSelected()) {
 			Parameter[] pe = paramDialog.getEditedParameters();
 			Object[] result = new Object[pe.length];
@@ -594,6 +614,7 @@ ActionListener, WindowListener {
 
 	private static int scrollbarWidth = (int) (new JScrollBar(JScrollBar.VERTICAL).getPreferredSize().getWidth()+1);
 
+	@Override
 	public Dimension getPreferredSize() {
 		Dimension d = super.getPreferredSize();
 		return new Dimension((int)d.getWidth()+scrollbarWidth, (int)d.getHeight());
