@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: PasteAction.java,v 1.8 2010/07/19 14:05:42 morla Exp $
+// $Id: PasteAction.java,v 1.9 2010/11/09 15:11:52 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public class PasteAction extends SelectionAction {
 	//~ Constructors ===========================================================
@@ -67,6 +67,8 @@ public class PasteAction extends SelectionAction {
 	}
 
 	HashMap<String, Integer> pasteHash2Offset = new HashMap<String, Integer>();
+
+	public static String pastedNodeID = "pastedNode";
 
 	/**
 	 * Executes this action.
@@ -104,6 +106,8 @@ public class PasteAction extends SelectionAction {
 					y+=100;
 				}
 			}
+			for (Node node : newGraph.getNodes())
+				AttributeHelper.setAttribute(node, "", pastedNodeID, Boolean.TRUE);
 			Graph workGraph = getGraph();
 			boolean showGraphInNewView = false;
 			if (workGraph==null) {
