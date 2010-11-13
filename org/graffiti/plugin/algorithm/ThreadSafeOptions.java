@@ -21,13 +21,13 @@ import org.graffiti.graph.Graph;
 import org.graffiti.selection.Selection;
 
 /**
- * This class can be used for thread safe communication between user interfaces and plugins.
- *
+ * This class can be used for thread safe communication between user interfaces
+ * and plugins.
+ * 
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
-public class ThreadSafeOptions implements HelperClass
-{
+public class ThreadSafeOptions implements HelperClass {
 
 	/**
 	 * Init parameter. This parameter needs to be removed later to make this
@@ -46,9 +46,9 @@ public class ThreadSafeOptions implements HelperClass
 	public boolean doRemoveAllBends = true;
 
 	/**
-	 * Parameter which is evaluated by the springEmbedder layouter at the
-	 * end of the run. This parameter needs to be removed later to make this
-	 * class more general.
+	 * Parameter which is evaluated by the springEmbedder layouter at the end of
+	 * the run. This parameter needs to be removed later to make this class more
+	 * general.
 	 */
 	public boolean doFinishMoveToTop = true;
 
@@ -65,14 +65,14 @@ public class ThreadSafeOptions implements HelperClass
 	public double maxBorderForce = 100;
 
 	/**
-	 * Run parameter. This parameter needs to be removed later to make this
-	 * class more general.
+	 * Run parameter. This parameter needs to be removed later to make this class
+	 * more general.
 	 */
-	public double temperature_max_move = 300; //Double.MAX_VALUE;
+	public double temperature_max_move = 300; // Double.MAX_VALUE;
 
 	/**
-	 * Run parameter. This parameter needs to be removed later to make this
-	 * class more general.
+	 * Run parameter. This parameter needs to be removed later to make this class
+	 * more general.
 	 */
 	public double temp_alpha = 0.998;
 
@@ -98,15 +98,15 @@ public class ThreadSafeOptions implements HelperClass
 	public boolean redraw = false;
 
 	/**
-	 * If true, the algorithm should auto-update the view. If false,
-	 * the algorithm should only redraw, if the value <code>redraw</code> is true.
+	 * If true, the algorithm should auto-update the view. If false, the
+	 * algorithm should only redraw, if the value <code>redraw</code> is true.
 	 */
 	public boolean autoRedraw = false;
 
 	/**
-	 * Vecor node array, contains <code>patternNodeStruct</code> objects,
-	 * which saves/caches the information about pattern type and number for
-	 * all nodes of a graph
+	 * Vecor node array, contains <code>patternNodeStruct</code> objects, which
+	 * saves/caches the information about pattern type and number for all nodes
+	 * of a graph
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList nodeArray;
@@ -118,21 +118,19 @@ public class ThreadSafeOptions implements HelperClass
 	public HashMap nodeSearch;
 
 	/**
-	 * Can be interpreted by the algorithm like desired.
-	 * 0 should be "not started",
-	 * 1 should be "running",
-	 * 2 should be "idle",
-	 * 3 should be "finished".
-	 * Check or overwrite <code>getRunStatus</code> so that the descriptions match.
+	 * Can be interpreted by the algorithm like desired. 0 should be
+	 * "not started", 1 should be "running", 2 should be "idle", 3 should be
+	 * "finished". Check or overwrite <code>getRunStatus</code> so that the
+	 * descriptions match.
 	 */
-	public int runStatus=0;
+	public int runStatus = 0;
 
-	//////////////////////////////////////////////////////////////////
+	// ////////////////////////////////////////////////////////////////
 
-	//    /**
-	//     * DOCUMENT ME!
-	//     */
-	//    protected volatile boolean redrawNeeded = false;
+	// /**
+	// * DOCUMENT ME!
+	// */
+	// protected volatile boolean redrawNeeded = false;
 
 	/**
 	 * Stores the graph reference.
@@ -155,8 +153,7 @@ public class ThreadSafeOptions implements HelperClass
 	private volatile boolean abortWanted = false;
 
 	/**
-	 * A second variable for changed settigns.
-	 * ToDo (CK): check purpose
+	 * A second variable for changed settigns. ToDo (CK): check purpose
 	 */
 	public volatile boolean threadSettingsChanged = false;
 
@@ -167,54 +164,56 @@ public class ThreadSafeOptions implements HelperClass
 
 	/**
 	 * Use this call to indicate that the plugin should stop it work
-	 *
-	 * @param value Set to True to indicate a wanted stop
+	 * 
+	 * @param value
+	 *           Set to True to indicate a wanted stop
 	 */
-	public void setAbortWanted(boolean value)
-	{
+	public void setAbortWanted(boolean value) {
 		abortWanted = value;
 	}
 
 	/**
 	 * Check if the plugin should stop.
-	 *
-	 * @return True, in case the plugin should stop its run. False, if the plugin should continue its work.
+	 * 
+	 * @return True, in case the plugin should stop its run. False, if the plugin
+	 *         should continue its work.
 	 */
-	public boolean isAbortWanted()
-	{
+	public boolean isAbortWanted() {
 		return abortWanted;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param newG DOCUMENT ME!
+	 * 
+	 * @param newG
+	 *           DOCUMENT ME!
 	 */
-	public synchronized void setGraphInstance(Graph newG)
-	{
+	public synchronized void setGraphInstance(Graph newG) {
 		g = newG;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public synchronized Graph getGraphInstance()
-	{
+	public synchronized Graph getGraphInstance() {
 		return g;
 	}
 
 	/**
 	 * Get a parameter object
-	 *
-	 * @param index index number (GUI and Plugin should use the same indicies ;-)
-	 * @param defaultValue In case the parameter is not yet set, this value will be returned.
-	 *
-	 * @return The parameter object which was set before or if not yet set the defaultValue.
+	 * 
+	 * @param index
+	 *           index number (GUI and Plugin should use the same indicies ;-)
+	 * @param defaultValue
+	 *           In case the parameter is not yet set, this value will be
+	 *           returned.
+	 * 
+	 * @return The parameter object which was set before or if not yet set the
+	 *         defaultValue.
 	 */
-	public synchronized Object getParam(int index, Object defaultValue)
-	{
+	public synchronized Object getParam(int index, Object defaultValue) {
 		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
@@ -228,14 +227,15 @@ public class ThreadSafeOptions implements HelperClass
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param index DOCUMENT ME!
-	 * @param setValue DOCUMENT ME!
-	 *
+	 * 
+	 * @param index
+	 *           DOCUMENT ME!
+	 * @param setValue
+	 *           DOCUMENT ME!
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public synchronized Object setParam(int index, Object setValue)
-	{
+	public synchronized Object setParam(int index, Object setValue) {
 		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
@@ -263,12 +263,13 @@ public class ThreadSafeOptions implements HelperClass
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param index DOCUMENT ME!
-	 * @param value DOCUMENT ME!
+	 * 
+	 * @param index
+	 *           DOCUMENT ME!
+	 * @param value
+	 *           DOCUMENT ME!
 	 */
-	public void setDval(int index, double value)
-	{
+	public void setDval(int index, double value) {
 		synchronized (dValues) {
 			if (index >= dValues.length) {
 				Double[] newDvalues = new Double[index + 1];
@@ -283,14 +284,15 @@ public class ThreadSafeOptions implements HelperClass
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param index DOCUMENT ME!
-	 * @param defaultValue DOCUMENT ME!
-	 *
+	 * 
+	 * @param index
+	 *           DOCUMENT ME!
+	 * @param defaultValue
+	 *           DOCUMENT ME!
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public double getDval(int index, double defaultValue)
-	{
+	public double getDval(int index, double defaultValue) {
 		synchronized (dValues) {
 			if (index >= dValues.length) {
 				return defaultValue;
@@ -305,15 +307,17 @@ public class ThreadSafeOptions implements HelperClass
 	}
 
 	/**
-	 * Sets a boolean Parameter with a given Index <code>index</code> and a given value.
-	 * It is up to the plugin that uses the options to make sure, that each time the right index
-	 * for storing and restoring the parameter value is used.
+	 * Sets a boolean Parameter with a given Index <code>index</code> and a given
+	 * value. It is up to the plugin that uses the options to make sure, that
+	 * each time the right index for storing and restoring the parameter value is
+	 * used.
 	 * 
-	 * @param index Index of the property. (self choosen from 0...x)
-	 * @param value The new setting stored at index <code>index</code>.
+	 * @param index
+	 *           Index of the property. (self choosen from 0...x)
+	 * @param value
+	 *           The new setting stored at index <code>index</code>.
 	 */
-	public void setBval(int index, boolean value)
-	{
+	public void setBval(int index, boolean value) {
 		synchronized (bValues) {
 			if (index >= bValues.length) {
 				Boolean[] newBvalues = new Boolean[index + 1];
@@ -327,16 +331,18 @@ public class ThreadSafeOptions implements HelperClass
 	}
 
 	/**
-	 * Returns a stored boolean parameter value. If the parameter has not yet been stored
-	 * the <code>defaultValue</code> is returned.
-	 *
-	 * @param index Index of the parameter to be retrieved.
-	 * @param defaultValue The default value that is returned in case the parameter is yet unknown.
-	 *
+	 * Returns a stored boolean parameter value. If the parameter has not yet
+	 * been stored the <code>defaultValue</code> is returned.
+	 * 
+	 * @param index
+	 *           Index of the parameter to be retrieved.
+	 * @param defaultValue
+	 *           The default value that is returned in case the parameter is yet
+	 *           unknown.
+	 * 
 	 * @return A boolean parameter value.
 	 */
-	public boolean getBval(int index, boolean defaultValue)
-	{
+	public boolean getBval(int index, boolean defaultValue) {
 		synchronized (bValues) {
 			if (index >= bValues.length) {
 				return defaultValue;
@@ -359,20 +365,22 @@ public class ThreadSafeOptions implements HelperClass
 
 	/**
 	 * Set selection for graph.
-	 * @param selection The selection.
+	 * 
+	 * @param selection
+	 *           The selection.
 	 */
 	public void setSelection(Selection selection) {
 		sel = selection;
 	}
 
 	public String getRunStatus() {
-		if (runStatus==0)
+		if (runStatus == 0)
 			return "init, not started";
-		if (runStatus==1)
+		if (runStatus == 1)
 			return "running";
-		if (runStatus==2)
+		if (runStatus == 2)
 			return "idle";
-		if (runStatus==3)
+		if (runStatus == 3)
 			return "finished";
 		return "status error";
 	}
@@ -382,27 +390,31 @@ public class ThreadSafeOptions implements HelperClass
 	public synchronized void addInt(int i) {
 		iv += i;
 	}
+
 	public synchronized void setInt(int i) {
 		iv = i;
 	}
+
 	public synchronized int getInt() {
 		return iv;
 	}
 
 	private double dv = 0;
-	private Double dl = 0d;
+	private final Double dl = 0d;
 
 	public void addDouble(double d) {
 		synchronized (dl) {
 			dv += d;
 		}
 	}
-	public synchronized void setDouble(double d) {
+
+	public void setDouble(double d) {
 		synchronized (dl) {
 			dv = d;
 		}
 	}
-	public synchronized double getDouble() {
+
+	public double getDouble() {
 		synchronized (dl) {
 			return dv;
 		}
@@ -421,4 +433,19 @@ public class ThreadSafeOptions implements HelperClass
 			}
 		}
 	}
+
+	private long l = 0;
+
+	public void setLong(long l) {
+		this.l = l;
+	}
+
+	public synchronized void addLong(long l) {
+		this.l += l;
+	}
+
+	public synchronized long getLong() {
+		return l;
+	}
+
 }
