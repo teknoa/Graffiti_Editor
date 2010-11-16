@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.18 2010/11/04 14:07:58 morla Exp $
+// $Id: DefaultParameterDialog.java,v 1.19 2010/11/16 13:41:23 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
@@ -29,11 +30,13 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
 import org.ReleaseInfo;
@@ -61,7 +64,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  *
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 ActionListener, WindowListener {
@@ -201,6 +204,17 @@ ActionListener, WindowListener {
 		ok.setEnabled(true);
 
 		getRootPane().setDefaultButton(ok);
+
+		getRootPane().getActionMap().put("escapeAction", new AbstractAction() {
+			private static final long serialVersionUID = 1L;
+
+			public void actionPerformed(ActionEvent event) {
+				DefaultParameterDialog.this.dispose();
+			}
+		});
+		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
+		.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false),"escapeAction");
+
 
 		defineLayout(okOnly, noButton, allowMultipleGraphTargets);
 		addListeners();
