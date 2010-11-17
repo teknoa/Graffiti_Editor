@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.145 2010/11/15 09:01:11 morla Exp $
+// $Id: MainFrame.java,v 1.146 2010/11/17 14:04:55 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.145 $
+ * @version $Revision: 1.146 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1786,7 +1786,7 @@ SelectionListener, DropTargetListener
 						ErrorMsg.addErrorMessage("Plugin " + ep.getClass().getCanonicalName()
 								+ " contains InspectorTab with value NULL!");
 					else {
-						if (isAddon(ep))
+						if (isAddon(ep)&&ep.getIcon()!=null)
 							it.setIcon(new ImageIcon(GravistoService.getScaledImage(ep.getIcon().getImage(), 16, 16)));
 						inspectorPlugin.addTab(it);
 					}
@@ -1939,7 +1939,8 @@ SelectionListener, DropTargetListener
 					}
 					if (icon == null)
 						icon = plugin.getIcon();
-					menu.setIcon(new ImageIcon(GravistoService.getScaledImage(icon.getImage(), 16, 16)));
+					if(icon!=null)
+						menu.setIcon(new ImageIcon(GravistoService.getScaledImage(icon.getImage(), 16, 16)));
 				}
 				if (a.getAcceleratorKeyStroke() != null)
 					menu.setAccelerator(a.getAcceleratorKeyStroke());
