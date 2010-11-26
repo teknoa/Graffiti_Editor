@@ -25,7 +25,7 @@ import org.graffiti.selection.Selection;
  * and plugins.
  * 
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class ThreadSafeOptions implements HelperClass {
 
@@ -436,7 +436,7 @@ public class ThreadSafeOptions implements HelperClass {
 
 	private long l = 0;
 
-	public void setLong(long l) {
+	public synchronized void setLong(long l) {
 		this.l = l;
 	}
 
@@ -445,6 +445,11 @@ public class ThreadSafeOptions implements HelperClass {
 	}
 
 	public synchronized long getLong() {
+		return l;
+	}
+
+	public synchronized long getNextLong() {
+		l++;
 		return l;
 	}
 
