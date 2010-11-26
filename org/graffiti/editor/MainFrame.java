@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.146 2010/11/17 14:04:55 morla Exp $
+// $Id: MainFrame.java,v 1.147 2010/11/26 18:26:31 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -169,6 +169,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 import org.graffiti.plugin.inspector.SubtabHostTab;
 import org.graffiti.plugin.io.InputSerializer;
 import org.graffiti.plugin.io.OutputSerializer;
+import org.graffiti.plugin.io.resources.IOurl;
 import org.graffiti.plugin.mode.Mode;
 import org.graffiti.plugin.tool.AbstractTool;
 import org.graffiti.plugin.tool.Tool;
@@ -193,11 +194,11 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.146 $
+ * @version $Revision: 1.147 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
-UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
-SelectionListener, DropTargetListener
+		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
+		SelectionListener, DropTargetListener
 
 {
 
@@ -613,8 +614,8 @@ SelectionListener, DropTargetListener
 
 	private String getDefaultFrameTitle() {
 		return sBundle.getString("name") + " " + sBundle.getString("version") + " "
-		+ sBundle.getString("version.Release") + "." + sBundle.getString("version.Major") + "."
-		+ sBundle.getString("version.Minor");
+				+ sBundle.getString("version.Release") + "." + sBundle.getString("version.Major") + "."
+				+ sBundle.getString("version.Minor");
 	}
 
 	// ~ Methods ================================================================
@@ -1198,35 +1199,35 @@ SelectionListener, DropTargetListener
 
 			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent ? (JComponent) view
 					.getViewToolbarComponentTop() : new JLabel();
-					JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view
-							.getViewToolbarComponentBottom() : new JLabel();
-							JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent ? (JComponent) view
-									.getViewToolbarComponentLeft() : new JLabel();
-									JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent ? (JComponent) view
-											.getViewToolbarComponentRight() : new JLabel();
+			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentBottom() : new JLabel();
+			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentLeft() : new JLabel();
+			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent ? (JComponent) view
+					.getViewToolbarComponentRight() : new JLabel();
 
-											double topS = top && view.getViewToolbarComponentTop() instanceof Double ? (Double) view
-													.getViewToolbarComponentTop() : TableLayout.PREFERRED;
-													double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view
-															.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
-															double leftS = left && view.getViewToolbarComponentLeft() instanceof Double ? (Double) view
-																	.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
-																	double rightS = right && view.getViewToolbarComponentRight() instanceof Double ? (Double) view
-																			.getViewToolbarComponentRight() : TableLayout.PREFERRED;
+			double topS = top && view.getViewToolbarComponentTop() instanceof Double ? (Double) view
+					.getViewToolbarComponentTop() : TableLayout.PREFERRED;
+			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view
+					.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
+			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double ? (Double) view
+					.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
+			double rightS = right && view.getViewToolbarComponentRight() instanceof Double ? (Double) view
+					.getViewToolbarComponentRight() : TableLayout.PREFERRED;
 
-																			j.setLayout(new TableLayout(new double[][] { new double[] { TableLayout.FILL },
-																					new double[] { topS, TableLayout.FILL, bottomS }, }));
-																			if (top)
-																				j.add(topC, "0,0");
-																			if (left || right) {
-																				j.add(TableLayout.get3Split(leftC, scrollPane != null ? scrollPane : view.getViewComponent(), rightC,
-																						leftS, TableLayout.FILL, rightS), "0,1");
-																			} else
-																				j.add(scrollPane != null ? scrollPane : view.getViewComponent(), "0,1");
-																			if (bottom)
-																				j.add(bottomC, "0,2");
-																			if (background)
-																				j.add(view.getViewToolbarComponentBackground(), "0,0,0,2");
+			j.setLayout(new TableLayout(new double[][] { new double[] { TableLayout.FILL },
+					new double[] { topS, TableLayout.FILL, bottomS }, }));
+			if (top)
+				j.add(topC, "0,0");
+			if (left || right) {
+				j.add(TableLayout.get3Split(leftC, scrollPane != null ? scrollPane : view.getViewComponent(), rightC,
+						leftS, TableLayout.FILL, rightS), "0,1");
+			} else
+				j.add(scrollPane != null ? scrollPane : view.getViewComponent(), "0,1");
+			if (bottom)
+				j.add(bottomC, "0,2");
+			if (background)
+				j.add(view.getViewToolbarComponentBackground(), "0,0,0,2");
 		} else
 			j.add(scrollPane != null ? scrollPane : view.getViewComponent());
 	}
@@ -1336,8 +1337,9 @@ SelectionListener, DropTargetListener
 
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
-			JOptionPane.showMessageDialog(null, sBundle.getString("fileFormatError").replaceAll("\\[err\\]",
-					e1.getLocalizedMessage()), sBundle.getString("fileFormatErrorTitle"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null,
+					sBundle.getString("fileFormatError").replaceAll("\\[err\\]", e1.getLocalizedMessage()),
+					sBundle.getString("fileFormatErrorTitle"), JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. IO Exception<br>" + "Exception: <code>"
 					+ e.getLocalizedMessage() + "</code>");
@@ -1394,7 +1396,7 @@ SelectionListener, DropTargetListener
 	 * @param file
 	 */
 	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
-	throws IllegalAccessException, InstantiationException {
+			throws IllegalAccessException, InstantiationException {
 		loadGraphInBackground(new File[] { file }, ae, autoSwitch);
 	}
 
@@ -1493,17 +1495,17 @@ SelectionListener, DropTargetListener
 			} catch (IOException e1) {
 				ErrorMsg.addErrorMessage(e1);
 			}
-			String content = new String("");
-			for (JMenuItem jmi : recentfileslist)
-				if (jmi.getToolTipText() != null)
-					content += jmi.getToolTipText() + System.getProperty("line.separator");
-			try {
-				PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(recentlist)));
-				out.print(content);
-				out.close();
-			} catch (IOException e) {
-				ErrorMsg.addErrorMessage(e);
-			}
+		String content = new String("");
+		for (JMenuItem jmi : recentfileslist)
+			if (jmi.getToolTipText() != null)
+				content += jmi.getToolTipText() + System.getProperty("line.separator");
+		try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(recentlist)));
+			out.print(content);
+			out.close();
+		} catch (IOException e) {
+			ErrorMsg.addErrorMessage(e);
+		}
 	}
 
 	/**
@@ -1612,16 +1614,16 @@ SelectionListener, DropTargetListener
 	 * @return
 	 * @throws Exception
 	 */
-	public Graph getGraph(InputStream inps, String fileName) throws Exception {
+	public Graph getGraph(IOurl url, String fileName) throws Exception {
 		Graph newGraph = null;
 		graphLoadingInProgress = true;
 		try {
 			String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
 			InputSerializer is;
-			is = ioManager.createInputSerializer(inps, ext);
+			is = ioManager.createInputSerializer(url.getInputStream(), ext);
 			if (is != null) {
 				synchronized (ioManager) {
-					newGraph = is.read(inps);
+					newGraph = is.read(url.getInputStream());
 				}
 			} else {
 				showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
@@ -1786,7 +1788,7 @@ SelectionListener, DropTargetListener
 						ErrorMsg.addErrorMessage("Plugin " + ep.getClass().getCanonicalName()
 								+ " contains InspectorTab with value NULL!");
 					else {
-						if (isAddon(ep)&&ep.getIcon()!=null)
+						if (isAddon(ep) && ep.getIcon() != null)
 							it.setIcon(new ImageIcon(GravistoService.getScaledImage(ep.getIcon().getImage(), 16, 16)));
 						inspectorPlugin.addTab(it);
 					}
@@ -1939,7 +1941,7 @@ SelectionListener, DropTargetListener
 					}
 					if (icon == null)
 						icon = plugin.getIcon();
-					if(icon!=null)
+					if (icon != null)
 						menu.setIcon(new ImageIcon(GravistoService.getScaledImage(icon.getImage(), 16, 16)));
 				}
 				if (a.getAcceleratorKeyStroke() != null)
@@ -2000,7 +2002,7 @@ SelectionListener, DropTargetListener
 		if (guiMap.containsKey(cat) && guiMap.get(cat) instanceof JMenu) {
 			JMenu targetNativeMenu = (JMenu) guiMap.get(cat);
 			Boolean pluginMenuAddEmptySpaceInFrontOfMenuItem = (Boolean) targetNativeMenu
-			.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
+					.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
 			if (pluginMenuAddEmptySpaceInFrontOfMenuItem != null
 					&& pluginMenuAddEmptySpaceInFrontOfMenuItem.booleanValue() == true) {
 				if (item.getIcon() == null)
@@ -2521,8 +2523,8 @@ SelectionListener, DropTargetListener
 		else
 			views = new String[] { "org.graffiti.plugins.views.defaults.GraffitiView" };
 		if (views.length == 0) {
-			JOptionPane.showMessageDialog(this, sBundle.getString("viewchooser.pluginNotAdded"), sBundle
-					.getString("viewchooser.errorDialog.title"), JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(this, sBundle.getString("viewchooser.pluginNotAdded"),
+					sBundle.getString("viewchooser.errorDialog.title"), JOptionPane.ERROR_MESSAGE);
 		} else if (views.length == 1) {
 			if (sessions.contains(session)) {
 				return createInternalFrame(views[0], session.getGraph().getName(), returnScrollPane, false);
@@ -2822,171 +2824,170 @@ SelectionListener, DropTargetListener
 				ErrorMsg.addErrorMessage(e1);
 			}
 
-			String[] sb = { "", "", "", "", "" };
-			int cnt = 0;
+		String[] sb = { "", "", "", "", "" };
+		int cnt = 0;
 
-			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(ReleaseInfo
-						.getAppFolderWithFinalSep()
-						+ "recentfiles.txt"))));
-				String s;
-				while ((s = in.readLine()) != null && cnt < 5) {
-					sb[cnt++] = s;
-				}
-				in.close();
-			} catch (IOException e1) {
-				ErrorMsg.addErrorMessage(e1);
-				e1.printStackTrace();
+		try {
+			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(
+					ReleaseInfo.getAppFolderWithFinalSep() + "recentfiles.txt"))));
+			String s;
+			while ((s = in.readLine()) != null && cnt < 5) {
+				sb[cnt++] = s;
 			}
+			in.close();
+		} catch (IOException e1) {
+			ErrorMsg.addErrorMessage(e1);
+			e1.printStackTrace();
+		}
 
-			fileMenu.addSeparator();
-			enclosingseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount() - 1);
-			if (cnt > 0 && !sb[0].equalsIgnoreCase(""))
-				enclosingseparator.setVisible(true);
-			else
-				enclosingseparator.setVisible(false);
+		fileMenu.addSeparator();
+		enclosingseparator = fileMenu.getMenuComponent(fileMenu.getMenuComponentCount() - 1);
+		if (cnt > 0 && !sb[0].equalsIgnoreCase(""))
+			enclosingseparator.setVisible(true);
+		else
+			enclosingseparator.setVisible(false);
 
-			recentfileslist = new RecentEntry[5];
+		recentfileslist = new RecentEntry[5];
 
-			recentfileslist[0] = new RecentEntry(sb[0], cnt > 0, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[0]);
-			// recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
-			// KeyEvent.VK_1, ActionEvent.C));
+		recentfileslist[0] = new RecentEntry(sb[0], cnt > 0, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[0]);
+		// recentfileslist[0].setAccelerator(KeyStroke.getKeyStroke(
+		// KeyEvent.VK_1, ActionEvent.C));
 
-			recentfileslist[1] = new RecentEntry(sb[1], cnt > 1, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[1]);
-			recentfileslist[2] = new RecentEntry(sb[2], cnt > 2, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[2]);
-			recentfileslist[3] = new RecentEntry(sb[3], cnt > 3, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[3]);
-			recentfileslist[4] = new RecentEntry(sb[4], cnt > 4, iBundle.getImageIcon("menu.file.open.icon"));
-			fileMenu.add(recentfileslist[4]);
+		recentfileslist[1] = new RecentEntry(sb[1], cnt > 1, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[1]);
+		recentfileslist[2] = new RecentEntry(sb[2], cnt > 2, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[2]);
+		recentfileslist[3] = new RecentEntry(sb[3], cnt > 3, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[3]);
+		recentfileslist[4] = new RecentEntry(sb[4], cnt > 4, iBundle.getImageIcon("menu.file.open.icon"));
+		fileMenu.add(recentfileslist[4]);
 
-			fileMenu.addSeparator();
+		fileMenu.addSeparator();
 
-			fileMenu.add(createMenuItem(fileClose));
-			fileMenu.add(createMenuItem(fileExit));
+		fileMenu.add(createMenuItem(fileClose));
+		fileMenu.add(createMenuItem(fileExit));
 
-			// plugin menu entries will be added after position 7
-			// the default commands like open file, save file etc. should be the first
-			// menu items
-			fileMenu.putClientProperty("pluginMenuPosition", new Integer(7));
+		// plugin menu entries will be added after position 7
+		// the default commands like open file, save file etc. should be the first
+		// menu items
+		fileMenu.putClientProperty("pluginMenuPosition", new Integer(7));
 
-			// top level plugin menu entries (category menus) should be added
-			// after the file menu, and also after the edit menu, but
-			// before the window menu, this property controls this behavior
-			// the plugin menu entries will be added alphabetically sorted between
-			// the menu items which have first the value true and later the value
-			// false
-			fileMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		// top level plugin menu entries (category menus) should be added
+		// after the file menu, and also after the edit menu, but
+		// before the window menu, this property controls this behavior
+		// the plugin menu entries will be added alphabetically sorted between
+		// the menu items which have first the value true and later the value
+		// false
+		fileMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			// plugin menu entries should have empty space, where a icon could be
-			// displayed, this
-			// way the plugin menu items will be inline with the other menu items,
-			// which have a menu icon
-			fileMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
+		// plugin menu entries should have empty space, where a icon could be
+		// displayed, this
+		// way the plugin menu items will be inline with the other menu items,
+		// which have a menu icon
+		fileMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
 
-			JMenu editMenu = createMenu("edit");
-			editMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
-			menuBar.add(editMenu);
+		JMenu editMenu = createMenu("edit");
+		editMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(true));
+		menuBar.add(editMenu);
 
-			editMenu.add(createMenuItem(editUndo));
-			editMenu.add(createMenuItem(editRedo));
-			editMenu.addSeparator();
-			editMenu.add(createMenuItem(editCut));
-			editMenu.add(createMenuItem(editCopy));
-			editMenu.add(createMenuItem(editPaste));
-			editMenu.addSeparator();
-			editMenu.add(createMenuItem(editDelete));
-			JMenuItem selectCmd = createMenuItem(editSelectAll);
-			selectCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
-			editMenu.add(selectCmd);
-			// editMenu.addSeparator();
-			// JMenuItem redrawCmd = createMenuItem(redrawView);
-			// redrawCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
-			// editMenu.add(redrawCmd);
+		editMenu.add(createMenuItem(editUndo));
+		editMenu.add(createMenuItem(editRedo));
+		editMenu.addSeparator();
+		editMenu.add(createMenuItem(editCut));
+		editMenu.add(createMenuItem(editCopy));
+		editMenu.add(createMenuItem(editPaste));
+		editMenu.addSeparator();
+		editMenu.add(createMenuItem(editDelete));
+		JMenuItem selectCmd = createMenuItem(editSelectAll);
+		selectCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
+		editMenu.add(selectCmd);
+		// editMenu.addSeparator();
+		// JMenuItem redrawCmd = createMenuItem(redrawView);
+		// redrawCmd.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
+		// editMenu.add(redrawCmd);
 
-			editMenu.putClientProperty("pluginMenuPosition", new Integer(9));
-			editMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		editMenu.putClientProperty("pluginMenuPosition", new Integer(9));
+		editMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			pluginMenu = createMenu("plugin");
-			pluginMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
+		pluginMenu = createMenu("plugin");
+		pluginMenu.putClientProperty("pluginMenuAddAfter", new Boolean(true));
 
-			if (uiPrefs.get("showPluginMenu", "true").equalsIgnoreCase("true"))
-				menuBar.add(pluginMenu);
+		if (uiPrefs.get("showPluginMenu", "true").equalsIgnoreCase("true"))
+			menuBar.add(pluginMenu);
 
-			if (uiPrefs.get("showPluginManagerMenuOptions", "true").equals("true")) {
-				pluginMenu.add(createMenuItem(pluginManagerEdit));
+		if (uiPrefs.get("showPluginManagerMenuOptions", "true").equals("true")) {
+			pluginMenu.add(createMenuItem(pluginManagerEdit));
 
-				// NEW SAVE / LOmenuBarAD PREFRENCES
-				// ***************************************
-				JMenuItem pluginPrefsSave = new JMenuItem("Save Preferences...");
-				JMenuItem pluginPrefsLoad = new JMenuItem("Load Preferences...");
-				pluginPrefsLoad.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser fc = new JFileChooser();
-						fc.showOpenDialog(null);
-						File selFile = fc.getSelectedFile();
-						String err = null;
-						try {
-							Preferences.importPreferences(new FileInputStream(selFile));
-						} catch (FileNotFoundException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (IOException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (InvalidPreferencesFormatException e1) {
-							err = e1.getLocalizedMessage();
-						}
-						if (err != null)
-							JOptionPane.showMessageDialog(null, "Error while reading preferences: " + err, "Error",
-									JOptionPane.ERROR_MESSAGE);
-						try {
-							getPluginManager().loadStartupPlugins();
-						} catch (PluginManagerException e2) {
-							String errm = e2.getLocalizedMessage();
-							JOptionPane.showMessageDialog(null, "Error while loading plugins: " + errm, "Error",
-									JOptionPane.ERROR_MESSAGE);
-						}
+			// NEW SAVE / LOmenuBarAD PREFRENCES
+			// ***************************************
+			JMenuItem pluginPrefsSave = new JMenuItem("Save Preferences...");
+			JMenuItem pluginPrefsLoad = new JMenuItem("Load Preferences...");
+			pluginPrefsLoad.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.showOpenDialog(null);
+					File selFile = fc.getSelectedFile();
+					String err = null;
+					try {
+						Preferences.importPreferences(new FileInputStream(selFile));
+					} catch (FileNotFoundException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (IOException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (InvalidPreferencesFormatException e1) {
+						err = e1.getLocalizedMessage();
 					}
-				});
-				pluginPrefsSave.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						JFileChooser fc = new JFileChooser();
-						fc.showSaveDialog(null);
-						File selFile = fc.getSelectedFile();
-						String err = null;
-						try {
-							Preferences prefs = Preferences.userNodeForPackage(GraffitiEditor.class);
-							prefs.exportSubtree(new FileOutputStream(selFile));
-						} catch (FileNotFoundException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (IOException e1) {
-							err = e1.getLocalizedMessage();
-						} catch (BackingStoreException e1) {
-							err = e1.getLocalizedMessage();
-						}
-						if (err != null)
-							JOptionPane.showMessageDialog(null, "Error while saving preferences: " + err, "Error",
-									JOptionPane.ERROR_MESSAGE);
+					if (err != null)
+						JOptionPane.showMessageDialog(null, "Error while reading preferences: " + err, "Error",
+								JOptionPane.ERROR_MESSAGE);
+					try {
+						getPluginManager().loadStartupPlugins();
+					} catch (PluginManagerException e2) {
+						String errm = e2.getLocalizedMessage();
+						JOptionPane.showMessageDialog(null, "Error while loading plugins: " + errm, "Error",
+								JOptionPane.ERROR_MESSAGE);
 					}
-				});
-				pluginMenu.add(pluginPrefsSave);
-				pluginMenu.add(pluginPrefsLoad);
+				}
+			});
+			pluginPrefsSave.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					JFileChooser fc = new JFileChooser();
+					fc.showSaveDialog(null);
+					File selFile = fc.getSelectedFile();
+					String err = null;
+					try {
+						Preferences prefs = Preferences.userNodeForPackage(GraffitiEditor.class);
+						prefs.exportSubtree(new FileOutputStream(selFile));
+					} catch (FileNotFoundException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (IOException e1) {
+						err = e1.getLocalizedMessage();
+					} catch (BackingStoreException e1) {
+						err = e1.getLocalizedMessage();
+					}
+					if (err != null)
+						JOptionPane.showMessageDialog(null, "Error while saving preferences: " + err, "Error",
+								JOptionPane.ERROR_MESSAGE);
+				}
+			});
+			pluginMenu.add(pluginPrefsSave);
+			pluginMenu.add(pluginPrefsLoad);
 
-				// ******************************************************************
-				pluginMenu.addSeparator();
-				pluginMenu.putClientProperty("pluginMenuPosition", new Integer(4));
-			} else
-				pluginMenu.putClientProperty("pluginMenuPosition", new Integer(0));
+			// ******************************************************************
+			pluginMenu.addSeparator();
+			pluginMenu.putClientProperty("pluginMenuPosition", new Integer(4));
+		} else
+			pluginMenu.putClientProperty("pluginMenuPosition", new Integer(0));
 
-			windowMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(false));
-			windowMenu.putClientProperty("pluginMenuAddAfter", new Boolean(false));
-			// windowMenu.add(redrawCmd);
-			menuBar.add(windowMenu);
+		windowMenu.putClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem", new Boolean(false));
+		windowMenu.putClientProperty("pluginMenuAddAfter", new Boolean(false));
+		// windowMenu.add(redrawCmd);
+		menuBar.add(windowMenu);
 
-			// menuBar.setBorderPainted(false);
+		// menuBar.setBorderPainted(false);
 
-			return menuBar;
+		return menuBar;
 	}
 
 	/**
@@ -3468,8 +3469,8 @@ SelectionListener, DropTargetListener
 				names += "<li>" + g.getName() + (unsavedGraphs.indexOf(g) < unsavedGraphs.size() - 1 ? "<br>" : "");
 			int res = JOptionPane.showConfirmDialog(this,
 					"<html><b>Do you really want to close the application?</b><p><p>"
-					+ "The following graph(s) have not been saved, yet:<br><ol>" + names, unsavedGraphs.size()
-					+ " graph(s) not saved", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+							+ "The following graph(s) have not been saved, yet:<br><ol>" + names, unsavedGraphs.size()
+							+ " graph(s) not saved", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (res == JOptionPane.YES_OPTION) {
 				/*
 				 * for (Iterator it = l.iterator(); it.hasNext();) {
@@ -3940,9 +3941,9 @@ SelectionListener, DropTargetListener
 			if (r.maxMemory() / 1024 / 1024 < 400) {
 				int divisor = 1024;
 				String memoryConfig = "Used/free/max memory: "
-					+ ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + "/"
-					+ (r.freeMemory() / divisor / divisor) + "/<u>" + (r.maxMemory() / divisor / divisor)
-					+ "</u> MB &lt;-- possible problem detected";
+						+ ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + "/"
+						+ (r.freeMemory() / divisor / divisor) + "/<u>" + (r.maxMemory() / divisor / divisor)
+						+ "</u> MB &lt;-- possible problem detected";
 				MainFrame.showMessageDialog("<html>" + "Low memory configuration detected!<br><br>"
 						+ "The current memory configuration (see bottom of this dialog window)<br>"
 						+ "may cause severe performance problems and yield to unrecoverable<br>"
@@ -4089,9 +4090,9 @@ SelectionListener, DropTargetListener
 
 	public static boolean isViewProvidingToolbar(View view) {
 		return view != null
-		&& (view.getViewToolbarComponentTop() != null || view.getViewToolbarComponentBottom() != null
-				|| view.getViewToolbarComponentLeft() != null || view.getViewToolbarComponentRight() != null || view
-				.getViewToolbarComponentBackground() != null);
+				&& (view.getViewToolbarComponentTop() != null || view.getViewToolbarComponentBottom() != null
+						|| view.getViewToolbarComponentLeft() != null || view.getViewToolbarComponentRight() != null || view
+						.getViewToolbarComponentBackground() != null);
 	}
 
 	/**
