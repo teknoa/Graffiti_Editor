@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.147 2010/11/26 18:26:31 klukas Exp $
+// $Id: MainFrame.java,v 1.148 2010/11/26 18:29:37 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -43,7 +43,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -194,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.147 $
+ * @version $Revision: 1.148 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1179,9 +1178,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		if (zoomListeners != null)
 			this.zoomListeners.add(view);
 
-		if (scrollPane == null) {
-			ErrorMsg.addErrorMessage("Error: ScrollPane for graph is NULL");
-		}
 		if (returnGraffitiFrame)
 			return frame;
 		else
@@ -1323,11 +1319,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			g.setName(fileName);
 			g.setModified(false);
 			EditorSession es = new EditorSession(g);
-			if (es == null) {
-				ErrorMsg.addErrorMessage("Graph " + fileName
-						+ " could not be loaded. Editor session could not be created from graph (EditorSession=NULL).");
-				return null;
-			}
+
 			try {
 				es.setFileName(url.toString());
 			} catch (Exception e) {
@@ -1670,8 +1662,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		if (os == null)
 			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension " + ext);
 
-		if (outpS == null)
-			ErrorMsg.addErrorMessage("Invalid outputstream created for filename " + fileName);
 		os.write(outpS, graph);
 		outpS.close();
 	}
@@ -3320,8 +3310,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			viewFrameMapper.remove(view);
 			zoomListeners.remove(view);
 
-			if (session == null)
-				System.out.println("ERROR 123");
 			if (session.getGraph() == null)
 				System.out.println("ERROR 987");
 			if (session.getGraph().getListenerManager() == null)
@@ -3725,7 +3713,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		showMessage("Drag-Exit", MessageType.INFO);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void drop(DropTargetDropEvent e) {
 		showMessage("Drop", MessageType.INFO);
 		System.out.println("Drop");
