@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: MainFrame.java,v 1.148 2010/11/26 18:29:37 klukas Exp $
+// $Id: MainFrame.java,v 1.149 2010/11/29 12:31:35 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.148 $
+ * @version $Revision: 1.149 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -3598,7 +3598,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			progressPanel.setLayout(new TableLayout(size));
 			for (i = 0; i < activeProgressPanels.size(); i++) {
 				progressPanel.add(activeProgressPanels.get(i), "1," + (activeProgressPanels.size() - i));
-				((Component) activeProgressPanels.get(i)).setVisible(true);
+				activeProgressPanels.get(i).setVisible(true);
 			}
 			// progressPanel.validate();
 			jSplitPane_pluginPanelAndProgressView.validate();
