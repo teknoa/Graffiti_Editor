@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   MainFrame.java
+// MainFrame.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: MainFrame.java,v 1.149 2010/11/29 12:31:35 morla Exp $
+// ==============================================================================
+// $Id: MainFrame.java,v 1.150 2010/12/01 14:59:13 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,11 +193,11 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.149 $
+ * @version $Revision: 1.150 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
-		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
-		SelectionListener, DropTargetListener
+					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
+					SelectionListener, DropTargetListener
 
 {
 
@@ -388,8 +388,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * The default view type, that will be always displayed if the user
 	 * deactivates the view chooser dialog. This variable is initialized with
 	 * null per default. for setting the default view this member variable have
-	 * to be initialized with a valid view type by the method
-	 * <code>getDefaultView()</code>.
+	 * to be initialized with a valid view type by the method <code>getDefaultView()</code>.
 	 */
 	private final String defaultView = null;
 
@@ -532,7 +531,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 		if (progressPanel != null) {
 			jSplitPane_pluginPanelAndProgressView = TableLayout.getSplitVertical(pluginPanel, progressPanel,
-					TableLayout.FILL, TableLayout.PREFERRED);
+								TableLayout.FILL, TableLayout.PREFERRED);
 			jSplitPane_pluginPanelAndProgressView.setMinimumSize(new Dimension(0, 0));
 			sidepanel = jSplitPane_pluginPanelAndProgressView;
 		} else {
@@ -613,8 +612,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	private String getDefaultFrameTitle() {
 		return sBundle.getString("name") + " " + sBundle.getString("version") + " "
-				+ sBundle.getString("version.Release") + "." + sBundle.getString("version.Major") + "."
-				+ sBundle.getString("version.Minor");
+							+ sBundle.getString("version.Release") + "." + sBundle.getString("version.Major") + "."
+							+ sBundle.getString("version.Minor");
 	}
 
 	// ~ Methods ================================================================
@@ -784,7 +783,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * Returns an iterator over all sessions.
 	 * 
 	 * @return an iterator over all sessions.
-	 * 
 	 * @see org.graffiti.session.Session
 	 */
 	public Iterator<Session> getSessionsIterator() {
@@ -867,15 +865,16 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				if (tb.getTool() instanceof Undoable) {
 					((Undoable) tb.getTool()).setUndoSupport(undoSupport);
 				}
-			} else if (component instanceof GraffitiComponent) {
-				if (component instanceof ViewListener) {
-					this.viewManager.addViewListener((ViewListener) component);
-				}
+			} else
+				if (component instanceof GraffitiComponent) {
+					if (component instanceof ViewListener) {
+						this.viewManager.addViewListener((ViewListener) component);
+					}
 
-				if (component instanceof SessionListener) {
-					this.sessionListeners.add((SessionListener) component);
+					if (component instanceof SessionListener) {
+						this.sessionListeners.add((SessionListener) component);
+					}
 				}
-			}
 
 			if (component instanceof JToolBar) {
 				JToolBar jt = (JToolBar) component;
@@ -989,25 +988,24 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 *           String no title will be set.
 	 * @param returnScrollpane
 	 *           DOCUMENT ME!
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public JScrollPane createInternalFrame(String viewName, String newFrameTitle, boolean returnScrollpane,
-			boolean otherViewWillBeClosed) {
+						boolean otherViewWillBeClosed) {
 		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, getActiveEditorSession(), returnScrollpane,
-				false, otherViewWillBeClosed, null, true);
+							false, otherViewWillBeClosed, null, true);
 	}
 
 	public JScrollPane createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
-			boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
+						boolean returnScrollpane, boolean otherViewWillBeClosed, ConfigureViewAction c) {
 		return (JScrollPane) createInternalFrame(viewName, newFrameTitle, session, returnScrollpane, false,
-				otherViewWillBeClosed, c, true);
+							otherViewWillBeClosed, c, true);
 	}
 
 	public Object createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
-			boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed) {
+						boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed) {
 		return createInternalFrame(viewName, newFrameTitle, session, returnScrollPane, returnGraffitiFrame,
-				otherViewWillBeClosed, null, true);
+							otherViewWillBeClosed, null, true);
 	}
 
 	/**
@@ -1022,18 +1020,16 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 *           a new session.
 	 * @param returnScrollPane
 	 *           A scrollpane or a graffitiinternalframe
-	 * 
 	 * @return DOCUMENT ME!
-	 * 
 	 * @throws RuntimeException
 	 *            DOCUMENT ME!
 	 */
 	public Object createInternalFrame(String viewName, String newFrameTitle, EditorSession session,
-			boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed,
-			ConfigureViewAction configNewView, boolean addViewToEditorSession) {
+						boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed,
+						ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 
 		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance() != null
-				&& !SwingUtilities.isEventDispatchThread()) {
+							&& !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
 
@@ -1110,7 +1106,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 		// this.addSession(session);
 		JScrollPane scrollPane = new JScrollPane(view.getViewComponent(), ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS,
-				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+							ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(10);
 		scrollPane.getVerticalScrollBar().setUnitIncrement(10);
@@ -1142,9 +1138,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					desktop.add(frame);
 				} catch (IllegalArgumentException e) {
 					MainFrame.showMessageDialog("<html>Error occured during creation of a new internal frame.<br>"
-							+ "Probably you have more than one screen/computermonitor or a beamer plugged in. You<p>"
-							+ "mustn't move the application window to another screen after startup. It is<p>"
-							+ "recommended to restart the application.", "Error: Other Graphics Device Detected!");
+										+ "Probably you have more than one screen/computermonitor or a beamer plugged in. You<p>"
+										+ "mustn't move the application window to another screen after startup. It is<p>"
+										+ "recommended to restart the application.", "Error: Other Graphics Device Detected!");
 					return null;
 				}
 				Java_1_5_compatibility.setComponentZorder(desktop, frame);
@@ -1194,30 +1190,30 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			boolean background = view.getViewToolbarComponentBackground() != null;
 
 			JComponent topC = top && view.getViewToolbarComponentTop() instanceof JComponent ? (JComponent) view
-					.getViewToolbarComponentTop() : new JLabel();
+								.getViewToolbarComponentTop() : new JLabel();
 			JComponent bottomC = bottom && view.getViewToolbarComponentBottom() instanceof JComponent ? (JComponent) view
-					.getViewToolbarComponentBottom() : new JLabel();
+								.getViewToolbarComponentBottom() : new JLabel();
 			JComponent leftC = left && view.getViewToolbarComponentLeft() instanceof JComponent ? (JComponent) view
-					.getViewToolbarComponentLeft() : new JLabel();
+								.getViewToolbarComponentLeft() : new JLabel();
 			JComponent rightC = right && view.getViewToolbarComponentRight() instanceof JComponent ? (JComponent) view
-					.getViewToolbarComponentRight() : new JLabel();
+								.getViewToolbarComponentRight() : new JLabel();
 
 			double topS = top && view.getViewToolbarComponentTop() instanceof Double ? (Double) view
-					.getViewToolbarComponentTop() : TableLayout.PREFERRED;
+								.getViewToolbarComponentTop() : TableLayout.PREFERRED;
 			double bottomS = bottom && view.getViewToolbarComponentBottom() instanceof Double ? (Double) view
-					.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
+								.getViewToolbarComponentBottom() : TableLayout.PREFERRED;
 			double leftS = left && view.getViewToolbarComponentLeft() instanceof Double ? (Double) view
-					.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
+								.getViewToolbarComponentLeft() : TableLayout.PREFERRED;
 			double rightS = right && view.getViewToolbarComponentRight() instanceof Double ? (Double) view
-					.getViewToolbarComponentRight() : TableLayout.PREFERRED;
+								.getViewToolbarComponentRight() : TableLayout.PREFERRED;
 
 			j.setLayout(new TableLayout(new double[][] { new double[] { TableLayout.FILL },
-					new double[] { topS, TableLayout.FILL, bottomS }, }));
+								new double[] { topS, TableLayout.FILL, bottomS }, }));
 			if (top)
 				j.add(topC, "0,0");
 			if (left || right) {
 				j.add(TableLayout.get3Split(leftC, scrollPane != null ? scrollPane : view.getViewComponent(), rightC,
-						leftS, TableLayout.FILL, rightS), "0,1");
+									leftS, TableLayout.FILL, rightS), "0,1");
 			} else
 				j.add(scrollPane != null ? scrollPane : view.getViewComponent(), "0,1");
 			if (bottom)
@@ -1330,17 +1326,17 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
 			JOptionPane.showMessageDialog(null,
-					sBundle.getString("fileFormatError").replaceAll("\\[err\\]", e1.getLocalizedMessage()),
-					sBundle.getString("fileFormatErrorTitle"), JOptionPane.ERROR_MESSAGE);
+								sBundle.getString("fileFormatError").replaceAll("\\[err\\]", e1.getLocalizedMessage()),
+								sBundle.getString("fileFormatErrorTitle"), JOptionPane.ERROR_MESSAGE);
 		} catch (IOException e) {
 			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. IO Exception<br>" + "Exception: <code>"
-					+ e.getLocalizedMessage() + "</code>");
+								+ e.getLocalizedMessage() + "</code>");
 		} catch (IllegalAccessException e) {
 			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. IllegalAccessException<br>"
-					+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+								+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
 		} catch (InstantiationException e) {
 			ErrorMsg.addErrorMessage("Graph " + fileName + " could not be loaded. InstantiationException<br>"
-					+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
+								+ "Exception: <code>" + e.getLocalizedMessage() + "</code>");
 		}
 		return null;
 	}
@@ -1388,7 +1384,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * @param file
 	 */
 	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
-			throws IllegalAccessException, InstantiationException {
+						throws IllegalAccessException, InstantiationException {
 		loadGraphInBackground(new File[] { file }, ae, autoSwitch);
 	}
 
@@ -1434,7 +1430,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 							System.out.println("Read file: " + file.getAbsolutePath());
 							final String fileName = file.getName();
 							showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
-									MessageType.PERMANENT_INFO);
+												MessageType.PERMANENT_INFO);
 							i++;
 							final Graph newGraph = getGraph(file);
 							System.out.println("File reading finished: " + file.getAbsolutePath());
@@ -1454,11 +1450,11 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 						} catch (Exception e) {
 							errcnt++;
 							errors.append("<p>File <b>" + file.getName() + "</b> could not be loaded. Error: "
-									+ e.getLocalizedMessage() + "");
+												+ e.getLocalizedMessage() + "");
 						} catch (AssertionError e) {
 							errcnt++;
 							errors.append("<p>File <b>" + file.getName() + "</b> could not be loaded. Error: "
-									+ e.getLocalizedMessage() + "");
+												+ e.getLocalizedMessage() + "");
 						}
 					}
 					if (errcnt > 0)
@@ -1507,15 +1503,15 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		if (fesf != null) {
 			Object[] options = { "Activate View", "Load Graph" };
 			if (autoSwitch
-					|| JOptionPane.showOptionDialog(this, "<html>The graph file <i>" + fileName + "</i> is already loaded!",
-							"Activate existing view?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
-							options[0]) == JOptionPane.YES_OPTION) {
+								|| JOptionPane.showOptionDialog(this, "<html>The graph file <i>" + fileName + "</i> is already loaded!",
+													"Activate existing view?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options,
+													options[0]) == JOptionPane.YES_OPTION) {
 				for (GraffitiInternalFrame f : activeFrames) {
 					if (f.getSession() == fesf) {
 						desktop.getDesktopManager().deiconifyFrame(f);
 						desktop.getDesktopManager().activateFrame(f);
 						MainFrame.showMessage("Existing view for graph file " + fileName + " has been activated",
-								MessageType.INFO);
+											MessageType.INFO);
 						final GraffitiInternalFrame gif = f;
 						SwingUtilities.invokeLater(new Runnable() {
 							public void run() {
@@ -1776,7 +1772,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				} else {
 					if (it == null)
 						ErrorMsg.addErrorMessage("Plugin " + ep.getClass().getCanonicalName()
-								+ " contains InspectorTab with value NULL!");
+											+ " contains InspectorTab with value NULL!");
 					else {
 						if (isAddon(ep) && ep.getIcon() != null)
 							it.setIcon(new ImageIcon(GravistoService.getScaledImage(ep.getIcon().getImage(), 16, 16)));
@@ -1893,7 +1889,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					continue; // skip layout algorithms
 				}
 				final RunAlgorithm action = new RunAlgorithm(a.getClass().getName(), a.getName(), this,
-						editComponentManager, a);
+									editComponentManager, a);
 
 				algorithmActions.add(action);
 				String cat = a.getCategory();
@@ -1908,7 +1904,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 							setVisible(b);
 
 						if (getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_MENU_IF_ALL_DISABLED
-								|| getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU) {
+											|| getHideDeactivateSwitch() == HideOrDeactivateMenu.HIDE_INACTIVE_MENUITEMS_AND_HIDE_MENU) {
 							JMenu parent = (JMenu) getClientProperty(myKey);
 							if (parent != null) {
 								boolean childVisible = false;
@@ -1992,9 +1988,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		if (guiMap.containsKey(cat) && guiMap.get(cat) instanceof JMenu) {
 			JMenu targetNativeMenu = (JMenu) guiMap.get(cat);
 			Boolean pluginMenuAddEmptySpaceInFrontOfMenuItem = (Boolean) targetNativeMenu
-					.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
+								.getClientProperty("pluginMenuAddEmptySpaceInFrontOfMenuItem");
 			if (pluginMenuAddEmptySpaceInFrontOfMenuItem != null
-					&& pluginMenuAddEmptySpaceInFrontOfMenuItem.booleanValue() == true) {
+								&& pluginMenuAddEmptySpaceInFrontOfMenuItem.booleanValue() == true) {
 				if (item.getIcon() == null)
 					item.setIcon(iBundle.getImageIcon("menu.file.exit.icon"));
 			}
@@ -2052,8 +2048,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	/**
 	 * Determines the target menu position of a new category sub menu. This menu
-	 * will be placed inside the menu (given with the parameter <code>menu</code>
-	 * ). While looking for the target position the client property
+	 * will be placed inside the menu (given with the parameter <code>menu</code> ). While looking for the target position the client property
 	 * "pluginMenuAddAfter" will be checked. If this is <code>true</code>, then
 	 * the menu item will be ignored and the first starting point is increased.
 	 * If the property changes to <code>false</code>, then the target menu must
@@ -2065,8 +2060,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * 
 	 * @param menu
 	 * @param title
-	 *           Title of the new menu to be added to the target menu (
-	 *           <code>menu</code>).
+	 *           Title of the new menu to be added to the target menu ( <code>menu</code>).
 	 * @return The target position where the menu should be added to.
 	 */
 	private int getTargetMenuPosition(JMenuBar menu, String title) {
@@ -2167,9 +2161,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			if (graphName == null)
 				graphName = "[" + session.getGraph().getName() + "]";
 			int res = JOptionPane.showConfirmDialog(this, "<html>" + sBundle.getString("frame.close_save") + "<p>"
-					+ "Graph " + graphName + " contains<br>" + session.getGraph().getNodes().size() + " node(s) and "
-					+ session.getGraph().getEdges().size() + " edge(s)!", sBundle.getString("frame.close_save_title"),
-					JOptionPane.YES_NO_CANCEL_OPTION);
+								+ "Graph " + graphName + " contains<br>" + session.getGraph().getNodes().size() + " node(s) and "
+								+ session.getGraph().getEdges().size() + " edge(s)!", sBundle.getString("frame.close_save_title"),
+								JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				// save current graph
 				Session as = MainFrame.getInstance().getActiveSession();
@@ -2387,7 +2381,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * defined number of seconds. This method can be called from a background
 	 * thread.
 	 * 
-	 * 
 	 * @param message
 	 *           a message string to be displayed
 	 * @param type
@@ -2430,11 +2423,13 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		}
 		if (type == MessageType.ERROR) {
 			getInstance().statusBar.showError(message, timeMillis);
-		} else if (type == MessageType.INFO) {
-			getInstance().statusBar.showInfo(message, timeMillis);
-		} else if (type == MessageType.PERMANENT_INFO) {
-			getInstance().statusBar.showInfo(message, Integer.MAX_VALUE);
-		}
+		} else
+			if (type == MessageType.INFO) {
+				getInstance().statusBar.showInfo(message, timeMillis);
+			} else
+				if (type == MessageType.PERMANENT_INFO) {
+					getInstance().statusBar.showInfo(message, Integer.MAX_VALUE);
+				}
 	}
 
 	/**
@@ -2468,14 +2463,13 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * 
 	 * @param returnScrollpane
 	 *           DOCUMENT ME!
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public JScrollPane showViewChooserDialog(boolean returnScrollpane, boolean useDefaultViewForSmallGraphs,
-			ActionEvent ae) {
+						ActionEvent ae) {
 		if (useDefaultViewForSmallGraphs)
 			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae,
-					LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
+								LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY);
 		else
 			return showViewChooserDialog(getActiveEditorSession(), returnScrollpane, ae, LoadSetting.VIEW_CHOOSER_ALWAYS);
 	}
@@ -2485,7 +2479,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	}
 
 	public JScrollPane showViewChooserDialog(EditorSession session, boolean returnScrollPane, ActionEvent e,
-			LoadSetting interaction) {
+						LoadSetting interaction) {
 		return showViewChooserDialog(session, returnScrollPane, e, interaction, null);
 	}
 
@@ -2500,11 +2494,10 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 *           DOCUMENT ME!
 	 * @param e
 	 * @param interaction
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public JScrollPane showViewChooserDialog(final EditorSession session, boolean returnScrollPane, ActionEvent e,
-			LoadSetting interaction, final ConfigureViewAction configNewView) {
+						LoadSetting interaction, final ConfigureViewAction configNewView) {
 		if (!returnScrollPane && MainFrame.getInstance() != null && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		String[] views;
@@ -2514,90 +2507,91 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			views = new String[] { "org.graffiti.plugins.views.defaults.GraffitiView" };
 		if (views.length == 0) {
 			JOptionPane.showMessageDialog(this, sBundle.getString("viewchooser.pluginNotAdded"),
-					sBundle.getString("viewchooser.errorDialog.title"), JOptionPane.ERROR_MESSAGE);
-		} else if (views.length == 1) {
-			if (sessions.contains(session)) {
-				return createInternalFrame(views[0], session.getGraph().getName(), returnScrollPane, false);
-			} else {
-				JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], session.getGraph().getName(), session,
-						returnScrollPane, false, false, configNewView, true);
-				return jsp;
-			}
-		} else {
-			if (ReleaseInfo.getRunningReleaseStatus() != Release.KGML_EDITOR) {
-				if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY
-						&& session.getGraph() != null
-						&& ((session.getGraph().getNumberOfNodes() + session.getGraph().getNumberOfEdges() > 1000) || ((e != null && (e
-								.getModifiers() & ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK))))
-					interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view
-				// chooser dialog
-				// in case the
-				// graph size is
-				// large
-			}
-			if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
-				interaction = LoadSetting.VIEW_CHOOSER_NEVER;
-
-			// from here on only VIEW_CHOOSER_ALWAYS or
-			// VIEW_CHOOSER_NEVER_ALWAYS_DEFAULT should be set
-
-			if (interaction == LoadSetting.VIEW_CHOOSER_NEVER
-					|| interaction == LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION) {
-				String defaultView = viewManager.getDefaultView();
+								sBundle.getString("viewchooser.errorDialog.title"), JOptionPane.ERROR_MESSAGE);
+		} else
+			if (views.length == 1) {
 				if (sessions.contains(session)) {
-					return createInternalFrame(defaultView, session.getGraph().getName(), session, returnScrollPane, false,
-							configNewView);
+					return createInternalFrame(views[0], session.getGraph().getName(), returnScrollPane, false);
 				} else {
-					Graph g = session.getGraph();
-					String name = null;
-					if (g != null)
-						name = g.getName();
-					if (name == null)
-						name = "[NULL]";
-					JScrollPane jsp = (JScrollPane) createInternalFrame(defaultView, name, session, returnScrollPane, false,
-							false, configNewView, interaction != LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION);
+					JScrollPane jsp = (JScrollPane) createInternalFrame(views[0], session.getGraph().getName(), session,
+										returnScrollPane, false, false, configNewView, true);
 					return jsp;
 				}
 			} else {
-				// interaction is VIEW_CHOOSER_ALWAYS
-				ViewTypeChooser viewChooser = new ViewTypeChooser(this, sBundle.getString("viewchooser.title") + " ("
-						+ session.getGraph().getNumberOfNodes() + " nodes, " + session.getGraph().getNumberOfEdges()
-						+ " edges)", viewManager.getViewDescriptions());
-
-				viewChooser.setLocationRelativeTo(MainFrame.getInstance());
-				viewChooser.setVisible(true);
-
-				// The user did not select a view.
-				if (viewChooser.getSelectedView() == -1) {
-					return null;
+				if (ReleaseInfo.getRunningReleaseStatus() != Release.KGML_EDITOR) {
+					if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY
+										&& session.getGraph() != null
+										&& ((session.getGraph().getNumberOfNodes() + session.getGraph().getNumberOfEdges() > 1000) || ((e != null && (e
+															.getModifiers() & ActionEvent.SHIFT_MASK) == ActionEvent.SHIFT_MASK))))
+						interaction = LoadSetting.VIEW_CHOOSER_ALWAYS; // show view
+					// chooser dialog
+					// in case the
+					// graph size is
+					// large
 				}
+				if (interaction == LoadSetting.VIEW_CHOOSER_FOR_LARGE_GRAPHS_ONLY)
+					interaction = LoadSetting.VIEW_CHOOSER_NEVER;
 
-				final String selectedView = views[viewChooser.getSelectedView()];
+				// from here on only VIEW_CHOOSER_ALWAYS or
+				// VIEW_CHOOSER_NEVER_ALWAYS_DEFAULT should be set
 
-				if (viewChooser.getUserSelectionCreateInternalFrame()) {
-					if (selectedView != null) {
-						if (sessions.contains(session)) {
-							return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane,
-									false, configNewView);
-						} else {
-							return (JScrollPane) createInternalFrame(selectedView, session.getGraph().getName(), session,
-									returnScrollPane, false, false, configNewView, true);
-						}
+				if (interaction == LoadSetting.VIEW_CHOOSER_NEVER
+									|| interaction == LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION) {
+					String defaultView = viewManager.getDefaultView();
+					if (sessions.contains(session)) {
+						return createInternalFrame(defaultView, session.getGraph().getName(), session, returnScrollPane, false,
+											configNewView);
+					} else {
+						Graph g = session.getGraph();
+						String name = null;
+						if (g != null)
+							name = g.getName();
+						if (name == null)
+							name = "[NULL]";
+						JScrollPane jsp = (JScrollPane) createInternalFrame(defaultView, name, session, returnScrollPane, false,
+											false, configNewView, interaction != LoadSetting.VIEW_CHOOSER_NEVER_DONT_ADD_VIEW_TO_EDITORSESSION);
+						return jsp;
 					}
 				} else {
-					SwingUtilities.invokeLater(new Runnable() {
-						public void run() {
-							GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session
-									.getGraph().getName(), session, false, true, false, configNewView, true);
-							GraffitiFrame gf = new GraffitiFrame(gif, false);
-							gf.setExtendedState(Frame.MAXIMIZED_BOTH);
-							gf.setVisible(true);
-							addDetachedFrame(gf);
+					// interaction is VIEW_CHOOSER_ALWAYS
+					ViewTypeChooser viewChooser = new ViewTypeChooser(this, sBundle.getString("viewchooser.title") + " ("
+										+ session.getGraph().getNumberOfNodes() + " nodes, " + session.getGraph().getNumberOfEdges()
+										+ " edges)", viewManager.getViewDescriptions());
+
+					viewChooser.setLocationRelativeTo(MainFrame.getInstance());
+					viewChooser.setVisible(true);
+
+					// The user did not select a view.
+					if (viewChooser.getSelectedView() == -1) {
+						return null;
+					}
+
+					final String selectedView = views[viewChooser.getSelectedView()];
+
+					if (viewChooser.getUserSelectionCreateInternalFrame()) {
+						if (selectedView != null) {
+							if (sessions.contains(session)) {
+								return createInternalFrame(selectedView, session.getGraph().getName(), session, returnScrollPane,
+													false, configNewView);
+							} else {
+								return (JScrollPane) createInternalFrame(selectedView, session.getGraph().getName(), session,
+													returnScrollPane, false, false, configNewView, true);
+							}
 						}
-					});
+					} else {
+						SwingUtilities.invokeLater(new Runnable() {
+							public void run() {
+								GraffitiInternalFrame gif = (GraffitiInternalFrame) createInternalFrame(selectedView, session
+													.getGraph().getName(), session, false, true, false, configNewView, true);
+								GraffitiFrame gf = new GraffitiFrame(gif, false);
+								gf.setExtendedState(Frame.MAXIMIZED_BOTH);
+								gf.setVisible(true);
+								addDetachedFrame(gf);
+							}
+						});
+					}
 				}
 			}
-		}
 
 		return null;
 	}
@@ -2637,7 +2631,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	protected void showError(final String msg) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			JOptionPane.showMessageDialog(this, msg, StringBundle.getInstance().getString("message.dialog.title"),
-					JOptionPane.ERROR_MESSAGE);
+								JOptionPane.ERROR_MESSAGE);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -2754,12 +2748,10 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	/**
 	 * Constructs a menu, and returns the menu. &quot;menu.&quot;<tt>name</tt> is
-	 * read from the string bundle. &uqot;menu.&quot;<tt>name</tt>
-	 * &quot;.icon&quot; is read from the image bundle.
+	 * read from the string bundle. &uqot;menu.&quot;<tt>name</tt> &quot;.icon&quot; is read from the image bundle.
 	 * 
 	 * @param name
 	 *           the name of the menu item.
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JMenu createMenu(String name) {
@@ -2819,7 +2811,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 		try {
 			BufferedReader in = new BufferedReader(new InputStreamReader(new FileInputStream(new File(
-					ReleaseInfo.getAppFolderWithFinalSep() + "recentfiles.txt"))));
+								ReleaseInfo.getAppFolderWithFinalSep() + "recentfiles.txt"))));
 			String s;
 			while ((s = in.readLine()) != null && cnt < 5) {
 				sb[cnt++] = s;
@@ -2930,13 +2922,13 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					}
 					if (err != null)
 						JOptionPane.showMessageDialog(null, "Error while reading preferences: " + err, "Error",
-								JOptionPane.ERROR_MESSAGE);
+											JOptionPane.ERROR_MESSAGE);
 					try {
 						getPluginManager().loadStartupPlugins();
 					} catch (PluginManagerException e2) {
 						String errm = e2.getLocalizedMessage();
 						JOptionPane.showMessageDialog(null, "Error while loading plugins: " + errm, "Error",
-								JOptionPane.ERROR_MESSAGE);
+											JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			});
@@ -2958,7 +2950,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					}
 					if (err != null)
 						JOptionPane.showMessageDialog(null, "Error while saving preferences: " + err, "Error",
-								JOptionPane.ERROR_MESSAGE);
+											JOptionPane.ERROR_MESSAGE);
 				}
 			});
 			pluginMenu.add(pluginPrefsSave);
@@ -3037,8 +3029,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					if (shownMessages.getRowCount() > 1) {
 						shownMessages.setMaximumRowCount(1, true);
 						shownMessages.setTitle("<html><small><font color='gray'>" + (shownMessages.getRowCount() - 1)
-								+ " additional message" + ((shownMessages.getRowCount() - 1) > 1 ? "s" : "")
-								+ " available (use arrow buttons to navigate)");
+											+ " additional message" + ((shownMessages.getRowCount() - 1) > 1 ? "s" : "")
+											+ " available (use arrow buttons to navigate)");
 						// shownMessages.setIconSize(Iconsize.MIDDLE);
 					} else {
 						shownMessages.setMaximumRowCount(-1, true);
@@ -3073,7 +3065,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	public static void showMessageDialogWithScrollBars(final String msg, final String title) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			JOptionPane.showMessageDialog(MainFrame.getInstance(), new MyScrollLabel(msg), title,
-					JOptionPane.INFORMATION_MESSAGE);
+								JOptionPane.INFORMATION_MESSAGE);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -3090,7 +3082,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	public static void showMessageDialogWithScrollBars2(final String msg, final String title) {
 		if (SwingUtilities.isEventDispatchThread()) {
 			JOptionPane.showMessageDialog(MainFrame.getInstance(), new MyScrollLabel(msg, 1000, 700), title,
-					JOptionPane.PLAIN_MESSAGE);
+								JOptionPane.PLAIN_MESSAGE);
 		} else {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
@@ -3116,7 +3108,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * 
 	 * @param action
 	 *           the action, which should be executed by this menu item.
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JMenuItem createMenuItem(final GraffitiAction action) {
@@ -3166,8 +3157,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		Runnable dragdetected = new Runnable() {
 			public void run() {
 				MainFrame.showMessage(
-						"<html><b>Drag &amp; Drop action detected:</b> release mouse button to load graph file",
-						MessageType.PERMANENT_INFO);
+									"<html><b>Drag &amp; Drop action detected:</b> release mouse button to load graph file",
+									MessageType.PERMANENT_INFO);
 				target.setBorderPainted(true);
 				target.setBorder(BorderFactory.createLineBorder(Color.BLUE, 3));
 			}
@@ -3227,7 +3218,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * 
 	 * @param action
 	 *           the action, which is associated with this button.
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	private JButton createToolBarButton(GraffitiAction action) {
@@ -3349,7 +3339,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 		/*
 		 * (non-Javadoc)
-		 * 
 		 * @see
 		 * javax.swing.event.InternalFrameListener#internalFrameClosing(javax.
 		 * swing.event.InternalFrameEvent)
@@ -3456,9 +3445,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			for (Graph g : unsavedGraphs)
 				names += "<li>" + g.getName() + (unsavedGraphs.indexOf(g) < unsavedGraphs.size() - 1 ? "<br>" : "");
 			int res = JOptionPane.showConfirmDialog(this,
-					"<html><b>Do you really want to close the application?</b><p><p>"
-							+ "The following graph(s) have not been saved, yet:<br><ol>" + names, unsavedGraphs.size()
-							+ " graph(s) not saved", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
+								"<html><b>Do you really want to close the application?</b><p><p>"
+													+ "The following graph(s) have not been saved, yet:<br><ol>" + names, unsavedGraphs.size()
+													+ " graph(s) not saved", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
 			if (res == JOptionPane.YES_OPTION) {
 				/*
 				 * for (Iterator it = l.iterator(); it.hasNext();) {
@@ -3481,7 +3470,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see java.awt.Component#processEvent(java.awt.AWTEvent)
 	 */
 	@Override
@@ -3561,7 +3549,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 						activeProgressPanels.removeAll(toBeDeleted);
 
 					if (firstGuiTimerCall || (redrawGUIcount % 10 == 0)
-							|| (progressPanel.getComponentCount() != activeProgressPanels.size())) {
+										|| (progressPanel.getComponentCount() != activeProgressPanels.size())) {
 						if (jSplitPane_pluginPanelAndProgressView.getHeight() > 0)
 							firstGuiTimerCall = false;
 						updatePanelGUI();
@@ -3607,7 +3595,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.graffiti.selection.SelectionListener#selectionChanged(org.graffiti
 	 * .selection.SelectionEvent)
@@ -3642,7 +3629,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	/*
 	 * (non-Javadoc)
-	 * 
 	 * @see
 	 * org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti
 	 * .selection.SelectionEvent)
@@ -3713,6 +3699,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		showMessage("Drag-Exit", MessageType.INFO);
 	}
 
+	@SuppressWarnings("unchecked")
 	public void drop(DropTargetDropEvent e) {
 		showMessage("Drop", MessageType.INFO);
 		System.out.println("Drop");
@@ -3834,7 +3821,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					} catch (PropertyVetoException e) {
 					}
 					MainFrame.showMessage("Existing view for graph file " + fileName + " has been activated",
-							MessageType.INFO);
+										MessageType.INFO);
 					return true;
 				}
 			}
@@ -3928,21 +3915,21 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			if (r.maxMemory() / 1024 / 1024 < 400) {
 				int divisor = 1024;
 				String memoryConfig = "Used/free/max memory: "
-						+ ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + "/"
-						+ (r.freeMemory() / divisor / divisor) + "/<u>" + (r.maxMemory() / divisor / divisor)
-						+ "</u> MB &lt;-- possible problem detected";
+									+ ((r.totalMemory() / divisor / divisor) - (r.freeMemory() / divisor / divisor)) + "" + "/"
+									+ (r.freeMemory() / divisor / divisor) + "/<u>" + (r.maxMemory() / divisor / divisor)
+									+ "</u> MB &lt;-- possible problem detected";
 				MainFrame.showMessageDialog("<html>" + "Low memory configuration detected!<br><br>"
-						+ "The current memory configuration (see bottom of this dialog window)<br>"
-						+ "may cause severe performance problems and yield to unrecoverable<br>"
-						+ "out of memory exceptions and thus to unexpected program failures.<br>"
-						+ "Please check developer information on how to modify Java memory<br>"
-						+ "configuration. If you are not a software developer, please inform the<br>"
-						+ "main developer of the VANTED system about this problem.<br>"
-						+ "This message should not appear in case the program is started using<br>"
-						+ "the provided launch configurations (Java WebStart or command line<br>"
-						+ "based launch scripts).<br><br>"
-						+ "Please close the application and fix this problem before proceeding.<br><br>" + memoryConfig,
-						ReleaseInfo.getRunningReleaseStatus() + " Information");
+									+ "The current memory configuration (see bottom of this dialog window)<br>"
+									+ "may cause severe performance problems and yield to unrecoverable<br>"
+									+ "out of memory exceptions and thus to unexpected program failures.<br>"
+									+ "Please check developer information on how to modify Java memory<br>"
+									+ "configuration. If you are not a software developer, please inform the<br>"
+									+ "main developer of the VANTED system about this problem.<br>"
+									+ "This message should not appear in case the program is started using<br>"
+									+ "the provided launch configurations (Java WebStart or command line<br>"
+									+ "based launch scripts).<br><br>"
+									+ "Please close the application and fix this problem before proceeding.<br><br>" + memoryConfig,
+									ReleaseInfo.getRunningReleaseStatus() + " Information");
 			}
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
@@ -3956,19 +3943,19 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	}
 
 	public View createExternalFrame(String viewClassName, EditorSession session, boolean otherViewWillBeClosed,
-			boolean fullscreen) {
+						boolean fullscreen) {
 		return createExternalFrame(viewClassName, null, session, otherViewWillBeClosed, fullscreen);
 	}
 
 	public View createExternalFrame(String viewClassName, String framename, EditorSession session,
-			boolean otherViewWillBeClosed, boolean fullscreen) {
+						boolean otherViewWillBeClosed, boolean fullscreen) {
 		GraffitiInternalFrame gif;
 		if (framename == null)
 			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, session.getGraph().getName(), session, false,
-					true, otherViewWillBeClosed);
+								true, otherViewWillBeClosed);
 		else
 			gif = (GraffitiInternalFrame) createInternalFrame(viewClassName, framename, session, false, true,
-					otherViewWillBeClosed);
+								otherViewWillBeClosed);
 		GraffitiFrame gf = new GraffitiFrame(gif, fullscreen);
 		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
@@ -3982,7 +3969,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	}
 
 	public View createInternalFrame(String viewClassName, String newFrameTitle, EditorSession session,
-			boolean otherViewWillBeClosed) {
+						boolean otherViewWillBeClosed) {
 		createInternalFrame(viewClassName, newFrameTitle, session, false, false, otherViewWillBeClosed);
 		return session.getActiveView();
 	}
@@ -4066,9 +4053,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	public void warnUserAboutFileSaveProblem(Exception ioe) {
 		MainFrame.showMessageDialog("<html>Saving file caused and error (" + ioe.getMessage() + "),<br>"
-				+ "To avoid data loss, try saving the file in a different format,<br>"
-				+ "as a different file in a different place.<br>"
-				+ "Consider to print the graph view, to avoid complete loss<br>" + "of information.", "Error");
+							+ "To avoid data loss, try saving the file in a different format,<br>"
+							+ "as a different file in a different place.<br>"
+							+ "Consider to print the graph view, to avoid complete loss<br>" + "of information.", "Error");
 	}
 
 	public JDesktopPane getDesktop() {
@@ -4077,9 +4064,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 
 	public static boolean isViewProvidingToolbar(View view) {
 		return view != null
-				&& (view.getViewToolbarComponentTop() != null || view.getViewToolbarComponentBottom() != null
-						|| view.getViewToolbarComponentLeft() != null || view.getViewToolbarComponentRight() != null || view
-						.getViewToolbarComponentBackground() != null);
+							&& (view.getViewToolbarComponentTop() != null || view.getViewToolbarComponentBottom() != null
+												|| view.getViewToolbarComponentLeft() != null || view.getViewToolbarComponentRight() != null || view
+												.getViewToolbarComponentBackground() != null);
 	}
 
 	/**

@@ -5,7 +5,7 @@
 //   Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 //==============================================================================
-// $Id: RunAlgorithm.java,v 1.9 2010/07/19 14:05:42 morla Exp $
+// $Id: RunAlgorithm.java,v 1.10 2010/12/01 14:59:13 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -17,13 +17,11 @@ import org.graffiti.help.HelpContext;
 import org.graffiti.managers.EditComponentManager;
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.algorithm.Algorithm;
-import org.graffiti.plugin.algorithm.EditorAlgorithm;
-import org.graffiti.plugin.view.View3D;
 
 /**
  * Runs an algorithm.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class RunAlgorithm
 extends GraffitiAction
@@ -73,25 +71,26 @@ extends GraffitiAction
 	@Override
 	public boolean isEnabled()
 	{
+		return mainFrame.isSessionActive();
 
-		if (algorithm instanceof EditorAlgorithm) {
-			// editor algorithm can decide by himself whether to be active for view
-			EditorAlgorithm ea = (EditorAlgorithm)algorithm;
-			if (mainFrame.isSessionActive())
-				return ea.activeForView(mainFrame.getActiveSession().getActiveView());
-			else
-				return ea.activeForView(null);
-		} else {
-			if (!mainFrame.isSessionActive())
-				return false;
-
-			// "normal" algorithm
-			boolean threeDviewActive = mainFrame.getActiveSession().getActiveView() instanceof View3D;
-			if (threeDviewActive)
-				return false;
-			else
-				return true;
-		}
+//		if (algorithm instanceof EditorAlgorithm) {
+//			// editor algorithm can decide by himself whether to be active for view
+//			EditorAlgorithm ea = (EditorAlgorithm)algorithm;
+//			if (mainFrame.isSessionActive())
+//				return ea.activeForView(mainFrame.getActiveSession().getActiveView());
+//			else
+//				return ea.activeForView(null);
+//		} else {
+//			if (!mainFrame.isSessionActive())
+//				return false;
+//
+//			// "normal" algorithm
+//			boolean threeDviewActive = mainFrame.getActiveSession().getActiveView() instanceof View3D;
+//			if (threeDviewActive)
+//				return false;
+//			else
+//				return true;
+//		}
 	}
 
 	/**
