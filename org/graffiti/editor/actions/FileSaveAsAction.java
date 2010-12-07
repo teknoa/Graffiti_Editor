@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   FileSaveAsAction.java
+// FileSaveAsAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: FileSaveAsAction.java,v 1.16 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: FileSaveAsAction.java,v 1.17 2010/12/07 09:35:51 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -28,18 +28,18 @@ import org.graffiti.help.HelpContext;
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.io.OutputSerializer;
+import org.graffiti.plugin.view.SuppressSaveActionsView;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.SessionManager;
 
 /**
  * The action for saving a graph to a named file.
- *
- * @version $Revision: 1.16 $
+ * 
+ * @version $Revision: 1.17 $
  */
 public class FileSaveAsAction
-extends GraffitiAction
-{
-	//~ Instance fields ========================================================
+					extends GraffitiAction {
+	// ~ Instance fields ========================================================
 	private static final long serialVersionUID = 1L;
 
 	/** DOCUMENT ME! */
@@ -51,53 +51,52 @@ extends GraffitiAction
 	/** DOCUMENT ME! */
 	private StringBundle sBundle;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
-	//    private JFileChooser fc;
+	// private JFileChooser fc;
 	public FileSaveAsAction(MainFrame mainFrame, IOManager ioManager,
-			SessionManager sessionManager, StringBundle sBundle)
-	{
+						SessionManager sessionManager, StringBundle sBundle) {
 		super("file.saveAs", mainFrame, "filemenu_saveas");
 		this.ioManager = ioManager;
 		this.sessionManager = sessionManager;
 		this.sBundle = sBundle;
 
-		//        fc = new JFileChooser();
+		// fc = new JFileChooser();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
+		EditorSession session = (EditorSession) mainFrame.getActiveSession();
+		if (session != null && session.getActiveView() instanceof SuppressSaveActionsView)
+			return false;
+
 		return ioManager.hasOutputSerializer() &&
-		sessionManager.isSessionActive();
+							sessionManager.isSessionActive();
 	}
 
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		JFileChooser fc = ioManager.createSaveFileChooser();
-
-
 
 		OpenFileDialogService.setActiveDirectoryFor(fc);
 
@@ -105,30 +104,29 @@ extends GraffitiAction
 			String n = getGraph().getName(true);
 			String on = n;
 			if (n.endsWith("*"))
-				n = n.substring(0, n.length()-1);
+				n = n.substring(0, n.length() - 1);
 			n = n.replaceAll("%20", " ");
 			n = StringManipulationTools.stringReplace(n, "[not saved]", "new file");
 			n = n.trim();
-			if (n!=null && n.length()>0 && on.equals(n) && new File(n).canWrite())
+			if (n != null && n.length() > 0 && on.equals(n) && new File(n).canWrite())
 				fc.setSelectedFile(new File(n));
 			else
 				fc.setSelectedFile(new File(getGraph().getName(false).trim()));
-		} catch(Exception err) {
+		} catch (Exception err) {
 			// empty
 		}
 
 		boolean needFile = true;
-		while(needFile)
-		{
+		while (needFile) {
 			int returnVal = fc.showDialog(mainFrame, sBundle.getString("menu.file.saveAs"));
 
-			if(returnVal == JFileChooser.APPROVE_OPTION)
-			{
+			if (returnVal == JFileChooser.APPROVE_OPTION) {
 
 				File oldfile = null;
 				try {
 					oldfile = new File(mainFrame.getActiveEditorSession().getFileNameFull()).getParentFile();
-				} catch (Exception e1) {}
+				} catch (Exception e1) {
+				}
 
 				File file = fc.getSelectedFile();
 				String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
@@ -143,16 +141,13 @@ extends GraffitiAction
 						file = new File(file.getAbsolutePath() + ext);
 					session.setFileName(file.getAbsolutePath());
 
-					if (session!=null && session.getUndoManager()!=null)
+					if (session != null && session.getUndoManager() != null)
 						session.getUndoManager().discardAllEdits();
-
 
 					mainFrame.fireSessionDataChanged(session);
 					OpenFileDialogService.setActiveDirectoryFrom(fc.getCurrentDirectory());
 				}
-			}
-			else
-			{
+			} else {
 				// leave loop
 				needFile = false;
 			}
@@ -162,54 +157,43 @@ extends GraffitiAction
 	public static boolean safeFile(File file, String ext, Graph graph) {
 		String fileName = file.getName();
 		boolean needFile = true;
-		//System.err.println(fileName);
+		// System.err.println(fileName);
 
-		if(fileName.indexOf(".") == -1)
-		{
+		if (fileName.indexOf(".") == -1) {
 			fileName = file.getName() + ext;
 			file = new File(file.getAbsolutePath() + ext);
-		}
-		else
-		{
+		} else {
 			ext = FileSaveAction.getFileExt(fileName);
 		}
 
-		//System.err.println(fileName);
-		if(file.exists())
-		{
-			if(JOptionPane.showConfirmDialog(MainFrame.getInstance(),
-					"<html>Do you want to overwrite the existing file <i>" +
-					fileName + "</i>?</html>", "Overwrite File?",
-					JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-			{
+		// System.err.println(fileName);
+		if (file.exists()) {
+			if (JOptionPane.showConfirmDialog(MainFrame.getInstance(),
+								"<html>Do you want to overwrite the existing file <i>" +
+													fileName + "</i>?</html>", "Overwrite File?",
+								JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 				needFile = false;
 			}
-		}
-		else
-		{
+		} else {
 			needFile = false;
 		}
 
-		if(!needFile)
-		{
-			try
-			{
+		if (!needFile) {
+			try {
 				IOManager ioManager = MainFrame.getInstance().getIoManager();
 				OutputSerializer os = ioManager.createOutputSerializer(ext);
-				if (os==null)
-					MainFrame.getInstance().showMessageDialog("Output serializer unknown for file extension '"+ext+"'.");
+				if (os == null)
+					MainFrame.getInstance().showMessageDialog("Output serializer unknown for file extension '" + ext + "'.");
 				else {
-					MainFrame.showMessage("Save graph to file "+file.getAbsolutePath()+"...", MessageType.PERMANENT_INFO);
+					MainFrame.showMessage("Save graph to file " + file.getAbsolutePath() + "...", MessageType.PERMANENT_INFO);
 					os.write(new FileOutputStream(file), graph);
 					graph.setModified(false);
 					graph.setName(file.getAbsolutePath());
 					long fs = file.length();
-					MainFrame.showMessage("Graph saved to file "+file.getAbsolutePath()+" ("+(fs/1024)+"KB)", MessageType.INFO);
+					MainFrame.showMessage("Graph saved to file " + file.getAbsolutePath() + " (" + (fs / 1024) + "KB)", MessageType.INFO);
 					MainFrame.getInstance().addNewRecentFileMenuItem(file);
 				}
-			}
-			catch(Exception ioe)
-			{
+			} catch (Exception ioe) {
 				ErrorMsg.addErrorMessage(ioe);
 				MainFrame.getInstance().warnUserAboutFileSaveProblem(ioe);
 			}
@@ -218,6 +202,6 @@ extends GraffitiAction
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------
