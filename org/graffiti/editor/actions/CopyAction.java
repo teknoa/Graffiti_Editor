@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   CopyAction.java
+// CopyAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: CopyAction.java,v 1.5 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: CopyAction.java,v 1.6 2010/12/09 11:14:55 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -38,11 +38,11 @@ import org.graffiti.selection.Selection;
 
 /**
  * Represents a graph element copy action.
- *
- * @version $Revision: 1.5 $
+ * 
+ * @version $Revision: 1.6 $
  */
 public class CopyAction extends SelectionAction {
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -51,18 +51,19 @@ public class CopyAction extends SelectionAction {
 
 	/**
 	 * Constructs a new copy action.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public CopyAction(MainFrame mainFrame) {
 		super("edit.copy", mainFrame);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the help context for the action.
-	 *
+	 * 
 	 * @return HelpContext, the help context for the action
 	 */
 	@Override
@@ -72,8 +73,9 @@ public class CopyAction extends SelectionAction {
 
 	/**
 	 * Executes this action.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
@@ -93,7 +95,7 @@ public class CopyAction extends SelectionAction {
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			if (selection.getNodes().size()>0) {
+			if (selection.getNodes().size() > 0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
 				for (org.graffiti.graph.Node n : selection.getNodes())
@@ -112,10 +114,10 @@ public class CopyAction extends SelectionAction {
 			os.write(baos, copyGraph);
 			ClipboardService.writeToClipboardAsText(baos.toString());
 			MainFrame.showMessage(copyGraph.getNodes().size()
-					+" node(s) and "
-					+copyGraph.getEdges().size()
-					+" edge(s) copied to clipboard",
-					MessageType.INFO, 3000);
+								+ " node(s) and "
+								+ copyGraph.getEdges().size()
+								+ " edge(s) copied to clipboard",
+								MessageType.INFO, 3000);
 		} catch (IOException ioe) {
 			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
 		} catch (IllegalAccessException iae) {
@@ -126,6 +128,10 @@ public class CopyAction extends SelectionAction {
 	}
 
 	public static void doCopyGraphMethodImproved(Graph sourceGraph, Selection selection) {
+		doCopyGraphMethodImproved(sourceGraph, selection, false);
+	}
+
+	public static Graph doCopyGraphMethodImproved(Graph sourceGraph, Selection selection, boolean returnGraphInsteadPastingInClipboard) {
 		Graph resultGraph = new AdjListGraph(new ListenerManager());
 
 		try {
@@ -134,43 +140,45 @@ public class CopyAction extends SelectionAction {
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			new StringBuffer();
 			Collection<Node> selNodes = selection.getNodes();
-			if (selNodes.size()>0 && selNodes.size()!=sourceGraph.getNumberOfNodes()) {
+			if (selNodes.size() > 0 && selNodes.size() != sourceGraph.getNumberOfNodes()) {
 				CollectionAttribute ca = sourceGraph.getAttributes();
 				CollectionAttribute tg = resultGraph.getAttributes();
 				for (Attribute a : ca.getCollection().values()) {
 					try {
-						tg.add((Attribute)a.copy());
-					}catch(AttributeExistsException aee) {
+						tg.add((Attribute) a.copy());
+					} catch (AttributeExistsException aee) {
 						tg.getAttribute(a.getId()).setValue(a.getValue());
 					}
 				}
 
-				HashMap<Node,Node> sourceGraphNode2resultGraphNode = new HashMap<Node,Node>();
+				HashMap<Node, Node> sourceGraphNode2resultGraphNode = new HashMap<Node, Node>();
 				for (Node n : selection.getNodes()) {
 					Node newNode = resultGraph.addNodeCopy(n);
-					if (newNode==null)
-						ErrorMsg.addErrorMessage("Error: Node "+n.getID()+" could not be copied!");
+					if (newNode == null)
+						ErrorMsg.addErrorMessage("Error: Node " + n.getID() + " could not be copied!");
 					else
 						sourceGraphNode2resultGraphNode.put(n, newNode);
 				}
 				for (Node n : selNodes) {
 					for (Edge e : n.getAllOutEdges()) {
-						if (e.getSource()==n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
+						if (e.getSource() == n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
 							Node a = sourceGraphNode2resultGraphNode.get(e.getSource());
 							Node b = sourceGraphNode2resultGraphNode.get(e.getTarget());
-							if (a!=null && b!=null)
+							if (a != null && b != null)
 								resultGraph.addEdgeCopy(
-										e,
-										a,
-										b);
+													e,
+													a,
+													b);
 						}
 					}
 				}
 			} else
 				resultGraph = sourceGraph;
+			if (returnGraphInsteadPastingInClipboard)
+				return resultGraph;
 			if (os instanceof SupportsWriterOutput) {
 				StringWriter sw = new StringWriter();
-				((SupportsWriterOutput)os).write(sw, resultGraph);
+				((SupportsWriterOutput) os).write(sw, resultGraph);
 				ClipboardService.writeToClipboardAsText(sw.toString());
 
 			} else {
@@ -179,10 +187,10 @@ public class CopyAction extends SelectionAction {
 				ClipboardService.writeToClipboardAsText(baos.toString());
 			}
 			MainFrame.showMessage(resultGraph.getNumberOfNodes()
-					+" node(s) and "
-					+resultGraph.getNumberOfEdges()
-					+" edge(s) copied to clipboard",
-					MessageType.INFO, 3000);
+								+ " node(s) and "
+								+ resultGraph.getNumberOfEdges()
+								+ " edge(s) copied to clipboard",
+								MessageType.INFO, 3000);
 		} catch (IOException ioe) {
 			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
 		} catch (IllegalAccessException iae) {
@@ -190,27 +198,29 @@ public class CopyAction extends SelectionAction {
 		} catch (InstantiationException ie) {
 			ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
 		}
+		return null;
 	}
 
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
-	 *
-	 * @param items the items, which determine the internal state of the
-	 *        <code>enable</code> flag.
+	 * 
+	 * @param items
+	 *           the items, which determine the internal state of the <code>enable</code> flag.
 	 */
 	@Override
 	protected void enable(List<?> items) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
 	@Override
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()
-			.getGraph();
+								.getGraph();
 			return sourceGraph.getNumberOfNodes() > 0;
 		} catch (NullPointerException npe) {
 			return false;
@@ -218,6 +228,6 @@ public class CopyAction extends SelectionAction {
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------
