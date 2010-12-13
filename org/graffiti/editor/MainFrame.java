@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.151 2010/12/13 21:04:06 klukas Exp $
+// $Id: MainFrame.java,v 1.152 2010/12/13 22:23:41 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.151 $
+ * @version $Revision: 1.152 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1427,23 +1427,47 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					errors.append("<html><h3>File Load - Errors: </h3>");
 					for (final File file : files) {
 						try {
-							System.out.println("Read file: " + file.getAbsolutePath());
-							final String fileName = file.getName();
-							showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
-												MessageType.PERMANENT_INFO);
-							i++;
-							final Graph newGraph = getGraph(file);
-							System.out.println("File reading finished: " + file.getAbsolutePath());
+							Graph graph = null;
+							IOurl url = null;
+							if (file.exists()) {
+								System.out.println("Read file: " + file.getAbsolutePath());
+								final String fileName = file.getName();
+								showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
+													MessageType.PERMANENT_INFO);
+								i++;
+								graph = getGraph(file);
+							} else {
+								String name = file.getAbsolutePath();
+								if (name.indexOf(":") > 0) {
+									String protocoll = name.substring(0, name.indexOf(":"));
+									protocoll = StringManipulationTools.reverse(protocoll);
+									if (protocoll.indexOf("/") >= 0)
+										protocoll = protocoll.substring(0, protocoll.indexOf("/"));
+									protocoll = StringManipulationTools.reverse(protocoll);
+									name = protocoll + ":/" + name.substring(name.indexOf(":") + ":".length());
+								}
+								url = new IOurl(name);
+								System.out.println("Read url: " + url.toString());
+								final String fileName = url.getFileNameDecoded();
+								showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
+													MessageType.PERMANENT_INFO);
+								i++;
+								graph = getGraph(url, url.getFileNameDecoded());
+							}
+							final String fileNameX = url != null ? url.getFileNameDecoded() : file.getAbsolutePath();
+							final Graph newGraph = graph;
+							System.out.println("Graph file processed: " + graph.getName());
 							SwingUtilities.invokeAndWait(new Runnable() {
 								public void run() {
 									showMessage("Graph file is loaded. Create view... (please wait)", MessageType.PERMANENT_INFO);
-									System.out.println("Create view for file: " + file.getAbsolutePath());
+									System.out.println("Create view for file: " + fileNameX);
 									EditorSession es = new EditorSession(newGraph);
-									es.setFileName(file.getAbsolutePath());
+									es.setFileName(fileNameX);
 									showViewChooserDialog(es, false, ae);
 									showMessage("Finished graph file loading", MessageType.INFO);
 
-									addNewRecentFileMenuItem(file);
+									if (file.exists())
+										addNewRecentFileMenuItem(file);
 
 								}
 							});
