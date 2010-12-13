@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.150 2010/12/01 14:59:13 morla Exp $
+// $Id: MainFrame.java,v 1.151 2010/12/13 21:04:06 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.150 $
+ * @version $Revision: 1.151 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1259,14 +1259,14 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		}
 	}
 
-	public void fireSelectionChanged(Session session) {
+	public void fireSelectionChanged(EditorSession session) {
 		GravistoService.checkEventDispatchThread();
 		ArrayList<SelectionListener> sl = new ArrayList<SelectionListener>();
 		synchronized (selectionListeners) {
 			sl.addAll(selectionListeners);
 		}
 		for (SelectionListener s : sl) {
-			s.selectionChanged(new SelectionEvent(((EditorSession) session).getSelectionModel().getActiveSelection()));
+			s.selectionChanged(new SelectionEvent((session).getSelectionModel().getActiveSelection()));
 		}
 	}
 
@@ -3337,12 +3337,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			// System.out.println("Open sessions: "+getEditorSessions().size());
 		}
 
-		/*
-		 * (non-Javadoc)
-		 * @see
-		 * javax.swing.event.InternalFrameListener#internalFrameClosing(javax.
-		 * swing.event.InternalFrameEvent)
-		 */
 		@Override
 		public void internalFrameClosing(InternalFrameEvent e) {
 
@@ -4087,7 +4081,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	public boolean isGraphLoadingInProgress() {
 		return graphLoadingInProgress;
 	}
-
 }
 
 // ------------------------------------------------------------------------------
