@@ -76,20 +76,20 @@ public class FileDrop {
 						final java.awt.Component c,
 						final Listener listener) {
 		this(null, // Logging stream
-							c, // Drop target
-							javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
-							true, // Recursive
-							listener, null, null);
+				c, // Drop target
+				javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
+				true, // Recursive
+				listener, null, null);
 	} // end constructor
 
 	public FileDrop(
 						final java.awt.Component c,
 						final Listener listener, final Runnable dropDetected, final Runnable dropEndDetected) {
 		this(null, // Logging stream
-							c, // Drop target
-							javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
-							true, // Recursive
-							listener, dropDetected, dropEndDetected);
+				c, // Drop target
+				javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
+				true, // Recursive
+				listener, dropDetected, dropEndDetected);
 	} // end constructor
 
 	/**
@@ -110,10 +110,10 @@ public class FileDrop {
 						final boolean recursive,
 						final Listener listener) {
 		this(null, // Logging stream
-							c, // Drop target
-							javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
-							recursive, // Recursive
-							listener, null, null);
+				c, // Drop target
+				javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
+				recursive, // Recursive
+				listener, null, null);
 	} // end constructor
 
 	/**
@@ -136,10 +136,10 @@ public class FileDrop {
 						final java.awt.Component c,
 						final Listener listener) {
 		this(out, // Logging stream
-							c, // Drop target
-							javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor),
+				c, // Drop target
+				javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor),
 							false, // Recursive
-							listener, null, null);
+				listener, null, null);
 	} // end constructor
 
 	/**
@@ -168,10 +168,10 @@ public class FileDrop {
 						final boolean recursive,
 						final Listener listener) {
 		this(out, // Logging stream
-							c, // Drop target
-							javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
-							recursive, // Recursive
-							listener, null, null);
+				c, // Drop target
+				javax.swing.BorderFactory.createMatteBorder(2, 2, 2, 2, defaultBorderColor), // Drag border
+				recursive, // Recursive
+				listener, null, null);
 	} // end constructor
 
 	/**
@@ -191,10 +191,10 @@ public class FileDrop {
 						final Listener listener) {
 		this(
 							null, // Logging stream
-							c, // Drop target
-							dragBorder, // Drag border
-							false, // Recursive
-							listener, null, null);
+				c, // Drop target
+				dragBorder, // Drag border
+				false, // Recursive
+				listener, null, null);
 	} // end constructor
 
 	/**
@@ -248,10 +248,10 @@ public class FileDrop {
 						final Listener listener) {
 		this(
 							out, // Logging stream
-							c, // Drop target
-							dragBorder, // Drag border
-							false, // Recursive
-							listener, null, null);
+				c, // Drop target
+				dragBorder, // Drag border
+				false, // Recursive
+				listener, null, null);
 	} // end constructor
 
 	/**
@@ -659,7 +659,7 @@ public class FileDrop {
 		frame.show();
 	} // end main
 
-	/*  ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
+	/*   ******** I N N E R I N T E R F A C E L I S T E N E R ******** */
 
 	/**
 	 * Implement this inner interface to listen for when files are dropped. For example

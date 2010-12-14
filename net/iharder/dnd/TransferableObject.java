@@ -136,7 +136,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		return customFlavor;
 	} // end getCustomDataFlavor
 
-	/*  ******** T R A N S F E R A B L E M E T H O D S ******** */
+	/*   ******** T R A N S F E R A B L E M E T H O D S ******** */
 
 	/**
 	 * Returns a two- or three-element array containing first
@@ -203,7 +203,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		return false;
 	} // end isDataFlavorSupported
 
-	/*  ******** I N N E R I N T E R F A C E F E T C H E R ******** */
+	/*   ******** I N N E R I N T E R F A C E F E T C H E R ******** */
 
 	/**
 	 * Instead of passing your data directly to the {@link TransferableObject} constructor, you may want to know exactly when your data was received

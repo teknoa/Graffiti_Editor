@@ -92,7 +92,7 @@ public class DnDList
 		dragSource.createDefaultDragGestureRecognizer(this, java.awt.dnd.DnDConstants.ACTION_MOVE, this);
 	} // end initComponents
 
-	/*  ******** D R A G G E S T U R E L I S T E N E R M E T H O D S ******** */
+	/*   ******** D R A G G E S T U R E L I S T E N E R M E T H O D S ******** */
 
 	public void dragGestureRecognized(java.awt.dnd.DragGestureEvent event) { // System.out.println( "DragGestureListener.dragGestureRecognized" );
 		final Object selected = getSelectedValue();
@@ -118,7 +118,7 @@ public class DnDList
 		}
 	} // end dragGestureRecognized
 
-	/*  ******** D R A G S O U R C E L I S T E N E R M E T H O D S ******** */
+	/*   ******** D R A G S O U R C E L I S T E N E R M E T H O D S ******** */
 
 	public void dragDropEnd(java.awt.dnd.DragSourceDropEvent evt) { // System.out.println( "DragSourceListener.dragDropEnd" );
 	} // end dragDropEnd
@@ -135,7 +135,7 @@ public class DnDList
 	public void dropActionChanged(java.awt.dnd.DragSourceDragEvent evt) { // System.out.println( "DragSourceListener.dropActionChanged" );
 	} // end dropActionChanged
 
-	/*  ******** D R O P T A R G E T L I S T E N E R M E T H O D S ******** */
+	/*   ******** D R O P T A R G E T L I S T E N E R M E T H O D S ******** */
 
 	public void dragEnter(java.awt.dnd.DropTargetDragEvent evt) { // System.out.println( "DropTargetListener.dragEnter" );
 		evt.acceptDrag(java.awt.dnd.DnDConstants.ACTION_MOVE);

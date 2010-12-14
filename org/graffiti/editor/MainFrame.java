@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.153 2010/12/14 09:21:46 morla Exp $
+// $Id: MainFrame.java,v 1.154 2010/12/14 09:27:19 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.153 $
+ * @version $Revision: 1.154 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1381,7 +1381,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * completely loaded or shown after this method returns. Instead the graph
 	 * will be shown as soon as the file loading is finished.
 	 * 
-	 * @param file or url
+	 * @param file
+	 *           or url
 	 */
 	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
 						throws IllegalAccessException, InstantiationException {

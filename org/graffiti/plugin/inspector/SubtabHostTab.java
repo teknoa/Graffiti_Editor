@@ -53,7 +53,7 @@ public class SubtabHostTab extends InspectorTab
 
 	private void initComponents() {
 		double[][] sizeM = { { TableLayoutConstants.FILL }, // Columns
-							{ TableLayoutConstants.FILL } }; // Rows
+				{ TableLayoutConstants.FILL } }; // Rows
 
 		setLayout(new TableLayout(sizeM));
 		setBackground(null);
