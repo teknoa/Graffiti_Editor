@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.152 2010/12/13 22:23:41 klukas Exp $
+// $Id: MainFrame.java,v 1.153 2010/12/14 09:21:46 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.152 $
+ * @version $Revision: 1.153 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1381,7 +1381,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * completely loaded or shown after this method returns. Instead the graph
 	 * will be shown as soon as the file loading is finished.
 	 * 
-	 * @param file
+	 * @param file or url
 	 */
 	public void loadGraphInBackground(final File file, ActionEvent ae, boolean autoSwitch)
 						throws IllegalAccessException, InstantiationException {
@@ -1440,14 +1440,12 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 								String name = file.getAbsolutePath();
 								if (name.indexOf(":") > 0) {
 									String protocoll = name.substring(0, name.indexOf(":"));
-									protocoll = StringManipulationTools.reverse(protocoll);
-									if (protocoll.indexOf("/") >= 0)
-										protocoll = protocoll.substring(0, protocoll.indexOf("/"));
-									protocoll = StringManipulationTools.reverse(protocoll);
+									if (protocoll.lastIndexOf("/") >= 0)
+										protocoll = protocoll.substring(protocoll.lastIndexOf("/") + "/".length());
 									name = protocoll + ":/" + name.substring(name.indexOf(":") + ":".length());
 								}
 								url = new IOurl(name);
-								System.out.println("Read url: " + url.toString());
+								System.out.println("Reading url: " + url.toString());
 								final String fileName = url.getFileNameDecoded();
 								showMessage("Loading graph file (" + fileName + ")... [" + i + "/" + files.size() + "]",
 													MessageType.PERMANENT_INFO);
