@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   RedrawViewAction.java
+// RedrawViewAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: RedrawViewAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: RedrawViewAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,13 +21,12 @@ import org.graffiti.session.EditorSession;
 
 /**
  * The action for a new graph.
- *
- * @version $Revision: 1.4 $
+ * 
+ * @version $Revision: 1.5 $
  */
 public class RedrawViewAction
-extends GraffitiAction
-{
-	//~ Constructors ===========================================================
+					extends GraffitiAction {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -36,24 +35,24 @@ extends GraffitiAction
 
 	/**
 	 * Creates a new RedrawViewAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
-	public RedrawViewAction(MainFrame mainFrame)
-	{
+	public RedrawViewAction(MainFrame mainFrame) {
 		super("edit.redraw", mainFrame, "editmenu_redraw");
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		EditorSession dv = mainFrame.getActiveEditorSession();
-		if (dv == null) return false;
+		if (dv == null)
+			return false;
 		List<?> views = dv.getViews();
 		return !views.isEmpty();
 	}
@@ -62,28 +61,26 @@ extends GraffitiAction
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		EditorSession dv = mainFrame.getActiveEditorSession();
 
 		// hack till i find out how to do the enabling correctly
-		if(dv == null)
+		if (dv == null)
 			return;
 
 		List<?> views = dv.getViews();
 
-		for(Iterator<?> it = views.iterator(); it.hasNext();)
-		{
+		for (Iterator<?> it = views.iterator(); it.hasNext();) {
 			View view = (View) it.next();
 			// view.postGraphCleared(new GraphEvent(getGraph()));
 			// view.setGraph(getGraph());
@@ -95,6 +92,6 @@ extends GraffitiAction
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

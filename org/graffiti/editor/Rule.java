@@ -14,7 +14,7 @@ import javax.swing.JComponent;
 public class Rule extends JComponent {
 	private static final long serialVersionUID = 1L;
 	public static final int INCH = Toolkit.getDefaultToolkit().
-	getScreenResolution();
+						getScreenResolution();
 	public static final int HORIZONTAL = 0;
 	public static final int VERTICAL = 1;
 	public static final int SIZE = 35;
@@ -38,7 +38,7 @@ public class Rule extends JComponent {
 
 	private void setIncrementAndUnits() {
 		if (isMetric) {
-			units = (int)(INCH / 2.54); // dots per centimeter
+			units = (int) (INCH / 2.54); // dots per centimeter
 			increment = units;
 		} else {
 			units = INCH;
@@ -84,11 +84,11 @@ public class Rule extends JComponent {
 		if (orientation == HORIZONTAL) {
 			start = (drawHere.x / increment) * increment;
 			end = (((drawHere.x + drawHere.width) / increment) + 1)
-			* increment;
+								* increment;
 		} else {
 			start = (drawHere.y / increment) * increment;
 			end = (((drawHere.y + drawHere.height) / increment) + 1)
-			* increment;
+								* increment;
 		}
 
 		// Make a special case of 0 to display the number
@@ -97,10 +97,10 @@ public class Rule extends JComponent {
 			text = Integer.toString(0) + (isMetric ? " cm" : " in");
 			tickLength = 10;
 			if (orientation == HORIZONTAL) {
-				g.drawLine(0, SIZE-1, 0, SIZE-tickLength-1);
+				g.drawLine(0, SIZE - 1, 0, SIZE - tickLength - 1);
 				g.drawString(text, 2, 21);
 			} else {
-				g.drawLine(SIZE-1, 0, SIZE-tickLength-1, 0);
+				g.drawLine(SIZE - 1, 0, SIZE - tickLength - 1, 0);
 				g.drawString(text, 9, 10);
 			}
 			text = null;
@@ -109,9 +109,9 @@ public class Rule extends JComponent {
 
 		// ticks and labels
 		for (int i = start; i < end; i += increment) {
-			if (i % units == 0)  {
+			if (i % units == 0) {
 				tickLength = 10;
-				text = Integer.toString(i/units);
+				text = Integer.toString(i / units);
 			} else {
 				tickLength = 7;
 				text = null;
@@ -119,13 +119,13 @@ public class Rule extends JComponent {
 
 			if (tickLength != 0) {
 				if (orientation == HORIZONTAL) {
-					g.drawLine(i, SIZE-1, i, SIZE-tickLength-1);
+					g.drawLine(i, SIZE - 1, i, SIZE - tickLength - 1);
 					if (text != null)
-						g.drawString(text, i-3, 21);
+						g.drawString(text, i - 3, 21);
 				} else {
-					g.drawLine(SIZE-1, i, SIZE-tickLength-1, i);
+					g.drawLine(SIZE - 1, i, SIZE - tickLength - 1, i);
 					if (text != null)
-						g.drawString(text, 9, i+3);
+						g.drawString(text, 9, i + 3);
 				}
 			}
 		}

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   FileCloseAction.java
+// FileCloseAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: FileCloseAction.java,v 1.6 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: FileCloseAction.java,v 1.7 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -26,7 +26,7 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for closing a graph.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class FileCloseAction extends GraffitiAction {
 	// ~ Constructors
@@ -41,7 +41,7 @@ public class FileCloseAction extends GraffitiAction {
 	 * Creates a new FileCloseAction object.
 	 * 
 	 * @param mainFrame
-	 *            DOCUMENT ME!
+	 *           DOCUMENT ME!
 	 */
 	public FileCloseAction(MainFrame mainFrame) {
 		super("file.close", mainFrame, "filemenu_close");
@@ -72,7 +72,7 @@ public class FileCloseAction extends GraffitiAction {
 	 * DOCUMENT ME!
 	 * 
 	 * @param e
-	 *            DOCUMENT ME!
+	 *           DOCUMENT ME!
 	 */
 	public void actionPerformed(ActionEvent e) {
 		EditorSession es = mainFrame.getActiveEditorSession();
@@ -88,16 +88,16 @@ public class FileCloseAction extends GraffitiAction {
 			jif.doDefaultCloseAction();
 		} else {
 			if (viewComponent.getParent() != null
-					&& viewComponent.getParent() instanceof JComponent)
+								&& viewComponent.getParent() instanceof JComponent)
 				closeInternalFrame((JComponent) viewComponent.getParent());
 			else {
 				if (viewComponent.getParent() != null)
 					ErrorMsg.addErrorMessage("View component parent of type: "
-							+ viewComponent.getParent().getClass()
-							.getCanonicalName());
+										+ viewComponent.getParent().getClass()
+															.getCanonicalName());
 				else
 					ErrorMsg
-					.addErrorMessage("View component parent of type: [null]");
+										.addErrorMessage("View component parent of type: [null]");
 			}
 		}
 	}

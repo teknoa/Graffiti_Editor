@@ -1,23 +1,22 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditorDefaultValues.java
+// EditorDefaultValues.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditorDefaultValues.java,v 1.2 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: EditorDefaultValues.java,v 1.3 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
 /**
  * Contains static final constant default values for the various user
  * preferences.
- *
- * @version $Revision: 1.2 $
+ * 
+ * @version $Revision: 1.3 $
  */
-interface EditorDefaultValues
-{
-	//~ Static fields/initializers =============================================
+interface EditorDefaultValues {
+	// ~ Static fields/initializers =============================================
 
 	/** The default width of the main frame. */
 	public static final int SIZE_WIDTH = 640;
@@ -29,6 +28,6 @@ interface EditorDefaultValues
 	public static final int VERT_SPLITTER = 500;
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

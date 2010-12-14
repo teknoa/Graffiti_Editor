@@ -1,26 +1,25 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ShapeNotFoundException.java
+// ShapeNotFoundException.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ShapeNotFoundException.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ShapeNotFoundException.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.view;
 
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author schoeffl To change this generated comment edit the template variable
  *         "typecomment": Window>Preferences>Java>Templates. To enable and
  *         disable the creation of type comments go to
  *         Window>Preferences>Java>Code Generation.
  */
 public class ShapeNotFoundException
-extends Exception
-{
-	//~ Constructors ===========================================================
+					extends Exception {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -29,15 +28,15 @@ extends Exception
 
 	/**
 	 * Constructs a ShapeNotFoundException.
-	 *
-	 * @param msg the message to set.
+	 * 
+	 * @param msg
+	 *           the message to set.
 	 */
-	public ShapeNotFoundException(String msg)
-	{
+	public ShapeNotFoundException(String msg) {
 		super(msg);
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

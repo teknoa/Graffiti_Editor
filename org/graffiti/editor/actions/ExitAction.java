@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ExitAction.java
+// ExitAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ExitAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ExitAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -19,9 +19,8 @@ import org.graffiti.plugin.actions.GraffitiAction;
  * Exits the editor.
  */
 public class ExitAction
-extends GraffitiAction
-{
-	//~ Constructors ===========================================================
+					extends GraffitiAction {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -30,22 +29,21 @@ extends GraffitiAction
 
 	/**
 	 * Creates a new ExitAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
-	public ExitAction(MainFrame mainFrame)
-	{
+	public ExitAction(MainFrame mainFrame) {
 		super("file.exit", mainFrame, "filemenu_exit");
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return true;
 	}
 
@@ -53,22 +51,21 @@ extends GraffitiAction
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		mainFrame.closeGravisto();
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

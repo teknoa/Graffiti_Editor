@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditorPluginAdapter.java
+// EditorPluginAdapter.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditorPluginAdapter.java,v 1.4 2010/07/19 14:05:44 morla Exp $
+// ==============================================================================
+// $Id: EditorPluginAdapter.java,v 1.5 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin;
 
@@ -22,13 +22,12 @@ import org.graffiti.plugin.view.GraffitiShape;
  * Plugin for editor. Returns null everywhere.
  */
 public class EditorPluginAdapter
-extends GenericPluginAdapter
-implements EditorPlugin
-{
-	//~ Instance fields ========================================================
+					extends GenericPluginAdapter
+					implements EditorPlugin {
+	// ~ Instance fields ========================================================
 
 	/**
-	 * Maps from an attribute class to an AttributeComponent class.  old
+	 * Maps from an attribute class to an AttributeComponent class. old
 	 * comment: A <code>java.util.Map</code> from <code>Attribute</code> to
 	 * the corresponding <code>LabelValueRow</code>-instance.
 	 */
@@ -54,13 +53,12 @@ implements EditorPlugin
 	/** The InspectorTabs the plugin provides. */
 	protected InspectorTab[] tabs;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for EditorPluginAdapter.
 	 */
-	public EditorPluginAdapter()
-	{
+	public EditorPluginAdapter() {
 		super();
 		this.guiComponents = new GraffitiComponent[0];
 		this.modes = new Mode[0];
@@ -70,76 +68,68 @@ implements EditorPlugin
 		this.attributeComponents = new HashMap<Object, Object>();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns a mapping between attribute classnames and attributeComponent
 	 * classnames.
-	 *
+	 * 
 	 * @return a mapping between attribute classnames and attributeComponent
 	 *         classnames.
 	 */
-	public Map<?, ?> getAttributeComponents()
-	{
+	public Map<?, ?> getAttributeComponents() {
 		return this.attributeComponents;
 	}
 
 	/**
 	 * Returns the array of <code>GraffitiComponent</code>s the plugin
 	 * contains.
-	 *
+	 * 
 	 * @return the array of <code>GraffitiComponent</code>s the plugin
 	 *         contains.
 	 */
-	public GraffitiComponent[] getGUIComponents()
-	{
+	public GraffitiComponent[] getGUIComponents() {
 		return this.guiComponents;
 	}
 
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 * plugin contains.
-	 *
+	 * 
 	 * @return the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 *         plugin contains.
 	 */
-	public Mode[] getModes()
-	{
+	public Mode[] getModes() {
 		return this.modes;
 	}
 
 	/**
-	 * Returns the array of
-	 * <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
+	 * Returns the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 * contains.
-	 *
-	 * @return the array of
-	 *         <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
+	 * 
+	 * @return the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 *         contains.
 	 */
-	public GraffitiShape[] getShapes()
-	{
+	public GraffitiShape[] getShapes() {
 		return this.shapes;
 	}
 
 	/**
 	 * Returns an array of <code>org.graffiti.plugin.mode.Tool</code>s the
 	 * plugin provides.
-	 *
+	 * 
 	 * @return an array of tools the plugin provides.
 	 */
-	public Tool[] getTools()
-	{
+	public Tool[] getTools() {
 		return this.tools;
 	}
 
 	/**
 	 * Returns a mapping from attribute classes to attributeComponent classes.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public Map<?, ?> getValueEditComponents()
-	{
+	public Map<?, ?> getValueEditComponents() {
 		return this.valueEditComponents;
 	}
 
@@ -148,6 +138,6 @@ implements EditorPlugin
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

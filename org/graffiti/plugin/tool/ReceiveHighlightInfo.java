@@ -1,7 +1,5 @@
 /*******************************************************************************
- * 
- *    Copyright (c) 2003-2009 Plant Bioinformatics Group, IPK Gatersleben
- * 
+ * Copyright (c) 2003-2009 Plant Bioinformatics Group, IPK Gatersleben
  *******************************************************************************/
 /*
  * Created on Dec 2, 2009 by Christian Klukas
@@ -13,7 +11,6 @@ import org.graffiti.graph.GraphElement;
 
 /**
  * @author klukas
- *
  */
 public interface ReceiveHighlightInfo {
 

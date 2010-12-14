@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ParameterEditPanel.java
+// ParameterEditPanel.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ParameterEditPanel.java,v 1.12 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: ParameterEditPanel.java,v 1.13 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -45,42 +45,44 @@ import org.graffiti.util.InstanceLoader;
 
 /**
  * Represents a parameter edit panel.
- *
- * @version $Revision: 1.12 $
+ * 
+ * @version $Revision: 1.13 $
  */
 public class ParameterEditPanel extends JPanel {
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	private static final long serialVersionUID = 1L;
 
 	private List<ValueEditComponent> displayedVEC;
 
 	/**
-	 * Maps from an displayable class name to the class name of a
-	 * <code>ValueEditComponent</code>.
+	 * Maps from an displayable class name to the class name of a <code>ValueEditComponent</code>.
 	 */
 	private Map<?, ?> editTypeMap;
 
 	/** The list of parameters to display and edit. */
 	private Parameter[] parameters;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Instantiates a new edit panel.
-	 *
-	 * @param parameters DOCUMENT ME!
-	 * @param editTypes DOCUMENT ME!
-	 * @param selection DOCUMENT ME!
+	 * 
+	 * @param parameters
+	 *           DOCUMENT ME!
+	 * @param editTypes
+	 *           DOCUMENT ME!
+	 * @param selection
+	 *           DOCUMENT ME!
 	 */
 
 	public ParameterEditPanel(Parameter[] parameters, Map<?, ?> editTypes,
-			Selection selection, String title, boolean fillSurroundingStyle, String heading) {
+						Selection selection, String title, boolean fillSurroundingStyle, String heading) {
 		this(parameters, editTypes, selection, title, fillSurroundingStyle, heading, null);
 	}
 
 	public ParameterEditPanel(Parameter[] parameters, Map<?, ?> editTypes,
-			Selection selection, String title, boolean fillSurroundingStyle, String heading, JComponent descComponent) {
+						Selection selection, String title, boolean fillSurroundingStyle, String heading, JComponent descComponent) {
 		super();
 
 		this.parameters = parameters;
@@ -89,31 +91,30 @@ public class ParameterEditPanel extends JPanel {
 
 		ActionListener helpL = null;
 		String helpTopic = AttributeHelper.getHelpTopicFor(title, "parameter dialog");
-		if (helpTopic==null)
+		if (helpTopic == null)
 			helpTopic = AttributeHelper.getHelpTopicFor(heading, "parameter dialog");
-		if (helpTopic!=null)
+		if (helpTopic != null)
 			helpL = JLabelJavaHelpLink.getHelpActionListener(helpTopic);
 		FolderPanel myPanel = new FolderPanel(title, false, false, false, helpL);
 
 		int paramCnt = 0;
-		if (parameters!=null) {
+		if (parameters != null) {
 			for (Object o : parameters)
-				if (o!=null)
+				if (o != null)
 					paramCnt++;
 		}
 
-
-		//		if (fillSurroundingStyle) {
-		//			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));
-		//		} else {
-		//			setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN));
-		//			// myPanel.setFrameColor(getBackground(), Color.BLACK, 0, 3);
-		//			// myPanel.setBackground(getBackground());
-		//		}
+		// if (fillSurroundingStyle) {
+		// setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN, SingleFiledLayout.FULL, 0));
+		// } else {
+		// setLayout(new SingleFiledLayout(SingleFiledLayout.COLUMN));
+		// // myPanel.setFrameColor(getBackground(), Color.BLACK, 0, 3);
+		// // myPanel.setBackground(getBackground());
+		// }
 
 		double[][] size = new double[][] {
-				{ TableLayoutConstants.FILL },
-				{ TableLayoutConstants.FILL }
+							{ TableLayoutConstants.FILL },
+							{ TableLayoutConstants.FILL }
 		};
 
 		setLayout(new TableLayout(size));
@@ -126,19 +127,19 @@ public class ParameterEditPanel extends JPanel {
 		myPanel.setOpaque(false);
 		buildTable(selection, myPanel);
 
-		//		if (descComponent!=null)
-		//			myPanel.addFirstGuiComponentRow(descComponent, new JLabel(title), false);
+		// if (descComponent!=null)
+		// myPanel.addFirstGuiComponentRow(descComponent, new JLabel(title), false);
 		myPanel.layoutRows();
 
 		JComponent jc = myPanel;
 
-		if (paramCnt>0) {
+		if (paramCnt > 0) {
 			jc = new JScrollPane(myPanel, ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED, ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 			jc.setBorder(null);
 			jc.setOpaque(false);
 		}
 
-		if (descComponent!=null) {
+		if (descComponent != null) {
 			add(TableLayout.getSplit(descComponent, jc, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED), "0,0");
 		} else
 			add(jc, "0,0");
@@ -146,12 +147,13 @@ public class ParameterEditPanel extends JPanel {
 		validate();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Sets the map of displayable types to the given map.
-	 *
-	 * @param map DOCUMENT ME!
+	 * 
+	 * @param map
+	 *           DOCUMENT ME!
 	 */
 	public void setEditTypeMap(Map<?, ?> map) {
 		this.editTypeMap = map;
@@ -159,7 +161,7 @@ public class ParameterEditPanel extends JPanel {
 
 	/**
 	 * Sets the paramter array this panel displays.
-	 *
+	 * 
 	 * @param params
 	 */
 	public void setParameters(Parameter[] params) {
@@ -168,7 +170,7 @@ public class ParameterEditPanel extends JPanel {
 
 	/**
 	 * Returns the array of parameters with the values updated from the dialog.
-	 *
+	 * 
 	 * @return Parameter[]
 	 */
 	public Parameter[] getUpdatedParameters() {
@@ -181,9 +183,11 @@ public class ParameterEditPanel extends JPanel {
 
 	/**
 	 * Builds the table that is used for editing parameters
-	 *
-	 * @param selection list of parameters.
-	 * @param myPanel The folder Panel where the rows are added
+	 * 
+	 * @param selection
+	 *           list of parameters.
+	 * @param myPanel
+	 *           The folder Panel where the rows are added
 	 */
 	public void buildTable(Selection selection, FolderPanel myPanel) {
 		myPanel.clearGuiComponentList();
@@ -193,18 +197,17 @@ public class ParameterEditPanel extends JPanel {
 	}
 
 	/**
-	 * Returns a (noneditable) textfield showing the value of the
-	 * <code>toString</code> method of the parameter.  Used when there is no
+	 * Returns a (noneditable) textfield showing the value of the <code>toString</code> method of the parameter. Used when there is no
 	 * registered <code>ValueEditComponent</code>.
-	 *
-	 * @param parameter DOCUMENT ME!
-	 *
+	 * 
+	 * @param parameter
+	 *           DOCUMENT ME!
 	 * @return DOCUMENT ME!
 	 */
 	private ValueEditComponent getStandardEditComponent(Parameter parameter) {
 		ValueEditComponent vec = new StandardValueEditComponent(parameter);
 
-		//        JTextField textField = new JTextField(parameter.getValue().toString());
+		// JTextField textField = new JTextField(parameter.getValue().toString());
 		JTextField textField = (JTextField) vec.getComponent();
 		textField.setEditable(false);
 		textField.setMinimumSize(new Dimension(0, 20));
@@ -216,48 +219,47 @@ public class ParameterEditPanel extends JPanel {
 
 	/**
 	 * Add one row in the panel.
-	 *
+	 * 
 	 * @param idPanel
 	 * @param editFieldPanel
 	 * @param parameter
 	 * @param ecClass
-	 *
-	 * @throws RuntimeException DOCUMENT ME!
+	 * @throws RuntimeException
+	 *            DOCUMENT ME!
 	 */
 	private void addRow(FolderPanel myPanel, Parameter parameter, Class<?> ecClass) {
 		String name = parameter.getName();
 		boolean multiLine = false;
-		if (name!=null && name.endsWith("//")) {
-			name = name.substring(0, name.length()-2);
+		if (name != null && name.endsWith("//")) {
+			name = name.substring(0, name.length() - 2);
 			multiLine = true;
 		}
 		JLabel descLabel = new JLabel(name);
 		descLabel.setToolTipText(parameter.getDescription());
 		descLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		descLabel.setBorder(BorderFactory.createEmptyBorder(0,0,0,4));
+		descLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 4));
 		ValueEditComponent editComp = null;
 
 		try {
 			editComp = (ValueEditComponent) InstanceLoader.createInstance(ecClass,
-					"org.graffiti.plugin.Displayable", parameter);
+								"org.graffiti.plugin.Displayable", parameter);
 			if (multiLine)
 				editComp.setParameter("multiline", true);
 			ToolTipHelper.addToolTip(editComp.getComponent(), parameter
-					.getDescription());
+								.getDescription());
 		} catch (InstanceCreationException ice) {
 			ErrorMsg.addErrorMessage(ice);
 			throw new RuntimeException(
-					"Could not create an instance of a ValueEditComponent class. "
-					+ ice);
+								"Could not create an instance of a ValueEditComponent class. "
+													+ ice);
 		}
 
 		editComp.setDisplayable(parameter);
 		editComp.setEditFieldValue();
 		JComponent editCompComp = editComp.getComponent();
 		// idPanel.add(textField);
-		if(parameter!=null&&(
-				(parameter instanceof AbstractSingleParameter&&((AbstractSingleParameter)parameter).isLeftAligned()))
-		) {
+		if (parameter != null && (
+							(parameter instanceof AbstractSingleParameter && ((AbstractSingleParameter) parameter).isLeftAligned()))) {
 			myPanel.addGuiComponentRow(editCompComp, null, false);
 			editCompComp.setToolTipText(parameter.getDescription());
 		} else
@@ -267,7 +269,7 @@ public class ParameterEditPanel extends JPanel {
 
 	/**
 	 * Add one row in the panel using a standard edit component.
-	 *
+	 * 
 	 * @param parameter
 	 * @param idPanel
 	 * @param editFieldPanel
@@ -287,21 +289,22 @@ public class ParameterEditPanel extends JPanel {
 	}
 
 	private void addValueEditComponents(FolderPanel myPanel,
-			Selection selection) {
-		if (parameters!=null)
+						Selection selection) {
+		if (parameters != null)
 			for (int i = 0; i < parameters.length; i++) {
 				if (parameters[i] instanceof SelectionParameter) {
 					// use currently active (given) selection instead
 					parameters[i] = new SelectionParameter(parameters[i].getName(),
-							parameters[i].getDescription());
+										parameters[i].getDescription());
 					parameters[i].setValue(selection);
 				}
 
 				/*
 				 * check whether there exists a ValueEditComponent, if not use
-				 * standard edit component */
+				 * standard edit component
+				 */
 				Class<?> ecClass = null;
-				if (parameters[i]!=null && editTypeMap!=null)
+				if (parameters[i] != null && editTypeMap != null)
 					ecClass = (Class<?>) this.editTypeMap.get(parameters[i].getClass());
 
 				if (ecClass != null) {
@@ -309,13 +312,13 @@ public class ParameterEditPanel extends JPanel {
 					addRow(myPanel, parameters[i], ecClass);
 				} else {
 					// no component registered for this basic displayable
-					if (parameters[i]!=null)
+					if (parameters[i] != null)
 						addStandardTextEditComponentRow(myPanel, parameters[i]);
 				}
 			}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

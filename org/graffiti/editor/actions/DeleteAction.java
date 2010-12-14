@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DeleteAction.java
+// DeleteAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DeleteAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: DeleteAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,11 +20,11 @@ import org.graffiti.undo.GraphElementsDeletionEdit;
 
 /**
  * Represents a graph element delete action.
+ * 
  * @author klukas
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
-public class DeleteAction extends SelectionAction
-{
+public class DeleteAction extends SelectionAction {
 	// ~ Constructors ===========================================================
 
 	/**
@@ -64,10 +64,9 @@ public class DeleteAction extends SelectionAction
 		Selection selection = getSelection();
 		// useful to check if the selection isn't empty
 		// before an edit is build.
-		if(!selection.isEmpty())
-		{
+		if (!selection.isEmpty()) {
 			GraphElementsDeletionEdit edit = new GraphElementsDeletionEdit(selection.getElements(),
-					getGraph(), MainFrame.getInstance().getActiveEditorSession().getGraphElementsMap());
+								getGraph(), MainFrame.getInstance().getActiveEditorSession().getGraphElementsMap());
 			edit.execute();
 			MainFrame.getInstance().getUndoSupport().postEdit(edit);
 		}
@@ -84,8 +83,7 @@ public class DeleteAction extends SelectionAction
 	 * list of selected items.
 	 * 
 	 * @param items
-	 *           the items, which determine the internal state of the
-	 *           <code>enable</code> flag.
+	 *           the items, which determine the internal state of the <code>enable</code> flag.
 	 */
 	@Override
 	protected void enable(List<?> items) {

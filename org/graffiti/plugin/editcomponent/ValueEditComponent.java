@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ValueEditComponent.java
+// ValueEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ValueEditComponent.java,v 1.5 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: ValueEditComponent.java,v 1.6 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -22,22 +22,19 @@ import org.graffiti.plugin.Displayable;
 
 /**
  * A generic extension of a <code>javax.swing.JComponent</code> which allows
- * editing of Attributes. Each class extending <code>ValueEditComponent</code>
- * contains an <code>org.graffiti.attributes.Attribute</code> and a
- * <code>javax.swing.JComponent</code> for editing the
- * <code>org.graffiti.attributes.Attribute</code>. As attribute values may
+ * editing of Attributes. Each class extending <code>ValueEditComponent</code> contains an <code>org.graffiti.attributes.Attribute</code> and a
+ * <code>javax.swing.JComponent</code> for editing the <code>org.graffiti.attributes.Attribute</code>. As attribute values may
  * change from several sources a <code>ValueEditComponent</code> must
  * implement the <code>org.graffiti.event.AttributeListener</code>-interface.
- *
+ * 
  * @see org.graffiti.attributes.Attribute
  * @see org.graffiti.event.AttributeListener
  * @see javax.swing.JComponent
  */
 public interface ValueEditComponent
-extends AttributeListener, EdgeListener, GraphListener, NodeListener,
-TransactionListener
-{
-	//~ Static fields/initializers =============================================
+					extends AttributeListener, EdgeListener, GraphListener, NodeListener,
+					TransactionListener {
+	// ~ Static fields/initializers =============================================
 
 	/**
 	 * Preferred string to be displayed by edit components that have a
@@ -45,28 +42,27 @@ TransactionListener
 	 */
 	public static final String EMPTY_STRING = "~";
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
-	 *
+	 * 
 	 * @return the <code>ValueEditComponent</code>'s <code>JComponent</code>.
 	 */
 	public JComponent getComponent();
 
 	/**
 	 * Sets the object that will be displayed.
-	 *
-	 * @param disp the object to connect to this component.
+	 * 
+	 * @param disp
+	 *           the object to connect to this component.
 	 */
 	public void setDisplayable(Displayable disp);
 
 	/**
-	 * Returns the <code>Displayable</code> instance the current
-	 * <code>ValueEditComponent</code> contains.
-	 *
-	 * @return the <code>Displayable</code> instance the current
-	 *         <code>ValueEditComponent</code> contains.
+	 * Returns the <code>Displayable</code> instance the current <code>ValueEditComponent</code> contains.
+	 * 
+	 * @return the <code>Displayable</code> instance the current <code>ValueEditComponent</code> contains.
 	 */
 	public Displayable getDisplayable();
 
@@ -79,14 +75,14 @@ TransactionListener
 
 	/**
 	 * Specifies whether this component should allow editing.
-	 *
+	 * 
 	 * @param enabled
 	 */
 	public void setEnabled(boolean enabled);
 
 	/**
 	 * Returns whether this component allows editing.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isEnabled();
@@ -103,14 +99,13 @@ TransactionListener
 	/**
 	 * Returns true when this component actually does not represent the value
 	 * of an attribute.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean getShowEmpty();
 
 	/**
-	 * Sets the value of the <code>Displayable</code> specified in the
-	 * <code>JComponent</code>. Should only change the value if the value is
+	 * Sets the value of the <code>Displayable</code> specified in the <code>JComponent</code>. Should only change the value if the value is
 	 * really different otherwise too many events will be sent.
 	 */
 	public void setValue();
@@ -120,6 +115,6 @@ TransactionListener
 	public void setParameter(String setting, Object value);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

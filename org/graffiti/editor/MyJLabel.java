@@ -12,6 +12,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JLabel;
 import javax.swing.KeyStroke;
+
 public class MyJLabel extends JLabel {
 	private static final long serialVersionUID = 1L;
 	private String fullText = "";
@@ -21,14 +22,14 @@ public class MyJLabel extends JLabel {
 		setText(text);
 
 		KeyStroke statusHotkey = KeyStroke.getKeyStroke(
-				KeyEvent.VK_F2, 0, false);
+							KeyEvent.VK_F2, 0, false);
 		String STATUS_KEY = "MyStatus";
 		Action uirobot = new AbstractAction() {
 			private static final long serialVersionUID = 1L;
 
 			public void actionPerformed(ActionEvent e) {
 				setEnabled(false); // stop any other events from interfering
-				if (fullText!=null && fullText.trim().length()>0)
+				if (fullText != null && fullText.trim().length() > 0)
 					MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 				setEnabled(true);
 			}
@@ -41,7 +42,7 @@ public class MyJLabel extends JLabel {
 		this.addMouseListener(new MouseListener() {
 
 			public void mouseClicked(MouseEvent e) {
-				if (fullText!=null && fullText.trim().length()>0)
+				if (fullText != null && fullText.trim().length() > 0)
 					MainFrame.showMessageDialogWithScrollBars(fullText, "Status Message");
 			}
 
@@ -63,14 +64,15 @@ public class MyJLabel extends JLabel {
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 
-			}});
+			}
+		});
 	}
 
 	@Override
 	public void setText(String text) {
 		fullText = text;
 		JLabel test = new JLabel(text);
-		if (test.getPreferredSize().height>150) {
+		if (test.getPreferredSize().height > 150) {
 			super.setText(getTrimmText(text, "<!-- optstart -->", "<!-- optend -->"));
 		} else {
 			super.setText(text);
@@ -80,8 +82,8 @@ public class MyJLabel extends JLabel {
 	private String getTrimmText(String text, String t1, String t2) {
 		int a = text.indexOf(t1);
 		int b = text.indexOf(t2);
-		if (a>=0 && b>=0) {
-			return text.substring(0, a)+"[To view the data table press F2]"+text.substring(b+t2.length());
+		if (a >= 0 && b >= 0) {
+			return text.substring(0, a) + "[To view the data table press F2]" + text.substring(b + t2.length());
 		} else
 			return text;
 	}

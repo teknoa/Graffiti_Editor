@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ModeManager.java
+// ModeManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ModeManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ModeManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -14,38 +14,38 @@ import org.graffiti.plugin.mode.Mode;
 
 /**
  * Provides an interface for a modes manager.
- *
- * @version $Revision: 1.3 $
- *
+ * 
+ * @version $Revision: 1.4 $
  * @see org.graffiti.managers.pluginmgr.PluginManagerListener
  */
 public interface ModeManager
-extends PluginManagerListener
-{
-	//~ Methods ================================================================
+					extends PluginManagerListener {
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the specified mode from the list of modes.
-	 *
+	 * 
 	 * @return the specified mode from the list of modes.
 	 */
 	public Mode getMode(String mode);
 
 	/**
 	 * Adds the specified mode to the list of modes this manager contains.
-	 *
-	 * @param mode the mode to be added to the list.
+	 * 
+	 * @param mode
+	 *           the mode to be added to the list.
 	 */
 	public void addMode(Mode mode);
 
 	/**
 	 * Removes the specified mode from the list of modes the manager contains.
-	 *
-	 * @param mode the mode to be removed.
+	 * 
+	 * @param mode
+	 *           the mode to be removed.
 	 */
 	public void removeMode(Mode mode);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

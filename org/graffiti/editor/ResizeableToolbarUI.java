@@ -17,7 +17,6 @@ import javax.swing.plaf.basic.BasicToolBarUI;
  * and can just be docked again by clicking on close.
  * 
  * @author Hendrik Rohn, Christian Klukas
- *
  */
 
 class ResizeableToolbarUI extends BasicToolBarUI {
@@ -51,11 +50,20 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 				fToolbar.repaint();
 			}
 
-			public void windowClosing(WindowEvent e) {}
-			public void windowDeactivated(WindowEvent e) {}
-			public void windowDeiconified(WindowEvent e) {}
-			public void windowIconified(WindowEvent e) {}
-			public void windowOpened(WindowEvent e) {}
+			public void windowClosing(WindowEvent e) {
+			}
+
+			public void windowDeactivated(WindowEvent e) {
+			}
+
+			public void windowDeiconified(WindowEvent e) {
+			}
+
+			public void windowIconified(WindowEvent e) {
+			}
+
+			public void windowOpened(WindowEvent e) {
+			}
 		});
 		detachedToolbar.validate();
 		detachedToolbar.pack();
@@ -64,9 +72,7 @@ class ResizeableToolbarUI extends BasicToolBarUI {
 
 	@Override
 	public boolean canDock(Component c, Point p) {
-		return false;//super.canDock(c, p);
+		return false;// super.canDock(c, p);
 	}
-
-
 
 }

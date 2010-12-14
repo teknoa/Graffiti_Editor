@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractView.java
+// AbstractView.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractView.java,v 1.20 2010/08/09 13:48:45 klukas Exp $
+// ==============================================================================
+// $Id: AbstractView.java,v 1.21 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -38,7 +38,7 @@ import org.graffiti.plugin.inspector.InspectorTab;
 /**
  * enclosing_type
  * 
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public abstract class AbstractView extends JComponent implements View {
 	// ~ Static fields/initializers =============================================
@@ -68,8 +68,7 @@ public abstract class AbstractView extends JComponent implements View {
 	protected Graph currentGraph;
 
 	/**
-	 * Contains a mapping from <code>GraphElement</code> to its
-	 * <code>GraphElementComponent</code>.
+	 * Contains a mapping from <code>GraphElement</code> to its <code>GraphElementComponent</code>.
 	 */
 	protected HashMap<GraphElement, GraphElementComponent> graphElementComponents;
 
@@ -126,12 +125,10 @@ public abstract class AbstractView extends JComponent implements View {
 	}
 
 	/**
-	 * Constructs a new <code>GraffitiView</code> for the specified
-	 * <code>Graph</code>.
+	 * Constructs a new <code>GraffitiView</code> for the specified <code>Graph</code>.
 	 * 
 	 * @param currentGraph
-	 *           the <code>Graph</code> for which to construct the new
-	 *           <code>GraffitiView</code>.
+	 *           the <code>Graph</code> for which to construct the new <code>GraffitiView</code>.
 	 */
 	public AbstractView(Graph currentGraph) {
 		this.currentGraph = currentGraph;
@@ -192,11 +189,8 @@ public abstract class AbstractView extends JComponent implements View {
 	 * 
 	 * @param ge
 	 *           <code>GraphElement</code> for which the component is wanted.
-	 * 
-	 * @return the <code>GraphElementComponent</code> used to display the given
-	 *         <code>GraphElement</code>. <code>null</code> if no component is
-	 *         registered for the element (or it has been mapped to
-	 *         <code>null</code> explicitly).
+	 * @return the <code>GraphElementComponent</code> used to display the given <code>GraphElement</code>. <code>null</code> if no component is
+	 *         registered for the element (or it has been mapped to <code>null</code> explicitly).
 	 */
 	public GraphElementComponent getComponentForElement(GraphElement ge) {
 		return this.graphElementComponents.get(ge);
@@ -230,7 +224,6 @@ public abstract class AbstractView extends JComponent implements View {
 	 * 
 	 * @param ml
 	 *           a message listener
-	 * 
 	 * @throws IllegalArgumentException
 	 *            DOCUMENT ME!
 	 */
@@ -678,7 +671,6 @@ public abstract class AbstractView extends JComponent implements View {
 	 * 
 	 * @param ml
 	 *           a message listener
-	 * 
 	 * @throws IllegalArgumentException
 	 *            DOCUMENT ME!
 	 */

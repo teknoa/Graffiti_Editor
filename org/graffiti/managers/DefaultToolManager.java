@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DefaultToolManager.java
+// DefaultToolManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DefaultToolManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: DefaultToolManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -20,13 +20,12 @@ import org.graffiti.plugin.tool.Tool;
 
 /**
  * Manages the list of tools.
- *
- * @version $Revision: 1.3 $
+ * 
+ * @version $Revision: 1.4 $
  */
 public class DefaultToolManager
-implements ToolManager
-{
-	//~ Instance fields ========================================================
+					implements ToolManager {
+	// ~ Instance fields ========================================================
 
 	/** List of all available tools. */
 	private Set<Tool> tools;
@@ -34,39 +33,36 @@ implements ToolManager
 	/** mode manager */
 	private ModeManager modeManager;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new tool manager.
 	 */
-	public DefaultToolManager(ModeManager modeManager)
-	{
+	public DefaultToolManager(ModeManager modeManager) {
 		tools = new HashSet<Tool>();
 		this.modeManager = modeManager;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see org.graffiti.managers.ToolManager#addTool(org.graffiti.plugin.tool.Tool)
 	 */
-	public void addTool(Tool tool)
-	{
+	public void addTool(Tool tool) {
 		tools.add(tool);
 	}
 
 	/*
-	 * @see org.graffiti.managers.pluginmgr.PluginManagerListener#pluginAdded(org.graffiti.plugin.GenericPlugin, org.graffiti.managers.pluginmgr.PluginDescription)
+	 * @see org.graffiti.managers.pluginmgr.PluginManagerListener#pluginAdded(org.graffiti.plugin.GenericPlugin,
+	 * org.graffiti.managers.pluginmgr.PluginDescription)
 	 */
-	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
-	{
-		if (!(plugin instanceof EditorPlugin)) return;
+	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
+		if (!(plugin instanceof EditorPlugin))
+			return;
 		Tool[] theTools = ((EditorPlugin) plugin).getTools();
 
-		if(theTools != null)
-		{
-			for(int i = theTools.length; --i >= 0;)
-			{
+		if (theTools != null) {
+			for (int i = theTools.length; --i >= 0;) {
 				this.tools.add(theTools[i]);
 
 				Mode mm = this.modeManager.getMode("org.graffiti.plugins.modes.defaultEditMode");
@@ -80,6 +76,6 @@ implements ToolManager
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

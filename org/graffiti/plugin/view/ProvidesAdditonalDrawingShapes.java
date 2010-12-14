@@ -5,5 +5,6 @@ import java.util.Collection;
 
 public interface ProvidesAdditonalDrawingShapes {
 	Collection<Shape> getPreBorderShapes();
+
 	Collection<Shape> getPostBorderShapes();
 }

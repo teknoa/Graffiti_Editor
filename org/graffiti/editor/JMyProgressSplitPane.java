@@ -10,9 +10,7 @@ import org.graffiti.plugin.gui.PluginPanel;
 
 /**
  * @author Christian Klukas
- * 
- * (c) 2004 IPK-Gatersleben
- *
+ *         (c) 2004 IPK-Gatersleben
  */
 public class JMyProgressSplitPane extends JSplitPane {
 
@@ -29,18 +27,20 @@ public class JMyProgressSplitPane extends JSplitPane {
 	 */
 	public JMyProgressSplitPane(int vertical_split, PluginPanel pluginPanel, JPanel progressPanel) {
 		super(vertical_split, pluginPanel, progressPanel);
-		this.progressPanel=progressPanel;
+		this.progressPanel = progressPanel;
 	}
 
 	@Override
 	public int getDividerLocation() {
 		return super.getDividerLocation();
-		/*if (progressPanel==null) return super.getDividerLocation();
-        int height=0;
-        Component[] gc=progressPanel.getComponents();
-        for (int i=0; i<gc.length; i++) {
-            height+=gc[i].getPreferredSize().height;
-        }
-        return getHeight()-height;*/
+		/*
+		 * if (progressPanel==null) return super.getDividerLocation();
+		 * int height=0;
+		 * Component[] gc=progressPanel.getComponents();
+		 * for (int i=0; i<gc.length; i++) {
+		 * height+=gc[i].getPreferredSize().height;
+		 * }
+		 * return getHeight()-height;
+		 */
 	}
 }

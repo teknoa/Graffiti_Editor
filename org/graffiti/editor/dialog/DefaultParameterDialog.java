@@ -1,11 +1,11 @@
-//===============================IX===============================================
+// ===============================IX===============================================
 //
-//   DefaultParameterDialog.java
+// DefaultParameterDialog.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.19 2010/11/16 13:41:23 morla Exp $
+// ==============================================================================
+// $Id: DefaultParameterDialog.java,v 1.20 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -63,17 +63,17 @@ import org.graffiti.session.Session;
 
 /**
  * The default implementation of a parameter dialog.
- *
- * @version $Revision: 1.19 $
+ * 
+ * @version $Revision: 1.20 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
-ActionListener, WindowListener {
+					ActionListener, WindowListener {
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
 
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	/** The <code>ImageBundle</code> of the view type chooser. */
 	protected ImageBundle iBundle = ImageBundle.getInstance();
@@ -106,56 +106,65 @@ ActionListener, WindowListener {
 
 	private Collection<Session> validSessions = new ArrayList<Session>();
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for DefaultParameterDialog.
-	 *
-	 * @param editComponentManager DOCUMENT ME!
-	 * @param parent the parent of this dialog.
-	 * @param parameters the array of parameters to edit in this dialog.
-	 * @param selection DOCUMENT ME!
-	 * @param algorithmName the name of the algorithm, to edit the parameters
-	 *        for.
+	 * 
+	 * @param editComponentManager
+	 *           DOCUMENT ME!
+	 * @param parent
+	 *           the parent of this dialog.
+	 * @param parameters
+	 *           the array of parameters to edit in this dialog.
+	 * @param selection
+	 *           DOCUMENT ME!
+	 * @param algorithmName
+	 *           the name of the algorithm, to edit the parameters
+	 *           for.
 	 */
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			Component parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object description) {
+						Component parent, Parameter[] parameters, Selection selection,
+						String algorithmName, Object description) {
 		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, true);
 	}
 
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			Component parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object description, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
+						Component parent, Parameter[] parameters, Selection selection,
+						String algorithmName, Object description, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
 		this(editComponentManager, parent, parameters, selection, algorithmName, description, null, okOnly, noButton, allowMultipleGraphTargets, "OK");
 	}
+
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			Component parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean allowMultipleGraphTargets) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets, "OK");
-	}
-	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			Component parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent,
-			JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
-			String okOnlyButtonText) {
-		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets, "OK", true);
+						Component parent, Parameter[] parameters, Selection selection,
+						String algorithmName, Object descriptionOrComponent, JComponent descComponent, boolean allowMultipleGraphTargets) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets,
+							"OK");
 	}
 
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
-			Component parent, Parameter[] parameters, Selection selection,
-			String algorithmName, Object descriptionOrComponent,
-			JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
-			String okOnlyButtonText, boolean modal) {
+						Component parent, Parameter[] parameters, Selection selection,
+						String algorithmName, Object descriptionOrComponent,
+						JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
+						String okOnlyButtonText) {
+		this(editComponentManager, parent, parameters, selection, algorithmName, descriptionOrComponent, descComponent, false, false, allowMultipleGraphTargets,
+							"OK", true);
+	}
 
-		super(parent instanceof Frame ? (Frame)parent : null, modal);
+	public DefaultParameterDialog(EditComponentManager editComponentManager,
+						Component parent, Parameter[] parameters, Selection selection,
+						String algorithmName, Object descriptionOrComponent,
+						JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
+						String okOnlyButtonText, boolean modal) {
+
+		super(parent instanceof Frame ? (Frame) parent : null, modal);
 
 		validSessions.clear();
 		try {
 			Session s = MainFrame.getInstance().getActiveSession();
-			if (s!=null)
+			if (s != null)
 				validSessions.add(s);
-		} catch(Exception e) {
+		} catch (Exception e) {
 			// empty
 		}
 
@@ -176,28 +185,28 @@ ActionListener, WindowListener {
 		setTitle(algorithmName);
 
 		setSize(420, 320);
-		setResizable(true);//false
+		setResizable(true);// false
 		setLocationRelativeTo(parent);
 
 		ok = new JButton(sBundle.getString("run.dialog.button.run"));
 		cancel = new JButton(sBundle.getString("run.dialog.button.cancel"));
 
-		if (okOnlyButtonText!=null && okOnlyButtonText.indexOf(";")>0) {
-			cancel.setText(okOnlyButtonText.substring(okOnlyButtonText.lastIndexOf(";")+";".length()));
+		if (okOnlyButtonText != null && okOnlyButtonText.indexOf(";") > 0) {
+			cancel.setText(okOnlyButtonText.substring(okOnlyButtonText.lastIndexOf(";") + ";".length()));
 			okOnlyButtonText = okOnlyButtonText.substring(0, okOnlyButtonText.lastIndexOf(";"));
 			okOnly = false;
 		}
 
-		if (okOnlyButtonText!=null && okOnlyButtonText.length()>0)
+		if (okOnlyButtonText != null && okOnlyButtonText.length() > 0)
 			ok.setText(okOnlyButtonText);
 
-		//		JPanel buttonsPanel = new JPanel();
+		// JPanel buttonsPanel = new JPanel();
 		//
-		//		buttonsPanel.add(ok);
-		//		buttonsPanel.add(cancel);
+		// buttonsPanel.add(ok);
+		// buttonsPanel.add(cancel);
 
 		paramsPanel = createValueEditContainer(params, selection,
-				(description!=null && description.length()>0) ? description : "", algorithmName, descComponent); // sBundle.getString("run.dialog.desc")
+							(description != null && description.length() > 0) ? description : "", algorithmName, descComponent); // sBundle.getString("run.dialog.desc")
 
 		// algorithmName + " parameters"
 
@@ -213,8 +222,7 @@ ActionListener, WindowListener {
 			}
 		});
 		getRootPane().getInputMap(JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT)
-		.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false),"escapeAction");
-
+							.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0, false), "escapeAction");
 
 		defineLayout(okOnly, noButton, allowMultipleGraphTargets);
 		addListeners();
@@ -225,7 +233,7 @@ ActionListener, WindowListener {
 		setVisible(true);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see org.graffiti.editor.dialog.ParameterDialog#getEditedParameters()
@@ -234,11 +242,9 @@ ActionListener, WindowListener {
 		return this.paramEditPanel.getUpdatedParameters();
 	}
 
-
-
 	@Override
 	public void pack() {
-		if(!SwingUtilities.isEventDispatchThread())
+		if (!SwingUtilities.isEventDispatchThread())
 			Thread.dumpStack();
 		else
 			super.pack();
@@ -246,7 +252,7 @@ ActionListener, WindowListener {
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isOkSelected() {
@@ -261,11 +267,12 @@ ActionListener, WindowListener {
 
 		if (src == cancel) {
 			MainFrame.showMessage(algorithmName + " not started",
-					MessageType.INFO, 3000);
+								MessageType.INFO, 3000);
 			dispose();
-		} else if (src == ok) {
-			okSelected();
-		}
+		} else
+			if (src == ok) {
+				okSelected();
+			}
 	}
 
 	/**
@@ -322,17 +329,18 @@ ActionListener, WindowListener {
 
 	/**
 	 * Creates and returns a value edit container for the given parameters.
-	 *
-	 * @param parameters the list of parameters, the user wants to edit.
-	 * @param selection DOCUMENT ME!
+	 * 
+	 * @param parameters
+	 *           the list of parameters, the user wants to edit.
+	 * @param selection
+	 *           DOCUMENT ME!
 	 * @param descComponent
-	 *
 	 * @return DOCUMENT ME!
 	 */
 	private JPanel createValueEditContainer(Parameter[] parameters,
-			Selection selection, String title, String heading, JComponent descComponent) {
+						Selection selection, String title, String heading, JComponent descComponent) {
 		this.paramEditPanel = new ParameterEditPanel(parameters,
-				editComponentManager!=null ? editComponentManager.getEditComponents() : null, selection, title, true, heading, descComponent);
+							editComponentManager != null ? editComponentManager.getEditComponents() : null, selection, title, true, heading, descComponent);
 
 		return this.paramEditPanel;
 	}
@@ -343,33 +351,34 @@ ActionListener, WindowListener {
 	private void defineLayout(boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets) {
 		double border = 8d;
 		double[][] size = {
-				new double[] { border, TableLayoutConstants.FILL, border },
-				new double[] { border, TableLayoutConstants.FILL, border, TableLayoutConstants.PREFERRED, noButton ? 0 : border },
+							new double[] { border, TableLayoutConstants.FILL, border },
+							new double[] { border, TableLayoutConstants.FILL, border, TableLayoutConstants.PREFERRED, noButton ? 0 : border },
 		};
 		getContentPane().setLayout(new TableLayout(size));
 
-		//		paramsPanel.setBorder(BorderFactory.createEtchedBorder());
+		// paramsPanel.setBorder(BorderFactory.createEtchedBorder());
 		//
 		getContentPane().add(paramsPanel, "1,1");
 		if (!noButton)
 			getContentPane().add(
-					TableLayout.get4Split(
-							null,
-							ok,
-							okOnly ? null:cancel,
-									allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayout.FILL, TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
+								TableLayout.get4Split(
+													null,
+													ok,
+													okOnly ? null : cancel,
+													allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayout.FILL, TableLayoutConstants.PREFERRED,
+													TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 									"1,3"
-			);
+								);
 		getContentPane().validate();
 	}
 
 	private JComponent getSessionSelectionPanel() {
 		MainFrame.getInstance();
-		if (MainFrame.getSessions().size()<=1)
+		if (MainFrame.getSessions().size() <= 1)
 			return new JLabel();
 		else {
 			final String pre = "<html><font color='#777777'><small>&nbsp;&nbsp;&nbsp;";
-			final JLabel res = new JLabel(pre+getActiveWorkingSetDescription());
+			final JLabel res = new JLabel(pre + getActiveWorkingSetDescription());
 
 			Cursor c = new Cursor(Cursor.HAND_CURSOR);
 			res.setCursor(c);
@@ -377,8 +386,11 @@ ActionListener, WindowListener {
 			res.setOpaque(false);
 			res.setToolTipText(getActiveWorkingSetDescriptionDetails());
 			res.addMouseListener(new MouseListener() {
-				public void mouseReleased(MouseEvent e) { }
-				public void mousePressed(MouseEvent e) { }
+				public void mouseReleased(MouseEvent e) {
+				}
+
+				public void mousePressed(MouseEvent e) {
+				}
 
 				Color oldColor;
 				boolean oldOpaque;
@@ -387,17 +399,19 @@ ActionListener, WindowListener {
 					res.setOpaque(oldOpaque);
 					res.setBackground(oldColor);
 					res.setToolTipText(getActiveWorkingSetDescriptionDetails());
-					res.setText(pre+getActiveWorkingSetDescription());
+					res.setText(pre + getActiveWorkingSetDescription());
 				}
+
 				public void mouseEntered(MouseEvent e) {
 					oldOpaque = res.isOpaque();
 					res.setOpaque(true);
 					oldColor = res.getBackground();
 					res.setBackground(new Color(240, 240, 255));
-					res.setText(pre+hint);
+					res.setText(pre + hint);
 				}
+
 				public void mouseClicked(MouseEvent e) {
-					if (validSessions.size()<=1) {
+					if (validSessions.size() <= 1) {
 						validSessions.clear();
 						validSessions.addAll(MainFrame.getSessions());
 					} else {
@@ -405,7 +419,7 @@ ActionListener, WindowListener {
 						validSessions.add(MainFrame.getInstance().getActiveSession());
 					}
 					res.setToolTipText(getActiveWorkingSetDescriptionDetails());
-					res.setText(pre+getActiveWorkingSetDescription());
+					res.setText(pre + getActiveWorkingSetDescription());
 				}
 			});
 
@@ -416,19 +430,19 @@ ActionListener, WindowListener {
 	private String getActiveWorkingSetDescription() {
 		boolean isActiveGraph = false;
 		try {
-			if (validSessions.size()==1 &&
-					MainFrame.getInstance().getActiveSession() == validSessions.iterator().next())
+			if (validSessions.size() == 1 &&
+								MainFrame.getInstance().getActiveSession() == validSessions.iterator().next())
 				isActiveGraph = true;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			// empty
 		}
 		if (isActiveGraph)
 			return "Process active graph";
 		else {
-			if (validSessions.size()>1)
-				return "Process "+validSessions.size()+" graphs";
-			if (validSessions.size()==1)
-				return "Process "+validSessions.size()+" graph";
+			if (validSessions.size() > 1)
+				return "Process " + validSessions.size() + " graphs";
+			if (validSessions.size() == 1)
+				return "Process " + validSessions.size() + " graph";
 			else
 				return "No graph available";
 		}
@@ -438,17 +452,17 @@ ActionListener, WindowListener {
 		try {
 			StringBuilder res = new StringBuilder();
 			int idx = 0;
-			for (Session s: validSessions) {
-				if (res.length()>0)
+			for (Session s : validSessions) {
+				if (res.length() > 0)
 					res.append("<br>");
 				idx++;
-				res.append(idx+") graph "+s.getGraph().getName());
+				res.append(idx + ") graph " + s.getGraph().getName());
 			}
-			if (res.length()>0)
-				return "<html>Working set:<br>"+res.toString();
+			if (res.length() > 0)
+				return "<html>Working set:<br>" + res.toString();
 			else
 				return null;
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return null;
 		}
 	}
@@ -462,21 +476,23 @@ ActionListener, WindowListener {
 	}
 
 	/**
-	 * @param description In case the description is of type JComponent,
-	 * this GUI element will be shown at the top of the dialog. If this parameter
-	 * is of type String, a <code>JLabel</code> object will show the provided text.
-	 * If the description text starts with "[OK]", only the OK and not the Cancel button
-	 * will be shown. If the description text starts with "[]", no button
-	 * will be shown. If the description starts with "[Hello]", the single OK Button
-	 * will be titled "Hello". If the description starts with [Yes;No], two buttons,
-	 * titles 'Yes' and 'No' will be shown.
-	 * @param title The shown dialog window will use this value as its window title.
+	 * @param description
+	 *           In case the description is of type JComponent,
+	 *           this GUI element will be shown at the top of the dialog. If this parameter
+	 *           is of type String, a <code>JLabel</code> object will show the provided text.
+	 *           If the description text starts with "[OK]", only the OK and not the Cancel button
+	 *           will be shown. If the description text starts with "[]", no button
+	 *           will be shown. If the description starts with "[Hello]", the single OK Button
+	 *           will be titled "Hello". If the description starts with [Yes;No], two buttons,
+	 *           titles 'Yes' and 'No' will be shown.
+	 * @param title
+	 *           The shown dialog window will use this value as its window title.
 	 * @param parameters
 	 * @return The return value depends on the selected button (OK/Cancel).
 	 */
 	@SuppressWarnings("unchecked")
 	public static Object[] getInput(Object description, String title,
-			Object... parameters) {
+						Object... parameters) {
 
 		title = StringManipulationTools.removeHTMLtags(title);
 
@@ -484,9 +500,9 @@ ActionListener, WindowListener {
 		// Cancel => close and return null
 		// Reset => set to initial values
 		Parameter[] p = new Parameter[parameters.length / 2];
-		for (int i=0; i<p.length; i++) {
-			Object desc = parameters[i*2];
-			Object param = parameters[i*2+1];
+		for (int i = 0; i < p.length; i++) {
+			Object desc = parameters[i * 2];
+			Object param = parameters[i * 2 + 1];
 			if (param instanceof JComponent) {
 				JComponent val = (JComponent) param;
 				String name = (String) desc;
@@ -526,17 +542,17 @@ ActionListener, WindowListener {
 									if (param instanceof List) {
 										List val = (List) param;
 										String name = (String) desc;
-										ObjectListParameter ip = new ObjectListParameter(val.size()>0 ? val.get(0) : null, name, name, val);
+										ObjectListParameter ip = new ObjectListParameter(val.size() > 0 ? val.get(0) : null, name, name, val);
 										p[i] = ip;
 									} else
 										if (param instanceof Set) {
 											Set val = (Set) param;
 											String name = (String) desc;
-											ObjectListParameter ip = new ObjectListParameter(val.size()>0 ? val.iterator().next() : null, name, name, val);
+											ObjectListParameter ip = new ObjectListParameter(val.size() > 0 ? val.iterator().next() : null, name, name, val);
 											p[i] = ip;
 										} else
 											if (param instanceof Color) {
-												Color c = (Color)param;
+												Color c = (Color) param;
 												String name = (String) desc;
 												ColorParameter sp = new ColorParameter(c, name, name);
 												p[i] = sp;
@@ -549,37 +565,36 @@ ActionListener, WindowListener {
 												}
 		}
 		boolean modal = true;
-		if(description!=null && description!=null && description instanceof String && ((String)description).startsWith("["))
-			if(((String)description).indexOf("nonmodal,")>0) {
+		if (description != null && description != null && description instanceof String && ((String) description).startsWith("["))
+			if (((String) description).indexOf("nonmodal,") > 0) {
 				modal = false;
 				description = StringManipulationTools.stringReplace((String) description, "nonmodal,", "");
 			} else
-				if(((String)description).indexOf("nonmodal")>0) {
+				if (((String) description).indexOf("nonmodal") > 0) {
 					modal = false;
 					description = StringManipulationTools.stringReplace((String) description, "nonmodal", "");
 				}
 
-
-		boolean noButton = (description!=null && description instanceof String && ((String)description).startsWith("[]"));
+		boolean noButton = (description != null && description instanceof String && ((String) description).startsWith("[]"));
 		if (noButton) {
-			description = ((String)description).substring("[]".length());
-			if (((String)description).length()<=0)
+			description = ((String) description).substring("[]".length());
+			if (((String) description).length() <= 0)
 				description = null;
 		}
 		boolean showOnlyOneButton = !noButton && oneButtonDescription(description);
 		String buttonDesc = null;
 		if (showOnlyOneButton) {
-			buttonDesc = ((String)description).substring(((String)description).indexOf("[")+"[".length());
+			buttonDesc = ((String) description).substring(((String) description).indexOf("[") + "[".length());
 			buttonDesc = buttonDesc.substring(0, buttonDesc.indexOf("]"));
-			description = ((String)description).substring(((String)description).indexOf("]")+"[".length());
-			if (((String)description).length()<=0)
+			description = ((String) description).substring(((String) description).indexOf("]") + "[".length());
+			if (((String) description).length() <= 0)
 				description = null;
 		}
-		if (description!=null && description instanceof String) {
-			if (((String)description).indexOf("<")>=0
-					&& ((String)description).indexOf(">")>=0
-					&& !((String)description).toUpperCase().startsWith("<HTML>"))
-				description = "<html>"+(String)description;
+		if (description != null && description instanceof String) {
+			if (((String) description).indexOf("<") >= 0
+								&& ((String) description).indexOf(">") >= 0
+								&& !((String) description).toUpperCase().startsWith("<HTML>"))
+				description = "<html>" + (String) description;
 		}
 
 		boolean vis = MainFrame.getInstance().isVisible();
@@ -590,19 +605,19 @@ ActionListener, WindowListener {
 			ref = MainFrame.getInstance();
 
 		DefaultParameterDialog paramDialog = new DefaultParameterDialog(
-				MainFrame.getInstance() != null ? MainFrame.getInstance().getEditComponentManager() : null,
-						ref,
-						p,
-						( MainFrame.getInstance()!=null && MainFrame.getInstance().getActiveEditorSession() != null ?
-								MainFrame.getInstance().getActiveEditorSession().
-								getSelectionModel().getActiveSelection() : null
-						),
-						title, description, null, showOnlyOneButton, noButton, false, buttonDesc, modal);
+							MainFrame.getInstance() != null ? MainFrame.getInstance().getEditComponentManager() : null,
+							ref,
+							p,
+							(MainFrame.getInstance() != null && MainFrame.getInstance().getActiveEditorSession() != null ?
+												MainFrame.getInstance().getActiveEditorSession().
+																	getSelectionModel().getActiveSelection() : null
+							),
+							title, description, null, showOnlyOneButton, noButton, false, buttonDesc, modal);
 		if (paramDialog.isOkSelected()) {
 			Parameter[] pe = paramDialog.getEditedParameters();
 			Object[] result = new Object[pe.length];
-			for (int i=0; i<result.length; i++) {
-				if (pe[i]!=null)
+			for (int i = 0; i < result.length; i++) {
+				if (pe[i] != null)
 					result[i] = pe[i].getValue();
 			}
 			return result;
@@ -611,12 +626,12 @@ ActionListener, WindowListener {
 	}
 
 	private static boolean oneButtonDescription(Object description) {
-		if (description==null || !(description instanceof String))
+		if (description == null || !(description instanceof String))
 			return false;
 		String d = (String) description;
-		if (d.indexOf("[")>=0) {
-			d = d.substring(d.indexOf("[")+"[".length());
-			return d.indexOf("]")>=0;
+		if (d.indexOf("[") >= 0) {
+			d = d.substring(d.indexOf("[") + "[".length());
+			return d.indexOf("]") >= 0;
 		} else
 			return false;
 	}
@@ -625,17 +640,16 @@ ActionListener, WindowListener {
 		return validSessions;
 	}
 
-
-	private static int scrollbarWidth = (int) (new JScrollBar(JScrollBar.VERTICAL).getPreferredSize().getWidth()+1);
+	private static int scrollbarWidth = (int) (new JScrollBar(JScrollBar.VERTICAL).getPreferredSize().getWidth() + 1);
 
 	@Override
 	public Dimension getPreferredSize() {
 		Dimension d = super.getPreferredSize();
-		return new Dimension((int)d.getWidth()+scrollbarWidth, (int)d.getHeight());
+		return new Dimension((int) d.getWidth() + scrollbarWidth, (int) d.getHeight());
 	}
 
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

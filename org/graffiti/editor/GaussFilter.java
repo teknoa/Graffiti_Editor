@@ -34,7 +34,7 @@ public class GaussFilter {
 	}
 
 	public static void convolveAndTranspose(Kernel kernel, int[] inPixels, int[] out, int width, int height,
-			boolean hasAlpha) {
+						boolean hasAlpha) {
 		float[] matrix = kernel.getKernelData(null);
 		int cols = kernel.getWidth();
 		int cols2 = cols / 2;
@@ -52,9 +52,10 @@ public class GaussFilter {
 						int ix = x + col;
 						if (ix < 0) {
 							ix = 0;
-						} else if (ix >= width) {
-							ix = width - 1;
-						}
+						} else
+							if (ix >= width) {
+								ix = width - 1;
+							}
 						int rgb = inPixels[ioffset + ix];
 						a += f * ((rgb >> 24) & 0xff);
 						r += f * ((rgb >> 16) & 0xff);
@@ -101,7 +102,7 @@ public class GaussFilter {
 		if (dstCM == null)
 			dstCM = src.getColorModel();
 		return new BufferedImage(dstCM, dstCM.createCompatibleWritableRaster(src.getWidth(), src.getHeight()), dstCM
-				.isAlphaPremultiplied(), null);
+							.isAlphaPremultiplied(), null);
 	}
 
 	public static int clamp(int c) {

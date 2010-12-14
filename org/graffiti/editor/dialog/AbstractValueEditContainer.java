@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractValueEditContainer.java
+// AbstractValueEditContainer.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractValueEditContainer.java,v 1.4 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractValueEditContainer.java,v 1.5 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -17,17 +17,15 @@ import javax.swing.JComponent;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
 
 /**
- * This class provides an abstract implementation of the
- * <code>ValueEditComponent</code>-interface.
- *
+ * This class provides an abstract implementation of the <code>ValueEditComponent</code>-interface.
+ * 
  * @see javax.swing.JComponent
  * @see org.graffiti.plugin.editcomponent.ValueEditComponent
  */
 public abstract class AbstractValueEditContainer
-extends JComponent
-implements ValueEditContainer
-{
-	//~ Instance fields ========================================================
+					extends JComponent
+					implements ValueEditContainer {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -40,50 +38,49 @@ implements ValueEditContainer
 	/** The list of <code>ValueEditComponent</code>s the dialog contains. */
 	protected List<ValueEditComponent> editComponents;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for AbstractValueEditContainer.
 	 */
-	protected AbstractValueEditContainer()
-	{
+	protected AbstractValueEditContainer() {
 		super();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns a list containing all the <code>ValueEditComponent</code>s of
 	 * this value edit container.
-	 *
+	 * 
 	 * @return a list containing all the <code>ValueEditComponent</code>s of
 	 *         this value edit container.
 	 */
-	public List<ValueEditComponent> getValueEditComponents()
-	{
+	public List<ValueEditComponent> getValueEditComponents() {
 		return this.editComponents;
 	}
 
 	/**
 	 * Adds another <code>ValueEditComponent</code> to the current dialog.
-	 *
-	 * @param vec the <code>ValueEditComponent</code> to be added.
+	 * 
+	 * @param vec
+	 *           the <code>ValueEditComponent</code> to be added.
 	 */
-	public void addValueEditComponent(ValueEditComponent vec)
-	{
+	public void addValueEditComponent(ValueEditComponent vec) {
 		editComponents.add(vec);
 		doAddValueEditComponent(vec);
 	}
 
 	/**
 	 * Adds the specified <code>ValueEditComponent</code> to the container.
-	 *
-	 * @param vec the <code>ValueEditComponent</code> to be added to the
-	 *        container.
+	 * 
+	 * @param vec
+	 *           the <code>ValueEditComponent</code> to be added to the
+	 *           container.
 	 */
 	protected abstract void doAddValueEditComponent(ValueEditComponent vec);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

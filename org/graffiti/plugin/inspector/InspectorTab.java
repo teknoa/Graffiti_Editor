@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   InspectorTab.java
+// InspectorTab.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: InspectorTab.java,v 1.12 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: InspectorTab.java,v 1.13 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -23,16 +23,14 @@ import org.graffiti.graph.GraphElement;
 import org.graffiti.plugin.view.View;
 
 /**
- * An <code>InspectorTab</code> is a generic component for an
- * <code>InspectorPlugin</code>.
- *
+ * An <code>InspectorTab</code> is a generic component for an <code>InspectorPlugin</code>.
+ * 
  * @see JComponent
  * @see InspectorPlugin
  */
 public abstract class InspectorTab
-extends JComponent
-{
-	//~ Instance fields ========================================================
+					extends JComponent {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -53,25 +51,23 @@ extends JComponent
 
 	private ImageIcon icon;
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the EditPanel of this tab.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public EditPanel getEditPanel()
-	{
+	public EditPanel getEditPanel() {
 		return this.editPanel;
 	}
 
 	/**
 	 * Returns the title of the current <code>InspectorTab</code>.
-	 *
+	 * 
 	 * @return the title of the current <code>InspectorTab</code>.
 	 */
-	public String getTitle()
-	{
+	public String getTitle() {
 		return this.title;
 	}
 
@@ -90,11 +86,11 @@ extends JComponent
 			return;
 		currentlyHighlight = true;
 		JTabbedPane tp = (JTabbedPane) getParent();
-		if (tp!=null) {
+		if (tp != null) {
 			tp.setSelectedComponent(this);
 			final Border oldB = getBorder();
 			final InspectorTab fit = this;
-			if (whenFinishedHighlight!=null)
+			if (whenFinishedHighlight != null)
 				whenFinishedHighlight.focusAndHighlight(null, false, cycleChildren);
 			if (highlight)
 				setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), getTitle()));
@@ -110,20 +106,20 @@ extends JComponent
 						if (highlight)
 							fit.setBorder(oldB);
 						fit.repaint();
-						if (whenFinishedHighlight!=null) {
+						if (whenFinishedHighlight != null) {
 							whenFinishedHighlight.focusAndHighlight(null, highlight, cycleChildren);
 							if (whenFinishedHighlight instanceof ContainsTabbedPane) {
-								ContainsTabbedPane sh = (ContainsTabbedPane)whenFinishedHighlight;
+								ContainsTabbedPane sh = (ContainsTabbedPane) whenFinishedHighlight;
 								if (cycleChildren) {
 									cycleHighlight(whenFinishedHighlight,
-											highlight, oldB, sh);
+														highlight, oldB, sh);
 								}
 							}
 						} else {
 							if (cycleChildren && fit instanceof SubtabHostTab) {
 								SubtabHostTab sh = (SubtabHostTab) fit;
 								cycleHighlight(sh,
-										highlight, oldB, sh);
+													highlight, oldB, sh);
 							}
 						}
 					} finally {
@@ -132,17 +128,17 @@ extends JComponent
 				}
 
 				private void cycleHighlight(
-						final InspectorTab tab,
-						final boolean highlight, final Border oldB,
-						ContainsTabbedPane sh) {
+									final InspectorTab tab,
+									final boolean highlight, final Border oldB,
+									ContainsTabbedPane sh) {
 					if (highlight)
 						tab.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), tab.getTitle()));
 					tab.repaint();
 					JTabbedPane jtp = sh.getTabbedPane();
-					for (int i = 0; i<jtp.getTabCount(); i++) {
+					for (int i = 0; i < jtp.getTabCount(); i++) {
 						jtp.setSelectedIndex(i);
 						try {
-							Thread.sleep(time/jtp.getTabCount());
+							Thread.sleep(time / jtp.getTabCount());
 						} catch (InterruptedException e) {
 							ErrorMsg.addErrorMessage(e);
 						}
@@ -151,22 +147,24 @@ extends JComponent
 					if (highlight)
 						tab.setBorder(oldB);
 					tab.repaint();
-				}};
-				Thread t = new Thread(r);
-				t.setName(getName());
-				t.start();
-				return;
+				}
+			};
+			Thread t = new Thread(r);
+			t.setName(getName());
+			t.start();
+			return;
 		}
 	}
 
-	public static void focusAndHighlightComponent(final JComponent thisss, final String title, final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
+	public static void focusAndHighlightComponent(final JComponent thisss, final String title, final InspectorTab whenFinishedHighlight,
+						final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
 		JTabbedPane tp = (JTabbedPane) thisss.getParent();
-		if (tp!=null) {
+		if (tp != null) {
 			tp.setSelectedComponent(thisss);
 			final Border oldB = thisss.getBorder();
 
-			if (whenFinishedHighlight!=null)
+			if (whenFinishedHighlight != null)
 				whenFinishedHighlight.focusAndHighlight(null, false, cycleChildren);
 			if (highlight)
 				thisss.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), title));
@@ -181,36 +179,36 @@ extends JComponent
 					if (highlight)
 						thisss.setBorder(oldB);
 					thisss.repaint();
-					if (whenFinishedHighlight!=null) {
+					if (whenFinishedHighlight != null) {
 						whenFinishedHighlight.focusAndHighlight(null, highlight, cycleChildren);
 						if (whenFinishedHighlight instanceof ContainsTabbedPane) {
-							ContainsTabbedPane sh = (ContainsTabbedPane)whenFinishedHighlight;
+							ContainsTabbedPane sh = (ContainsTabbedPane) whenFinishedHighlight;
 							if (cycleChildren) {
 								cycleHighlight(whenFinishedHighlight,
-										highlight, oldB, sh);
+													highlight, oldB, sh);
 							}
 						}
 					} else {
 						if (cycleChildren && thisss instanceof SubtabHostTab) {
 							SubtabHostTab sh = (SubtabHostTab) thisss;
 							cycleHighlight(sh,
-									highlight, oldB, sh);
+												highlight, oldB, sh);
 						}
 					}
 				}
 
 				private void cycleHighlight(
-						final InspectorTab tab,
-						final boolean highlight, final Border oldB,
-						ContainsTabbedPane sh) {
+									final InspectorTab tab,
+									final boolean highlight, final Border oldB,
+									ContainsTabbedPane sh) {
 					if (highlight)
 						tab.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.RED, 4), tab.getTitle()));
 					tab.repaint();
 					JTabbedPane jtp = sh.getTabbedPane();
-					for (int i = 0; i<jtp.getTabCount(); i++) {
+					for (int i = 0; i < jtp.getTabCount(); i++) {
 						jtp.setSelectedIndex(i);
 						try {
-							Thread.sleep(time/jtp.getTabCount());
+							Thread.sleep(time / jtp.getTabCount());
 						} catch (InterruptedException e) {
 							ErrorMsg.addErrorMessage(e);
 						}
@@ -219,17 +217,18 @@ extends JComponent
 					if (highlight)
 						tab.setBorder(oldB);
 					tab.repaint();
-				}};
-				Thread t = new Thread(r);
-				t.setName(title);
-				t.start();
-				return;
+				}
+			};
+			Thread t = new Thread(r);
+			t.setName(title);
+			t.start();
+			return;
 		}
 	}
 
 	public void setEditPanelInformation(
-			Map<?, ?> valueEditComponents,
-			Map<GraphElement, GraphElement> map) {
+						Map<?, ?> valueEditComponents,
+						Map<GraphElement, GraphElement> map) {
 		if (getEditPanel() != null) {
 			getEditPanel().setEditComponentMap(valueEditComponents);
 			getEditPanel().setGraphElementMap(map);
@@ -249,6 +248,6 @@ extends JComponent
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

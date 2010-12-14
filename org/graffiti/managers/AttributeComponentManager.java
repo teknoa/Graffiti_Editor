@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AttributeComponentManager.java
+// AttributeComponentManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AttributeComponentManager.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: AttributeComponentManager.java,v 1.5 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -22,94 +22,84 @@ import org.graffiti.util.InstanceCreationException;
 import org.graffiti.util.InstanceLoader;
 
 /**
- * Contains the mapping between attribute classes and their representation as
- * <code>AttributeComponent</code> classes.
- *
+ * Contains the mapping between attribute classes and their representation as <code>AttributeComponent</code> classes.
+ * 
  * @author ph
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class AttributeComponentManager
-implements PluginManagerListener
-{
-	//~ Instance fields ========================================================
+					implements PluginManagerListener {
+	// ~ Instance fields ========================================================
 
 	/** Maps attribute classes to attributeComponent classes. */
 	@SuppressWarnings("unchecked")
 	private Map attributeComponents;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs an AttributeComponentManager.
 	 */
-	public AttributeComponentManager()
-	{
+	public AttributeComponentManager() {
 		this.attributeComponents = new HashMap<Object, Object>();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	public boolean hasAttributeComponent(Class<?> aType) {
 		return attributeComponents.containsKey(aType);
 	}
 
-
 	/**
 	 * Returns an instance of the AttributeComponent that is capable of drawing
 	 * the attribute with type <code>aType</code>.
-	 *
-	 * @param aType the class of the attribute to retrieve a component for.
-	 *
+	 * 
+	 * @param aType
+	 *           the class of the attribute to retrieve a component for.
 	 * @return an instance of an AttributeComponent.
-	 *
-	 * @throws AttributeComponentNotFoundException DOCUMENT ME!
+	 * @throws AttributeComponentNotFoundException
+	 *            DOCUMENT ME!
 	 */
 	public AttributeComponent getAttributeComponent(Class<?> aType)
-	throws AttributeComponentNotFoundException
-	{
-		if(!(attributeComponents.containsKey(aType)))
-		{
+						throws AttributeComponentNotFoundException {
+		if (!(attributeComponents.containsKey(aType))) {
 			throw new AttributeComponentNotFoundException(
-					"No registered GraffitiViewComponent for AttributeType " +
-					aType);
+								"No registered GraffitiViewComponent for AttributeType " +
+													aType);
 		}
 
 		Class<?> ac = (Class<?>) attributeComponents.get(aType);
 
-		try
-		{
+		try {
 			AttributeComponent component = (AttributeComponent) InstanceLoader.createInstance(ac);
 
 			return component;
-		}
-		catch(InstanceCreationException ice)
-		{
+		} catch (InstanceCreationException ice) {
 			throw new AttributeComponentNotFoundException(ice.getMessage());
 		}
 	}
 
 	/**
 	 * Returns the map of attribute components.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public Map<?, ?> getAttributeComponents()
-	{
+	public Map<?, ?> getAttributeComponents() {
 		return attributeComponents;
 	}
 
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
-	 *
-	 * @param plugin the added plugin.
-	 * @param desc the description of the new plugin.
+	 * 
+	 * @param plugin
+	 *           the added plugin.
+	 * @param desc
+	 *           the description of the new plugin.
 	 */
 	@SuppressWarnings("unchecked")
-	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
-	{
-		//System.out.println("puting: " + plugin.getAttributeComponents());
-		if(plugin instanceof EditorPlugin)
-		{
+	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
+		// System.out.println("puting: " + plugin.getAttributeComponents());
+		if (plugin instanceof EditorPlugin) {
 			if (((EditorPlugin) plugin).getAttributeComponents() != null) {
 				attributeComponents.putAll(((EditorPlugin) plugin).getAttributeComponents());
 			}
@@ -117,6 +107,6 @@ implements PluginManagerListener
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

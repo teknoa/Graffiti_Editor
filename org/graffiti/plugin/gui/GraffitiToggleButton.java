@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiToggleButton.java
+// GraffitiToggleButton.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiToggleButton.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: GraffitiToggleButton.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -13,17 +13,15 @@ import javax.swing.Icon;
 import javax.swing.JToggleButton;
 
 /**
- * Abstract class for all ToggleButtons that should be used as
- * <code>GraffitiComponents</code>. Provides an implementation for the
+ * Abstract class for all ToggleButtons that should be used as <code>GraffitiComponents</code>. Provides an implementation for the
  * <code>getPreferredComponent()</code> method.
- *
- * @version $Revision: 1.3 $
+ * 
+ * @version $Revision: 1.4 $
  */
 public abstract class GraffitiToggleButton
-extends JToggleButton
-implements GraffitiComponent
-{
-	//~ Instance fields ========================================================
+					extends JToggleButton
+					implements GraffitiComponent {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -32,64 +30,65 @@ implements GraffitiComponent
 	/** The preferred component of this button. */
 	protected String preferredComponent;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new GraffitiToggleButton object.
 	 */
-	public GraffitiToggleButton()
-	{
+	public GraffitiToggleButton() {
 	}
 
 	/**
 	 * Creates a new GraffitiToggleButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiToggleButton(String preferredComp)
-	{
+	public GraffitiToggleButton(String preferredComp) {
 		preferredComponent = preferredComp;
 	}
 
 	/**
 	 * Creates a new GraffitiToggleButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
-	 * @param text DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
+	 * @param text
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiToggleButton(String preferredComp, String text)
-	{
+	public GraffitiToggleButton(String preferredComp, String text) {
 		super(text);
 	}
 
 	/**
 	 * Creates a new GraffitiToggleButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
-	 * @param i DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
+	 * @param i
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiToggleButton(String preferredComp, Icon i)
-	{
+	public GraffitiToggleButton(String preferredComp, Icon i) {
 		super(i);
 		preferredComponent = preferredComp;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the id of the component the button prefers to be inserted in.
-	 *
+	 * 
 	 * @return the id of the component the button prefers to be inserted in.
 	 */
-	public String getPreferredComponent()
-	{
+	public String getPreferredComponent() {
 		return preferredComponent;
 	}
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see javax.swing.AbstractButton#doClick()
 	 */
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ToolBarOptionPane.java
+// ToolBarOptionPane.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ToolBarOptionPane.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ToolBarOptionPane.java,v 1.5 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.editor.options;
 
@@ -26,13 +26,12 @@ import org.graffiti.options.AbstractOptionPane;
 
 /**
  * A tool bar editor.
- *
- * @version $Revision: 1.4 $
+ * 
+ * @version $Revision: 1.5 $
  */
 public class ToolBarOptionPane
-extends AbstractOptionPane
-{
-	//~ Instance fields ========================================================
+					extends AbstractOptionPane {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -45,34 +44,33 @@ extends AbstractOptionPane
 	/** The editor's preferences. */
 	private Preferences prefs;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for ToolBarOptionPane.
-	 *
-	 * @param prefs DOCUMENT ME!
+	 * 
+	 * @param prefs
+	 *           DOCUMENT ME!
 	 */
-	public ToolBarOptionPane(Preferences prefs)
-	{
+	public ToolBarOptionPane(Preferences prefs) {
 		super("toolbar");
 		this.prefs = prefs.node("toolbar");
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see org.graffiti.options.AbstractOptionPane#initDefault()
 	 */
 	@Override
-	protected void initDefault()
-	{
+	protected void initDefault() {
 		setLayout(new BorderLayout());
 
 		JPanel panel = new JPanel(new GridLayout(2, 1));
 
 		// show tool bar
 		showToolbar = new JCheckBox(sBundle.getString(
-		"options.toolbar.showToolBar"));
+							"options.toolbar.showToolBar"));
 		showToolbar.setSelected(prefs.getBoolean("view.showToolBar", true));
 
 		panel.add(showToolbar);
@@ -87,26 +85,24 @@ extends AbstractOptionPane
 	 * @see org.graffiti.options.AbstractOptionPane#saveDefault()
 	 */
 	@Override
-	protected void saveDefault()
-	{
+	protected void saveDefault() {
 		// TODO
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
 	 * The action handler for this option panel.
 	 */
 	protected class ActionHandler
-	implements ActionListener
-	{
+						implements ActionListener {
 		/**
 		 * DOCUMENT ME!
-		 *
-		 * @param e DOCUMENT ME!
+		 * 
+		 * @param e
+		 *           DOCUMENT ME!
 		 */
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 		}
 	}
 
@@ -114,8 +110,7 @@ extends AbstractOptionPane
 	 * The tool bar edit dialog.
 	 */
 	protected class ToolBarEditDialog
-	extends JDialog
-	{
+						extends JDialog {
 		/**
 		 * 
 		 */
@@ -123,31 +118,31 @@ extends AbstractOptionPane
 
 		/**
 		 * Constructs a new tool bar editor instance.
-		 *
-		 * @param parent the parent frame.
+		 * 
+		 * @param parent
+		 *           the parent frame.
 		 */
-		public ToolBarEditDialog(Frame parent)
-		{
+		public ToolBarEditDialog(Frame parent) {
 		}
 
 		/**
 		 * The action handler for the edit dialog.
 		 */
 		protected class ActionHandler
-		implements ActionListener
-		{
+							implements ActionListener {
 			/**
 			 * DOCUMENT ME!
-			 *
-			 * @param e DOCUMENT ME!
+			 * 
+			 * @param e
+			 *           DOCUMENT ME!
 			 */
-			public void actionPerformed(ActionEvent e)
-			{
+			public void actionPerformed(ActionEvent e) {
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#getCategory()
 	 */
 	public String getCategory() {
@@ -155,7 +150,8 @@ extends AbstractOptionPane
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#getOptionName()
 	 */
 	public String getOptionName() {
@@ -163,7 +159,8 @@ extends AbstractOptionPane
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
 	 */
 	public void init(JComponent options) {
@@ -171,7 +168,8 @@ extends AbstractOptionPane
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
 	 */
 	public void save(JComponent options) {
@@ -180,6 +178,6 @@ extends AbstractOptionPane
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

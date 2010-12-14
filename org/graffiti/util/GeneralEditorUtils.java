@@ -26,28 +26,27 @@ public class GeneralEditorUtils {
 	 * Searches if the given Attributable already contains a LabelAttribute.
 	 * If yes, its value is set to the given String. If not, a new label
 	 * attribute is instantiated and its value set to the given value.
-	 *
-	 * @param ge graphelement
-	 * @param val new label string
+	 * 
+	 * @param ge
+	 *           graphelement
+	 * @param val
+	 *           new label string
 	 */
-	public static void setLabel(GraphElement ge, String val)
-	{
-		LabelAttribute labelAttr = (LabelAttribute)GeneralUtils
-		.searchForAttribute(ge.getAttribute(""), LabelAttribute.class);
+	public static void setLabel(GraphElement ge, String val) {
+		LabelAttribute labelAttr = (LabelAttribute) GeneralUtils
+							.searchForAttribute(ge.getAttribute(""), LabelAttribute.class);
 
-		if(labelAttr != null)
-		{
+		if (labelAttr != null) {
 			labelAttr.setLabel(val);
-		}
-		else
-		{ // no label found
+		} else { // no label found
 			if (ge instanceof Node) {
 				labelAttr = new NodeLabelAttribute("label");
-			} else if (ge instanceof Edge) {
-				labelAttr = new EdgeLabelAttribute("label");
-			} else {
-				throw new RuntimeException("Label can only be assigned to nodes or edges!");
-			}
+			} else
+				if (ge instanceof Edge) {
+					labelAttr = new EdgeLabelAttribute("label");
+				} else {
+					throw new RuntimeException("Label can only be assigned to nodes or edges!");
+				}
 			labelAttr.setLabel(val);
 			ge.addAttribute(labelAttr, "");
 		}
@@ -55,13 +54,15 @@ public class GeneralEditorUtils {
 
 	/**
 	 * Draws a rectangle on the given graphics context.
-	 *
-	 * @param comp context to draw upon
-	 * @param p1 first corner of the rectangle
-	 * @param p2 second corner of the rectangle
+	 * 
+	 * @param comp
+	 *           context to draw upon
+	 * @param p1
+	 *           first corner of the rectangle
+	 * @param p2
+	 *           second corner of the rectangle
 	 */
-	public static void paintSelectionRectangle(JComponent comp, Point2D p1, Point2D p2)
-	{
+	public static void paintSelectionRectangle(JComponent comp, Point2D p1, Point2D p2) {
 		int tlx;
 		int tly;
 		int w;

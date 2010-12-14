@@ -1,37 +1,36 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ConstraintCheckerListener.java
+// ConstraintCheckerListener.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ConstraintCheckerListener.java,v 1.2 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: ConstraintCheckerListener.java,v 1.3 2010/12/14 07:02:13 morla Exp $
 
 /*
- * $Id: ConstraintCheckerListener.java,v 1.2 2010/07/19 14:05:43 morla Exp $
+ * $Id: ConstraintCheckerListener.java,v 1.3 2010/12/14 07:02:13 morla Exp $
  */
 package org.graffiti.session;
 
 /**
- * Defines a listener to the <code>GraphConstraintChecker</code>. The method
- * <code>checkFailed</code> is called every time the
+ * Defines a listener to the <code>GraphConstraintChecker</code>. The method <code>checkFailed</code> is called every time the
  * <code>GraphConstraintChecker</code> finds an unsatisfied constraint.
- *
+ * 
  * @see GraphConstraintChecker
  */
-public interface ConstraintCheckerListener
-{
-	//~ Methods ================================================================
+public interface ConstraintCheckerListener {
+	// ~ Methods ================================================================
 
 	/**
 	 * Handles the message received by the constraint checker indicating an
 	 * unsatisfied constraint.
-	 *
-	 * @param msg the message telling about the unsatisfied constraint.
+	 * 
+	 * @param msg
+	 *           the message telling about the unsatisfied constraint.
 	 */
 	public void checkFailed(String msg);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

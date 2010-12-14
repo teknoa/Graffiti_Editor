@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditUndoAction.java
+// EditUndoAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditUndoAction.java,v 1.8 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: EditUndoAction.java,v 1.9 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,12 +22,12 @@ import org.graffiti.session.EditorSession;
 
 /**
  * Special class for undo capabilities.
- *
- * @version $Revision: 1.8 $
+ * 
+ * @version $Revision: 1.9 $
  */
 public class EditUndoAction
-extends GraffitiAction {
-	//~ Constructors ===========================================================
+					extends GraffitiAction {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -36,15 +36,16 @@ extends GraffitiAction {
 
 	/**
 	 * Creates a new EditUndoAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public EditUndoAction(MainFrame mainFrame) {
 		super("edit.undo", mainFrame, "editmenu_undo");
 		enabled = false;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
@@ -65,18 +66,19 @@ extends GraffitiAction {
 	/**
 	 * <b>Implementation Note:</b> The status of the GUIComponents has to be
 	 * updated after actionPerformed was executed.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
 	public void actionPerformed(ActionEvent e) {
 		try {
 			mainFrame.getActiveEditorSession().getUndoManager().undo();
 			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
 			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
-		} catch(CannotUndoException cue) {
+		} catch (CannotUndoException cue) {
 			MainFrame.showMessageDialog("<html>" +
-					"Can't undo command!<br>" +
-					"Error cause: " + cue.getMessage(), "Error");
+								"Can't undo command!<br>" +
+								"Error cause: " + cue.getMessage(), "Error");
 		}
 		mainFrame.updateActions();
 	}
@@ -90,7 +92,7 @@ extends GraffitiAction {
 			EditorSession session = mainFrame.getActiveEditorSession();
 			UndoManager um = session.getUndoManager();
 			setEnabled(um.canUndo());
-			//           System.out.println("Session: "+session);
+			// System.out.println("Session: "+session);
 			putValue(NAME, StringManipulationTools.removeHTMLtags(um.getUndoPresentationName()));
 			putValue(SHORT_DESCRIPTION, StringManipulationTools.removeHTMLtags(um.getUndoPresentationName()));
 		} else {
@@ -100,10 +102,10 @@ extends GraffitiAction {
 		}
 
 		putValue(SMALL_ICON,
-				iBundle.getImageIcon("toolbar." + getName() + ".icon"));
+							iBundle.getImageIcon("toolbar." + getName() + ".icon"));
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

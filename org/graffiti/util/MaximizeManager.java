@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   MaximizeManager.java
+// MaximizeManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: MaximizeManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: MaximizeManager.java,v 1.4 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.util;
 
@@ -31,32 +31,28 @@ import javax.swing.event.InternalFrameEvent;
 import org.graffiti.core.ImageBundle;
 
 /**
- * Manages a desktop containing {@link org.graffiti.util.MaximizeFrame}s or
- * {@link javax.swing.JInternalFrame} with a {@link
- * org.graffiti.util.MaximizeLayout}. If the selected internal frame is
- * maximized, its toolbar buttons are displayed in an associated {@link
- * javax.swing.JMenuBar}, because the original buttons are hidden by
+ * Manages a desktop containing {@link org.graffiti.util.MaximizeFrame}s or {@link javax.swing.JInternalFrame} with a {@link org.graffiti.util.MaximizeLayout}.
+ * If the selected internal frame is
+ * maximized, its toolbar buttons are displayed in an associated {@link javax.swing.JMenuBar}, because the original buttons are hidden by
  * MaximizeLayout. To use this class simply instantiate an object with the
  * corresponding desktop and menuBar and use MaximizeFrame instead of
  * JInternalFrame. Use the {@link MaximizeManager#dispose()} method to stop
  * displaying the buttons.
- *
+ * 
  * @author Michael Forster
- * @version $Revision: 1.3 $ $Date: 2010/07/19 14:05:42 $
- *
+ * @version $Revision: 1.4 $ $Date: 2010/12/14 07:02:12 $
  * @see org.graffiti.util.MaximizeFrame
  * @see org.graffiti.util.MaximizeLayout
  */
 public class MaximizeManager
-extends InternalFrameAdapter
-implements ActionListener, ComponentListener, ContainerListener
-{
-	//~ Static fields/initializers =============================================
+					extends InternalFrameAdapter
+					implements ActionListener, ComponentListener, ContainerListener {
+	// ~ Static fields/initializers =============================================
 
 	/** The logger for the current class. */
 	private static final Logger logger = Logger.getLogger(MaximizeManager.class.getName());
 
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	/** Empty space in the menuBar to make the buttons aligned to the right */
 	private Component menuBarGlue;
@@ -64,7 +60,7 @@ implements ActionListener, ComponentListener, ContainerListener
 	/** The menuBar button to close maximized internal frames */
 	private JButton closeButton;
 
-	/** The menuBar button to iconify maximized  internal frames */
+	/** The menuBar button to iconify maximized internal frames */
 	private JButton iconifyButton;
 
 	/** The menuBar button to restore maximized internal frames */
@@ -82,67 +78,63 @@ implements ActionListener, ComponentListener, ContainerListener
 	 */
 	private boolean menuBarInitialized = false;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new MaximizeManager object and associates it to a desktop and
 	 * a menu bar.
-	 *
-	 * @param desktop The associated desktop
-	 * @param menuBar The associated menuBar
+	 * 
+	 * @param desktop
+	 *           The associated desktop
+	 * @param menuBar
+	 *           The associated menuBar
 	 */
-	public MaximizeManager(JDesktopPane desktop, JMenuBar menuBar)
-	{
+	public MaximizeManager(JDesktopPane desktop, JMenuBar menuBar) {
 		this.desktop = desktop;
 		this.menuBar = menuBar;
 
 		desktop.addContainerListener(this);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
-	public void actionPerformed(ActionEvent event)
-	{
-		try
-		{
+	public void actionPerformed(ActionEvent event) {
+		try {
 			JInternalFrame selectedFrame = desktop.getSelectedFrame();
 
-			if(selectedFrame != null)
-			{
-				if(event.getSource() == restoreButton)
+			if (selectedFrame != null) {
+				if (event.getSource() == restoreButton)
 					selectedFrame.setMaximum(false);
-				else if(event.getSource() == iconifyButton)
-					selectedFrame.setIcon(true);
-				else if(event.getSource() == closeButton)
-					selectedFrame.setClosed(true);
+				else
+					if (event.getSource() == iconifyButton)
+						selectedFrame.setIcon(true);
+					else
+						if (event.getSource() == closeButton)
+							selectedFrame.setClosed(true);
 			}
 
 			updateButtons();
-		}
-		catch(PropertyVetoException e)
-		{
+		} catch (PropertyVetoException e) {
 			// ignore: this should not happen, and if it does, we cannot do
 			// anything about it.
 			logger.log(Level.WARNING,
-					"unexpected exception while pressing internal frame button", e);
+								"unexpected exception while pressing internal frame button", e);
 		}
 	}
 
 	/*
 	 * @see java.awt.event.ContainerListener#componentAdded(java.awt.event.ContainerEvent)
 	 */
-	public void componentAdded(ContainerEvent e)
-	{
-		if(!menuBarInitialized)
+	public void componentAdded(ContainerEvent e) {
+		if (!menuBarInitialized)
 			initMenuBar();
 
 		Component child = e.getChild();
 
-		if(child instanceof JInternalFrame)
-		{
+		if (child instanceof JInternalFrame) {
 			JInternalFrame frame = (JInternalFrame) child;
 			frame.addInternalFrameListener(this);
 			frame.addComponentListener(this);
@@ -152,26 +144,22 @@ implements ActionListener, ComponentListener, ContainerListener
 	/*
 	 * @see java.awt.event.ComponentListener#componentHidden(java.awt.event.ComponentEvent)
 	 */
-	public void componentHidden(ComponentEvent e)
-	{
+	public void componentHidden(ComponentEvent e) {
 	}
 
 	/*
 	 * @see java.awt.event.ComponentListener#componentMoved(java.awt.event.ComponentEvent)
 	 */
-	public void componentMoved(ComponentEvent e)
-	{
+	public void componentMoved(ComponentEvent e) {
 	}
 
 	/*
 	 * @see java.awt.event.ContainerListener#componentRemoved(java.awt.event.ContainerEvent)
 	 */
-	public void componentRemoved(ContainerEvent e)
-	{
+	public void componentRemoved(ContainerEvent e) {
 		Component child = e.getChild();
 
-		if(child instanceof JInternalFrame)
-		{
+		if (child instanceof JInternalFrame) {
 			JInternalFrame frame = (JInternalFrame) child;
 			frame.removeInternalFrameListener(this);
 			frame.removeComponentListener(this);
@@ -183,46 +171,39 @@ implements ActionListener, ComponentListener, ContainerListener
 	/*
 	 * @see java.awt.event.ComponentListener#componentResized(java.awt.event.ComponentEvent)
 	 */
-	public void componentResized(ComponentEvent e)
-	{
+	public void componentResized(ComponentEvent e) {
 		updateButtons();
 	}
 
 	/*
 	 * @see java.awt.event.ComponentListener#componentShown(java.awt.event.ComponentEvent)
 	 */
-	public void componentShown(ComponentEvent e)
-	{
+	public void componentShown(ComponentEvent e) {
 	}
 
 	/**
 	 * Remove the buttons from the menu bar, remove all listeners and therefore
 	 * make this object eligible for garbage collection.
 	 */
-	public void dispose()
-	{
-		if(menuBarGlue != null)
-		{
+	public void dispose() {
+		if (menuBarGlue != null) {
 			menuBar.remove(menuBarGlue);
 			menuBarGlue = null;
 		}
 
-		if(iconifyButton != null)
-		{
+		if (iconifyButton != null) {
 			menuBar.remove(iconifyButton);
 			iconifyButton.removeActionListener(this);
 			iconifyButton = null;
 		}
 
-		if(restoreButton != null)
-		{
+		if (restoreButton != null) {
 			menuBar.remove(restoreButton);
 			restoreButton.removeActionListener(this);
 			restoreButton = null;
 		}
 
-		if(closeButton != null)
-		{
+		if (closeButton != null) {
 			menuBar.remove(closeButton);
 			closeButton.removeActionListener(this);
 			closeButton = null;
@@ -235,8 +216,7 @@ implements ActionListener, ComponentListener, ContainerListener
 	 * @see javax.swing.event.InternalFrameListener#internalFrameActivated(javax.swing.event.InternalFrameEvent)
 	 */
 	@Override
-	public void internalFrameActivated(InternalFrameEvent e)
-	{
+	public void internalFrameActivated(InternalFrameEvent e) {
 		updateButtons();
 	}
 
@@ -244,36 +224,33 @@ implements ActionListener, ComponentListener, ContainerListener
 	 * @see javax.swing.event.InternalFrameListener#internalFrameDeiconified(javax.swing.event.InternalFrameEvent)
 	 */
 	@Override
-	public void internalFrameDeiconified(InternalFrameEvent e)
-	{
+	public void internalFrameDeiconified(InternalFrameEvent e) {
 		updateButtons();
 	}
 
 	/**
 	 * Add the buttons to the associated menu bar.
 	 */
-	private void initMenuBar()
-	{
-		if(menuBar != null)
-		{
+	private void initMenuBar() {
+		if (menuBar != null) {
 			menuBarGlue = menuBar.add(Box.createHorizontalGlue());
 
 			ImageBundle iBundle = ImageBundle.getInstance();
 
 			iconifyButton = new JButton(iBundle.getImageIcon(
-			"internalFrame.iconify"));
+								"internalFrame.iconify"));
 			iconifyButton.setBorder(null);
 			iconifyButton.addActionListener(this);
 			menuBar.add(iconifyButton);
 
 			restoreButton = new JButton(iBundle.getImageIcon(
-			"internalFrame.restore"));
+								"internalFrame.restore"));
 			restoreButton.setBorder(null);
 			restoreButton.addActionListener(this);
 			menuBar.add(restoreButton);
 
 			closeButton = new JButton(iBundle.getImageIcon(
-			"internalFrame.close"));
+								"internalFrame.close"));
 			closeButton.setBorder(null);
 			closeButton.addActionListener(this);
 			menuBar.add(closeButton);
@@ -288,8 +265,7 @@ implements ActionListener, ComponentListener, ContainerListener
 	 * Hide or restore the menu bar buttons depending on the currently selected
 	 * frame.
 	 */
-	private void updateButtons()
-	{
+	private void updateButtons() {
 		JInternalFrame frame = desktop.getSelectedFrame();
 
 		boolean maximized = (frame != null) && frame.isMaximum();
@@ -300,6 +276,6 @@ implements ActionListener, ComponentListener, ContainerListener
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

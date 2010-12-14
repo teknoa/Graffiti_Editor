@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditorPlugin.java
+// EditorPlugin.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditorPlugin.java,v 1.6 2010/07/19 14:05:44 morla Exp $
+// ==============================================================================
+// $Id: EditorPlugin.java,v 1.7 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin;
 
@@ -21,14 +21,13 @@ import org.graffiti.plugin.view.GraffitiShape;
  *
  */
 public interface EditorPlugin
-extends GenericPlugin
-{
-	//~ Methods ================================================================
+					extends GenericPlugin {
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns a mapping between attribute paths and attributeComponent
 	 * classes.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public Map<?, ?> getAttributeComponents();
@@ -36,7 +35,7 @@ extends GenericPlugin
 	/**
 	 * Returns the array of <code>GraffitiComponent</code>s the plugin
 	 * contains.
-	 *
+	 * 
 	 * @return the array of <code>GraffitiComponent</code>s the plugin
 	 *         contains.
 	 */
@@ -45,19 +44,17 @@ extends GenericPlugin
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 * plugin contains.
-	 *
+	 * 
 	 * @return the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 *         plugin contains.
 	 */
 	public Mode[] getModes();
 
 	/**
-	 * Returns the array of
-	 * <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
+	 * Returns the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 * contains.
-	 *
-	 * @return the array of
-	 *         <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
+	 * 
+	 * @return the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 *         contains.
 	 */
 	public GraffitiShape[] getShapes();
@@ -65,7 +62,7 @@ extends GenericPlugin
 	/**
 	 * Returns an array of <code>org.graffiti.plugin.mode.Tool</code>s the
 	 * plugin provides.
-	 *
+	 * 
 	 * @return an array of tools the plugin provides.
 	 */
 	public Tool[] getTools();
@@ -73,7 +70,7 @@ extends GenericPlugin
 	/**
 	 * Returns a mapping between attribute classnames and attributeComponent
 	 * classes.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	@SuppressWarnings("unchecked")
@@ -82,6 +79,6 @@ extends GenericPlugin
 	public InspectorTab[] getInspectorTabs();
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

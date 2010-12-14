@@ -1,29 +1,28 @@
-//==============================================================================
+// ==============================================================================
 //
-//   SessionListener.java
+// SessionListener.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: SessionListener.java,v 1.2 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: SessionListener.java,v 1.3 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.session;
 
 /**
  * Interface for all who want to be noticed when the session changes.
- *
- * @version $Revision: 1.2 $
- *
+ * 
+ * @version $Revision: 1.3 $
  * @see org.graffiti.session.Session
  */
-public interface SessionListener
-{
-	//~ Methods ================================================================
+public interface SessionListener {
+	// ~ Methods ================================================================
 
 	/**
 	 * This method is called when the session changes.
-	 *
-	 * @param s the new Session.
+	 * 
+	 * @param s
+	 *           the new Session.
 	 */
 	public void sessionChanged(Session s);
 
@@ -33,6 +32,6 @@ public interface SessionListener
 	public void sessionDataChanged(Session s);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

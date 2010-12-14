@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiInternalFrame.java
+// GraffitiInternalFrame.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiFrame.java,v 1.18 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: GraffitiFrame.java,v 1.19 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -32,19 +32,17 @@ import org.graffiti.plugin.view.CustomFullscreenView;
 import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
-
 /**
- * A specialized internal frame for the graffiti editor. A
- * <code>GraffitiInternalFrame</code> is always resizable, closeable,
+ * A specialized internal frame for the graffiti editor. A <code>GraffitiInternalFrame</code> is always resizable, closeable,
  * maximizable and iconifyable.
- *
+ * 
  * @see javax.swing.JInternalFrame
  * @see MainFrame
  */
 public class GraffitiFrame
-extends JFrame //MaximizeFrame
+					extends JFrame // MaximizeFrame
 {
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	private static final long serialVersionUID = 1L;
 
@@ -58,13 +56,12 @@ extends JFrame //MaximizeFrame
 
 	private String initTitle;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>GraffitiInternalFrame</code>.
 	 */
-	public GraffitiFrame(final org.graffiti.editor.GraffitiInternalFrame internalFrame, boolean fullscreen)
-	{
+	public GraffitiFrame(final org.graffiti.editor.GraffitiInternalFrame internalFrame, boolean fullscreen) {
 		super();
 		// Ensure that however the window is closed, it actually causes this
 		// detach() method to be fired instead.
@@ -94,15 +91,19 @@ extends JFrame //MaximizeFrame
 			}
 		});
 
-		if(fullscreen) {
+		if (fullscreen) {
 			this.setUndecorated(true);
-			//			setAlwaysOnTop(true);
+			// setAlwaysOnTop(true);
 			this.addKeyListener(new KeyListener() {
-				public void keyTyped(KeyEvent e) {}
-				public void keyReleased(KeyEvent e) {}
+				public void keyTyped(KeyEvent e) {
+				}
+
+				public void keyReleased(KeyEvent e) {
+				}
+
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
-						//    				fullscreenenabled1.setSelected(false);
+						// fullscreenenabled1.setSelected(false);
 						detachOrAttachActiveFrame(false);
 					}
 				}
@@ -146,36 +147,29 @@ extends JFrame //MaximizeFrame
 
 	}
 
-
-
-	//~ Methods ================================================================
-
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the session this frame is opened in.
-	 *
+	 * 
 	 * @return the session this frame is opened in.
 	 */
-	public EditorSession getSession()
-	{
+	public EditorSession getSession() {
 		return session;
 	}
 
 	/**
 	 * Returns the view of this frame.
-	 *
+	 * 
 	 * @return the view of this frame.
 	 */
-	public View getView()
-	{
+	public View getView() {
 		return view;
 	}
-
 
 	public int getFrameNumber() {
 		return frameNumber;
 	}
-
 
 	public String getInitTitle() {
 		return initTitle;
@@ -191,36 +185,34 @@ extends JFrame //MaximizeFrame
 	public static void detachOrAttachActiveFrame(boolean fullscreen) {
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
 		View view = es.getActiveView();
-		if (view instanceof CustomFullscreenView){
-			CustomFullscreenView cv = (CustomFullscreenView)view;
+		if (view instanceof CustomFullscreenView) {
+			CustomFullscreenView cv = (CustomFullscreenView) view;
 			cv.switchFullscreenViewMode(!cv.isInFullscreen());
 		} else {
 			try {
 				GraffitiInternalFrame gif = (GraffitiInternalFrame)
-				ErrorMsg.findParentComponent(
-						view.getViewComponent(),
-						GraffitiInternalFrame.class);
-				if (gif!=null) {
+									ErrorMsg.findParentComponent(
+														view.getViewComponent(),
+														GraffitiInternalFrame.class);
+				if (gif != null) {
 					MainFrame.getInstance().createExternalFrame(
-							view.getClass().getCanonicalName(), es, true,fullscreen);
+										view.getClass().getCanonicalName(), es, true, fullscreen);
 					gif.doDefaultCloseAction();
 				} else {
 					GraffitiFrame gf = (GraffitiFrame)
-					ErrorMsg.findParentComponent(
-							view.getViewComponent(),
-							GraffitiFrame.class);
+										ErrorMsg.findParentComponent(
+															view.getViewComponent(),
+															GraffitiFrame.class);
 					gf.setVisible(false);
 					gf.dispose();
 					MainFrame.getInstance().createInternalFrame(
-							view.getClass().getCanonicalName(), es, true);
+										view.getClass().getCanonicalName(), es, true);
 				}
-			} catch(Exception err) {
+			} catch (Exception err) {
 				ErrorMsg.addErrorMessage(err);
 			}
 		}
 	}
-
-
 
 	/**
 	 * @param editorSessionOfTargetGraph
@@ -232,6 +224,6 @@ extends JFrame //MaximizeFrame
 
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

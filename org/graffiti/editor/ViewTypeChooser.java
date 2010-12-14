@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ViewTypeChooser.java
+// ViewTypeChooser.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ViewTypeChooser.java,v 1.6 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ViewTypeChooser.java,v 1.7 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -45,16 +45,15 @@ import org.graffiti.core.StringBundle;
 
 /**
  * DOCUMENT ME!
- *
- * @version $Revision: 1.6 $
+ * 
+ * @version $Revision: 1.7 $
  */
 public class ViewTypeChooser
-extends JDialog
-implements ListSelectionListener, ActionListener, MouseListener,
-WindowListener
-{
+					extends JDialog
+					implements ListSelectionListener, ActionListener, MouseListener,
+					WindowListener {
 	private static final long serialVersionUID = 1L;
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	/** The <code>ImageBundle</code> of the view type chooser. */
 	protected ImageBundle iBundle = ImageBundle.getInstance();
@@ -82,18 +81,20 @@ WindowListener
 
 	private boolean internalFrame = true;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new view type chooser, which is needed if there are several
 	 * view types available.
-	 *
-	 * @param parent the parent of this dialog.
-	 * @param title the title of this dialog.
-	 * @param views the array of views to be displayed in the list.
+	 * 
+	 * @param parent
+	 *           the parent of this dialog.
+	 * @param title
+	 *           the title of this dialog.
+	 * @param views
+	 *           the array of views to be displayed in the list.
 	 */
-	public ViewTypeChooser(Frame parent, String title, String[] views)
-	{
+	public ViewTypeChooser(Frame parent, String title, String[] views) {
 		super(parent, true);
 
 		this.setTitle(title);
@@ -124,15 +125,16 @@ WindowListener
 		frameCheckbox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				internalFrame = frameCheckbox.isSelected();
-			}});
+			}
+		});
 
 		getContentPane().add(FolderPanel.getBorderedComponent(description, 5, 5, 5, 5), BorderLayout.NORTH);
 		getContentPane().add(FolderPanel.getBorderedComponent(scrolledList, 5, 5, 0, 5), BorderLayout.CENTER);
 		getContentPane().add(
-				TableLayout.getSplitVertical(
-						frameCheckbox,
-						buttonsPanel,
-						TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED), BorderLayout.SOUTH);
+							TableLayout.getSplitVertical(
+												frameCheckbox,
+												buttonsPanel,
+												TableLayoutConstants.PREFERRED, TableLayoutConstants.PREFERRED), BorderLayout.SOUTH);
 
 		ok.setEnabled(false);
 
@@ -147,25 +149,23 @@ WindowListener
 		pack();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns true, if the list is empty.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isEmpty()
-	{
+	public boolean isEmpty() {
 		return list.getModel().getSize() == 0;
 	}
 
 	/**
 	 * Returns the index of the selected view in the list.
-	 *
+	 * 
 	 * @return the index of the selected view in the list.
 	 */
-	public int getSelectedView()
-	{
+	public int getSelectedView() {
 		return selectedView;
 	}
 
@@ -176,38 +176,33 @@ WindowListener
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		Object src = e.getSource();
 
-		if(src == cancel)
-		{
+		if (src == cancel) {
 			setVisible(false);
 			dispose();
-		}
-		else if(src == ok)
-		{
-			okSelected();
-		}
+		} else
+			if (src == ok) {
+				okSelected();
+			}
 	}
 
 	/**
 	 * Updates the ok button.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void checkEnableOK(ListSelectionEvent e)
-	{
+	public void checkEnableOK(ListSelectionEvent e) {
 		ok.setEnabled(list.getSelectedIndex() != -1);
 	}
 
 	/**
 	 * @see java.awt.event.MouseListener#mouseClicked(MouseEvent)
 	 */
-	public void mouseClicked(MouseEvent e)
-	{
-		if(e.getClickCount() == 2)
-		{
+	public void mouseClicked(MouseEvent e) {
+		if (e.getClickCount() == 2) {
 			okSelected();
 		}
 	}
@@ -215,40 +210,35 @@ WindowListener
 	/**
 	 * @see java.awt.event.MouseListener#mouseEntered(MouseEvent)
 	 */
-	public void mouseEntered(MouseEvent e)
-	{
+	public void mouseEntered(MouseEvent e) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.MouseListener#mouseExited(MouseEvent)
 	 */
-	public void mouseExited(MouseEvent e)
-	{
+	public void mouseExited(MouseEvent e) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.MouseListener#mousePressed(MouseEvent)
 	 */
-	public void mousePressed(MouseEvent e)
-	{
+	public void mousePressed(MouseEvent e) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.MouseListener#mouseReleased(MouseEvent)
 	 */
-	public void mouseReleased(MouseEvent e)
-	{
+	public void mouseReleased(MouseEvent e) {
 		// do nothing
 	}
 
 	/**
 	 * Called, if ok is selected.
 	 */
-	public void okSelected()
-	{
+	public void okSelected() {
 		selectedView = list.getSelectedIndex();
 		setVisible(false);
 		dispose();
@@ -257,72 +247,63 @@ WindowListener
 	/**
 	 * @see javax.swing.event.ListSelectionListener#valueChanged(ListSelectionEvent)
 	 */
-	public void valueChanged(ListSelectionEvent e)
-	{
+	public void valueChanged(ListSelectionEvent e) {
 		checkEnableOK(e);
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowActivated(WindowEvent)
 	 */
-	public void windowActivated(WindowEvent arg0)
-	{
+	public void windowActivated(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowClosed(WindowEvent)
 	 */
-	public void windowClosed(WindowEvent arg0)
-	{
+	public void windowClosed(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowClosing(WindowEvent)
 	 */
-	public void windowClosing(WindowEvent arg0)
-	{
+	public void windowClosing(WindowEvent arg0) {
 
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowDeactivated(WindowEvent)
 	 */
-	public void windowDeactivated(WindowEvent arg0)
-	{
+	public void windowDeactivated(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowDeiconified(WindowEvent)
 	 */
-	public void windowDeiconified(WindowEvent arg0)
-	{
+	public void windowDeiconified(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowIconified(WindowEvent)
 	 */
-	public void windowIconified(WindowEvent arg0)
-	{
+	public void windowIconified(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * @see java.awt.event.WindowListener#windowOpened(WindowEvent)
 	 */
-	public void windowOpened(WindowEvent arg0)
-	{
+	public void windowOpened(WindowEvent arg0) {
 		// do nothing
 	}
 
 	/**
 	 * Adds the listeners to the dialog.
 	 */
-	private void addListeners()
-	{
+	private void addListeners() {
 		cancel.addActionListener(this);
 		ok.addActionListener(this);
 		list.addMouseListener(this);
@@ -330,17 +311,16 @@ WindowListener
 		addWindowListener(this);
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
 	 * Renders the view names for their displaying without class path.
-	 *
-	 * @version $Revision: 1.6 $
+	 * 
+	 * @version $Revision: 1.7 $
 	 */
 	class NameListCellRenderer
-	extends JLabel
-	implements ListCellRenderer
-	{
+						extends JLabel
+						implements ListCellRenderer {
 		private static final long serialVersionUID = -2436438479759062017L;
 
 		/** DOCUMENT ME! */
@@ -352,56 +332,52 @@ WindowListener
 		/**
 		 * Creates a new NameListCellRenderer object.
 		 */
-		public NameListCellRenderer()
-		{
+		public NameListCellRenderer() {
 			setOpaque(true);
 		}
 
 		/**
 		 * Return a component that has been configured to display the view name
 		 * without class path. That component's <code>paint</code> method is
-		 * then  called to "render" the cell.
-		 *
-		 * @param list The JList we're painting.
-		 * @param value The value returned by
-		 *        list.getModel().getElementAt(index).
-		 * @param index The cells index.
-		 * @param isSelected True if the specified cell was selected.
-		 * @param cellHasFocus True if the specified cell has the focus.
-		 *
+		 * then called to "render" the cell.
+		 * 
+		 * @param list
+		 *           The JList we're painting.
+		 * @param value
+		 *           The value returned by
+		 *           list.getModel().getElementAt(index).
+		 * @param index
+		 *           The cells index.
+		 * @param isSelected
+		 *           True if the specified cell was selected.
+		 * @param cellHasFocus
+		 *           True if the specified cell has the focus.
 		 * @return A component whose paint() method will render the view name.
 		 */
 		public Component getListCellRendererComponent(JList list, Object value,
-				int index, boolean isSelected, boolean cellHasFocus)
-		{
+							int index, boolean isSelected, boolean cellHasFocus) {
 			ListModel model = list.getModel();
 
 			String viewName = (String) model.getElementAt(index);
 			String lastName = "";
 
-			if(!viewName.equals(""))
-			{
+			if (!viewName.equals("")) {
 				int i = viewName.lastIndexOf('.');
 
-				if((i >= 0) && (i < viewName.length()))
-				{
+				if ((i >= 0) && (i < viewName.length())) {
 					lastName = viewName.substring(i + 1);
-				}
-				else if(i == -1)
-				{
-					lastName = viewName;
-				}
+				} else
+					if (i == -1) {
+						lastName = viewName;
+					}
 			}
 
 			setText(lastName);
 
-			if(isSelected)
-			{
+			if (isSelected) {
 				setForeground(list.getSelectionForeground());
 				setBackground(list.getSelectionBackground());
-			}
-			else
-			{
+			} else {
 				setForeground(list.getForeground());
 				setBackground(list.getBackground());
 			}
@@ -413,6 +389,6 @@ WindowListener
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

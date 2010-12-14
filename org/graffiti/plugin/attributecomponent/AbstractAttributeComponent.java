@@ -1,14 +1,14 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractAttributeComponent.java
+// AbstractAttributeComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.7 2010/07/19 14:05:44 morla Exp $
+// ==============================================================================
+// $Id: AbstractAttributeComponent.java,v 1.8 2010/12/14 07:02:14 morla Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.7 2010/07/19 14:05:44 morla Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.8 2010/12/14 07:02:14 morla Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
@@ -23,14 +23,13 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public abstract class AbstractAttributeComponent
-extends AttributeComponent
-implements GraffitiViewComponent
-{
-	//~ Instance fields ========================================================
+					extends AttributeComponent
+					implements GraffitiViewComponent {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -46,86 +45,82 @@ implements GraffitiViewComponent
 	/** DOCUMENT ME! */
 	protected Point shift;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Instantiates an <code>AttributeComponent</code>
 	 */
-	public AbstractAttributeComponent()
-	{
+	public AbstractAttributeComponent() {
 		super();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Sets an instance of attribute which this component displays.
-	 *
+	 * 
 	 * @param attr
 	 */
 	@Override
-	public void setAttribute(Attribute attr)
-	{
+	public void setAttribute(Attribute attr) {
 		this.attr = attr;
 	}
 
 	/**
 	 * Returns the attribute that is displayed by this component.
-	 *
+	 * 
 	 * @return the attribute that is displayed by this component.
 	 */
 	@Override
-	public Attribute getAttribute()
-	{
+	public Attribute getAttribute() {
 		return this.attr;
 	}
 
 	/**
 	 * Sets shape of graph element to which the attribute of this component
 	 * belongs.
-	 *
+	 * 
 	 * @param geShape
 	 */
 	@Override
-	public void setGraphElementShape(GraphElementShape geShape)
-	{
+	public void setGraphElementShape(GraphElementShape geShape) {
 		this.geShape = geShape;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param shift DOCUMENT ME!
+	 * 
+	 * @param shift
+	 *           DOCUMENT ME!
 	 */
 	@Override
-	public void setShift(Point shift)
-	{
+	public void setShift(Point shift) {
 		this.shift = shift;
 	}
 
 	/**
 	 * Called when a graphics attribute of the attribute represented by this
 	 * component has changed.
-	 *
-	 * @param attr the attribute that has triggered the event.
+	 * 
+	 * @param attr
+	 *           the attribute that has triggered the event.
 	 */
 	@Override
 	public abstract void attributeChanged(Attribute attr)
-	throws ShapeNotFoundException;
+						throws ShapeNotFoundException;
 
 	/**
 	 * Called to initialise the component of this attribute correctly. Also
 	 * calls <code>repaint()</code>.
-	 *
-	 * @exception ShapeNotFoundException thrown when the shapeclass couldn't be
-	 *            resolved.
+	 * 
+	 * @exception ShapeNotFoundException
+	 *               thrown when the shapeclass couldn't be
+	 *               resolved.
 	 */
 	public void createNewShape(CoordinateSystem coordSys)
-	throws ShapeNotFoundException
-	{
+						throws ShapeNotFoundException {
 		this.recreate();
 	}
-
 
 	/**
 	 * Used when the shape changed in the datastructure. Makes the painter to
@@ -133,9 +128,9 @@ implements GraffitiViewComponent
 	 */
 	@Override
 	public abstract void recreate()
-	throws ShapeNotFoundException;
+						throws ShapeNotFoundException;
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

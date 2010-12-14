@@ -1,6 +1,5 @@
 /*
  * Created on 24.11.2004
- *
  */
 package org.graffiti.editor.actions;
 
@@ -13,7 +12,6 @@ import java.io.IOException;
 
 import org.ErrorMsg;
 import org.HelperClass;
-
 
 public class ClipboardService implements HelperClass {
 
@@ -29,7 +27,7 @@ public class ClipboardService implements HelperClass {
 		} catch (Exception e) {
 			ErrorMsg.addErrorMessage(e);
 		}
-		if (clipboardContents==null)
+		if (clipboardContents == null)
 			return null;
 		if (clipboardContents.isDataFlavorSupported(DataFlavor.stringFlavor))
 			try {
@@ -39,7 +37,7 @@ public class ClipboardService implements HelperClass {
 			} catch (IOException e) {
 				ErrorMsg.addErrorMessage(e);
 			}
-			return null;
+		return null;
 	}
 
 	private static java.awt.datatransfer.Clipboard getSystemClipboard() {

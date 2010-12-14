@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiAction.java
+// GraffitiAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiAction.java,v 1.7 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: GraffitiAction.java,v 1.8 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -23,12 +23,12 @@ import org.graffiti.help.HelpContext;
 
 /**
  * Represents the basic action in the graffiti system.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public abstract class GraffitiAction
-extends AbstractAction {
-	//~ Instance fields ========================================================
+					extends AbstractAction {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -51,13 +51,15 @@ extends AbstractAction {
 	/** The <code>StringBundle</code> instance. */
 	protected StringBundle sBundle = StringBundle.getInstance();
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new GraffitiAction from the given name.
-	 *
-	 * @param name the name for the action
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param name
+	 *           the name for the action
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public GraffitiAction(String name, MainFrame mainFrame, String helpID) {
 		super(name);
@@ -76,7 +78,7 @@ extends AbstractAction {
 				break;
 			}
 		}
-		if (ka!=null) {
+		if (ka != null) {
 			ka.actionPerformed(null);
 			return true;
 		} else
@@ -84,17 +86,17 @@ extends AbstractAction {
 	}
 
 	protected Graph getGraph() {
-		if (mainFrame==null || mainFrame.getActiveSession()==null)
+		if (mainFrame == null || mainFrame.getActiveSession() == null)
 			return null;
 		else
 			return mainFrame.getActiveSession().getGraph();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns <code>true</code>, if this action is enabled.
-	 *
+	 * 
 	 * @return <code>true</code>, if this action is enabled.
 	 */
 	@Override
@@ -102,7 +104,7 @@ extends AbstractAction {
 
 	/**
 	 * Returns the help context for this action.
-	 *
+	 * 
 	 * @return the help context for this action.
 	 */
 	public HelpContext getHelpContext() {
@@ -117,14 +119,14 @@ extends AbstractAction {
 		// needs to be called once with opposite value, so that menu items and buttons
 		// are correctly informed about the new state, otherwise optimization kicks in
 		// and buttons and menu items are not informed about call to this method
-		if (isEnabled()==enableNow)
+		if (isEnabled() == enableNow)
 			super.setEnabled(!enableNow);
 		super.setEnabled(enableNow);
 	}
 
 	/**
 	 * Returns the abstract name of the action.
-	 *
+	 * 
 	 * @return the abstract name of the action.
 	 */
 	public String getName() {
@@ -132,8 +134,7 @@ extends AbstractAction {
 	}
 
 	/**
-	 * Updates the state of the action.  Calls:
-	 * <code>setEnabled(isEnabled());</code>.
+	 * Updates the state of the action. Calls: <code>setEnabled(isEnabled());</code>.
 	 */
 	public void update() {
 		setEnabled(isEnabled());
@@ -141,24 +142,26 @@ extends AbstractAction {
 
 	/**
 	 * Shows an error in a modal dialog box.
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
 	protected void showError(String msg) {
 		JOptionPane.showMessageDialog(mainFrame, msg,
-				StringBundle.getInstance().getString("message.dialog.title"),
-				JOptionPane.ERROR_MESSAGE);
+							StringBundle.getInstance().getString("message.dialog.title"),
+							JOptionPane.ERROR_MESSAGE);
 	}
 
 	/**
 	 * Shows a warning in a modal dialog box.
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
 	protected void showWarning(String msg) {
 		JOptionPane.showMessageDialog(mainFrame, msg,
-				StringBundle.getInstance().getString("message.dialog.title"),
-				JOptionPane.WARNING_MESSAGE);
+							StringBundle.getInstance().getString("message.dialog.title"),
+							JOptionPane.WARNING_MESSAGE);
 	}
 
 	public static void updateAllActions() {
@@ -172,6 +175,6 @@ extends AbstractAction {
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

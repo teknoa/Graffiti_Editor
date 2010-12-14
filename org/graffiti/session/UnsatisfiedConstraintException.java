@@ -1,24 +1,23 @@
-//==============================================================================
+// ==============================================================================
 //
-//   UnsatisfiedConstraintException.java
+// UnsatisfiedConstraintException.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: UnsatisfiedConstraintException.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: UnsatisfiedConstraintException.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.session;
 
 /**
  * An <code>UnsatisfiedConstraintException</code> is thrown when a constraint
  * to a graph is not satisfied.
- *
+ * 
  * @see java.lang.Exception
  */
 public class UnsatisfiedConstraintException
-extends Exception
-{
-	//~ Constructors ===========================================================
+					extends Exception {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -26,26 +25,24 @@ extends Exception
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>UnsatisfiedConstraintException</code> with
-	 * <code>null</code> as its detail message.
+	 * Constructs a new <code>UnsatisfiedConstraintException</code> with <code>null</code> as its detail message.
 	 */
-	public UnsatisfiedConstraintException()
-	{
+	public UnsatisfiedConstraintException() {
 		super();
 	}
 
 	/**
 	 * Constructs a new <code>UnsatisfiedConstraintException</code> with the
 	 * specifiecd detail message.
-	 *
-	 * @param msg DOCUMENT ME!
+	 * 
+	 * @param msg
+	 *           DOCUMENT ME!
 	 */
-	public UnsatisfiedConstraintException(String msg)
-	{
+	public UnsatisfiedConstraintException(String msg) {
 		super(msg);
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

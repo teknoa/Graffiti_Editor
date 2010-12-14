@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EdgeBorder.java
+// EdgeBorder.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EdgeBorder.java,v 1.4 2010/07/19 14:05:44 morla Exp $
+// ==============================================================================
+// $Id: EdgeBorder.java,v 1.5 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -27,13 +27,12 @@ import org.graffiti.plugin.view.GraphElementShape;
 
 /**
  * DOCUMENT ME!
- *
- * @version $Revision: 1.4 $ Provides a border used to mark selected nodes.
+ * 
+ * @version $Revision: 1.5 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
-extends AbstractBorder
-{
-	//~ Instance fields ========================================================
+					extends AbstractBorder {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -50,56 +49,56 @@ extends AbstractBorder
 	protected int bulletSize;
 
 	/** DOCUMENT ME! */
-	//    private final AffineTransform IDENTITY = new AffineTransform();
+	// private final AffineTransform IDENTITY = new AffineTransform();
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
-	//	/**
-	//	 * Edge to mark.
-	//	 */
-	//	protected Edge edge;
-	//	/**
-	//	 * Collection of bends.
-	//	 */
-	//	protected SortedCollectionAttribute bends;
+	// /**
+	// * Edge to mark.
+	// */
+	// protected Edge edge;
+	// /**
+	// * Collection of bends.
+	// */
+	// protected SortedCollectionAttribute bends;
 
 	/**
 	 * Constructor for NodeBorder.
-	 *
-	 * @param color DOCUMENT ME!
-	 * @param size DOCUMENT ME!
-	 * @param showBends DOCUMENT ME!
+	 * 
+	 * @param color
+	 *           DOCUMENT ME!
+	 * @param size
+	 *           DOCUMENT ME!
+	 * @param showBends
+	 *           DOCUMENT ME!
 	 */
 
-	//	public EdgeBorder(Color color, int size, Edge edge) {
-	public EdgeBorder(Color color, int size, boolean showBends)
-	{
+	// public EdgeBorder(Color color, int size, Edge edge) {
+	public EdgeBorder(Color color, int size, boolean showBends) {
 		super();
 		this.color = color;
 		this.bulletSize = size;
 		this.showBends = showBends;
 
-		//		this.edge = edge;
-		//		this.bends = (SortedCollectionAttribute)edge.getAttribute
-		//			(GraphicAttributeConstants.GRAPHICS +
-		//			 Attribute.SEPARATOR + GraphicAttributeConstants.BENDS);
+		// this.edge = edge;
+		// this.bends = (SortedCollectionAttribute)edge.getAttribute
+		// (GraphicAttributeConstants.GRAPHICS +
+		// Attribute.SEPARATOR + GraphicAttributeConstants.BENDS);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Sets the insets to the value of <code>width</code>.
-	 *
-	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component,
-	 *      java.awt.Insets)
+	 * 
+	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component, java.awt.Insets)
 	 */
 	@Override
-	public Insets getBorderInsets(Component c, Insets insets)
-	{
-		//		insets.top = this.borderWidth;
-		//		insets.left = this.borderWidth;
-		//		insets.bottom = this.borderWidth;
-		//		insets.right = this.borderWidth;
+	public Insets getBorderInsets(Component c, Insets insets) {
+		// insets.top = this.borderWidth;
+		// insets.left = this.borderWidth;
+		// insets.bottom = this.borderWidth;
+		// insets.right = this.borderWidth;
 		Rectangle bounds = c.getBounds();
 		insets.top = bounds.height;
 		insets.left = bounds.width;
@@ -113,38 +112,40 @@ extends AbstractBorder
 	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
 	 */
 	@Override
-	public Insets getBorderInsets(Component c)
-	{
+	public Insets getBorderInsets(Component c) {
 		return getBorderInsets(c, new Insets(0, 0, 0, 0));
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return true.
-	 *
-	 * @see javax.swing.border.AbstractBorder#isBorderOpaque()  Returns true.
+	 * @see javax.swing.border.AbstractBorder#isBorderOpaque() Returns true.
 	 */
 	@Override
-	public boolean isBorderOpaque()
-	{
+	public boolean isBorderOpaque() {
 		return true;
 	}
 
 	/**
 	 * Paints the border.
-	 *
-	 * @param c DOCUMENT ME!
-	 * @param g DOCUMENT ME!
-	 * @param bx DOCUMENT ME!
-	 * @param by DOCUMENT ME!
-	 * @param width DOCUMENT ME!
-	 * @param height DOCUMENT ME!
+	 * 
+	 * @param c
+	 *           DOCUMENT ME!
+	 * @param g
+	 *           DOCUMENT ME!
+	 * @param bx
+	 *           DOCUMENT ME!
+	 * @param by
+	 *           DOCUMENT ME!
+	 * @param width
+	 *           DOCUMENT ME!
+	 * @param height
+	 *           DOCUMENT ME!
 	 */
 	@Override
 	public void paintBorder(Component c, Graphics g, int bx, int by, int width,
-			int height)
-	{
+						int height) {
 		double bulletSizeHalf = bulletSize / 2d;
 
 		Graphics cg;
@@ -152,39 +153,35 @@ extends AbstractBorder
 		cg.translate(bx, by);
 		cg.setColor(this.color);
 
-		if(showBends)
-		{
+		if (showBends) {
 			Color lightColor = this.color.darker().darker();
 			cg.setColor(lightColor);
 
 			int bendBulletSize = (int) (bulletSize / 2d);
 
-			if(bendBulletSize == 0)
-			{
+			if (bendBulletSize == 0) {
 				bendBulletSize = 1;
 			}
 
 			SortedCollectionAttribute bends = (SortedCollectionAttribute) ((EdgeComponentInterface) c).getGraphElement()
-			.getAttribute(GraphicAttributeConstants.BENDS_PATH);
+								.getAttribute(GraphicAttributeConstants.BENDS_PATH);
 
-			for(Iterator<?> it = bends.getCollection().values().iterator();
-			it.hasNext();)
-			{
+			for (Iterator<?> it = bends.getCollection().values().iterator(); it.hasNext();) {
 				CoordinateAttribute bendCoord = (CoordinateAttribute) it.next();
 
-				//                cg.setClip(0, 0, width, height);
-				//			cg.fillOval((int)bendCoord.getX()-(c.getBounds().x),
-						//						(int)bendCoord.getY()-(c.getBounds().y),
-						//						2*bulletSize, 2*bulletSize);
+				// cg.setClip(0, 0, width, height);
+				// cg.fillOval((int)bendCoord.getX()-(c.getBounds().x),
+				// (int)bendCoord.getY()-(c.getBounds().y),
+				// 2*bulletSize, 2*bulletSize);
 				cg.fillOval((int) (bendCoord.getX() - c.getX() -
-						(bendBulletSize / 2d)),
-						(int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
-						bendBulletSize, bendBulletSize);
+									(bendBulletSize / 2d)),
+									(int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
+									bendBulletSize, bendBulletSize);
 
-				//                cg.fillOval((int) (bendCoord.getX() - c.getX() -
-				//                    (bendBulletSize / 2d)),
-				//                    (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
-				//                    bendBulletSize, bendBulletSize);
+				// cg.fillOval((int) (bendCoord.getX() - c.getX() -
+				// (bendBulletSize / 2d)),
+				// (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
+				// bendBulletSize, bendBulletSize);
 			}
 
 			cg.setColor(this.color);
@@ -192,33 +189,30 @@ extends AbstractBorder
 
 		GraphElementShape grShape = ((EdgeComponentInterface) c).getShape();
 
-		//GeneralPath grPath = new GeneralPath(grShape);
+		// GeneralPath grPath = new GeneralPath(grShape);
 		PathIterator pi = grShape.getPathIterator(null);
 		double[] seg = new double[6];
 		int type;
 		double x = 0;
 		double y = 0;
 
-		try
-		{
+		try {
 			type = pi.currentSegment(seg);
 			x = seg[0];
 			y = seg[1];
 			cg.fillRect((int) (x - bulletSizeHalf), (int) (y - bulletSizeHalf),
-					bulletSize, bulletSize);
+								bulletSize, bulletSize);
 
-			//			cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
-			while(!pi.isDone())
-			{
+			// cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
+			while (!pi.isDone()) {
 				pi.next();
 				type = pi.currentSegment(seg);
 
-				switch(type)
-				{
+				switch (type) {
 					case java.awt.geom.PathIterator.SEG_MOVETO:
 
-						//		            	x = seg[0];
-						//		                y = seg[1];
+						// x = seg[0];
+						// y = seg[1];
 						break;
 
 					case java.awt.geom.PathIterator.SEG_LINETO:
@@ -240,19 +234,17 @@ extends AbstractBorder
 						break;
 				}
 
-				//		            cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
+				// cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
 				cg.fillRect((int) (x - bulletSizeHalf),
-						(int) (y - bulletSizeHalf), bulletSize, bulletSize);
+									(int) (y - bulletSizeHalf), bulletSize, bulletSize);
 			}
-		}
-		catch(java.util.NoSuchElementException e)
-		{
+		} catch (java.util.NoSuchElementException e) {
 		}
 
 		cg.dispose();
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

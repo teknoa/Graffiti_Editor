@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractValueEditComponent.java
+// AbstractValueEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractValueEditComponent.java,v 1.5 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractValueEditComponent.java,v 1.6 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -17,13 +17,12 @@ import org.graffiti.plugin.Displayable;
 /**
  * The class <code>AbstractValueEditComponent</code> provides some generic
  * implementation for <code>ValueEditComponent</code>s.
- *
+ * 
  * @see ValueEditComponent
  */
 public abstract class AbstractValueEditComponent
-extends ValueEditComponentAdapter
-{
-	//~ Instance fields ========================================================
+					extends ValueEditComponentAdapter {
+	// ~ Instance fields ========================================================
 
 	/** The field to edit the value of the displayable. */
 	protected JComponent editField;
@@ -34,68 +33,60 @@ extends ValueEditComponentAdapter
 	 */
 	public boolean showEmpty = false;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
-	protected AbstractValueEditComponent()
-	{
+	protected AbstractValueEditComponent() {
 		this(null);
 	}
 
 	/**
 	 * Constructs a new <code>AbstractValueEditComponent</code>.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	protected AbstractValueEditComponent(Displayable disp)
-	{
+	protected AbstractValueEditComponent(Displayable disp) {
 		super(disp);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Sets the displayable.
-	 *
+	 * 
 	 * @param disp
 	 */
-	public void setDisplayable(Displayable disp)
-	{
+	public void setDisplayable(Displayable disp) {
 		this.displayable = disp;
 	}
 
 	/**
-	 * Returns the <code>Attribute</code> instance the current
-	 * <code>ValueEditComponent</code> contains.
-	 *
-	 * @return the <code>Attribute</code> instance the current
-	 *         <code>ValueEditComponent</code> contains.
+	 * Returns the <code>Attribute</code> instance the current <code>ValueEditComponent</code> contains.
+	 * 
+	 * @return the <code>Attribute</code> instance the current <code>ValueEditComponent</code> contains.
 	 */
-	public Displayable getDisplayable()
-	{
+	public Displayable getDisplayable() {
 		return this.displayable;
 	}
 
 	/*
 	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#setEnabled(boolean)
 	 */
-	public void setEnabled(boolean enabled)
-	{
+	public void setEnabled(boolean enabled) {
 		getComponent().setEnabled(enabled);
 	}
 
 	/*
 	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#isEnabled()
 	 */
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return getComponent().isEnabled();
 	}
 
 	/*
 	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#setShowEmpty(boolean)
 	 */
-	public void setShowEmpty(boolean showEmpty)
-	{
+	public void setShowEmpty(boolean showEmpty) {
 		this.showEmpty = showEmpty;
 		setEditFieldValue();
 	}
@@ -103,78 +94,76 @@ extends ValueEditComponentAdapter
 	/**
 	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#getShowEmpty()
 	 */
-	public boolean getShowEmpty()
-	{
+	public boolean getShowEmpty() {
 		return this.showEmpty;
 	}
 
 	/**
 	 * Called after a change of an displayable took place.
-	 *
-	 * @param e the AttributeEvent detailing the changes.
+	 * 
+	 * @param e
+	 *           the AttributeEvent detailing the changes.
 	 */
 	@Override
-	public void postAttributeChanged(AttributeEvent e)
-	{
-		if(e.getAttribute().equals(this.displayable))
-		{
+	public void postAttributeChanged(AttributeEvent e) {
+		if (e.getAttribute().equals(this.displayable)) {
 			setEditFieldValue();
 		}
 	}
 
 	/**
 	 * Called before a change of an displayable takes place.
-	 *
-	 * @param e the AttributeEvent detailing the changes.
+	 * 
+	 * @param e
+	 *           the AttributeEvent detailing the changes.
 	 */
 	@Override
-	public void preAttributeChanged(AttributeEvent e)
-	{
+	public void preAttributeChanged(AttributeEvent e) {
 	}
 
-	//    /**
-	//     * Called just before an displayable is added.
-	//     *
-	//     * @param e the AttributeEvent detailing the changes.
-	//     */
-	//    public void preAttributeAdded(AttributeEvent e) {}
+	// /**
+	// * Called just before an displayable is added.
+	// *
+	// * @param e the AttributeEvent detailing the changes.
+	// */
+	// public void preAttributeAdded(AttributeEvent e) {}
 	//
-	//    /**
-	//     * Called just before an displayable is removed.
-	//     *
-	//     * @param e the AttributeEvent detailing the changes.
-	//     */
-	//    public void preAttributeRemoved(AttributeEvent e) {}
+	// /**
+	// * Called just before an displayable is removed.
+	// *
+	// * @param e the AttributeEvent detailing the changes.
+	// */
+	// public void preAttributeRemoved(AttributeEvent e) {}
 	//
-	//    /**
-	//     * Called just before an displayable is removed.
-	//     *
-	//     * @param e the AttributeEvent detailing the changes.
-	//     */
-	//    public void postAttributeRemoved(AttributeEvent e) {}
+	// /**
+	// * Called just before an displayable is removed.
+	// *
+	// * @param e the AttributeEvent detailing the changes.
+	// */
+	// public void postAttributeRemoved(AttributeEvent e) {}
 	//
-	//    /**
-	//     * Called if a transaction got started.
-	//     *
-	//     * @param t the transaction event.
-	//     */
-	//    public void transactionStarted(TransactionEvent t) {}
+	// /**
+	// * Called if a transaction got started.
+	// *
+	// * @param t the transaction event.
+	// */
+	// public void transactionStarted(TransactionEvent t) {}
 	//
-	//    /**
-	//     * Called if a transaction got finished.
-	//     *
-	//     * @param t the transaction event.
-	//     */
-	//    public void transactionFinished(TransactionEvent t) {}
+	// /**
+	// * Called if a transaction got finished.
+	// *
+	// * @param t the transaction event.
+	// */
+	// public void transactionFinished(TransactionEvent t) {}
 	//
-	//    /**
-	//     * Called after an displayable as been added.
-	//     *
-	//     * @param e the AttributeEvent detailing changes.
-	//     */
-	//    public void postAttributeAdded(AttributeEvent e) {}
+	// /**
+	// * Called after an displayable as been added.
+	// *
+	// * @param e the AttributeEvent detailing changes.
+	// */
+	// public void postAttributeAdded(AttributeEvent e) {}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

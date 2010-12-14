@@ -1,24 +1,23 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractGraffitiContainer.java
+// AbstractGraffitiContainer.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractGraffitiContainer.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractGraffitiContainer.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.gui;
 
 /**
  * Abstract class for default containers.
- *
- * @version $Revision: 1.3 $
+ * 
+ * @version $Revision: 1.4 $
  */
 public abstract class AbstractGraffitiContainer
-extends AbstractGraffitiComponent
-implements GraffitiContainer
-{
-	//~ Instance fields ========================================================
+					extends AbstractGraffitiComponent
+					implements GraffitiContainer {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -27,41 +26,40 @@ implements GraffitiContainer
 	/** The id of the <code>AbstractGraffitiContainer</code>. */
 	protected String id;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>AbstractGraffitiContainer</code>.
 	 */
-	protected AbstractGraffitiContainer()
-	{
+	protected AbstractGraffitiContainer() {
 		super();
 	}
 
 	/**
 	 * Constructs a new <code>AbstractGraffitiContainer</code>.
-	 *
-	 * @param id DOCUMENT ME!
-	 * @param prefComp DOCUMENT ME!
+	 * 
+	 * @param id
+	 *           DOCUMENT ME!
+	 * @param prefComp
+	 *           DOCUMENT ME!
 	 */
-	protected AbstractGraffitiContainer(String id, String prefComp)
-	{
+	protected AbstractGraffitiContainer(String id, String prefComp) {
 		super(prefComp);
 		this.id = id;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns an unique identifier for this <code>GraffitiContainer</code>.
-	 *
+	 * 
 	 * @return an unique identifier for this <code>GraffitiContainer</code>.
 	 */
-	public String getId()
-	{
+	public String getId() {
 		return this.id;
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

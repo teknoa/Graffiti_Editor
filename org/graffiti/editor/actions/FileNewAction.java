@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   FileNewAction.java
+// FileNewAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: FileNewAction.java,v 1.7 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: FileNewAction.java,v 1.8 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -19,13 +19,12 @@ import org.graffiti.session.EditorSession;
 
 /**
  * The action for a new graph.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public class FileNewAction
-extends GraffitiAction
-{
-	//~ Instance fields ========================================================
+					extends GraffitiAction {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -34,28 +33,28 @@ extends GraffitiAction
 	/** DOCUMENT ME! */
 	private ViewManager viewManager;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new FileNewAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
-	 * @param viewManager DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
+	 * @param viewManager
+	 *           DOCUMENT ME!
 	 */
-	public FileNewAction(MainFrame mainFrame, ViewManager viewManager)
-	{
+	public FileNewAction(MainFrame mainFrame, ViewManager viewManager) {
 		super("file.new", mainFrame, "filemenu_new");
 		this.viewManager = viewManager;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return viewManager.hasViews();
 	}
 
@@ -63,26 +62,22 @@ extends GraffitiAction
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		String dv = mainFrame.getDefaultView();
 
-		if(dv != null)
-		{
+		if (dv != null) {
 			mainFrame.createInternalFrame(dv, "", false, false);
-		}
-		else
-		{
+		} else {
 			mainFrame.showViewChooserDialog(new EditorSession(), false, e);
 		}
 
@@ -92,6 +87,6 @@ extends GraffitiAction
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractThreadSaveLayoutAlgorithm.java
+// AbstractThreadSaveLayoutAlgorithm.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.4 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.5 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -19,9 +19,8 @@ import org.graffiti.graphics.GraphicAttributeConstants;
  * Basis for Thread Safe (layout) Plugins and communication to the MainFrame
  */
 public abstract class AbstractThreadSaveLayoutAlgorithm
-extends AbstractAlgorithm
-{
-	//~ Instance fields ========================================================
+					extends AbstractAlgorithm {
+	// ~ Instance fields ========================================================
 
 	/** DOCUMENT ME! */
 	protected boolean redrawNeeded = false;
@@ -38,49 +37,42 @@ extends AbstractAlgorithm
 	/** DOCUMENT ME! */
 	private NodePosition[] nodePos; // cache for nodepositions
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Sets or gets a Parameter Threadsafe for the Algorithm.
-	 *
-	 * @param getParam If true, parameter with index "index" is returned,  if
-	 *        false, the parameter is set (stored).
-	 * @param index Index of Parameter to set or get
-	 * @param setValue Object to store, if getParam is false
-	 *
+	 * 
+	 * @param getParam
+	 *           If true, parameter with index "index" is returned, if
+	 *           false, the parameter is set (stored).
+	 * @param index
+	 *           Index of Parameter to set or get
+	 * @param setValue
+	 *           Object to store, if getParam is false
 	 * @return Desired Parameter object or Paramter that was just stored.
 	 */
 	public synchronized Object getOrSetParam(boolean getParam, int index,
-			Object setValue)
-	{
-		if(paramObjects == null)
-		{
+						Object setValue) {
+		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
 
-		if(getParam)
-		{
-			try
-			{
+		if (getParam) {
+			try {
 				return paramObjects.get(index);
-			}
-			catch(Exception e)
-			{
+			} catch (Exception e) {
 				return null;
 			}
-		}
-		else
-		{
+		} else {
 			threadSettingsChanged = true;
 
-			if(paramObjects.size() <= index)
-			{
+			if (paramObjects.size() <= index) {
 				paramObjects.setSize(index + 1);
 			}
 
 			paramObjects.setElementAt(setValue, index);
 
-			//paramObjects.add(index, setValue);
+			// paramObjects.add(index, setValue);
 			return setValue;
 		}
 	}
@@ -89,35 +81,33 @@ extends AbstractAlgorithm
 	 * Stores a node position (from the layout thread) or sets the node
 	 * position of a node to a stored position (from the FrameMain thread).
 	 * For synchronizing only one method stores or sets coordinates.
-	 *
-	 * @param setAllNodePositions If true all Nodepositions are actually
-	 *        modified.
-	 * @param index Index of node
-	 * @param n Node which should be modified or node that corespondends to the
-	 *        given coordinates.
-	 * @param x Node position (X) for storage.
-	 * @param y Node position (Y) for storage.
+	 * 
+	 * @param setAllNodePositions
+	 *           If true all Nodepositions are actually
+	 *           modified.
+	 * @param index
+	 *           Index of node
+	 * @param n
+	 *           Node which should be modified or node that corespondends to the
+	 *           given coordinates.
+	 * @param x
+	 *           Node position (X) for storage.
+	 * @param y
+	 *           Node position (Y) for storage.
 	 */
 	public synchronized void storeOrSetNodePosition(
-			boolean setAllNodePositions, int index, Node n, double x, double y)
-	{
-		try
-		{
-			if(nodePos == null)
-			{
+						boolean setAllNodePositions, int index, Node n, double x, double y) {
+		try {
+			if (nodePos == null) {
 				nodePos = new NodePosition[0];
 			}
 
-			if(setAllNodePositions)
-			{
-				if(redrawNeeded)
-				{
+			if (setAllNodePositions) {
+				if (redrawNeeded) {
 					redrawNeeded = false;
 
-					for(int i = 0; i < nodePos.length; i++)
-					{
-						if(nodePos[i] != null)
-						{
+					for (int i = 0; i < nodePos.length; i++) {
+						if (nodePos[i] != null) {
 							NodePosition np = nodePos[i];
 							CoordinateAttribute cn = (CoordinateAttribute) np.n.getAttribute(GraphicAttributeConstants.COORD_PATH);
 
@@ -126,11 +116,8 @@ extends AbstractAlgorithm
 						}
 					}
 				}
-			}
-			else
-			{
-				if((nodePos == null) || (index >= nodePos.length))
-				{
+			} else {
+				if ((nodePos == null) || (index >= nodePos.length)) {
 					// Enlarge nodePos array
 					NodePosition[] nodePosNew = new NodePosition[index + 1];
 
@@ -141,15 +128,13 @@ extends AbstractAlgorithm
 				nodePos[index] = new NodePosition(n, x, y);
 				redrawNeeded = true;
 			}
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			System.err.println("Exception while updating node positions.");
 			System.err.println("Error is ignored.");
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

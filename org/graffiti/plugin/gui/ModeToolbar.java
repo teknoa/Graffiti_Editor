@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ModeToolbar.java
+// ModeToolbar.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ModeToolbar.java,v 1.5 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: ModeToolbar.java,v 1.6 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -19,18 +19,15 @@ import org.graffiti.plugin.tool.AbstractTool;
 import org.graffiti.plugin.tool.Tool;
 
 /**
- * This toolbar is designed to be used as a representation of
- * <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
+ * This toolbar is designed to be used as a representation of <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
  * special way.
- *
- * @version $Revision: 1.5 $
- *
+ * 
+ * @version $Revision: 1.6 $
  * @see org.graffiti.plugin.mode.Mode
  */
 public class ModeToolbar
-extends GraffitiToolbar
-{
-	//~ Constructors ===========================================================
+					extends GraffitiToolbar {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -42,11 +39,11 @@ extends GraffitiToolbar
 	 * of the mode. Tools can be added to the mode represented by this toolbar
 	 * by adding their ToolButtons to this toolbar. The orientation is set to
 	 * vertical by default.
-	 *
-	 * @param m the mode this toolbar represents.
+	 * 
+	 * @param m
+	 *           the mode this toolbar represents.
 	 */
-	public ModeToolbar(Mode m)
-	{
+	public ModeToolbar(Mode m) {
 		super(m.getId());
 		this.setOrientation(SwingConstants.VERTICAL);
 	}
@@ -54,38 +51,37 @@ extends GraffitiToolbar
 	/**
 	 * Constructor that sets the id of this toolbar to the name of the given
 	 * mode and the orientation to the given value.
-	 *
-	 * @param m the mode this toolbar represents.
-	 * @param orientation the orientation of this toolbar.
+	 * 
+	 * @param m
+	 *           the mode this toolbar represents.
+	 * @param orientation
+	 *           the orientation of this toolbar.
 	 */
-	public ModeToolbar(Mode m, int orientation)
-	{
+	public ModeToolbar(Mode m, int orientation) {
 		super(m.getId());
 		this.setOrientation(orientation);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the tool that is selected in this ModeToolbar's button group.
-	 *
+	 * 
 	 * @return the tool that is selected in this ModeToolbar's button group.
 	 */
-	public Tool getActiveTool()
-	{
+	public Tool getActiveTool() {
 		return AbstractTool.getActiveTool();
 	}
 
 	/**
 	 * Returns the tools that are represented by buttons in this toolbar.
-	 *
+	 * 
 	 * @return the tools that are represented by buttons in this toolbar.
 	 */
-	public Tool[] getTools()
-	{
+	public Tool[] getTools() {
 		Component[] c = getComponents();
 		LinkedList<Tool> ll = new LinkedList<Tool>();
-		for (int i=0; i<c.length; i++) {
+		for (int i = 0; i < c.length; i++) {
 			if (c[i] instanceof ToolButton) {
 				ToolButton tb = (ToolButton) c[i];
 				ll.add(tb.getTool());
@@ -95,37 +91,31 @@ extends GraffitiToolbar
 	}
 
 	/**
-	 * This function add the specified component to this toolbar.  Additionaly,
+	 * This function add the specified component to this toolbar. Additionaly,
 	 * if the component is of type <code>ToolButton</code> it is also added to
-	 * the button group this toolbar contains. If the component is no
-	 * <code>ToolButton</code> it is added to the  end, else it is added at
+	 * the button group this toolbar contains. If the component is no <code>ToolButton</code> it is added to the end, else it is added at
 	 * the end of the <code>ToolButtons</code> already added.
-	 *
-	 * @param comp the component to be added.
-	 *
+	 * 
+	 * @param comp
+	 *           the component to be added.
 	 * @return the component <code>comp</code>.
-	 *
 	 * @see java.awt.Container#add(Component)
 	 */
 	@Override
-	public Component add(Component comp)
-	{
-		if(comp instanceof ToolButton)
-		{
+	public Component add(Component comp) {
+		if (comp instanceof ToolButton) {
 			ToolButton.addKnownModeToolBar(this);
 			return super.add(comp);
-		}
-		else
-		{
+		} else {
 			return super.add(comp);
 		}
 	}
 
-	///////////////////////////////////////////////////
-	//// TODO: overwriting the other add() methods ////
-	///////////////////////////////////////////////////
+	// /////////////////////////////////////////////////
+	// // TODO: overwriting the other add() methods ////
+	// /////////////////////////////////////////////////
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

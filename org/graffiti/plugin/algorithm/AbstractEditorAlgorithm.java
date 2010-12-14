@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractEditorAlgorithm.java
+// AbstractEditorAlgorithm.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.8 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractEditorAlgorithm.java,v 1.9 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -16,16 +16,14 @@ import org.graffiti.editor.dialog.ParameterDialog;
 import org.graffiti.selection.Selection;
 
 public abstract class AbstractEditorAlgorithm
-extends AbstractAlgorithm
-implements EditorAlgorithm
-{
-	//~ Methods ================================================================
+					extends AbstractAlgorithm
+					implements EditorAlgorithm {
+	// ~ Methods ================================================================
 
 	/*
 	 * @see org.graffiti.plugin.algorithm.EditorAlgorithm#getParameterDialog(org.graffiti.selection.Selection)
 	 */
-	public ParameterDialog getParameterDialog(Selection s)
-	{
+	public ParameterDialog getParameterDialog(Selection s) {
 		return null;
 	}
 
@@ -40,7 +38,7 @@ implements EditorAlgorithm
 	/**
 	 * Returns the icon of the algorithm (used, e.g. in the menu bar).
 	 * Icon is only shown if showMenuIcon returns true.
-	 *
+	 * 
 	 * @return The icon of the algorithm or null if the plugin icon should be used.
 	 */
 	public ImageIcon getIcon() {
@@ -48,6 +46,6 @@ implements EditorAlgorithm
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

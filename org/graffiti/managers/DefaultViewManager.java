@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DefaultViewManager.java
+// DefaultViewManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DefaultViewManager.java,v 1.9 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: DefaultViewManager.java,v 1.10 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -23,13 +23,12 @@ import org.graffiti.util.InstanceLoader;
 
 /**
  * Manages a list of view types.
- *
- * @version $Revision: 1.9 $
+ * 
+ * @version $Revision: 1.10 $
  */
 public class DefaultViewManager
-implements ViewManager
-{
-	//~ Instance fields ========================================================
+					implements ViewManager {
+	// ~ Instance fields ========================================================
 
 	/** Contains the list of listeners. */
 	private LinkedHashSet<ViewManagerListener> listeners;
@@ -40,50 +39,45 @@ implements ViewManager
 	/** Contains the class names of the available views. */
 	private Set<String> views;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new view manager.
 	 */
-	public DefaultViewManager()
-	{
+	public DefaultViewManager() {
 		views = new TreeSet<String>();
 		listeners = new LinkedHashSet<ViewManagerListener>();
 		viewListeners = new LinkedHashSet<ViewListener>();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#getViewNames()
 	 */
-	public String[] getViewNames()
-	{
+	public String[] getViewNames() {
 		Object[] names = views.toArray();
 		String[] stringNames = new String[names.length];
 
-		for(int i = 0; i < stringNames.length; i++)
-		{
+		for (int i = 0; i < stringNames.length; i++) {
 			stringNames[i] = (String) names[i];
 		}
 
 		return stringNames;
 	}
 
-	public String[] getViewDescriptions()
-	{
+	public String[] getViewDescriptions() {
 		Object[] names = views.toArray();
 		String[] stringNames = new String[names.length];
 
-		for(int i = 0; i < stringNames.length; i++)
-		{
+		for (int i = 0; i < stringNames.length; i++) {
 			View v;
 			try {
-				v = createView((String)names[i]);
+				v = createView((String) names[i]);
 				stringNames[i] = v.getViewName();
 				v.close();
 			} catch (InstanceCreationException e) {
-				stringNames[i] = (String) names[i] +" (invalid)";
+				stringNames[i] = (String) names[i] + " (invalid)";
 			}
 			// stringNames[i] = (String) names[i];
 		}
@@ -94,16 +88,14 @@ implements ViewManager
 	/*
 	 * @see org.graffiti.managers.ViewManager#addListener(org.graffiti.managers.ViewManager.ViewManagerListener)
 	 */
-	public void addListener(ViewManagerListener viewManagerListener)
-	{
+	public void addListener(ViewManagerListener viewManagerListener) {
 		listeners.add(viewManagerListener);
 	}
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#addView(java.lang.String)
 	 */
-	public void addView(String viewType)
-	{
+	public void addView(String viewType) {
 		views.add(viewType);
 		// logger.info("new view registered: " + viewType);
 
@@ -113,18 +105,15 @@ implements ViewManager
 	/*
 	 * @see org.graffiti.managers.ViewManager#addViewListener(org.graffiti.plugin.view.ViewListener)
 	 */
-	public void addViewListener(ViewListener viewListener)
-	{
+	public void addViewListener(ViewListener viewListener) {
 		viewListeners.add(viewListener);
 	}
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#addViews(java.lang.String[])
 	 */
-	public void addViews(String[] views)
-	{
-		for(int i = 0; i < views.length; i++)
-		{
+	public void addViews(String[] views) {
+		for (int i = 0; i < views.length; i++) {
 			addView(views[i]);
 		}
 	}
@@ -133,51 +122,46 @@ implements ViewManager
 	 * @see org.graffiti.managers.ViewManager#createView(java.lang.String)
 	 */
 	public View createView(String name)
-	throws InstanceCreationException
-	{
+						throws InstanceCreationException {
 		return (View) InstanceLoader.createInstance(name);
 	}
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#hasViews()
 	 */
-	public boolean hasViews()
-	{
+	public boolean hasViews() {
 		return !views.isEmpty();
 	}
 
 	/*
-	 * @see org.graffiti.managers.pluginmgr.PluginManagerListener#pluginAdded(org.graffiti.plugin.GenericPlugin, org.graffiti.managers.pluginmgr.PluginDescription)
+	 * @see org.graffiti.managers.pluginmgr.PluginManagerListener#pluginAdded(org.graffiti.plugin.GenericPlugin,
+	 * org.graffiti.managers.pluginmgr.PluginDescription)
 	 */
-	public void pluginAdded(GenericPlugin plugin, PluginDescription desc)
-	{
+	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
 		addViews(plugin.getViews());
-		if (plugin.getDefaultView()!=null)
+		if (plugin.getDefaultView() != null)
 			setDefaultView(plugin.getDefaultView());
 	}
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#removeListener(org.graffiti.managers.ViewManager.ViewManagerListener)
 	 */
-	public boolean removeListener(ViewManagerListener l)
-	{
+	public boolean removeListener(ViewManagerListener l) {
 		return listeners.remove(l);
 	}
 
 	/*
 	 * @see org.graffiti.managers.ViewManager#removeViewListener(org.graffiti.plugin.view.ViewListener)
 	 */
-	public boolean removeViewListener(ViewListener l)
-	{
+	public boolean removeViewListener(ViewListener l) {
 		return viewListeners.remove(l);
 	}
 
 	/*
 	 * @see org.graffiti.plugin.view.ViewListener#viewChanged(org.graffiti.plugin.view.View)
 	 */
-	public void viewChanged(View newView)
-	{
-		for(ViewListener vl : viewListeners) {
+	public void viewChanged(View newView) {
+		for (ViewListener vl : viewListeners) {
 			vl.viewChanged(newView);
 		}
 	}
@@ -185,19 +169,19 @@ implements ViewManager
 	/**
 	 * Informs all view manager listeners, that the given view type is
 	 * available.
-	 *
-	 * @param viewType the new view type.
+	 * 
+	 * @param viewType
+	 *           the new view type.
 	 */
-	private void fireViewTypeAdded(String viewType)
-	{
-		for(Iterator<ViewManagerListener> i = listeners.iterator(); i.hasNext();)
-		{
+	private void fireViewTypeAdded(String viewType) {
+		for (Iterator<ViewManagerListener> i = listeners.iterator(); i.hasNext();) {
 			ViewManagerListener l = i.next();
 			l.viewTypeAdded(viewType);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.managers.ViewManager#removeViews()
 	 */
 	public void removeViews() {
@@ -215,6 +199,6 @@ implements ViewManager
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

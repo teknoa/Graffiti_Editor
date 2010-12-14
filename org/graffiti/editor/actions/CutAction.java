@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   CutAction.java
+// CutAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: CutAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: CutAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -29,11 +29,11 @@ import org.graffiti.selection.Selection;
 
 /**
  * Represents a cut of graph elements action.
- *
- * @version $Revision: 1.4 $
+ * 
+ * @version $Revision: 1.5 $
  */
 public class CutAction extends SelectionAction {
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -42,18 +42,19 @@ public class CutAction extends SelectionAction {
 
 	/**
 	 * Constructs a new cut action.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public CutAction(MainFrame mainFrame) {
 		super("edit.cut", mainFrame);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the help context for the action.
-	 *
+	 * 
 	 * @return HelpContext, the help context for the action
 	 */
 	@Override
@@ -63,8 +64,9 @@ public class CutAction extends SelectionAction {
 
 	/**
 	 * Executes this action.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
@@ -80,7 +82,7 @@ public class CutAction extends SelectionAction {
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-			if (selection.getNodes().size()>0) {
+			if (selection.getNodes().size() > 0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
 				for (org.graffiti.graph.Node n : selection.getNodes())
@@ -117,22 +119,23 @@ public class CutAction extends SelectionAction {
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
-	 *
-	 * @param items the items, which determine the internal state of the
-	 *        <code>enable</code> flag.
+	 * 
+	 * @param items
+	 *           the items, which determine the internal state of the <code>enable</code> flag.
 	 */
 	@Override
 	protected void enable(List<?> items) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
 	@Override
 	public boolean isEnabled() {
 		try {
 			Graph sourceGraph = MainFrame.getInstance().getActiveEditorSession()
-			.getGraph();
+								.getGraph();
 			return sourceGraph.getNumberOfNodes() > 0;
 		} catch (NullPointerException npe) {
 			return false;
@@ -140,6 +143,6 @@ public class CutAction extends SelectionAction {
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

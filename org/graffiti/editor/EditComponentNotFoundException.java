@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditComponentNotFoundException.java
+// EditComponentNotFoundException.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditComponentNotFoundException.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: EditComponentNotFoundException.java,v 1.4 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -13,9 +13,8 @@ package org.graffiti.editor;
  * Thrown if no EditComponent could be found.
  */
 public class EditComponentNotFoundException
-extends Exception
-{
-	//~ Constructors ===========================================================
+					extends Exception {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -24,15 +23,14 @@ extends Exception
 
 	/**
 	 * Constructor for AttributeComponentNotFoundException.
-	 *
+	 * 
 	 * @param message
 	 */
-	public EditComponentNotFoundException(String message)
-	{
+	public EditComponentNotFoundException(String message) {
 		super(message);
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   SessionManager.java
+// SessionManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: SessionManager.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: SessionManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.session;
 
@@ -13,38 +13,38 @@ import java.util.Iterator;
 
 /**
  * Manages the session objects.
- *
+ * 
  * @see org.graffiti.session.Session
  */
-public interface SessionManager
-{
-	//~ Methods ================================================================
+public interface SessionManager {
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the current active session.
-	 *
+	 * 
 	 * @return the current active session.
 	 */
 	public Session getActiveSession();
 
 	/**
 	 * Returns <code>true</code>, if a session is active.
-	 *
+	 * 
 	 * @return <code>true</code>, if a session is active.
 	 */
 	public boolean isSessionActive();
 
 	/**
 	 * Returns an iterator over all sessions.
-	 *
+	 * 
 	 * @return an iterator over all sessions.
 	 */
 	public Iterator<Session> getSessionsIterator();
 
 	/**
 	 * Adds the given session to the list of sessions.
-	 *
-	 * @param es the new session to add.
+	 * 
+	 * @param es
+	 *           the new session to add.
 	 */
 	public void addSession(Session es);
 
@@ -61,8 +61,9 @@ public interface SessionManager
 
 	/**
 	 * Removes the given session from the list of sessions.
-	 *
-	 * @param es the session to remove from the list.
+	 * 
+	 * @param es
+	 *           the session to remove from the list.
 	 */
 	public boolean closeSession(Session es);
 
@@ -72,6 +73,6 @@ public interface SessionManager
 	public void removeSessionListener(SessionListener sl);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

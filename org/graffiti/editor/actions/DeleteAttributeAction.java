@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DeleteAttributeAction.java
+// DeleteAttributeAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DeleteAttributeAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: DeleteAttributeAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -19,14 +19,13 @@ import org.graffiti.selection.SelectionEvent;
 
 /**
  * DOCUMENT ME!
- *
+ * 
  * @author $Author: morla $
- * @version $Revision: 1.4 $ $Date: 2010/07/19 14:05:42 $
+ * @version $Revision: 1.5 $ $Date: 2010/12/14 07:02:12 $
  */
 public class DeleteAttributeAction
-extends SelectionAction
-{
-	//~ Constructors ===========================================================
+					extends SelectionAction {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -35,84 +34,82 @@ extends SelectionAction
 
 	/**
 	 * Constructs a new delete attribute action.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
-	public DeleteAttributeAction(MainFrame mainFrame)
-	{
+	public DeleteAttributeAction(MainFrame mainFrame) {
 		super("action.delete.attribute", mainFrame);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the help context of this action.
-	 *
+	 * 
 	 * @return the help context of this action.
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
 
 	/**
 	 * Returns the name of this action.
-	 *
+	 * 
 	 * @return the name of this action.
 	 */
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		// TODO
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void selectionChanged(SelectionEvent e)
-	{
+	public void selectionChanged(SelectionEvent e) {
 		// TODO
 	}
 
 	/**
 	 * Returns <code>true</code>, if this action should survive a focus change
 	 * in the editor.
-	 *
+	 * 
 	 * @return <code>true</code>, if this action should survive a focus chage
 	 *         in the editor.
 	 */
 	@Override
-	public boolean surviveFocusChange()
-	{
+	public boolean surviveFocusChange() {
 		return true;
 	}
 
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
-	 *
-	 * @param selectedItems the items, which determine the internal state of
-	 *        the<code>enable</code> flag.
+	 * 
+	 * @param selectedItems
+	 *           the items, which determine the internal state of
+	 *           the<code>enable</code> flag.
 	 */
 	@Override
-	protected void enable(List<?> selectedItems)
-	{
+	protected void enable(List<?> selectedItems) {
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
 	@Override
@@ -122,6 +119,6 @@ extends SelectionAction
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,10 +1,10 @@
-//==============================================================================
+// ==============================================================================
 //
 // ThreadSafeOptions.java
 //
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
+// ==============================================================================
 
 package org.graffiti.plugin.algorithm;
 
@@ -25,7 +25,7 @@ import org.graffiti.selection.Selection;
  * and plugins.
  * 
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class ThreadSafeOptions implements HelperClass {
 
@@ -209,7 +209,6 @@ public class ThreadSafeOptions implements HelperClass {
 	 * @param defaultValue
 	 *           In case the parameter is not yet set, this value will be
 	 *           returned.
-	 * 
 	 * @return The parameter object which was set before or if not yet set the
 	 *         defaultValue.
 	 */
@@ -232,7 +231,6 @@ public class ThreadSafeOptions implements HelperClass {
 	 *           DOCUMENT ME!
 	 * @param setValue
 	 *           DOCUMENT ME!
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public synchronized Object setParam(int index, Object setValue) {
@@ -289,7 +287,6 @@ public class ThreadSafeOptions implements HelperClass {
 	 *           DOCUMENT ME!
 	 * @param defaultValue
 	 *           DOCUMENT ME!
-	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public double getDval(int index, double defaultValue) {
@@ -339,7 +336,6 @@ public class ThreadSafeOptions implements HelperClass {
 	 * @param defaultValue
 	 *           The default value that is returned in case the parameter is yet
 	 *           unknown.
-	 * 
 	 * @return A boolean parameter value.
 	 */
 	public boolean getBval(int index, boolean defaultValue) {

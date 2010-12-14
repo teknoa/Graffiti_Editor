@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractTool.java
+// AbstractTool.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractTool.java,v 1.18 2010/07/19 14:05:44 morla Exp $
+// ==============================================================================
+// $Id: AbstractTool.java,v 1.19 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -51,17 +51,16 @@ import scenario.ScenarioService;
 
 /**
  * Provides an abstract implementation of the <code>Tool</code> interface.
- *
+ * 
  * @see Tool
  * @see javax.swing.event.MouseInputAdapter
  */
 public abstract class AbstractTool
-extends MouseInputAdapter
-implements Tool, SessionListener, SelectionListener
-{
-	//~ Instance fields ========================================================
+					extends MouseInputAdapter
+					implements Tool, SessionListener, SelectionListener {
+	// ~ Instance fields ========================================================
 
-	protected JComponent mouseComp=null;
+	protected JComponent mouseComp = null;
 
 	/** DOCUMENT ME! */
 	/** DOCUMENT ME! */
@@ -71,7 +70,7 @@ implements Tool, SessionListener, SelectionListener
 	protected EditorSession session;
 
 	/** The graph this tool works on. */
-	//    private Graph graph;
+	// private Graph graph;
 
 	/** The preferences of this tool. */
 	protected GravistoPreferences prefs;
@@ -88,7 +87,7 @@ implements Tool, SessionListener, SelectionListener
 	/** Size of bullets used to display marked edges. */
 	protected static final int BORDERSIZE = 10;
 
-	//    private final LineBorder border = new LineBorder(java.awt.Color.RED, 4);
+	// private final LineBorder border = new LineBorder(java.awt.Color.RED, 4);
 
 	/** DOCUMENT ME! */
 	private static final Border border = new NodeBorder(Color.RED.brighter().brighter(), BORDERSIZE);
@@ -103,34 +102,32 @@ implements Tool, SessionListener, SelectionListener
 					break;
 				}
 			}
-			if (!isOneActive && lastActiveTool!=null) {
+			if (!isOneActive && lastActiveTool != null) {
 				lastActiveTool.activate();
 			}
-		}});
+		}
+	});
 
 	private static final Border edgeBorder = new EdgeBorder(java.awt.Color.RED,
-			BORDERSIZE, true);
+						BORDERSIZE, true);
 
-	//	private final Border border = new NodeBorder(java.awt.Color.RED, 8);
-	//	private final Border border = new TitledBorder("Node");
+	// private final Border border = new NodeBorder(java.awt.Color.RED, 8);
+	// private final Border border = new TitledBorder("Node");
 
 	/** Used to temporarily highlight nodes. */
 	private static final Border tempBorder = new NodeBorder(java.awt.Color.ORANGE, BORDERSIZE);
 	private static final Border tempBorderLINK = new NodeBorder(java.awt.Color.BLUE, BORDERSIZE);
-	//    private static final Border tempBorderEdge = new EdgeBorder(java.awt.Color.ORANGE, BORDERSIZE, true);
+	// private static final Border tempBorderEdge = new EdgeBorder(java.awt.Color.ORANGE, BORDERSIZE, true);
 
 	/** Border for unmarked graph elements. */
 	private static final EmptyBorder empty = new EmptyBorder(0, 0, 0, 0); // 3, 3, 3, 3 ?
 
 	protected static List<Tool> knownTools = new LinkedList<Tool>();
 
-
-
-	//~ Methods ================================================================
-
+	// ~ Methods ================================================================
 
 	public AbstractTool() {
-		synchronized(checkActivationTimer) {
+		synchronized (checkActivationTimer) {
 			if (!checkActivationTimer.isRunning()) {
 				checkActivationTimer.setRepeats(true);
 				checkActivationTimer.start();
@@ -144,7 +141,8 @@ implements Tool, SessionListener, SelectionListener
 
 	public static Tool getActiveTool() {
 		for (Tool at : knownTools) {
-			if (at.isActive()) return at;
+			if (at.isActive())
+				return at;
 		}
 		return null;
 	}
@@ -152,58 +150,50 @@ implements Tool, SessionListener, SelectionListener
 	/**
 	 * Returns true if this tool has been activated and since then not been
 	 * deactivated.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isActive()
-	{
+	public boolean isActive() {
 		return this.isActive;
 	}
 
 	/**
 	 * Sets the graph of this tool.
-	 *
-	 * @param graph the graph of this tool.
+	 * 
+	 * @param graph
+	 *           the graph of this tool.
 	 */
-	public void setGraph(Graph graph)
-	{
+	public void setGraph(Graph graph) {
 		// empty
 	}
 
 	/**
-	 * States whether this class wants to be registered as a
-	 * <code>SelectionListener</code>.
-	 *
+	 * States whether this class wants to be registered as a <code>SelectionListener</code>.
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isSelectionListener()
-	{
+	public boolean isSelectionListener() {
 		return true;
 	}
 
 	/**
-	 * States whether this class wants to be registered as a
-	 * <code>SessionListener</code>.
-	 *
+	 * States whether this class wants to be registered as a <code>SessionListener</code>.
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isSessionListener()
-	{
+	public boolean isSessionListener() {
 		return true;
 	}
 
 	/**
-	 * States whether this class wants to be registered as a
-	 * <code>ViewListener</code>, i.e. if it wants to get informed when
+	 * States whether this class wants to be registered as a <code>ViewListener</code>, i.e. if it wants to get informed when
 	 * another view in the same session becomes active. This method is not
-	 * called when another session is activated. Implement
-	 * <code>SessionListener</code> if you are interested in session changed
+	 * called when another session is activated. Implement <code>SessionListener</code> if you are interested in session changed
 	 * events.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isViewListener()
-	{
+	public boolean isViewListener() {
 		return false;
 	}
 
@@ -219,43 +209,41 @@ implements Tool, SessionListener, SelectionListener
 
 	/**
 	 * Classes that overwrite this method should call super.active first.
-	 *
+	 * 
 	 * @see org.graffiti.plugin.tool.Tool#activate()
 	 */
-	public void activate()
-	{
+	public void activate() {
 
 		ScenarioService.postWorkflowStep(
-				"Activate "+getToolName(),
-				new String[] { "import org.graffiti.plugin.tool.AbstractTool;"},
-				new String[] { "AbstractTool.activateTool(\""+getToolName()+"\");"});
-
+							"Activate " + getToolName(),
+							new String[] { "import org.graffiti.plugin.tool.AbstractTool;" },
+							new String[] { "AbstractTool.activateTool(\"" + getToolName() + "\");" });
 
 		// System.out.println("Activate "+toString());
 
 		deactivateAll();
 		//
-		//      Zoomable myView = MainFrame.getInstance().getActiveSession().getActiveView();
-		//      ZoomListener zoomView = MainFrame.getInstance().getActiveSession().getActiveView();
-		//      AffineTransform at = new AffineTransform();
-		//      at.setToScale(1, 1);
-		//      zoomView.zoomChanged(at);
+		// Zoomable myView = MainFrame.getInstance().getActiveSession().getActiveView();
+		// ZoomListener zoomView = MainFrame.getInstance().getActiveSession().getActiveView();
+		// AffineTransform at = new AffineTransform();
+		// at.setToScale(1, 1);
+		// zoomView.zoomChanged(at);
 
 		try {
-			mouseComp=MainFrame.getInstance().getActiveSession().getActiveView().getViewComponent();
+			mouseComp = MainFrame.getInstance().getActiveSession().getActiveView().getViewComponent();
 			this.isActive = true;
 			// logger.entering(this.toString(), "  activate");
 			displayAsMarked(this.getAllMarkedComps());
 			mouseComp.addMouseListener(this);
 			mouseComp.addMouseMotionListener(this);
 			mouseComp.repaint();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			isActive = false;
 		}
 	}
 
 	public void deactivateAll() {
-		for (Iterator<Tool> it=knownTools.iterator(); it.hasNext();) {
+		for (Iterator<Tool> it = knownTools.iterator(); it.hasNext();) {
 			Tool t = (Tool) it.next();
 			t.deactivate();
 		}
@@ -268,18 +256,16 @@ implements Tool, SessionListener, SelectionListener
 
 	/**
 	 * Classes that overwrite this method should call super.deactive first.
-	 *
+	 * 
 	 * @see org.graffiti.plugin.tool.Tool#deactivate()
 	 */
-	public void deactivate()
-	{
+	public void deactivate() {
 		// System.out.println("Deactivate "+toString());
-		if (mouseComp!=null) {
+		if (mouseComp != null) {
 			mouseComp.removeMouseListener(this);
 			mouseComp.removeMouseMotionListener(this);
 		}
-		if(this.selection != null)
-		{
+		if (this.selection != null) {
 			unDisplayAsMarked(getCompsForElems(this.selection.getElements()));
 		}
 
@@ -289,88 +275,79 @@ implements Tool, SessionListener, SelectionListener
 
 	/**
 	 * Show a graph element component as marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	public void displayAsMarked(GraphElementComponent comp)
-	{
-		if(comp instanceof NodeComponentInterface)
-		{
+	public void displayAsMarked(GraphElementComponent comp) {
+		if (comp instanceof NodeComponentInterface) {
 			displayAsMarked((NodeComponentInterface) comp);
-		}
-		else
-		{
+		} else {
 			displayAsMarked((EdgeComponentInterface) comp);
 		}
 	}
 
 	/**
 	 * Show a node component as marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	public void displayAsMarked(NodeComponentInterface comp)
-	{
-		if(comp != null)
-		{
+	public void displayAsMarked(NodeComponentInterface comp) {
+		if (comp != null) {
 			((JComponent) comp).setBorder(border);
 			((JComponent) comp).repaint();
-			//            ((JComponent) comp).getParent().repaint();
+			// ((JComponent) comp).getParent().repaint();
 		}
 	}
 
 	/**
 	 * Show an edge component as marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	public void displayAsMarked(EdgeComponentInterface comp)
-	{
-		if(comp != null)
-		{
+	public void displayAsMarked(EdgeComponentInterface comp) {
+		if (comp != null) {
 			((JComponent) comp).setBorder(edgeBorder);
-			//            ((JComponent) comp).repaint();
+			// ((JComponent) comp).repaint();
 		}
 	}
 
 	/**
 	 * Display a list of graph element components
-	 *
-	 * @param comps DOCUMENT ME!
+	 * 
+	 * @param comps
+	 *           DOCUMENT ME!
 	 */
-	public void displayAsMarked(List<GraphElementComponent> comps)
-	{
-		for(Iterator<GraphElementComponent> it = comps.iterator(); it.hasNext();)
-		{
+	public void displayAsMarked(List<GraphElementComponent> comps) {
+		for (Iterator<GraphElementComponent> it = comps.iterator(); it.hasNext();) {
 			displayAsMarked((GraphElementComponent) (it.next()));
 		}
 	}
 
 	protected boolean avoidHighlight = false;
 
-
 	/**
-	 * Display a component in a special way distinguished from the way
-	 * <code>displayAsMarked</code> does it. Used for temporarily highlighting
+	 * Display a component in a special way distinguished from the way <code>displayAsMarked</code> does it. Used for temporarily highlighting
 	 * a component, e.g. for a mouseMoved action.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	public void highlight(Component comp, MouseEvent e)
-	{
+	public void highlight(Component comp, MouseEvent e) {
 		if (avoidHighlight)
 			return;
 		boolean processed = false;
-		if(comp != null)
-		{
+		if (comp != null) {
 			if (comp instanceof GraphElementComponentInterface) {
-				GraphElementComponentInterface nci = (GraphElementComponentInterface)comp;
+				GraphElementComponentInterface nci = (GraphElementComponentInterface) comp;
 				GraphElement n = nci.getGraphElement();
 				try {
 					ReceiveHighlightInfo hi = (ReceiveHighlightInfo) MainFrame.getInstance().getActiveEditorSession().getActiveView();
 					hi.isHighlighted(n);
 					processed = true;
-				} catch(Exception err) {
+				} catch (Exception err) {
 					// empty
 				}
 				if (AttributeHelper.hasAttribute(n, "", "url"))
@@ -384,14 +361,14 @@ implements Tool, SessionListener, SelectionListener
 				}
 			} else
 				((JComponent) comp).setBorder(tempBorder);
-			if (((JComponent) comp).getParent()!=null)
+			if (((JComponent) comp).getParent() != null)
 				((JComponent) comp).getParent().repaint();
 		}
 		if (!processed) {
 			try {
 				ReceiveHighlightInfo hi = (ReceiveHighlightInfo) MainFrame.getInstance().getActiveEditorSession().getActiveView();
 				hi.isHighlighted(null);
-			} catch(Exception err) {
+			} catch (Exception err) {
 				// empty
 			}
 		}
@@ -399,55 +376,46 @@ implements Tool, SessionListener, SelectionListener
 
 	/**
 	 * Called when the selection has changed.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void selectionChanged(SelectionEvent e)
-	{
+	public void selectionChanged(SelectionEvent e) {
 		Selection sel = e.getSelection();
 
-		if(this.isActive())
-		{
-			if(!sel.equals(this.selection) ||
-					(sel.getNewUnmarked().isEmpty() &&
-							sel.getNewMarked().isEmpty()))
-			{
+		if (this.isActive()) {
+			if (!sel.equals(this.selection) ||
+								(sel.getNewUnmarked().isEmpty() &&
+								sel.getNewMarked().isEmpty())) {
 				// must completely renew selection
-				if(selection != null)
-				{
+				if (selection != null) {
 					unDisplayAsMarked(getAllMarkedComps());
 				}
 
 				displayAsMarked(getCompsForElems(sel.getElements()));
-			}
-			else
-			{
+			} else {
 				List<GraphElementComponent> list = new LinkedList<GraphElementComponent>();
 
-				for(Iterator<?> it = sel.getNewUnmarked().keySet().iterator();
-				it.hasNext();)
-				{
+				for (Iterator<?> it = sel.getNewUnmarked().keySet().iterator(); it.hasNext();) {
 					list.addAll(getCompsForElem((GraphElement) it.next()));
 				}
 
 				unDisplayAsMarked(list);
 				list = new LinkedList<GraphElementComponent>();
 
-				for(Iterator<?> it = sel.getNewMarked().keySet().iterator();
-				it.hasNext();)
-				{
+				for (Iterator<?> it = sel.getNewMarked().keySet().iterator(); it.hasNext();) {
 					list.addAll(getCompsForElem((GraphElement) it.next()));
 				}
 
 				displayAsMarked(list);
 			}
 
-			//            for(Iterator viewIt = session.getViews().iterator();
-			//                viewIt.hasNext();)
-			//            {
-			//                JComponent view = (JComponent) viewIt.next();
-			//                view.repaint();
-			//            }
+			// for(Iterator viewIt = session.getViews().iterator();
+			// viewIt.hasNext();)
+			// {
+			// JComponent view = (JComponent) viewIt.next();
+			// view.repaint();
+			// }
 		}
 
 		this.selection = sel;
@@ -456,39 +424,34 @@ implements Tool, SessionListener, SelectionListener
 	/**
 	 * @see org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti.selection.SelectionEvent)
 	 */
-	public void selectionListChanged(SelectionEvent e)
-	{
+	public void selectionListChanged(SelectionEvent e) {
 	}
 
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionChanged(Session)
 	 */
-	public void sessionChanged(Session s)
-	{
+	public void sessionChanged(Session s) {
 		session = (EditorSession) s;
 	}
 
 	/**
-	 * Remove anything that specifies a graph element component as  being
+	 * Remove anything that specifies a graph element component as being
 	 * marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	public void unDisplayAsMarked(GraphElementComponent comp)
-	{
-		if(comp instanceof NodeComponentInterface)
-		{
+	public void unDisplayAsMarked(GraphElementComponent comp) {
+		if (comp instanceof NodeComponentInterface) {
 			unDisplayAsMarked((NodeComponentInterface) comp);
-		}
-		else
-		{
+		} else {
 			unDisplayAsMarked((EdgeComponentInterface) comp);
 		}
-		if (comp!=null) {
+		if (comp != null) {
 			GraphElement ge = comp.getGraphElement();
-			if (ge!=null) {
+			if (ge != null) {
 				List<AttributeComponent> acc = getAttributeCompsForElem(ge);
-				if (acc!=null)
+				if (acc != null)
 					for (AttributeComponent ac : acc) {
 						ac.highlight(false, null);
 					}
@@ -498,30 +461,28 @@ implements Tool, SessionListener, SelectionListener
 
 	/**
 	 * Remove anything that specifies a node component as being marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	private void unDisplayAsMarked(NodeComponentInterface comp)
-	{
-		if(comp != null && ((JComponent) comp).getBorder()!=empty)
-		{
+	private void unDisplayAsMarked(NodeComponentInterface comp) {
+		if (comp != null && ((JComponent) comp).getBorder() != empty) {
 			((JComponent) comp).setBorder(empty);
-			if (((JComponent) comp).getParent()!=null)
+			if (((JComponent) comp).getParent() != null)
 				((JComponent) comp).getParent().repaint();
 		}
 	}
 
 	/**
 	 * Remove anything that specifies an edge component as being marked.
-	 *
-	 * @param comp DOCUMENT ME!
+	 * 
+	 * @param comp
+	 *           DOCUMENT ME!
 	 */
-	private void unDisplayAsMarked(EdgeComponentInterface comp)
-	{
-		if(comp != null && ((JComponent) comp).getBorder()!=empty)
-		{
+	private void unDisplayAsMarked(EdgeComponentInterface comp) {
+		if (comp != null && ((JComponent) comp).getBorder() != empty) {
 			((JComponent) comp).setBorder(empty);
-			if (((JComponent) comp).getParent()!=null)
+			if (((JComponent) comp).getParent() != null)
 				((JComponent) comp).getParent().repaint();
 		}
 	}
@@ -529,14 +490,13 @@ implements Tool, SessionListener, SelectionListener
 	/**
 	 * Call <code>unDisplayAsMarked(GraphElementComponent geComp)</code> on
 	 * every element of the provided list.
-	 *
-	 * @param comps DOCUMENT ME!
+	 * 
+	 * @param comps
+	 *           DOCUMENT ME!
 	 */
 	@SuppressWarnings("unchecked")
-	public void unDisplayAsMarked(List comps)
-	{
-		for(Iterator it = comps.iterator(); it.hasNext();)
-		{
+	public void unDisplayAsMarked(List comps) {
+		for (Iterator it = comps.iterator(); it.hasNext();) {
 			unDisplayAsMarked((GraphElementComponent) (it.next()));
 		}
 	}
@@ -544,21 +504,19 @@ implements Tool, SessionListener, SelectionListener
 	/**
 	 * Returns a list of all <code>GraphElementComponents</code> contained in
 	 * this selection.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	@SuppressWarnings("unchecked")
-	protected List<GraphElementComponent> getAllMarkedComps()
-	{
+	protected List<GraphElementComponent> getAllMarkedComps() {
 		List<GraphElementComponent> geComps = new LinkedList<GraphElementComponent>();
 
-		if(selection == null)
-		{
+		if (selection == null) {
 			return geComps;
 		}
 
-		geComps.addAll(getCompsForElems((Collection)selection.getNodes()));
-		geComps.addAll(getCompsForElems((Collection)selection.getEdges()));
+		geComps.addAll(getCompsForElems((Collection) selection.getNodes()));
+		geComps.addAll(getCompsForElems((Collection) selection.getEdges()));
 
 		return geComps;
 	}
@@ -567,22 +525,20 @@ implements Tool, SessionListener, SelectionListener
 	 * Used method <code>getComponentForElement</code> from the views of the
 	 * current session to get the <code>GraphElementComponent</code>s for the
 	 * provided <code>GraphElement</code>.
-	 *
-	 * @param ge DOCUMENT ME!
-	 *
+	 * 
+	 * @param ge
+	 *           DOCUMENT ME!
 	 * @return DOCUMENT ME!
 	 */
-	protected List<GraphElementComponent> getCompsForElem(GraphElement ge)
-	{
-		if(session != null)
-		{
+	protected List<GraphElementComponent> getCompsForElem(GraphElement ge) {
+		if (session != null) {
 			List<View> views = session.getViews();
 
 			List<GraphElementComponent> comps = new LinkedList<GraphElementComponent>();
 
-			for(View view : views) {
+			for (View view : views) {
 				GraphElementComponent v = view.getComponentForElement(ge);
-				if (v!=null)
+				if (v != null)
 					comps.add(v);
 			}
 
@@ -591,17 +547,15 @@ implements Tool, SessionListener, SelectionListener
 			return new LinkedList<GraphElementComponent>();
 	}
 
-	protected List<AttributeComponent> getAttributeCompsForElem(GraphElement ge)
-	{
-		if(session != null)
-		{
+	protected List<AttributeComponent> getAttributeCompsForElem(GraphElement ge) {
+		if (session != null) {
 			List<View> views = session.getViews();
 
 			List<AttributeComponent> comps = new LinkedList<AttributeComponent>();
 
-			for(View view : views) {
+			for (View view : views) {
 				Set<AttributeComponent> acc = view.getAttributeComponentsForElement(ge);
-				if (acc!=null)
+				if (acc != null)
 					comps.addAll(acc);
 			}
 
@@ -610,47 +564,39 @@ implements Tool, SessionListener, SelectionListener
 			return new LinkedList<AttributeComponent>();
 	}
 
-
 	/**
 	 * Used method <code>getComponentForElement</code> from the views of the
-	 * current session to convert the provided list of
-	 * <code>GraphElement</code> elements to a list of
-	 * <code>GraphElementComponent</code>s.
-	 *
-	 * @param elems DOCUMENT ME!
-	 *
+	 * current session to convert the provided list of <code>GraphElement</code> elements to a list of <code>GraphElementComponent</code>s.
+	 * 
+	 * @param elems
+	 *           DOCUMENT ME!
 	 * @return DOCUMENT ME!
 	 */
-	protected List<GraphElementComponent> getCompsForElems(Collection<GraphElement> elems)
-	{
-		if(session != null)
-		{
+	protected List<GraphElementComponent> getCompsForElems(Collection<GraphElement> elems) {
+		if (session != null) {
 			List<View> views = session.getViews();
 
-			//View view = session.getActiveView();
+			// View view = session.getActiveView();
 			List<GraphElementComponent> comps = new LinkedList<GraphElementComponent>();
 
-			for(GraphElement ge : elems)
-			{
-				for(View view : views)
-				{
-					if (view.getComponentForElement(ge)!=null)
+			for (GraphElement ge : elems) {
+				for (View view : views) {
+					if (view.getComponentForElement(ge) != null)
 						comps.add(view.getComponentForElement(ge));
 				}
 			}
 
 			return comps;
-		}
-		else
+		} else
 
 			return new LinkedList<GraphElementComponent>();
 	}
 
 	public void setPrefs(GravistoPreferences p) {
-		prefs=p;
+		prefs = p;
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

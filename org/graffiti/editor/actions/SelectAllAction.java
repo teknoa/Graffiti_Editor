@@ -1,5 +1,6 @@
-/* Copyright (c) 2003 IPK Gatersleben
- * $Id: SelectAllAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+/*
+ * Copyright (c) 2003 IPK Gatersleben
+ * $Id: SelectAllAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
  */
 
 package org.graffiti.editor.actions;
@@ -14,12 +15,11 @@ import org.graffiti.selection.Selection;
 
 /**
  * Represents a &quot;select all graph elements&quot; action.
- *
- * @version $Revision: 1.4 $
+ * 
+ * @version $Revision: 1.5 $
  */
 public class SelectAllAction
-extends SelectionAction
-{
+					extends SelectionAction {
 
 	/**
 	 * 
@@ -28,32 +28,31 @@ extends SelectionAction
 
 	/**
 	 * Constructs a new copy action.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
-	public SelectAllAction(MainFrame mainFrame)
-	{
+	public SelectAllAction(MainFrame mainFrame) {
 		super("edit.selectAll", mainFrame);
 	}
 
 	/**
 	 * Returns the help context for the action.
-	 *
+	 * 
 	 * @return HelpContext, the help context for the action
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
 
 	/**
 	 * Executes this action.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 		// this check can be discarded when the isEnabled-function works correctly
 		if (!mainFrame.isSessionActive()) {
 			return;
@@ -61,25 +60,24 @@ extends SelectionAction
 		getGraph().getListenerManager().transactionStarted(this);
 		mainFrame.getActiveEditorSession().getActiveView().getViewComponent().repaint();
 		Selection selection =
-			mainFrame.getActiveEditorSession().getSelectionModel()
-			.getActiveSelection();
+							mainFrame.getActiveEditorSession().getSelectionModel()
+												.getActiveSelection();
 
 		selection.clear();
 		selection.addAll(getGraph().getGraphElements());
 
 		mainFrame.getActiveEditorSession().getSelectionModel()
-		.selectionChanged();
+							.selectionChanged();
 		getGraph().getListenerManager().transactionFinished(this);
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		if (!mainFrame.isSessionActive()) {
 			return false;
 		}
@@ -90,17 +88,15 @@ extends SelectionAction
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
-	 *
-	 * @param items the items, which determine the internal state of the
-	 *        <code>enable</code> flag.
+	 * 
+	 * @param items
+	 *           the items, which determine the internal state of the <code>enable</code> flag.
 	 */
 	@Override
-	protected void enable(List<?> items)
-	{
+	protected void enable(List<?> items) {
 	}
 }
 
-
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

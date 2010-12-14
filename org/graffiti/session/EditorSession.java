@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditorSession.java
+// EditorSession.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditorSession.java,v 1.15 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: EditorSession.java,v 1.16 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.session;
 
@@ -23,19 +23,17 @@ import org.graffiti.graph.GraphElement;
 import org.graffiti.selection.SelectionModel;
 
 /**
- * Contains an editor session.  An editor session contains a list of views,
+ * Contains an editor session. An editor session contains a list of views,
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
- *
- * @version $Revision: 1.15 $
- *
+ * 
+ * @version $Revision: 1.16 $
  * @see org.graffiti.session.Session
  */
 public class EditorSession
-extends Session
-implements ActionListener
-{
-	//~ Instance fields ========================================================
+					extends Session
+					implements ActionListener {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * The map between new and old graph elements for proper undoing of their
@@ -45,160 +43,148 @@ implements ActionListener
 
 	/**
 	 * The selectionModel in this session.
-	 *
+	 * 
 	 * @link aggregation
 	 * @clientCardinality 1
 	 */
 	private SelectionModel selectionModel;
 
-
 	/** The undoManager for this session. */
 	private UndoManager um;
 
 	/**
-	 * The &quot;closing&quot; state of this session.  <code>true</code>, if
+	 * The &quot;closing&quot; state of this session. <code>true</code>, if
 	 * this session is currently closing.
 	 */
 	private boolean closing = false;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>EditorSession</code> with an empty graph
 	 * instance.
 	 */
-	public EditorSession()
-	{
+	public EditorSession() {
 		this(new AdjListGraph());
 
-		//this.selectionModel = new SelectionModel();
+		// this.selectionModel = new SelectionModel();
 	}
 
 	/**
 	 * Constructs a new <code>EditorSession</code>.
-	 *
-	 * @param graph the <code>Graph</code> object for this session.
+	 * 
+	 * @param graph
+	 *           the <code>Graph</code> object for this session.
 	 */
-	public EditorSession(Graph graph)
-	{
+	public EditorSession(Graph graph) {
 		super(graph);
 		um = new UndoManager();
 		um.setLimit(5);
 		graphElementsMap = new HashMap<GraphElement, GraphElement>();
 
-		//        this.selectionModel = new SelectionModel();
-		//        this.selectionModel.add(new Selection(ACTIVE));
-		//        this.selectionModel.setActiveSelection(ACTIVE);
+		// this.selectionModel = new SelectionModel();
+		// this.selectionModel.add(new Selection(ACTIVE));
+		// this.selectionModel.setActiveSelection(ACTIVE);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
-	 * Sets the closing state of this session.  This may only be done once.
-	 *
-	 * @throws RuntimeException DOCUMENT ME!
+	 * Sets the closing state of this session. This may only be done once.
+	 * 
+	 * @throws RuntimeException
+	 *            DOCUMENT ME!
 	 */
-	public void setClosing()
-	{
-		if(closing)
-		{
+	public void setClosing() {
+		if (closing) {
 			throw new RuntimeException("The session \"" + this.toString() +
-			"\" is already in the closing state.");
-		}
-		else
-		{
+								"\" is already in the closing state.");
+		} else {
 			closing = true;
 		}
 	}
 
 	/**
 	 * Returns <code>true</code>, if the session is currently closing.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public boolean isClosing()
-	{
+	public boolean isClosing() {
 		return closing;
 	}
 
 	/**
 	 * Sets the fileName.
-	 *
-	 * @param fileName The fileName to set
+	 * 
+	 * @param fileName
+	 *           The fileName to set
 	 */
-	public void setFileName(String fileName)
-	{
+	public void setFileName(String fileName) {
 		graph.setName(fileName);
 	}
 
 	/**
 	 * Returns the full fileName including path of this session's graph.
-	 *
+	 * 
 	 * @return the fileName of this session's graph.
 	 */
-	public String getFileNameFull()
-	{
+	public String getFileNameFull() {
 		return graph.getName(true);
 	}
 
 	/**
 	 * Get just the file name excluding the path
-	 *
+	 * 
 	 * @return a name of the graph file as string
 	 */
-	public String getFileName()
-	{
+	public String getFileName() {
 		return graph.getName(false);
 	}
 
 	/**
 	 * Returns the graphElementMap.
-	 *
+	 * 
 	 * @return Map
 	 */
-	public Map<GraphElement, GraphElement> getGraphElementsMap()
-	{
+	public Map<GraphElement, GraphElement> getGraphElementsMap() {
 		return graphElementsMap;
 	}
 
 	/**
 	 * Sets the selectionModel.
-	 *
-	 * @param selectionModel The selectionModel to set
+	 * 
+	 * @param selectionModel
+	 *           The selectionModel to set
 	 */
-	public void setSelectionModel(SelectionModel selectionModel)
-	{
+	public void setSelectionModel(SelectionModel selectionModel) {
 		this.selectionModel = selectionModel;
 	}
 
 	/**
 	 * Returns the selectionModel.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public SelectionModel getSelectionModel()
-	{
+	public SelectionModel getSelectionModel() {
 		return this.selectionModel;
 	}
 
 	/**
 	 * Returns the undoManager for this session.
-	 *
+	 * 
 	 * @return the undoManager for this session.
 	 */
-	public UndoManager getUndoManager()
-	{
+	public UndoManager getUndoManager() {
 		return um;
 	}
 
 	/**
-	 * Registrates the selected <code>Tool</code> as an
-	 * <code>MouseInputListener</code> at the view.
-	 *
-	 * @param e DOCUMENT ME!
+	 * Registrates the selected <code>Tool</code> as an <code>MouseInputListener</code> at the view.
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 	}
 
 	public String getWorkSessionFilePath() {
@@ -206,19 +192,19 @@ implements ActionListener
 		if (path.startsWith("http://"))
 			return "";
 		else
-			return new File(path).getParent()+"/";
+			return new File(path).getParent() + "/";
 	}
 
 	public boolean isSaved() {
-		try{
+		try {
 			return new File(getFileNameFull()).exists();
-		} catch(Exception e) {
+		} catch (Exception e) {
 			return false;
 		}
 	}
 
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

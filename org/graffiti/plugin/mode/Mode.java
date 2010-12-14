@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   Mode.java
+// Mode.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: Mode.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: Mode.java,v 1.4 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -17,14 +17,13 @@ import org.graffiti.plugin.tool.Tool;
  * The interface <code>Mode</code> describes a general mode in the editor. A
  * mode contains a list of <code>GraphConstraint</code>s and a list of tools.
  */
-public interface Mode
-{
-	//~ Methods ================================================================
+public interface Mode {
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns an array containing the <code>GraphConstraint</code>s of the
 	 * current <code>Mode</code>.
-	 *
+	 * 
 	 * @return an array containing the <code>GraphConstraint</code>s of the
 	 *         current <code>Mode</code>.
 	 */
@@ -33,14 +32,14 @@ public interface Mode
 	/**
 	 * Returns the name of this mode. Tools can be added to a mode by adding
 	 * their ToolButtons to the toolbar with the same name as this mode.
-	 *
+	 * 
 	 * @return the name of this mode.
 	 */
 	public String getId();
 
 	/**
 	 * Returns an array containing all the tools belonging <code>Mode</code>.
-	 *
+	 * 
 	 * @return an array containing all the tools belonging <code>Mode</code>.
 	 */
 	public List<Tool> getTools();
@@ -51,12 +50,13 @@ public interface Mode
 
 	/**
 	 * Adds the given tool to the mode.
-	 *
-	 * @param t the tool to add.
+	 * 
+	 * @param t
+	 *           the tool to add.
 	 */
 	public void addTool(Tool t);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

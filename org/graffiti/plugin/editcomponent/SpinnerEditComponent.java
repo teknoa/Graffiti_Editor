@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   SpinnerEditComponent.java
+// SpinnerEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: SpinnerEditComponent.java,v 1.6 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: SpinnerEditComponent.java,v 1.7 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -27,13 +27,12 @@ import org.graffiti.plugin.parameter.IntegerParameter;
 
 /**
  * DOCUMENT ME!
- *
- * @version $Revision: 1.6 $
+ * 
+ * @version $Revision: 1.7 $
  */
 public class SpinnerEditComponent
-extends AbstractValueEditComponent
-{
-	//~ Instance fields ========================================================
+					extends AbstractValueEditComponent {
+	// ~ Instance fields ========================================================
 
 	/** The default step width for floating point numbers. */
 	private final Double DEFAULT_STEP = new Double(0.5d);
@@ -41,54 +40,50 @@ extends AbstractValueEditComponent
 	/** The spinner component used. */
 	private JSpinner jSpinner;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for SpinnerEditComponent.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	public SpinnerEditComponent(Displayable disp)
-	{
+	public SpinnerEditComponent(Displayable disp) {
 		super(disp);
 
 		SpinnerNumberModel model;
 
-		if(disp instanceof IntegerAttribute || disp instanceof ByteAttribute ||
-				disp instanceof LongAttribute || disp instanceof ShortAttribute ||
-				disp instanceof IntegerParameter)
-		{
+		if (disp instanceof IntegerAttribute || disp instanceof ByteAttribute ||
+							disp instanceof LongAttribute || disp instanceof ShortAttribute ||
+							disp instanceof IntegerParameter) {
 			model = new SpinnerNumberModel(new Integer(0), null, null, new Integer(1));
-		}
-		else
-		{
+		} else {
 			model = new SpinnerNumberModel(new Double(0d), null, null,
-					DEFAULT_STEP);
+								DEFAULT_STEP);
 		}
 
 		this.jSpinner = new JSpinner(model);
 
-		//        this.spinner = new JSpinner();
+		// this.spinner = new JSpinner();
 		// this.spinner.setBorder(BorderFactory.createEmptyBorder());
 
 		jSpinner.setOpaque(false);
 
-		//this.spinner.setSize(100, 40);
-		//this.spinner.setMinimumSize(new Dimension(40, 10));
-		//this.spinner.setPreferredSize(new Dimension(100, 40));
+		// this.spinner.setSize(100, 40);
+		// this.spinner.setMinimumSize(new Dimension(40, 10));
+		// this.spinner.setPreferredSize(new Dimension(100, 40));
 		displayable = null; // ensure setDisplayable really does sth
 		this.setDisplayable(disp);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public JComponent getComponent()
-	{
+	public JComponent getComponent() {
 		jSpinner.setMinimumSize(new Dimension(0, 30));
 		jSpinner.setPreferredSize(new Dimension(50, 30));
 		jSpinner.setMaximumSize(new Dimension(2000, 30));
@@ -97,12 +92,11 @@ extends AbstractValueEditComponent
 
 	/**
 	 * Sets the displayable.
-	 *
+	 * 
 	 * @param disp
 	 */
 	@Override
-	public void setDisplayable(Displayable disp)
-	{
+	public void setDisplayable(Displayable disp) {
 		this.displayable = disp;
 	}
 
@@ -110,20 +104,15 @@ extends AbstractValueEditComponent
 	 * Sets the current value of the <code>Attribute</code> in the
 	 * corresponding <code>JComponent</code>.
 	 */
-	public void setEditFieldValue()
-	{
-		if(showEmpty)
-		{
+	public void setEditFieldValue() {
+		if (showEmpty) {
 			((JSpinner.DefaultEditor) this.jSpinner.getEditor()).getTextField().setText(EMPTY_STRING);
-		}
-		else
-		{
+		} else {
 			jSpinner.setValue(this.displayable.getValue());
 
 			ChangeEvent ce = new ChangeEvent(jSpinner);
 
-			for(int i = 0; i < jSpinner.getChangeListeners().length; i++)
-			{
+			for (int i = 0; i < jSpinner.getChangeListeners().length; i++) {
 				jSpinner.getChangeListeners()[i].stateChanged(ce);
 			}
 		}
@@ -133,10 +122,8 @@ extends AbstractValueEditComponent
 	 * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setShowEmpty(boolean)
 	 */
 	@Override
-	public void setShowEmpty(boolean showEmpty)
-	{
-		if(this.showEmpty != showEmpty)
-		{
+	public void setShowEmpty(boolean showEmpty) {
+		if (this.showEmpty != showEmpty) {
 			super.setShowEmpty(showEmpty);
 		}
 
@@ -144,12 +131,10 @@ extends AbstractValueEditComponent
 	}
 
 	/**
-	 * Sets the value of the displayable specified in the
-	 * <code>JComponent</code>. But only if it is different.
+	 * Sets the value of the displayable specified in the <code>JComponent</code>. But only if it is different.
 	 */
-	public void setValue()
-	{
-		if (jSpinner.getEditor()!=null && jSpinner.getEditor() instanceof NumberEditor) {
+	public void setValue() {
+		if (jSpinner.getEditor() != null && jSpinner.getEditor() instanceof NumberEditor) {
 			NumberEditor ne = (NumberEditor) jSpinner.getEditor();
 			String txt = ne.getTextField().getText();
 			try {
@@ -159,59 +144,59 @@ extends AbstractValueEditComponent
 				if (txt.startsWith("*")) {
 					Double p = Double.parseDouble(txt.substring("*".length()));
 					if (this.displayable.getValue() instanceof Double) {
-						this.displayable.setValue((Double)this.displayable.getValue()*p);
+						this.displayable.setValue((Double) this.displayable.getValue() * p);
 						return;
 					} else
 						if (this.displayable.getValue() instanceof Integer) {
-							this.displayable.setValue((int)((Integer)this.displayable.getValue()*p));
+							this.displayable.setValue((int) ((Integer) this.displayable.getValue() * p));
 							return;
 						}
 				} else
 					if (txt.startsWith("/")) {
 						Double p = Double.parseDouble(txt.substring("/".length()));
 						if (this.displayable.getValue() instanceof Double) {
-							this.displayable.setValue((Double)this.displayable.getValue()/p);
+							this.displayable.setValue((Double) this.displayable.getValue() / p);
 							return;
 						} else
 							if (this.displayable.getValue() instanceof Integer) {
-								this.displayable.setValue((int)((Integer)this.displayable.getValue()/p));
+								this.displayable.setValue((int) ((Integer) this.displayable.getValue() / p));
 								return;
 							}
 					} else
 						if (txt.startsWith("+")) {
 							Double p = Double.parseDouble(txt.substring("+".length()));
 							if (this.displayable.getValue() instanceof Double) {
-								this.displayable.setValue((Double)this.displayable.getValue()+p);
+								this.displayable.setValue((Double) this.displayable.getValue() + p);
 								return;
 							} else
 								if (this.displayable.getValue() instanceof Integer) {
-									this.displayable.setValue((int)((Integer)this.displayable.getValue()+p));
+									this.displayable.setValue((int) ((Integer) this.displayable.getValue() + p));
 									return;
 								}
 						}
 
-			} catch(NumberFormatException nfe) {
+			} catch (NumberFormatException nfe) {
 				//
 			}
 		}
 		try {
 			jSpinner.getEditor();
-			//        	String txt1 = ne.getTextField().getText();
-			//        	System.out.println("A: "+txt1);
+			// String txt1 = ne.getTextField().getText();
+			// System.out.println("A: "+txt1);
 			jSpinner.commitEdit();
-			//        	String txt2 = ne.getTextField().getText();
-			//        	System.out.println("B: "+txt2);
-			//	        System.out.println(this.displayable.getValue()+" <-?-> "+this.jSpinner.getValue());
-			if(!this.displayable.getValue().equals(this.jSpinner.getValue()))
+			// String txt2 = ne.getTextField().getText();
+			// System.out.println("B: "+txt2);
+			// System.out.println(this.displayable.getValue()+" <-?-> "+this.jSpinner.getValue());
+			if (!this.displayable.getValue().equals(this.jSpinner.getValue()))
 				this.displayable.setValue(this.jSpinner.getValue());
-			//        	String txt3 = ne.getTextField().getText();
-			//        	System.out.println("C: "+txt3);
+			// String txt3 = ne.getTextField().getText();
+			// System.out.println("C: "+txt3);
 		} catch (ParseException e) {
 			// input not parsable
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

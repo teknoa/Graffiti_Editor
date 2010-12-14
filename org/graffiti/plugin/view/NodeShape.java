@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   NodeShape.java
+// NodeShape.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: NodeShape.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: NodeShape.java,v 1.5 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -15,24 +15,22 @@ import java.awt.geom.Point2D;
 import org.graffiti.graphics.NodeGraphicAttribute;
 
 /**
- * Interface extending <code>GraphElementShape</code>.  Classes implementing
- * this interface are shapes that are displayed for nodes.   They must
- * implement a method returning the intersection between themselves and a
- * <code>Line2D</code> so that the clipping between the node and incoming /
+ * Interface extending <code>GraphElementShape</code>. Classes implementing
+ * this interface are shapes that are displayed for nodes. They must
+ * implement a method returning the intersection between themselves and a <code>Line2D</code> so that the clipping between the node and incoming /
  * outgoing edges can be calculated.
  */
 public interface NodeShape
-extends GraphElementShape
-{
-	//~ Methods ================================================================
+					extends GraphElementShape {
+	// ~ Methods ================================================================
 
 	/**
 	 * Calculates the intersection point between this node shape and a line.
 	 * For irregularly shaped objects, the intersection that is nearest to the
 	 * <b>end point</b> of the line is returned.
-	 *
-	 * @param line the line with which the intersection should be calculated.
-	 *
+	 * 
+	 * @param line
+	 *           the line with which the intersection should be calculated.
 	 * @return the intersection point between this node shape and the line.
 	 */
 	public Point2D getIntersection(Line2D line);
@@ -40,18 +38,19 @@ extends GraphElementShape
 	/**
 	 * Shapes itself according to the graphics attribute found in the
 	 * CollectionAttribute <code>graphics</code>
-	 *
-	 * @param graphics the <code>CollectionAttribute</code> according to which
-	 *        this shape is constructed.
+	 * 
+	 * @param graphics
+	 *           the <code>CollectionAttribute</code> according to which
+	 *           this shape is constructed.
 	 */
 	public void buildShape(NodeGraphicAttribute graphics)
-	throws ShapeNotFoundException;
+						throws ShapeNotFoundException;
 
 	public int shapeWidthCorrection();
 
 	public int shapeHeightCorrection();
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

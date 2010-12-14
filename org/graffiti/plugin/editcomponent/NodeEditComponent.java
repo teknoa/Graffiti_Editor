@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   NodeEditComponent.java
+// NodeEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: NodeEditComponent.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: NodeEditComponent.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -14,49 +14,46 @@ import org.graffiti.plugin.parameter.NodeParameter;
 
 /**
  * This class provides an edit component for selecting a single node.
- *
+ * 
  * @see org.graffiti.graph.Node
  * @see SingleGraphElementEditComponent
  */
 public class NodeEditComponent
-extends SingleGraphElementEditComponent
-{
-	//~ Constructors ===========================================================
+					extends SingleGraphElementEditComponent {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>NodeEditComponent</code>.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	public NodeEditComponent(Displayable disp)
-	{
+	public NodeEditComponent(Displayable disp) {
 		super(disp);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setDisplayable(org.graffiti.plugin.Displayable)
 	 */
 	@Override
-	public void setDisplayable(Displayable disp)
-	{
-		displayable=disp;
+	public void setDisplayable(Displayable disp) {
+		displayable = disp;
 	}
 
 	/**
 	 * @see org.graffiti.plugin.editcomponent.ValueEditComponent#setValue()
 	 */
-	public void setValue()
-	{
+	public void setValue() {
 	}
 
 	@Override
 	protected Object[] getPossibilities() {
-		return ((NodeParameter)displayable).getPossibleNodes();
+		return ((NodeParameter) displayable).getPossibleNodes();
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ViewNewAction.java
+// ViewNewAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ViewNewAction.java,v 1.5 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ViewNewAction.java,v 1.6 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,9 +21,8 @@ import org.graffiti.plugin.actions.GraffitiAction;
  * The action for creating a new view.
  */
 public class ViewNewAction
-extends GraffitiAction
-{
-	//~ Instance fields ========================================================
+					extends GraffitiAction {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -32,28 +31,28 @@ extends GraffitiAction
 	/** DOCUMENT ME! */
 	private StringBundle sBundle;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new ViewNewAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
-	 * @param sBundle DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
+	 * @param sBundle
+	 *           DOCUMENT ME!
 	 */
-	public ViewNewAction(MainFrame mainFrame, StringBundle sBundle)
-	{
+	public ViewNewAction(MainFrame mainFrame, StringBundle sBundle) {
 		super("file.newView", mainFrame, "filemenu_new");
 		this.sBundle = sBundle;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return mainFrame.isSessionActive();
 	}
 
@@ -61,38 +60,31 @@ extends GraffitiAction
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
-		if(mainFrame.isSessionActive())
-		{
+	public void actionPerformed(ActionEvent e) {
+		if (mainFrame.isSessionActive()) {
 			String dv = mainFrame.getDefaultView();
 
-			if(dv != null)
-			{
+			if (dv != null) {
 				mainFrame.createInternalFrame(dv, "", false, false);
-			}
-			else
-			{
+			} else {
 				mainFrame.showViewChooserDialog(false, false, e);
 			}
-		}
-		else
-		{
-			ErrorMsg.addErrorMessage("A new view could not be created. "+sBundle.getString("menu.view.new.error"));
+		} else {
+			ErrorMsg.addErrorMessage("A new view could not be created. " + sBundle.getString("menu.view.new.error"));
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ComboBoxEditComponent.java
+// ComboBoxEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ComboBoxEditComponent.java,v 1.7 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: ComboBoxEditComponent.java,v 1.8 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -31,13 +31,12 @@ import org.graffiti.plugin.Displayable;
 
 /**
  * Displays a combo box to let the user choose from several possibilities.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public class ComboBoxEditComponent
-extends AbstractValueEditComponent
-{
-	//~ Instance fields ========================================================
+					extends AbstractValueEditComponent {
+	// ~ Instance fields ========================================================
 
 	/** The combobox component used. */
 	protected JComboBox comboBox;
@@ -50,30 +49,28 @@ extends AbstractValueEditComponent
 
 	protected JComponent searchComponent;
 
-
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new ComboBoxEditComponent object.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	public ComboBoxEditComponent(Displayable disp)
-	{
+	public ComboBoxEditComponent(Displayable disp) {
 		super(disp);
 
 		searchComponent = getSearchComponent();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
-	public JComponent getComponent()
-	{
+	public JComponent getComponent() {
 		comboBox.setOpaque(false);
 		if (!(getDisplayable() instanceof Attribute))
 			return comboBox;
@@ -85,27 +82,20 @@ extends AbstractValueEditComponent
 	 * Sets the current value of the <code>Attribute</code> in the
 	 * corresponding <code>JComponent</code>.
 	 */
-	public void setEditFieldValue()
-	{
+	public void setEditFieldValue() {
 		Object value = this.displayable.getValue();
-		if (value==null)
+		if (value == null)
 			showEmpty = true;
 
-		if(showEmpty)
-		{
+		if (showEmpty) {
 			comboBox.insertItemAt(EMPTY_STRING, 0);
 			comboBox.setSelectedIndex(0);
-		}
-		else
-		{
-			if(comboBox.getItemCount()>0 && comboBox.getItemAt(0).equals(EMPTY_STRING))
-			{
+		} else {
+			if (comboBox.getItemCount() > 0 && comboBox.getItemAt(0).equals(EMPTY_STRING)) {
 				comboBox.removeItemAt(0);
 			}
-			for(int i = comboValue.length - 1; i >= 0; i--)
-			{
-				if(value.equals(comboValue[i]))
-				{
+			for (int i = comboValue.length - 1; i >= 0; i--) {
+				if (value.equals(comboValue[i])) {
 					this.comboBox.setSelectedIndex(i);
 					break;
 				}
@@ -122,15 +112,15 @@ extends AbstractValueEditComponent
 			public void actionPerformed(ActionEvent e) {
 				Object disp = comboBox.getSelectedItem();
 				Object search = null;
-				for (int i=0; i<comboText.length; i++) {
+				for (int i = 0; i < comboText.length; i++) {
 					Object d = comboText[i];
-					if (d==disp) {
+					if (d == disp) {
 						search = comboValue[i];
 						break;
 					}
 				}
 
-				if (search==null) {
+				if (search == null) {
 					MainFrame.showMessage("Invalid value, nothing to search for!", MessageType.INFO);
 					return;
 				}
@@ -140,10 +130,10 @@ extends AbstractValueEditComponent
 					ErrorMsg.addErrorMessage("Internal error, can't perform attribute value search");
 					return;
 				}
-				Attribute attr = (Attribute)getDisplayable();
+				Attribute attr = (Attribute) getDisplayable();
 
 				String path = attr.getPath();
-				if (path.indexOf(".")>=0)
+				if (path.indexOf(".") >= 0)
 					path = path.substring(0, path.lastIndexOf("."));
 				String attributeName = attr.getId();
 
@@ -151,21 +141,21 @@ extends AbstractValueEditComponent
 				if (attributeName.equals("shape")) {
 					isShapeSearch = true;
 					if (search instanceof String)
-						search = AttributeHelper.getShapeClassFromShapeName((String)search);
+						search = AttributeHelper.getShapeClassFromShapeName((String) search);
 				}
 
 				Collection<GraphElement> select = new ArrayList<GraphElement>();
 
 				for (GraphElement ge : MainFrame.getInstance().getActiveEditorSession().getGraph().getGraphElements()) {
 					Object val = AttributeHelper.getAttributeValue(ge, path, attributeName, null, "");
-					if (val==null)
+					if (val == null)
 						continue;
 					if (val.equals(search))
 						select.add(ge);
 					else {
-						if (isShapeSearch && val!=null && val instanceof String) {
-							val = AttributeHelper.getShapeClassFromShapeName((String)val);
-							if (val!=null && val.equals(search))
+						if (isShapeSearch && val != null && val instanceof String) {
+							val = AttributeHelper.getShapeClassFromShapeName((String) val);
+							if (val != null && val.equals(search))
 								select.add(ge);
 						}
 					}
@@ -173,35 +163,30 @@ extends AbstractValueEditComponent
 				MainFrame.getInstance().getActiveEditorSession().getSelectionModel().getActiveSelection().addAll(select);
 				MainFrame.getInstance().getActiveEditorSession().getSelectionModel().selectionChanged();
 
-				MainFrame.showMessage("Added "+select.size()+" elements to selection.", MessageType.INFO);
-			}});
+				MainFrame.showMessage("Added " + select.size() + " elements to selection.", MessageType.INFO);
+			}
+		});
 		return s;
 	}
 
 	/**
-	 * Sets the value of the displayable specified in the
-	 * <code>JComponent</code>. Probably not usefull or overwritten by
+	 * Sets the value of the displayable specified in the <code>JComponent</code>. Probably not usefull or overwritten by
 	 * subclasses.
 	 */
-	public void setValue()
-	{
-		if(this.comboBox.getSelectedItem().equals(EMPTY_STRING) ||
-				(displayable.getValue()!=null && this.displayable.getValue().equals(this.comboBox.getSelectedItem())))
-		{
+	public void setValue() {
+		if (this.comboBox.getSelectedItem().equals(EMPTY_STRING) ||
+							(displayable.getValue() != null && this.displayable.getValue().equals(this.comboBox.getSelectedItem()))) {
 			return;
 		}
 
-		if(this.comboBox.getItemAt(0).equals(EMPTY_STRING))
-		{
+		if (this.comboBox.getItemAt(0).equals(EMPTY_STRING)) {
 			this.displayable.setValue(comboValue[this.comboBox.getSelectedIndex() - 1]);
-		}
-		else
-		{
+		} else {
 			this.displayable.setValue(comboValue[this.comboBox.getSelectedIndex()]);
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

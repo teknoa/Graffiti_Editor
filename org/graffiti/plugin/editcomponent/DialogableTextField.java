@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DialogableTextField.java
+// DialogableTextField.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DialogableTextField.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: DialogableTextField.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -20,9 +20,8 @@ import org.graffiti.plugin.Displayable;
  * <code>DialogableTextField</code> provides a component which contains a
  * textfield and a dialog for setting the value of the textfield. The value of
  * the displayable can then be set to the value within the textfield.
- *
- * @version $Revision: 1.3 $
- *
+ * 
+ * @version $Revision: 1.4 $
  * @see AbstractDialogableEditComponent
  * @see javax.swing.JTextField
  * @see javax.swing.JButton
@@ -30,53 +29,50 @@ import org.graffiti.plugin.Displayable;
  * @see javax.swing.JPanel
  */
 public class DialogableTextField
-extends AbstractDialogableEditComponent
-{
-	//~ Instance fields ========================================================
+					extends AbstractDialogableEditComponent {
+	// ~ Instance fields ========================================================
 
 	/**
-	 * The <code>ValueField</code> containing the components of this
-	 * <code>DialogableTextField</code>.
+	 * The <code>ValueField</code> containing the components of this <code>DialogableTextField</code>.
 	 */
 	private ValueField valueField;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>DialogableTextField</code>.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	public DialogableTextField(Displayable disp)
-	{
+	public DialogableTextField(Displayable disp) {
 		super(disp);
 	}
 
 	/**
 	 * Constructs a new <code>DialogableTextField</code>.
-	 *
-	 * @param disp the<code>javax.swing.JTextField</code> containing the value
-	 *        of the displayable to be set.
-	 * @param button the <code>javax.swing.JButton</code> to open the dialog.
-	 * @param dialog the <code>javax.swing.JDialog</code> to provide an
-	 *        arbitrary possibility to specifiy the value of the displayable.
+	 * 
+	 * @param disp
+	 *           the<code>javax.swing.JTextField</code> containing the value
+	 *           of the displayable to be set.
+	 * @param button
+	 *           the <code>javax.swing.JButton</code> to open the dialog.
+	 * @param dialog
+	 *           the <code>javax.swing.JDialog</code> to provide an
+	 *           arbitrary possibility to specifiy the value of the displayable.
 	 */
-	public DialogableTextField(Displayable disp, JButton button, JDialog dialog)
-	{
+	public DialogableTextField(Displayable disp, JButton button, JDialog dialog) {
 		super(disp);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
-	 * Returns the <code>JComponent</code> containing the
-	 * <code>ValueEditComponent</code>.
-	 *
-	 * @return the <code>JComponent</code> containing the
-	 *         <code>ValueEditComponent</code>.
+	 * Returns the <code>JComponent</code> containing the <code>ValueEditComponent</code>.
+	 * 
+	 * @return the <code>JComponent</code> containing the <code>ValueEditComponent</code>.
 	 */
-	public JComponent getComponent()
-	{
+	public JComponent getComponent() {
 		return this.valueField;
 	}
 
@@ -84,21 +80,18 @@ extends AbstractDialogableEditComponent
 	 * Sets the current value of the <code>Attribute</code> in the
 	 * corresponding <code>JComponent</code>.
 	 */
-	public void setEditFieldValue()
-	{
+	public void setEditFieldValue() {
 		valueField.setText(displayable.getValue().toString());
 	}
 
 	/**
-	 * Sets the value of the displayable specified in the
-	 * <code>JComponent</code>.
+	 * Sets the value of the displayable specified in the <code>JComponent</code>.
 	 */
-	public void setValue()
-	{
+	public void setValue() {
 		displayable.setValue(valueField.getText());
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
 	 * The inner class <code>ValueEditField</code> manages the interaction
@@ -107,52 +100,50 @@ extends AbstractDialogableEditComponent
 	 * textfield etc.
 	 */
 	private class ValueField
-	extends JPanel
-	{
+						extends JPanel {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 
-		//		/**
-		//         * Constructs a new <code>ValueField</code> and adds its components.
-		//         *
-		//         * @param textField the <code>javax.swing.JTextField</code> for editing
-		//         *        the value of the displayable.
-		//         * @param button the <code>javax.swing.JButton</code> for opening the
-		//         *        dialog to edit the value of the displayable.
-		//         * @param dialog the <code>javax.swing.JDialog</code> for editing
-		//         *        choosing the value for the displayable.
-		//         */
-		//        public ValueField(JTextField textField, JButton button, JDialog dialog)
-		//        {
-		//            super();
+		// /**
+		// * Constructs a new <code>ValueField</code> and adds its components.
+		// *
+		// * @param textField the <code>javax.swing.JTextField</code> for editing
+		// * the value of the displayable.
+		// * @param button the <code>javax.swing.JButton</code> for opening the
+		// * dialog to edit the value of the displayable.
+		// * @param dialog the <code>javax.swing.JDialog</code> for editing
+		// * choosing the value for the displayable.
+		// */
+		// public ValueField(JTextField textField, JButton button, JDialog dialog)
+		// {
+		// super();
 		//
-		//            // add the components using a layout such that they are placed in
-		//            // one row.
-		//        }
+		// // add the components using a layout such that they are placed in
+		// // one row.
+		// }
 
 		/**
 		 * Sets the String to be set within the textfield.
-		 *
-		 * @param text the String to be set within the textfield.
+		 * 
+		 * @param text
+		 *           the String to be set within the textfield.
 		 */
-		public void setText(String text)
-		{
+		public void setText(String text) {
 		}
 
 		/**
 		 * Returns the text in the textfield.
-		 *
+		 * 
 		 * @return the text in the textfield.
 		 */
-		public String getText()
-		{
+		public String getText() {
 			return null; // TODO
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -15,12 +15,13 @@ public class RecentEntry extends JMenuItem {
 
 	public RecentEntry(String data, boolean visible, Icon icon) {
 		super();
-		if(!data.equalsIgnoreCase("")) {
+		if (!data.equalsIgnoreCase("")) {
 			setAction(getOpenAction(new File(data)));
-			setText(data.substring(data.lastIndexOf(File.separator)+1));
+			setText(data.substring(data.lastIndexOf(File.separator) + 1));
 			setToolTipText(data);
 			setVisible(visible);
-		} else setVisible(false);
+		} else
+			setVisible(false);
 		setIcon(icon);
 	}
 
@@ -58,12 +59,26 @@ public class RecentEntry extends JMenuItem {
 					e1.printStackTrace();
 				}
 			}
-			public void setEnabled(boolean b) {}
-			public void removePropertyChangeListener(PropertyChangeListener listener) {}
-			public void putValue(String key, Object value) {}
-			public boolean isEnabled() {return true;}
-			public Object getValue(String key) {return null;}
-			public void addPropertyChangeListener(PropertyChangeListener listener) {}
+
+			public void setEnabled(boolean b) {
+			}
+
+			public void removePropertyChangeListener(PropertyChangeListener listener) {
+			}
+
+			public void putValue(String key, Object value) {
+			}
+
+			public boolean isEnabled() {
+				return true;
+			}
+
+			public Object getValue(String key) {
+				return null;
+			}
+
+			public void addPropertyChangeListener(PropertyChangeListener listener) {
+			}
 		};
 	}
 

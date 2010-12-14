@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractGraffitiValueEditContainer.java
+// AbstractGraffitiValueEditContainer.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractGraffitiValueEditContainer.java,v 1.4 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractGraffitiValueEditContainer.java,v 1.5 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -19,16 +19,14 @@ import javax.swing.JTextField;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
 
 /**
- * Provides an abstract implementation of the interface
- * <code>ValueEditContainer</code> in graffiti style.
- *
+ * Provides an abstract implementation of the interface <code>ValueEditContainer</code> in graffiti style.
+ * 
  * @see ValueEditContainer
  * @see AbstractValueEditContainer
  */
 public class AbstractGraffitiValueEditContainer
-extends AbstractValueEditContainer
-{
-	//~ Instance fields ========================================================
+					extends AbstractValueEditContainer {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -37,66 +35,63 @@ extends AbstractValueEditContainer
 	/** The table containing the component for editing values. */
 	private NameValueTable nvt;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for AbstractGraffitiValueEditContainer.
 	 */
-	public AbstractGraffitiValueEditContainer()
-	{
+	public AbstractGraffitiValueEditContainer() {
 		super();
 		nvt = new NameValueTable(javax.swing.JSplitPane.VERTICAL_SPLIT);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns a <code>java.util.List</code> containing all the edit components
 	 * of this <code>ValueEditContainer</code>.
-	 *
+	 * 
 	 * @return a <code>java.util.List</code> containing all the edit components
 	 *         of this <code>ValueEditContainer</code>.
-	 *
-	 * @throws RuntimeException DOCUMENT ME!
+	 * @throws RuntimeException
+	 *            DOCUMENT ME!
 	 */
-	public List<?> getEditComponents()
-	{
+	public List<?> getEditComponents() {
 		throw new RuntimeException("implement me");
 	}
 
 	/**
 	 * Adds a <code>ValueEditComponent</code> to the value edit container.
-	 *
-	 * @param vec the <code>ValueEditComponent</code> to be added.
+	 * 
+	 * @param vec
+	 *           the <code>ValueEditComponent</code> to be added.
 	 */
 	@Override
-	public void addValueEditComponent(ValueEditComponent vec)
-	{
+	public void addValueEditComponent(ValueEditComponent vec) {
 		nvt.addValueEditComponent(vec);
 	}
 
 	/**
 	 * Adds the specified <code>ValueEditComponent</code> to the container.
-	 *
-	 * @param vec the <code>ValueEditComponent</code> to be added to the
-	 *        container.
+	 * 
+	 * @param vec
+	 *           the <code>ValueEditComponent</code> to be added to the
+	 *           container.
 	 */
 	@Override
-	protected void doAddValueEditComponent(ValueEditComponent vec)
-	{
+	protected void doAddValueEditComponent(ValueEditComponent vec) {
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
-	 * <code>NameValueTable</code> provides a graffiti style table for  editing
-	 * name value pairs packed into a  <code>ValueEditComponent</code>.
-	 *
+	 * <code>NameValueTable</code> provides a graffiti style table for editing
+	 * name value pairs packed into a <code>ValueEditComponent</code>.
+	 * 
 	 * @see javax.swing.JSplitPane
 	 */
 	protected class NameValueTable
-	extends JSplitPane
-	{
+						extends JSplitPane {
 		/**
 		 * 
 		 */
@@ -110,11 +105,11 @@ extends AbstractValueEditContainer
 
 		/**
 		 * Constructor for NameValueTable.
-		 *
-		 * @param newOrientation the orientation of the split pane.
+		 * 
+		 * @param newOrientation
+		 *           the orientation of the split pane.
 		 */
-		public NameValueTable(int newOrientation)
-		{
+		public NameValueTable(int newOrientation) {
 			super(newOrientation);
 			left.setLayout(new GridLayout(0, 1));
 			right.setLayout(new GridLayout(0, 1));
@@ -125,17 +120,17 @@ extends AbstractValueEditContainer
 
 		/**
 		 * Adds a <code>ValueEditComponent</code> to the value edit container.
-		 *
-		 * @param vec the <code>ValueEditComponent</code> to be added.
+		 * 
+		 * @param vec
+		 *           the <code>ValueEditComponent</code> to be added.
 		 */
-		public void addValueEditComponent(ValueEditComponent vec)
-		{
+		public void addValueEditComponent(ValueEditComponent vec) {
 			left.add(new JTextField(vec.getDisplayable().getName()));
 			right.add(vec.getComponent());
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

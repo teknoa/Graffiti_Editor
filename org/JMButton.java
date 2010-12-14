@@ -9,7 +9,6 @@ import javax.swing.UIManager;
 public class JMButton extends JButton {
 	private static final long serialVersionUID = 4853578108818002186L;
 
-
 	public JMButton(String text) {
 		super(text);
 	}
@@ -18,7 +17,7 @@ public class JMButton extends JButton {
 		boolean nativeLookAndFeelActive = UIManager.getLookAndFeel().isNativeLookAndFeel();
 		boolean mac = SystemInfo.isMac();
 		if (mac && nativeLookAndFeelActive) {
-			if (text!=null && (text.contains("<br>") || text.contains("<small>"))) {
+			if (text != null && (text.contains("<br>") || text.contains("<small>"))) {
 				if (text.contains("<small>") && !text.contains("<br><small>"))
 					putClientProperty("JComponent.sizeVariant", "mini");
 				text = StringManipulationTools.stringReplace(text, "<br>", " ");
@@ -26,7 +25,7 @@ public class JMButton extends JButton {
 				text = StringManipulationTools.removeHTMLtags(text);
 				super.setText(text);
 			} else
-				if (text!=null && text.contains("<html>")) {
+				if (text != null && text.contains("<html>")) {
 					text = StringManipulationTools.removeHTMLtags(text);
 					super.setText(text);
 				} else
@@ -46,6 +45,5 @@ public class JMButton extends JButton {
 	public JMButton() {
 		super();
 	}
-
 
 }

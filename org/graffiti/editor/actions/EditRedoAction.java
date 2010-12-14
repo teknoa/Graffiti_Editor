@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   EditRedoAction.java
+// EditRedoAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: EditRedoAction.java,v 1.7 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: EditRedoAction.java,v 1.8 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,25 +22,26 @@ import org.graffiti.session.EditorSession;
 
 /**
  * Special class for redo capabilities.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public class EditRedoAction
-extends GraffitiAction {
-	//~ Constructors ===========================================================
+					extends GraffitiAction {
+	// ~ Constructors ===========================================================
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Creates a new EditRedoAction object.
-	 *
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public EditRedoAction(MainFrame mainFrame) {
 		super("edit.redo", mainFrame, "editmenu_redo");
 		enabled = false;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
@@ -61,18 +62,19 @@ extends GraffitiAction {
 	/**
 	 * <b>Implementation Note:</b> The status of the GUIComponents has to be
 	 * updated after actionPerformed was executed.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
 	public void actionPerformed(ActionEvent e) {
 		try {
 			mainFrame.getActiveEditorSession().getUndoManager().redo();
 			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionStarted(e);
 			mainFrame.getActiveEditorSession().getGraph().getListenerManager().transactionFinished(e);
-		} catch(CannotRedoException cre) {
+		} catch (CannotRedoException cre) {
 			MainFrame.showMessageDialog("<html>" +
-					"Can't redo command!<br>" +
-					"Error cause: "+cre.getMessage(), "Error");
+								"Can't redo command!<br>" +
+								"Error cause: " + cre.getMessage(), "Error");
 		}
 		mainFrame.updateActions();
 	}
@@ -82,7 +84,7 @@ extends GraffitiAction {
 	 */
 	@Override
 	public void update() {
-		if(mainFrame.isSessionActive()) {
+		if (mainFrame.isSessionActive()) {
 			EditorSession session = mainFrame.getActiveEditorSession();
 			UndoManager um = session.getUndoManager();
 			setEnabled(um.canRedo());
@@ -95,10 +97,10 @@ extends GraffitiAction {
 		}
 
 		putValue(SMALL_ICON,
-				iBundle.getImageIcon("toolbar." + getName() + ".icon"));
+							iBundle.getImageIcon("toolbar." + getName() + ".icon"));
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

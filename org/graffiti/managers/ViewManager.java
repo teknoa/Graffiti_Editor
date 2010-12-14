@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ViewManager.java
+// ViewManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ViewManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ViewManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -16,17 +16,16 @@ import org.graffiti.util.InstanceCreationException;
 
 /**
  * Provides an interface for managing a list of view types.
- *
- * @version $Revision: 1.3 $
+ * 
+ * @version $Revision: 1.4 $
  */
 public interface ViewManager
-extends PluginManagerListener, ViewListener
-{
-	//~ Methods ================================================================
+					extends PluginManagerListener, ViewListener {
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the class names of the registered views.
-	 *
+	 * 
 	 * @return the class names of the registered views.
 	 */
 	public String[] getViewNames();
@@ -35,57 +34,61 @@ extends PluginManagerListener, ViewListener
 
 	/**
 	 * Adds the given view type (class name) to the map of view types.
-	 *
-	 * @param className the new view to add to the map.
+	 * 
+	 * @param className
+	 *           the new view to add to the map.
 	 */
 	public void addView(String className);
 
 	/**
 	 * Adds the given list of views types (class names) to the list of
 	 * available view types.
-	 *
-	 * @param classNames the list of classNames to add to the view type list.
+	 * 
+	 * @param classNames
+	 *           the list of classNames to add to the view type list.
 	 */
 	public void addViews(String[] classNames);
 
 	/**
 	 * Returns a new instance of the specified view.
-	 *
-	 * @param className the class name of the view.
-	 *
+	 * 
+	 * @param className
+	 *           the class name of the view.
 	 * @return a new instance of the specified view.
 	 */
 	public View createView(String className)
-	throws InstanceCreationException;
+						throws InstanceCreationException;
 
 	/**
 	 * Returns <code>true</code>, if there is at least one registered view
 	 * plugin available. /
-	 *
+	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean hasViews();
 
 	/**
 	 * Registers the given <code>ViewManagerListener</code>.
-	 *
-	 * @param viewManagerListener the listener to register.
+	 * 
+	 * @param viewManagerListener
+	 *           the listener to register.
 	 */
 	void addListener(ViewManagerListener viewManagerListener);
 
 	/**
 	 * Registers the given <code>ViewListener</code>.
-	 *
-	 * @param viewListener the listener to register.
+	 * 
+	 * @param viewListener
+	 *           the listener to register.
 	 */
 	void addViewListener(ViewListener viewListener);
 
 	/**
 	 * Returns <code>true</code>, if the given view manager listener was in the
 	 * list of listeners and could be removed.
-	 *
-	 * @param l the view manager listener to remove.
-	 *
+	 * 
+	 * @param l
+	 *           the view manager listener to remove.
 	 * @return DOCUMENT ME!
 	 */
 	boolean removeListener(ViewManagerListener l);
@@ -93,26 +96,26 @@ extends PluginManagerListener, ViewListener
 	/**
 	 * Returns <code>true</code>, if the given view listener was in the list of
 	 * listeners and could be removed.
-	 *
-	 * @param l the view manager listener to remove.
-	 *
+	 * 
+	 * @param l
+	 *           the view manager listener to remove.
 	 * @return DOCUMENT ME!
 	 */
 	boolean removeViewListener(ViewListener l);
 
-	//~ Inner Interfaces =======================================================
+	// ~ Inner Interfaces =======================================================
 
 	/**
 	 * Interfaces a view manager listener.
-	 *
-	 * @version $Revision: 1.3 $
+	 * 
+	 * @version $Revision: 1.4 $
 	 */
-	public interface ViewManagerListener
-	{
+	public interface ViewManagerListener {
 		/**
 		 * Called, if a new view type is added to view manager.
-		 *
-		 * @param viewType the type of the new view.
+		 * 
+		 * @param viewType
+		 *           the type of the new view.
 		 */
 		void viewTypeAdded(String viewType);
 	}
@@ -128,6 +131,6 @@ extends PluginManagerListener, ViewListener
 	public void setDefaultView(String defaultView);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

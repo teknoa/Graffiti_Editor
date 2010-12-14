@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   RunAlgorithm.java
+// RunAlgorithm.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: RunAlgorithm.java,v 1.10 2010/12/01 14:59:13 morla Exp $
+// ==============================================================================
+// $Id: RunAlgorithm.java,v 1.11 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,13 +20,12 @@ import org.graffiti.plugin.algorithm.Algorithm;
 
 /**
  * Runs an algorithm.
- *
- * @version $Revision: 1.10 $
+ * 
+ * @version $Revision: 1.11 $
  */
 public class RunAlgorithm
-extends GraffitiAction
-{
-	//~ Instance fields ========================================================
+					extends GraffitiAction {
+	// ~ Instance fields ========================================================
 
 	private static final long serialVersionUID = 1L;
 
@@ -35,33 +34,33 @@ extends GraffitiAction
 
 	private Algorithm algorithm;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructor for RunAlgorithm.
-	 *
-	 * @param algorithmClassName DOCUMENT ME!
+	 * 
+	 * @param algorithmClassName
+	 *           DOCUMENT ME!
 	 * @param name
 	 * @param mainFrame
-	 * @param editComponentManager DOCUMENT ME!
+	 * @param editComponentManager
+	 *           DOCUMENT ME!
 	 */
 	public RunAlgorithm(String algorithmClassName, String name,
-			MainFrame mainFrame, EditComponentManager editComponentManager, Algorithm instance)
-	{
+						MainFrame mainFrame, EditComponentManager editComponentManager, Algorithm instance) {
 		super(name, mainFrame, null);
 		this.algorithmClassName = algorithmClassName;
 		this.algorithm = instance;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Get the name of the algorithm that this action will run.
-	 *
+	 * 
 	 * @return the name of the algorithm that this action will run.
 	 */
-	public String getAlgorithmClassName()
-	{
+	public String getAlgorithmClassName() {
 		return algorithmClassName;
 	}
 
@@ -69,57 +68,54 @@ extends GraffitiAction
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return mainFrame.isSessionActive();
 
-//		if (algorithm instanceof EditorAlgorithm) {
-//			// editor algorithm can decide by himself whether to be active for view
-//			EditorAlgorithm ea = (EditorAlgorithm)algorithm;
-//			if (mainFrame.isSessionActive())
-//				return ea.activeForView(mainFrame.getActiveSession().getActiveView());
-//			else
-//				return ea.activeForView(null);
-//		} else {
-//			if (!mainFrame.isSessionActive())
-//				return false;
-//
-//			// "normal" algorithm
-//			boolean threeDviewActive = mainFrame.getActiveSession().getActiveView() instanceof View3D;
-//			if (threeDviewActive)
-//				return false;
-//			else
-//				return true;
-//		}
+		// if (algorithm instanceof EditorAlgorithm) {
+		// // editor algorithm can decide by himself whether to be active for view
+		// EditorAlgorithm ea = (EditorAlgorithm)algorithm;
+		// if (mainFrame.isSessionActive())
+		// return ea.activeForView(mainFrame.getActiveSession().getActiveView());
+		// else
+		// return ea.activeForView(null);
+		// } else {
+		// if (!mainFrame.isSessionActive())
+		// return false;
+		//
+		// // "normal" algorithm
+		// boolean threeDviewActive = mainFrame.getActiveSession().getActiveView() instanceof View3D;
+		// if (threeDviewActive)
+		// return false;
+		// else
+		// return true;
+		// }
 	}
 
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */
-	public void actionPerformed(ActionEvent a)
-	{
+	public void actionPerformed(ActionEvent a) {
 		algorithm.setActionEvent(a);
 		try {
 			GravistoService.getInstance().runAlgorithm(algorithm, true, a);
-		} catch(Exception err) {
-			MainFrame.showMessageDialog("Unexpected exception: "+err.toString(), "Error");
+		} catch (Exception err) {
+			MainFrame.showMessageDialog("Unexpected exception: " + err.toString(), "Error");
 			err.printStackTrace();
-		} catch(Error err) {
-			MainFrame.showMessageDialog("Unexpected error: "+err.toString(), "Error");
+		} catch (Error err) {
+			MainFrame.showMessageDialog("Unexpected error: " + err.toString(), "Error");
 			err.printStackTrace();
 		}
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

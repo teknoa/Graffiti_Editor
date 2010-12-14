@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AttributeComponent.java
+// AttributeComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AttributeComponent.java,v 1.7 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: AttributeComponent.java,v 1.8 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.view;
 
@@ -18,14 +18,13 @@ import org.graffiti.attributes.Attribute;
 
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
- *
- * @version $Revision: 1.7 $
+ * 
+ * @version $Revision: 1.8 $
  */
 public abstract class AttributeComponent
-extends JComponent
-implements GraffitiViewComponent
-{
-	//~ Methods ================================================================
+					extends JComponent
+					implements GraffitiViewComponent {
+	// ~ Methods ================================================================
 
 	/**
 	 * 
@@ -34,14 +33,14 @@ implements GraffitiViewComponent
 
 	/**
 	 * Sets an instance of attribute which this component displays.
-	 *
+	 * 
 	 * @param attr
 	 */
 	public abstract void setAttribute(Attribute attr);
 
 	/**
 	 * Returns the attribute that is displayed by this component.
-	 *
+	 * 
 	 * @return the attribute that is displayed by this component.
 	 */
 	public abstract Attribute getAttribute();
@@ -49,7 +48,7 @@ implements GraffitiViewComponent
 	/**
 	 * Sets shape of graph element to which the attribute of this component
 	 * belongs.
-	 *
+	 * 
 	 * @param geShape
 	 */
 	public abstract void setGraphElementShape(GraphElementShape geShape);
@@ -58,32 +57,34 @@ implements GraffitiViewComponent
 
 	/**
 	 * DOCUMENT ME!
-	 *
-	 * @param shift DOCUMENT ME!
+	 * 
+	 * @param shift
+	 *           DOCUMENT ME!
 	 */
 	public abstract void setShift(Point shift);
 
 	/**
 	 * Called when a graphics attribute of the attribute represented by this
 	 * component has changed.
-	 *
-	 * @param attr the attribute that has triggered the event.
+	 * 
+	 * @param attr
+	 *           the attribute that has triggered the event.
 	 */
 	public abstract void attributeChanged(Attribute attr)
-	throws ShapeNotFoundException;
+						throws ShapeNotFoundException;
 
 	/**
 	 * Used when the shape changed in the datastructure. Makes the painter to
 	 * create a new shape.
 	 */
 	public abstract void recreate()
-	throws ShapeNotFoundException;
+						throws ShapeNotFoundException;
 
 	public void highlight(boolean value, MouseEvent e) {
 
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

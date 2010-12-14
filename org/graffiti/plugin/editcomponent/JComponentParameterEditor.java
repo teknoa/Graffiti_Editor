@@ -251,7 +251,6 @@ public class JComponentParameterEditor implements ValueEditComponent {
 		}
 	}
 
-	public void setParameter(String setting, Object value)
-	{
+	public void setParameter(String setting, Object value) {
 	}
 }

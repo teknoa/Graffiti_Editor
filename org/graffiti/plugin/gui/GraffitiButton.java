@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiButton.java
+// GraffitiButton.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiButton.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: GraffitiButton.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -19,10 +19,9 @@ import org.graffiti.editor.MainFrame;
  * TODO
  */
 public abstract class GraffitiButton
-extends JButton
-implements GraffitiComponent
-{
-	//~ Instance fields ========================================================
+					extends JButton
+					implements GraffitiComponent {
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -31,50 +30,53 @@ implements GraffitiComponent
 	/** The preffered component of this button. */
 	protected String preferredComponent;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Creates a new GraffitiButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiButton(String preferredComp)
-	{
+	public GraffitiButton(String preferredComp) {
 		preferredComponent = preferredComp;
 	}
 
 	/**
 	 * Creates a new GraffitiButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
-	 * @param text DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
+	 * @param text
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiButton(String preferredComp, String text)
-	{
+	public GraffitiButton(String preferredComp, String text) {
 		super(text);
 		preferredComponent = preferredComp;
 	}
 
 	/**
 	 * Creates a new GraffitiButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
-	 * @param i DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
+	 * @param i
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiButton(String preferredComp, Icon i)
-	{
+	public GraffitiButton(String preferredComp, Icon i) {
 		super(i);
 		preferredComponent = preferredComp;
 	}
 
 	/**
 	 * Creates a new GraffitiButton object.
-	 *
-	 * @param preferredComp DOCUMENT ME!
-	 * @param a DOCUMENT ME!
+	 * 
+	 * @param preferredComp
+	 *           DOCUMENT ME!
+	 * @param a
+	 *           DOCUMENT ME!
 	 */
-	public GraffitiButton(String preferredComp, Action a)
-	{
+	public GraffitiButton(String preferredComp, Action a) {
 		super(a);
 		preferredComponent = preferredComp;
 	}
@@ -82,31 +84,28 @@ implements GraffitiComponent
 	/**
 	 * Constructs a new <code>GraffitiButton</code>.
 	 */
-	protected GraffitiButton()
-	{
+	protected GraffitiButton() {
 		super();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
 	 */
-	public void setMainFrame(MainFrame mf)
-	{
+	public void setMainFrame(MainFrame mf) {
 	}
 
 	/**
 	 * Returns the id of the component the button prefers to be inserted in.
-	 *
+	 * 
 	 * @return the id of the component the button prefers to be inserted in.
 	 */
-	public String getPreferredComponent()
-	{
+	public String getPreferredComponent() {
 		return this.preferredComponent;
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

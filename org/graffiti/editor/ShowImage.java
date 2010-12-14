@@ -1,7 +1,5 @@
 /*******************************************************************************
- * 
- *    Copyright (c) 2010 Image Analysis Group, IPK Gatersleben
- * 
+ * Copyright (c) 2010 Image Analysis Group, IPK Gatersleben
  *******************************************************************************/
 /*
  * Created on Oct 15, 2010 by Christian Klukas
@@ -14,7 +12,6 @@ import java.awt.image.BufferedImage;
 
 /**
  * @author klukas
- * 
  */
 public class ShowImage extends Panel {
 	private static final long serialVersionUID = 2163700797926226041L;

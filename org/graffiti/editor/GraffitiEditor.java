@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiEditor.java
+// GraffitiEditor.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiEditor.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: GraffitiEditor.java,v 1.4 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -30,17 +30,16 @@ import org.graffiti.options.GravistoPreferences;
 
 /**
  * Contains the graffiti editor.
- *
- * @version $Revision: 1.3 $
+ * 
+ * @version $Revision: 1.4 $
  */
-public class GraffitiEditor
-{
-	//~ Static fields/initializers =============================================
+public class GraffitiEditor {
+	// ~ Static fields/initializers =============================================
 
 	/** The logger for the current class. */
 	private static final Logger logger = Logger.getLogger(MainFrame.class.getName());
 
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	/** The editor's attribute types manager. */
 	private AttributeTypesManager attributeTypesManager;
@@ -54,13 +53,12 @@ public class GraffitiEditor
 	/** The preferences of the editor. */
 	private GravistoPreferences prefs;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new instance of the editor.
 	 */
-	public GraffitiEditor()
-	{
+	public GraffitiEditor() {
 		// create splash screen.
 		SplashScreen splashScreen = new SplashScreen();
 		splashScreen.setVisible(true);
@@ -80,13 +78,10 @@ public class GraffitiEditor
 		// construct and open the editor's main frame
 		mainFrame = new MainFrame(pluginManager, prefs.node("ui"));
 
-		try
-		{
+		try {
 			pluginManager.loadStartupPlugins(splashScreen);
 			splashScreen.dispose();
-		}
-		catch(PluginManagerException pme)
-		{
+		} catch (PluginManagerException pme) {
 			splashScreen.dispose();
 			showMessageDialog(pme.getMessage());
 		}
@@ -96,37 +91,31 @@ public class GraffitiEditor
 		mainFrame.setVisible(true);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * The editor's main method.
-	 *
-	 * @param args the command line arguments.
+	 * 
+	 * @param args
+	 *           the command line arguments.
 	 */
-	public static void main(String[] args)
-	{
-		try
-		{
+	public static void main(String[] args) {
+		try {
 			if (ReleaseInfo.isRunningAsApplet())
 				UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			logger.log(Level.WARNING,
-					"Exception while setting system look & feel", e);
+								"Exception while setting system look & feel", e);
 		}
 
 		// temporary added for consistency of language
 		Locale.setDefault(Locale.ENGLISH);
 
 		// reading the logging config file
-		try
-		{
+		try {
 			LogManager.getLogManager().readConfiguration(new FileInputStream(
-			"org/graffiti/editor/Logging.properties"));
-		}
-		catch(IOException e)
-		{
+								"org/graffiti/editor/Logging.properties"));
+		} catch (IOException e) {
 			logger.info("Start without specified logging properties");
 		}
 
@@ -138,28 +127,28 @@ public class GraffitiEditor
 
 	/**
 	 * Parses the command line arguments passed to this class.
-	 *
-	 * @param args the command line arguments passed to this class.
+	 * 
+	 * @param args
+	 *           the command line arguments passed to this class.
 	 */
-	private void parseCommandLineArguments(String[] args)
-	{
-		for(int i = 0; i < args.length; i++)
+	private void parseCommandLineArguments(String[] args) {
+		for (int i = 0; i < args.length; i++)
 			mainFrame.loadGraph(new File(args[i]));
 	}
 
 	/**
 	 * Shows an arbitrary message dialog.
-	 *
-	 * @param msg the message to be shown.
+	 * 
+	 * @param msg
+	 *           the message to be shown.
 	 */
-	private void showMessageDialog(String msg)
-	{
+	private void showMessageDialog(String msg) {
 		JOptionPane.showMessageDialog(mainFrame, msg,
-				StringBundle.getInstance().getString("message.dialog.title"),
-				JOptionPane.WARNING_MESSAGE);
+							StringBundle.getInstance().getString("message.dialog.title"),
+							JOptionPane.WARNING_MESSAGE);
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   CloseViewAction.java
+// CloseViewAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: CloseViewAction.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: CloseViewAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -18,9 +18,8 @@ import org.graffiti.plugin.actions.GraffitiAction;
  * Represents a clone view action.
  */
 public class CloseViewAction
-extends GraffitiAction
-{
-	//~ Constructors ===========================================================
+					extends GraffitiAction {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -30,54 +29,50 @@ extends GraffitiAction
 	/**
 	 * Constructs a new close view action.
 	 */
-	public CloseViewAction()
-	{
+	public CloseViewAction() {
 		super("action.view.close", null, "filemenu_close"); // TODO
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
 	@Override
-	public boolean isEnabled()
-	{
+	public boolean isEnabled() {
 		return false;
 	}
 
 	/**
 	 * Returns the help context for this action.
-	 *
+	 * 
 	 * @return the help context for this action.
 	 */
 	@Override
-	public HelpContext getHelpContext()
-	{
+	public HelpContext getHelpContext() {
 		return null;
 	}
 
 	/**
 	 * Returns the name of this action.
-	 *
+	 * 
 	 * @return String, the name of this action.
 	 */
 	@Override
-	public String getName()
-	{
+	public String getName() {
 		return null;
 	}
 
 	/**
 	 * Executes this action.
-	 *
-	 * @param e DOCUMENT ME!
+	 * 
+	 * @param e
+	 *           DOCUMENT ME!
 	 */
-	public void actionPerformed(ActionEvent e)
-	{
+	public void actionPerformed(ActionEvent e) {
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

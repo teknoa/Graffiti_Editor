@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   SplashScreen.java
+// SplashScreen.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: SplashScreen.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: SplashScreen.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -33,15 +33,14 @@ import org.graffiti.core.ImageBundle;
  * A frame that is displayed while Graffiti is loading. The progress of loading
  * is displayed with a progress bar and a description of the current loading
  * action.
- *
+ * 
  * @author Michael Forster
- * @version $Revision: 1.4 $ $Date: 2010/07/19 14:05:42 $
+ * @version $Revision: 1.5 $ $Date: 2010/12/14 07:02:12 $
  */
 public class SplashScreen
-extends JFrame
-implements SplashScreenInterface
-{
-	//~ Static fields/initializers =============================================
+					extends JFrame
+					implements SplashScreenInterface {
+	// ~ Static fields/initializers =============================================
 
 	/**
 	 * 
@@ -56,26 +55,25 @@ implements SplashScreenInterface
 	 */
 	private static JLabel progressLabel;
 
-	private String copyright="<html>Copyright &copy; 2001-2003 University of Passau";
+	private String copyright = "<html>Copyright &copy; 2001-2003 University of Passau";
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	public SplashScreen(String applicationName, String copyright) {
 		super(applicationName);
-		this.copyright=copyright;
+		this.copyright = copyright;
 		init();
 	}
 
 	/**
 	 * Creates a new SplashScreen object.
 	 */
-	public SplashScreen()
-	{
+	public SplashScreen() {
 		super("Start up Graffiti...");
 		init();
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	private void init() {
 		setUndecorated(true);
@@ -133,42 +131,39 @@ implements SplashScreenInterface
 		// center on display
 		Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
 		setLocation((screenDim.width - getWidth()) / 2,
-				(screenDim.height - getHeight()) / 2);
+							(screenDim.height - getHeight()) / 2);
 	}
 
 	/*
 	 * @see org.graffiti.util.ProgressViewer#setMaximum(int)
 	 */
-	public void setMaximum(int maximum)
-	{
+	public void setMaximum(int maximum) {
 		progressBar.setMaximum(maximum);
 	}
 
 	/*
 	 * @see org.graffiti.util.ProgressViewer#setText(java.lang.String)
 	 */
-	public void setText(String text)
-	{
+	public void setText(String text) {
 		progressLabel.setText(text);
 	}
 
 	/*
 	 * @see org.graffiti.util.ProgressViewer#setValue(int)
 	 */
-	public void setValue(int value)
-	{
+	public void setValue(int value) {
 		progressBar.setValue(value);
 	}
 
 	/*
 	 * @see org.graffiti.util.ProgressViewer#getValue()
 	 */
-	public int getValue()
-	{
+	public int getValue() {
 		return progressBar.getValue();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.editor.SplashScreenInterface#setInitialisationFinished()
 	 */
 	public void setInitialisationFinished() {
@@ -176,7 +171,8 @@ implements SplashScreenInterface
 
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see org.graffiti.util.ProgressViewer#getMaximum()
 	 */
 	public int getMaximum() {
@@ -184,6 +180,6 @@ implements SplashScreenInterface
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

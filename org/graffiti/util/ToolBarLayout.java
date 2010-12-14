@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ToolBarLayout.java
+// ToolBarLayout.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ToolBarLayout.java,v 1.4 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ToolBarLayout.java,v 1.5 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.util;
 
@@ -18,14 +18,13 @@ import java.awt.Insets;
 /**
  * An extension of {@link java.awt.FlowLayout} that correctly calculates the
  * height of a toolbar panel.
- *
+ * 
  * @author Michael Forster
- * @version $Revision: 1.4 $ $Date: 2010/07/19 14:05:42 $
+ * @version $Revision: 1.5 $ $Date: 2010/12/14 07:02:12 $
  */
 public class ToolBarLayout
-extends FlowLayout
-{
-	//~ Constructors ===========================================================
+					extends FlowLayout {
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -35,62 +34,54 @@ extends FlowLayout
 	/*
 	 * @see FlowLayout#FlowLayout()
 	 */
-	public ToolBarLayout()
-	{
+	public ToolBarLayout() {
 		super(LEFT);
 	}
 
 	/*
 	 * @see FlowLayout#FlowLayout(int)
 	 */
-	public ToolBarLayout(int align)
-	{
+	public ToolBarLayout(int align) {
 		super(align);
 	}
 
 	/*
 	 * @see FlowLayout#FlowLayout(int, int, int)
 	 */
-	public ToolBarLayout(int align, int hgap, int vgap)
-	{
+	public ToolBarLayout(int align, int hgap, int vgap) {
 		super(align, hgap, vgap);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/*
 	 * @see java.awt.FlowLayout#preferredLayoutSize(java.awt.Container)
 	 */
 	@Override
-	public Dimension preferredLayoutSize(Container target)
-	{
-		synchronized(target.getTreeLock())
-		{
+	public Dimension preferredLayoutSize(Container target) {
+		synchronized (target.getTreeLock()) {
 			Insets insets = target.getInsets();
 			int maxwidth = target.getWidth() -
-			(insets.left + insets.right + (getHgap() * 2));
+								(insets.left + insets.right + (getHgap() * 2));
 			int x = 0;
 			int y = insets.top + insets.bottom + (getVgap() * 2);
 			int rowHeight = 0;
 
-			for(int i = 0; i < target.getComponentCount(); i++)
-			{
+			for (int i = 0; i < target.getComponentCount(); i++) {
 				Component m = target.getComponent(i);
 
-				if(m.isVisible())
-				{
+				if (m.isVisible()) {
 					Dimension d = m.getPreferredSize();
 					m.setSize(d.width, d.height);
 
-					if((x == 0) || ((x + d.width) <= maxwidth)) // same row
+					if ((x == 0) || ((x + d.width) <= maxwidth)) // same row
 					{
-						if(x > 0)
+						if (x > 0)
 							x += getHgap();
 
 						x += d.width;
 						rowHeight = Math.max(rowHeight, d.height);
-					}
-					else // new row
+					} else // new row
 					{
 						y += (getVgap() + rowHeight);
 
@@ -105,6 +96,6 @@ extends FlowLayout
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiMenu.java
+// GraffitiMenu.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiMenu.java,v 1.3 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: GraffitiMenu.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -17,10 +17,9 @@ import org.graffiti.editor.MainFrame;
  * DOCUMENT ME!
  */
 public class GraffitiMenu
-extends JMenu
-implements GraffitiComponent
-{
-	//~ Methods ================================================================
+					extends JMenu
+					implements GraffitiComponent {
+	// ~ Methods ================================================================
 
 	/**
 	 * 
@@ -30,19 +29,17 @@ implements GraffitiComponent
 	/**
 	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
 	 */
-	public void setMainFrame(MainFrame mf)
-	{
+	public void setMainFrame(MainFrame mf) {
 	}
 
 	/**
 	 * @see org.graffiti.plugin.gui.GraffitiComponent#getPreferredComponent()
 	 */
-	public String getPreferredComponent()
-	{
+	public String getPreferredComponent() {
 		return "menu";
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

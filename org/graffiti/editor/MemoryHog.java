@@ -1,7 +1,5 @@
 /*******************************************************************************
- * 
- *    Copyright (c) 2003-2009 Plant Bioinformatics Group, IPK Gatersleben
- * 
+ * Copyright (c) 2003-2009 Plant Bioinformatics Group, IPK Gatersleben
  *******************************************************************************/
 /*
  * Created on Feb 2, 2010 by Christian Klukas
@@ -16,7 +14,6 @@ import javax.swing.Timer;
 
 /**
  * @author klukas
- *
  */
 public abstract class MemoryHog {
 
@@ -41,7 +38,7 @@ public abstract class MemoryHog {
 	static long lastUsageTime = 0;
 
 	protected static boolean doFreeMemory() {
-		return System.currentTimeMillis()-lastUsageTime>2000;
+		return System.currentTimeMillis() - lastUsageTime > 2000;
 	}
 
 	protected static void noteRequest() {

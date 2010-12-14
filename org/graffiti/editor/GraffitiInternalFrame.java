@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   GraffitiInternalFrame.java
+// GraffitiInternalFrame.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.25 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: GraffitiInternalFrame.java,v 1.26 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.editor;
 
@@ -23,17 +23,16 @@ import org.graffiti.plugin.view.View;
 import org.graffiti.session.EditorSession;
 
 /**
- * A specialized internal frame for the graffiti editor. A
- * <code>GraffitiInternalFrame</code> is always resizable, closeable,
+ * A specialized internal frame for the graffiti editor. A <code>GraffitiInternalFrame</code> is always resizable, closeable,
  * maximizable and iconifyable.
- *
+ * 
  * @see javax.swing.JInternalFrame
  * @see MainFrame
  */
 public class GraffitiInternalFrame
-extends JInternalFrame //MaximizeFrame
+					extends JInternalFrame // MaximizeFrame
 {
-	//~ Instance fields ========================================================
+	// ~ Instance fields ========================================================
 
 	/**
 	 * 
@@ -53,13 +52,12 @@ extends JInternalFrame //MaximizeFrame
 
 	Border b = null;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>GraffitiInternalFrame</code>.
 	 */
-	public GraffitiInternalFrame()
-	{
+	public GraffitiInternalFrame() {
 		super();
 		this.setMaximizable(true);
 		this.setClosable(true);
@@ -73,26 +71,24 @@ extends JInternalFrame //MaximizeFrame
 		setPreferredSize(new Dimension(320, 200));
 
 		b = getBorder();
-		//   setBorder(null);
+		// setBorder(null);
 
 		GravistoService.getInstance().addFrame(this);
 
 	}
 
-
-
 	@Override
 	public void doLayout() {
 		super.doLayout();
 		/*
-		if (isMaximum() && getBorder()!=null) {
-			setBorder(null);
-			doLayout();
-		}
-		if (!isMaximum && getBorder()==null) {
-			setBorder(b);
-			doLayout();
-		}
+		 * if (isMaximum() && getBorder()!=null) {
+		 * setBorder(null);
+		 * doLayout();
+		 * }
+		 * if (!isMaximum && getBorder()==null) {
+		 * setBorder(b);
+		 * doLayout();
+		 * }
 		 */
 	}
 
@@ -105,17 +101,17 @@ extends JInternalFrame //MaximizeFrame
 		super.processContainerEvent(e);
 	}
 
-
-
 	/**
 	 * Constructor that sets the session, as well as the title.
-	 *
-	 * @param session the session this frame is in.
-	 * @param view DOCUMENT ME!
-	 * @param title the title of this internal frame.
+	 * 
+	 * @param session
+	 *           the session this frame is in.
+	 * @param view
+	 *           DOCUMENT ME!
+	 * @param title
+	 *           the title of this internal frame.
 	 */
-	public GraffitiInternalFrame(final EditorSession session, final View view, String title, boolean otherViewWillBeClosed)
-	{
+	public GraffitiInternalFrame(final EditorSession session, final View view, String title, boolean otherViewWillBeClosed) {
 		this();
 		this.session = session;
 		this.view = view;
@@ -124,11 +120,11 @@ extends JInternalFrame //MaximizeFrame
 		else
 			frameNumber = session.getViews().size() + 1;
 		setTitle(title);
-		//        setTitle(ErrorMsg.removeHTMLtags(title));
+		// setTitle(ErrorMsg.removeHTMLtags(title));
 		setListener();
 
-		//	        setOpaque(true);
-		//	        setBackground(Color.WHITE);
+		// setOpaque(true);
+		// setBackground(Color.WHITE);
 
 		// if (ReleaseInfo.isRunningAsApplet())
 
@@ -136,17 +132,17 @@ extends JInternalFrame //MaximizeFrame
 
 	private String getViewType(final View view) {
 		String vt = "";
-		if (view!=null)
-			vt = " ("+view.getViewName()+")";
-		if (vt.indexOf("default")>=0)
+		if (view != null)
+			vt = " (" + view.getViewName() + ")";
+		if (vt.indexOf("default") >= 0)
 			vt = "";
 		return vt;
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	private void setListener() {
-		addInternalFrameListener(new InternalFrameListener(){
+		addInternalFrameListener(new InternalFrameListener() {
 			public void internalFrameOpened(InternalFrameEvent e) {
 			}
 
@@ -156,15 +152,15 @@ extends JInternalFrame //MaximizeFrame
 
 			public void internalFrameClosed(InternalFrameEvent e) {
 				GraffitiInternalFrame.this.session = null;
-				// 				ListenerManager lm = session.getGraph().getListenerManager();
-				// 				try {
-				//					lm.removeAttributeListener(view);
-				//	 				lm.removeEdgeListener(view);
-				//	 				lm.removeNodeListener(view);
-				//	 				lm.removeGraphListener(view);
-				//				} catch (ListenerNotFoundException err) {
-				//					ErrorMsg.addErrorMessage(err);
-				//				}
+				// ListenerManager lm = session.getGraph().getListenerManager();
+				// try {
+				// lm.removeAttributeListener(view);
+				// lm.removeEdgeListener(view);
+				// lm.removeNodeListener(view);
+				// lm.removeGraphListener(view);
+				// } catch (ListenerNotFoundException err) {
+				// ErrorMsg.addErrorMessage(err);
+				// }
 			}
 
 			public void internalFrameIconified(InternalFrameEvent e) {
@@ -174,34 +170,33 @@ extends JInternalFrame //MaximizeFrame
 			}
 
 			public void internalFrameActivated(InternalFrameEvent e) {
-				// 				System.out.println("frame activated "+e.toString());
+				// System.out.println("frame activated "+e.toString());
 				session.setActiveView(view);
 				MainFrame.getInstance().setActiveSession(session, view);
 			}
 
 			public void internalFrameDeactivated(InternalFrameEvent e) {
-				// 				if (MainFrame.getInstance().getActiveSession()==session)
-				// 					MainFrame.getInstance().setActiveSession(null, null);
+				// if (MainFrame.getInstance().getActiveSession()==session)
+				// MainFrame.getInstance().setActiveSession(null, null);
 			}
 		});
 	}
 
-	//	public GraffitiInternalFrame(GraffitiFrame frame) {
-	//   	 this();
-	//   	 this.session = frame.getSession();
-	//   	 this.view = frame.getView();
-	//   	 this.frameNumber = frame.getFrameNumber();
-	//   	 setTitle(frame.getInitTitle());
-	//   	 setListener();
-	//	 }
+	// public GraffitiInternalFrame(GraffitiFrame frame) {
+	// this();
+	// this.session = frame.getSession();
+	// this.view = frame.getView();
+	// this.frameNumber = frame.getFrameNumber();
+	// setTitle(frame.getInitTitle());
+	// setListener();
+	// }
 
 	/**
 	 * Returns the session this frame is opened in.
-	 *
+	 * 
 	 * @return the session this frame is opened in.
 	 */
-	public EditorSession getSession()
-	{
+	public EditorSession getSession() {
 		return session;
 	}
 
@@ -209,23 +204,23 @@ extends JInternalFrame //MaximizeFrame
 
 	/**
 	 * Sets the title of this frame and its associated button and menu button.
-	 *
-	 * @param title the new title of the frame.
+	 * 
+	 * @param title
+	 *           the new title of the frame.
 	 */
 	@Override
-	public void setTitle(String title)
-	{
-		//   	 	this.initTitle = ErrorMsg.removeHTMLtags(title);
+	public void setTitle(String title) {
+		// this.initTitle = ErrorMsg.removeHTMLtags(title);
 		initTitle = title;
 		String frameTitle = title + " - view " + frameNumber;
 		super.setTitle(frameTitle);
 		if (SystemInfo.isMac()) {
-			if (startTitle==null)
+			if (startTitle == null)
 				startTitle = MainFrame.getInstance().getTitle();
 
 			if (isSelected())
-				if (getBorder()==null) {
-					MainFrame.getInstance().setTitle(startTitle+" - "+frameTitle);
+				if (getBorder() == null) {
+					MainFrame.getInstance().setTitle(startTitle + " - " + frameTitle);
 				} else
 					MainFrame.getInstance().setTitle(startTitle);
 		}
@@ -233,17 +228,15 @@ extends JInternalFrame //MaximizeFrame
 
 	@Override
 	public String getTitle() {
-		return initTitle + " - view " + frameNumber+getViewType(view);
+		return initTitle + " - view " + frameNumber + getViewType(view);
 	}
-
 
 	/**
 	 * Returns the view of this frame.
-	 *
+	 * 
 	 * @return the view of this frame.
 	 */
-	public View getView()
-	{
+	public View getView() {
 		return view;
 	}
 
@@ -255,8 +248,6 @@ extends JInternalFrame //MaximizeFrame
 		return initTitle;
 	}
 
-
-
 	/**
 	 * @param editorSessionOfTargetGraph
 	 */
@@ -266,6 +257,6 @@ extends JInternalFrame //MaximizeFrame
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

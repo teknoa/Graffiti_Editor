@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   SelectionAction.java
+// SelectionAction.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: SelectionAction.java,v 1.4 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: SelectionAction.java,v 1.5 2010/12/14 07:02:14 morla Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -19,11 +19,11 @@ import org.graffiti.session.EditorSession;
 
 /**
  * Represents an action, which depends on a selection.
- *
- * @version $Revision: 1.4 $
+ * 
+ * @version $Revision: 1.5 $
  */
 public abstract class SelectionAction extends GraffitiAction {
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * 
@@ -32,30 +32,32 @@ public abstract class SelectionAction extends GraffitiAction {
 
 	/**
 	 * Constructs a new selection action with the given name.
-	 *
-	 * @param name DOCUMENT ME!
-	 * @param mainFrame DOCUMENT ME!
+	 * 
+	 * @param name
+	 *           DOCUMENT ME!
+	 * @param mainFrame
+	 *           DOCUMENT ME!
 	 */
 	public SelectionAction(String name, MainFrame mainFrame) {
 		super(name, mainFrame, null);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	@Override
 	public abstract boolean isEnabled();
 
 	/**
 	 * Returns the current list of selected items of this action.
-	 *
+	 * 
 	 * @return the current list of selected items of this action.
 	 */
 	public List<GraphElement> getSelectedItems() {
 		ArrayList<GraphElement> result = new ArrayList<GraphElement>();
 		EditorSession session = MainFrame.getInstance().getActiveEditorSession();
-		if (session!=null) {
+		if (session != null) {
 			Selection selection = session.getSelectionModel().getActiveSelection();
-			if (selection!=null)
+			if (selection != null)
 				result.addAll(selection.getElements());
 		}
 		return result;
@@ -63,7 +65,7 @@ public abstract class SelectionAction extends GraffitiAction {
 
 	public Selection getSelection() {
 		EditorSession session = MainFrame.getInstance().getActiveEditorSession();
-		if (session!=null) {
+		if (session != null) {
 			Selection selection = session.getSelectionModel().getActiveSelection();
 			return selection;
 		}
@@ -72,7 +74,7 @@ public abstract class SelectionAction extends GraffitiAction {
 
 	/**
 	 * Returns <code>true</code>, if this action should survive a focus change.
-	 *
+	 * 
 	 * @return <code>true</code>, if this action should survive a focus change.
 	 */
 	public boolean surviveFocusChange() {
@@ -82,13 +84,13 @@ public abstract class SelectionAction extends GraffitiAction {
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
-	 *
-	 * @param items the items, which determine the internal state of the
-	 *        <code>enable</code> flag.
+	 * 
+	 * @param items
+	 *           the items, which determine the internal state of the <code>enable</code> flag.
 	 */
 	protected abstract void enable(List<?> items);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

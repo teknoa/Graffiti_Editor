@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   ToolManager.java
+// ToolManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: ToolManager.java,v 1.3 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: ToolManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.managers;
 
@@ -14,24 +14,23 @@ import org.graffiti.plugin.tool.Tool;
 
 /**
  * An interface for managing a list of tools.
- *
- * @version $Revision: 1.3 $
- *
+ * 
+ * @version $Revision: 1.4 $
  * @see org.graffiti.managers.pluginmgr.PluginManagerListener
  */
 public interface ToolManager
-extends PluginManagerListener
-{
-	//~ Methods ================================================================
+					extends PluginManagerListener {
+	// ~ Methods ================================================================
 
 	/**
 	 * Adds the specified tool to the list of tools of this manager.
-	 *
-	 * @param tool the tool to be added.
+	 * 
+	 * @param tool
+	 *           the tool to be added.
 	 */
 	public void addTool(Tool tool);
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

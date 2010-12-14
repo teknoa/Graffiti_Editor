@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   DesktopMenuManager.java
+// DesktopMenuManager.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: DesktopMenuManager.java,v 1.6 2010/07/19 14:05:42 morla Exp $
+// ==============================================================================
+// $Id: DesktopMenuManager.java,v 1.7 2010/12/14 07:02:12 morla Exp $
 
 package org.graffiti.util;
 
@@ -39,19 +39,17 @@ import org.graffiti.session.SessionListener;
 
 /**
  * Manages menu entries for the internal frames contained in a desktop pane. A
- * MenuManager is associated with a {@link javax.swing.JDesktopPane} and a
- * {@link javax.swing.JMenu}. The associated menu  is always updated to
+ * MenuManager is associated with a {@link javax.swing.JDesktopPane} and a {@link javax.swing.JMenu}. The associated menu is always updated to
  * contain entries for all internal frames in the desktop pane. Selecting such
  * a frame entry selects the corresponding internal frame. In addition,
  * actions for arranging the frames are added to the menu.
- *
+ * 
  * @author Michael Forster
- * @version $Revision: 1.6 $ $Date: 2010/07/19 14:05:42 $
+ * @version $Revision: 1.7 $ $Date: 2010/12/14 07:02:12 $
  */
 public class DesktopMenuManager
-implements MenuListener, SessionListener
-{
-	//~ Instance fields ========================================================
+					implements MenuListener, SessionListener {
+	// ~ Instance fields ========================================================
 
 	/** The associated desktop */
 	private JDesktopPane desktop;
@@ -62,22 +60,23 @@ implements MenuListener, SessionListener
 	/** Menu items created by this manager */
 	private List<JComponent> windowItems = new LinkedList<JComponent>();
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Create a MenuManager object and associate it with a desktop and a menu.
-	 *
-	 * @param desktop The associated desktop
-	 * @param menu The associated menu
-	 *
-	 * @throws NullPointerException if a passed parameter is null
+	 * 
+	 * @param desktop
+	 *           The associated desktop
+	 * @param menu
+	 *           The associated menu
+	 * @throws NullPointerException
+	 *            if a passed parameter is null
 	 */
-	public DesktopMenuManager(JDesktopPane desktop, JMenu menu)
-	{
-		if(desktop == null)
+	public DesktopMenuManager(JDesktopPane desktop, JMenu menu) {
+		if (desktop == null)
 			throw new NullPointerException("desktop must not be null");
 
-		if(menu == null)
+		if (menu == null)
 			throw new NullPointerException("menu must not be null");
 
 		this.desktop = desktop;
@@ -86,43 +85,39 @@ implements MenuListener, SessionListener
 		menu.addMenuListener(this);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Dispose this manager. Reset the menu, remove all listeners and make this
 	 * class eligible for garbage collection.
 	 */
-	public void dispose()
-	{
+	public void dispose() {
 		clearMenu();
 		menu.removeMenuListener(this);
 	}
 
 	/**
 	 * Ignored.
-	 *
+	 * 
 	 * @see javax.swing.event.MenuListener#menuCanceled(javax.swing.event.MenuEvent)
 	 */
-	public void menuCanceled(MenuEvent e)
-	{
+	public void menuCanceled(MenuEvent e) {
 	}
 
 	/**
 	 * Ignored.
-	 *
+	 * 
 	 * @see javax.swing.event.MenuListener#menuDeselected(javax.swing.event.MenuEvent)
 	 */
-	public void menuDeselected(MenuEvent e)
-	{
+	public void menuDeselected(MenuEvent e) {
 	}
 
 	/**
 	 * Updates the associated menu.
-	 *
+	 * 
 	 * @see javax.swing.event.MenuListener#menuSelected(javax.swing.event.MenuEvent)
 	 */
-	public void menuSelected(MenuEvent e)
-	{
+	public void menuSelected(MenuEvent e) {
 		clearMenu();
 		fillMenu();
 	}
@@ -130,8 +125,7 @@ implements MenuListener, SessionListener
 	/**
 	 * Add a separator to the associated menu.
 	 */
-	private void addSeparator()
-	{
+	private void addSeparator() {
 		JSeparator sep = new JPopupMenu.Separator();
 		menu.add(sep);
 		windowItems.add(sep);
@@ -140,8 +134,7 @@ implements MenuListener, SessionListener
 	/**
 	 * Arrange all internal frames in cascading order.
 	 */
-	public void cascade()
-	{
+	public void cascade() {
 		final int DX = 26; // horizontal displacement
 		final int DY = 26; // vertical displacement
 
@@ -158,8 +151,7 @@ implements MenuListener, SessionListener
 		int framesCount = Math.min(frames.length, Math.min(horizontal, vertical));
 
 		// calculate frame positions
-		for(int i = 0; i < frames.length; i++)
-		{
+		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
 
 			int x = ((frames.length - i - 1) % framesCount * DX);
@@ -175,10 +167,8 @@ implements MenuListener, SessionListener
 	 * Remove all created menu entries.
 	 */
 	@SuppressWarnings("unchecked")
-	private void clearMenu()
-	{
-		for(Iterator it = windowItems.iterator(); it.hasNext();)
-		{
+	private void clearMenu() {
+		for (Iterator it = windowItems.iterator(); it.hasNext();) {
 			Component item = (Component) it.next();
 			menu.remove(item);
 		}
@@ -189,9 +179,8 @@ implements MenuListener, SessionListener
 	/**
 	 * Fill entries into the menu.
 	 */
-	private void fillMenu()
-	{
-		if(menu.getMenuComponentCount() > 0)
+	private void fillMenu() {
+		if (menu.getMenuComponentCount() > 0)
 			addSeparator();
 
 		final JCheckBoxMenuItem item = new JCheckBoxMenuItem("Tile", false);
@@ -226,13 +215,12 @@ implements MenuListener, SessionListener
 		JInternalFrame[] frames = desktop.getAllFrames();
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
 
-		for(int i = 0; i < frames.length; i++)
-		{
+		for (int i = 0; i < frames.length; i++) {
 			final JInternalFrame frame = frames[i];
 			JMenuItem item3 = new FrameMenuItem(frame);
 			if (frame instanceof GraffitiInternalFrame) {
 				GraffitiInternalFrame gif = (GraffitiInternalFrame) frame;
-				if (es!=null && (gif.getView()==es.getActiveView()))
+				if (es != null && (gif.getView() == es.getActiveView()))
 					item3.setSelected(true);
 				else
 					item3.setSelected(false);
@@ -246,17 +234,15 @@ implements MenuListener, SessionListener
 
 	/**
 	 * Calculate the smallest minimum size of all frames.
-	 *
+	 * 
 	 * @return the smallest minimum size of all frames
 	 */
-	private Dimension minimumFrameSize()
-	{
+	private Dimension minimumFrameSize() {
 		JInternalFrame[] frames = desktop.getAllFrames();
 
 		Dimension result = desktop.getSize();
 
-		for(int i = 0; i < frames.length; i++)
-		{
+		for (int i = 0; i < frames.length; i++) {
 			Dimension minSize = frames[i].getMinimumSize();
 
 			result.width = Math.min(result.width, minSize.width);
@@ -269,21 +255,16 @@ implements MenuListener, SessionListener
 	/**
 	 * De-iconify and de-maximize all frames.
 	 */
-	private void restoreFrames()
-	{
+	private void restoreFrames() {
 		JInternalFrame[] frames = desktop.getAllFrames();
 
-		for(int i = 0; i < frames.length; i++)
-		{
+		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
 
-			try
-			{
+			try {
 				frame.setMaximum(false);
 				frame.setIcon(false);
-			}
-			catch(PropertyVetoException e)
-			{
+			} catch (PropertyVetoException e) {
 				// should not happen
 				e.printStackTrace();
 				assert false;
@@ -294,8 +275,7 @@ implements MenuListener, SessionListener
 	/**
 	 * Arrange all internal frames in grid fashion.
 	 */
-	void tile()
-	{
+	void tile() {
 		restoreFrames();
 
 		JInternalFrame[] frames = desktop.getAllFrames();
@@ -308,15 +288,14 @@ implements MenuListener, SessionListener
 		double maxRows = (double) deskSize.height / minSize.height;
 
 		int cols = Math.max((int) Math.rint(Math.sqrt(
-				(frames.length * maxColumns) / maxRows)), 1);
+							(frames.length * maxColumns) / maxRows)), 1);
 		int rows = (frames.length / cols);
 
-		while((cols * rows) < frames.length)
+		while ((cols * rows) < frames.length)
 			rows++;
 
 		// calculate frame positions
-		for(int i = 0; i < frames.length; i++)
-		{
+		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
 
 			int width = deskSize.width / cols;
@@ -326,29 +305,28 @@ implements MenuListener, SessionListener
 			int y = (i / cols) * height;
 
 			// fill up last row and column
-			if((i % cols) == (cols - 1))
+			if ((i % cols) == (cols - 1))
 				width = deskSize.width - x;
 
-			if((i / cols) == (rows - 1))
+			if ((i / cols) == (rows - 1))
 				height = deskSize.height - y;
 
 			frame.setBounds(x, y, width, height);
 		}
 	}
 
-	//~ Inner Classes ==========================================================
+	// ~ Inner Classes ==========================================================
 
 	/**
 	 * A menu item associated to a frame. Selecting the item selects the
 	 * associated frame
-	 *
+	 * 
 	 * @author Michael Forster
-	 * @version $Revision: 1.6 $ $Date: 2010/07/19 14:05:42 $
+	 * @version $Revision: 1.7 $ $Date: 2010/12/14 07:02:12 $
 	 */
 	class FrameMenuItem
-	extends JRadioButtonMenuItem
-	implements ActionListener
-	{
+						extends JRadioButtonMenuItem
+						implements ActionListener {
 		/**
 		 * 
 		 */
@@ -358,11 +336,11 @@ implements MenuListener, SessionListener
 
 		/**
 		 * Create a WindowMenuItem object and associated it to a frame.
-		 *
-		 * @param frame The associated frame.
+		 * 
+		 * @param frame
+		 *           The associated frame.
 		 */
-		public FrameMenuItem(JInternalFrame frame)
-		{
+		public FrameMenuItem(JInternalFrame frame) {
 			super(frame.getTitle());
 			this.frame = frame;
 			addActionListener(this);
@@ -370,11 +348,11 @@ implements MenuListener, SessionListener
 
 		/**
 		 * Selects the associated frame
-		 *
-		 * @param event ignored
+		 * 
+		 * @param event
+		 *           ignored
 		 */
-		public void actionPerformed(ActionEvent event)
-		{
+		public void actionPerformed(ActionEvent event) {
 			if (frame.isIcon()) {
 				try {
 					frame.setIcon(false);
@@ -383,7 +361,7 @@ implements MenuListener, SessionListener
 				}
 			} else {
 				JDesktopPane parent = (JDesktopPane) frame.getParent();
-				if (parent==null) {
+				if (parent == null) {
 					MainFrame.showMessageDialog("Window can't be activated. Internal error: frame-parent (JDesktopPane) is NULL.", "Error");
 				} else {
 					parent.getDesktopManager().activateFrame(frame);
@@ -406,6 +384,6 @@ implements MenuListener, SessionListener
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------

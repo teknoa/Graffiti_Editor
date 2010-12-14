@@ -1,11 +1,11 @@
-//==============================================================================
+// ==============================================================================
 //
-//   AbstractDialogableEditComponent.java
+// AbstractDialogableEditComponent.java
 //
-//   Copyright (c) 2001-2004 Gravisto Team, University of Passau
+// Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
-//==============================================================================
-// $Id: AbstractDialogableEditComponent.java,v 1.2 2010/07/19 14:05:43 morla Exp $
+// ==============================================================================
+// $Id: AbstractDialogableEditComponent.java,v 1.3 2010/12/14 07:02:13 morla Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -19,14 +19,13 @@ import org.graffiti.plugin.Displayable;
  * extensions of the <code>AbstractValueEditComponent</code> for those
  * instances of <code>ValueEditComponent</code> which offer an arbitrary
  * dialog for specifying the corresponding attribute value.
- *
+ * 
  * @see javax.swing.JButton
  * @see javax.swing.JDialog
  */
 public abstract class AbstractDialogableEditComponent
-extends AbstractValueEditComponent
-{
-	//~ Instance fields ========================================================
+					extends AbstractValueEditComponent {
+	// ~ Instance fields ========================================================
 
 	/** The button for opening the dialog. */
 	protected JButton button;
@@ -34,41 +33,39 @@ extends AbstractValueEditComponent
 	/** The dialog for specifying the value. */
 	protected JDialog dialog;
 
-	//~ Constructors ===========================================================
+	// ~ Constructors ===========================================================
 
 	/**
 	 * Constructs a new <code>AbstractDialogableEditComponent</code>.
-	 *
-	 * @param disp DOCUMENT ME!
+	 * 
+	 * @param disp
+	 *           DOCUMENT ME!
 	 */
-	protected AbstractDialogableEditComponent(Displayable disp)
-	{
+	protected AbstractDialogableEditComponent(Displayable disp) {
 		super(disp);
 	}
 
-	//~ Methods ================================================================
+	// ~ Methods ================================================================
 
 	/**
 	 * Returns the button of the <code>AbstractDialogableEditComponent</code>.
-	 *
+	 * 
 	 * @return the button of the <code>AbstractDialogableEditComponent</code>.
 	 */
-	public JButton getButton()
-	{
+	public JButton getButton() {
 		return this.button;
 	}
 
 	/**
 	 * Returns the dialog of this <code>AbstractDialogableEditComponent</code>.
-	 *
+	 * 
 	 * @return the dialog of this <code>AbstractDialogableEditComponent</code>.
 	 */
-	public JDialog getDialog()
-	{
+	public JDialog getDialog() {
 		return this.dialog;
 	}
 }
 
-//------------------------------------------------------------------------------
-//   end of file
-//------------------------------------------------------------------------------
+// ------------------------------------------------------------------------------
+// end of file
+// ------------------------------------------------------------------------------
