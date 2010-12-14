@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: LoadSaveOptionsPane.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: LoadSaveOptionsPane.java,v 1.6 2010/12/14 22:31:07 klukas Exp $
 
 package org.graffiti.editor.options;
 
@@ -17,7 +17,7 @@ import org.graffiti.options.AbstractOptionPane;
  * Handles some loading and saving stuff, e.g.: autosave, backups,
  * backupDirectory, backupSuffix.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class LoadSaveOptionsPane
 					extends AbstractOptionPane {
@@ -60,7 +60,7 @@ public class LoadSaveOptionsPane
 	 * @see org.graffiti.options.OptionPane#getCategory()
 	 */
 	public String getCategory() {
-		// TODO Auto-generated method stub
+		// 
 		return null;
 	}
 
@@ -69,7 +69,7 @@ public class LoadSaveOptionsPane
 	 * @see org.graffiti.options.OptionPane#getOptionName()
 	 */
 	public String getOptionName() {
-		// TODO Auto-generated method stub
+		// 
 		return null;
 	}
 
@@ -78,7 +78,7 @@ public class LoadSaveOptionsPane
 	 * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
 	 */
 	public void init(JComponent options) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
@@ -87,7 +87,7 @@ public class LoadSaveOptionsPane
 	 * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
 	 */
 	public void save(JComponent options) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 }

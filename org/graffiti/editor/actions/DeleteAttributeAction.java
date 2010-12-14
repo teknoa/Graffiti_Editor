@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DeleteAttributeAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: DeleteAttributeAction.java,v 1.6 2010/12/14 22:31:07 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,8 +20,8 @@ import org.graffiti.selection.SelectionEvent;
 /**
  * DOCUMENT ME!
  * 
- * @author $Author: morla $
- * @version $Revision: 1.5 $ $Date: 2010/12/14 07:02:12 $
+ * @author $Author: klukas $
+ * @version $Revision: 1.6 $ $Date: 2010/12/14 22:31:07 $
  */
 public class DeleteAttributeAction
 					extends SelectionAction {
@@ -114,7 +114,7 @@ public class DeleteAttributeAction
 	 */
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
+		// 
 		return false;
 	}
 }

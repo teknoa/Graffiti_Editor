@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: SplashScreen.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: SplashScreen.java,v 1.6 2010/12/14 22:31:07 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -35,7 +35,7 @@ import org.graffiti.core.ImageBundle;
  * action.
  * 
  * @author Michael Forster
- * @version $Revision: 1.5 $ $Date: 2010/12/14 07:02:12 $
+ * @version $Revision: 1.6 $ $Date: 2010/12/14 22:31:07 $
  */
 public class SplashScreen
 					extends JFrame
@@ -167,7 +167,7 @@ public class SplashScreen
 	 * @see org.graffiti.editor.SplashScreenInterface#setInitialisationFinished()
 	 */
 	public void setInitialisationFinished() {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 

@@ -65,182 +65,182 @@ public class JComponentParameterEditor implements ValueEditComponent {
 	}
 
 	public void postAttributeRemoved(AttributeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preAttributeAdded(AttributeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preAttributeChanged(AttributeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preAttributeRemoved(AttributeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void transactionStarted(TransactionEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postDirectedChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postEdgeReversed(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postSourceNodeChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postTargetNodeChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preDirectedChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preEdgeReversed(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preSourceNodeChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preTargetNodeChanged(EdgeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postEdgeAdded(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postEdgeRemoved(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postGraphCleared(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postNodeAdded(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postNodeRemoved(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preEdgeAdded(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preEdgeRemoved(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preGraphCleared(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preNodeAdded(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preNodeRemoved(GraphEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postInEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postInEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postOutEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postOutEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postUndirectedEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void postUndirectedEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preInEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preInEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preOutEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preOutEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preUndirectedEdgeAdded(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
 	public void preUndirectedEdgeRemoved(NodeEvent e) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 

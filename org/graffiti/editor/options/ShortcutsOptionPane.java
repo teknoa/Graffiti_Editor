@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ShortcutsOptionPane.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: ShortcutsOptionPane.java,v 1.6 2010/12/14 22:31:07 klukas Exp $
 
 package org.graffiti.editor.options;
 
@@ -20,7 +20,7 @@ import org.graffiti.options.AbstractOptionPane;
  * An option pane for shortcuts.
  * 
  * @author flierl
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class ShortcutsOptionPane
 					extends AbstractOptionPane {
@@ -120,7 +120,7 @@ public class ShortcutsOptionPane
 	 * @see org.graffiti.options.OptionPane#getCategory()
 	 */
 	public String getCategory() {
-		// TODO Auto-generated method stub
+		// 
 		return null;
 	}
 
@@ -129,7 +129,7 @@ public class ShortcutsOptionPane
 	 * @see org.graffiti.options.OptionPane#getOptionName()
 	 */
 	public String getOptionName() {
-		// TODO Auto-generated method stub
+		// 
 		return null;
 	}
 
@@ -138,7 +138,7 @@ public class ShortcutsOptionPane
 	 * @see org.graffiti.options.OptionPane#init(javax.swing.JComponent)
 	 */
 	public void init(JComponent options) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 
@@ -147,7 +147,7 @@ public class ShortcutsOptionPane
 	 * @see org.graffiti.options.OptionPane#save(javax.swing.JComponent)
 	 */
 	public void save(JComponent options) {
-		// TODO Auto-generated method stub
+		// 
 
 	}
 }

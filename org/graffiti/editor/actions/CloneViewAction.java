@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CloneViewAction.java,v 1.4 2010/12/14 07:02:12 morla Exp $
+// $Id: CloneViewAction.java,v 1.5 2010/12/14 22:31:07 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -17,7 +17,7 @@ import org.graffiti.plugin.actions.GraffitiAction;
 /**
  * Represents an action, which can clone the current view.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public class CloneViewAction
 					extends GraffitiAction {
@@ -49,7 +49,7 @@ public class CloneViewAction
 	 */
 	@Override
 	public HelpContext getHelpContext() {
-		return null; // TODO
+		return null; // 
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class CloneViewAction
 	 */
 	@Override
 	public String getName() {
-		return null; // TODO
+		return null; // 
 	}
 
 	/**
