@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.155 2010/12/14 22:31:07 klukas Exp $
+// $Id: MainFrame.java,v 1.156 2010/12/16 14:37:22 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.155 $
+ * @version $Revision: 1.156 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1680,8 +1680,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		OutputStream outpS = new FileOutputStream(fileName);
 		if (os == null)
 			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension " + ext);
+		else
+			os.write(outpS, graph);
 
-		os.write(outpS, graph);
 		outpS.close();
 	}
 
@@ -1835,7 +1836,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					((EditorSession) sess).getSelectionModel().addSelectionListener((SelectionListener) plugin);
 				}
 
-				// Missing: check what todo if non-EditorSession ...
+				// TODO: check what todo if non-EditorSession ...
 			}
 		}
 	}

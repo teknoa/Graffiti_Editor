@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CopyAction.java,v 1.6 2010/12/09 11:14:55 morla Exp $
+// $Id: CopyAction.java,v 1.7 2010/12/16 14:37:21 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class CopyAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -81,6 +81,12 @@ public class CopyAction extends SelectionAction {
 		Graph sourceGraph = getGraph();
 
 		Selection selection = getSelection();
+
+		// for all edges we also include the source and target nodes to the selection
+		for (Edge edge : selection.getEdges()) {
+			selection.add(edge.getSource());
+			selection.add(edge.getTarget());
+		}
 
 		doCopyGraphMethodImproved(sourceGraph, selection);
 	}
