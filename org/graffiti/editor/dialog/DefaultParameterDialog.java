@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.20 2010/12/14 07:02:13 morla Exp $
+// $Id: DefaultParameterDialog.java,v 1.21 2010/12/19 02:54:20 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -64,7 +64,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  * 
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 					ActionListener, WindowListener {
@@ -153,7 +153,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 
 	public DefaultParameterDialog(EditComponentManager editComponentManager,
 						Component parent, Parameter[] parameters, Selection selection,
-						String algorithmName, Object descriptionOrComponent,
+						String algorithmNameUsedAsTitle, Object descriptionOrComponent,
 						JComponent descComponent, boolean okOnly, boolean noButton, boolean allowMultipleGraphTargets,
 						String okOnlyButtonText, boolean modal) {
 
@@ -173,7 +173,11 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 			description = (String) descriptionOrComponent;
 		else
 			descComponent = (JComponent) descriptionOrComponent;
-		this.algorithmName = algorithmName;
+
+		if (algorithmNameUsedAsTitle != null && algorithmNameUsedAsTitle.endsWith("..."))
+			algorithmNameUsedAsTitle = algorithmNameUsedAsTitle.substring(0, algorithmNameUsedAsTitle.length() - "...".length());
+
+		this.algorithmName = algorithmNameUsedAsTitle;
 
 		this.editComponentManager = editComponentManager;
 
@@ -182,7 +186,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		getContentPane().setLayout(new BorderLayout());
 
 		// setTitle("Set algorithm parameters");
-		setTitle(algorithmName);
+		setTitle(algorithmNameUsedAsTitle);
 
 		setSize(420, 320);
 		setResizable(true);// false
@@ -206,7 +210,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		// buttonsPanel.add(cancel);
 
 		paramsPanel = createValueEditContainer(params, selection,
-							(description != null && description.length() > 0) ? description : "", algorithmName, descComponent); // sBundle.getString("run.dialog.desc")
+							(description != null && description.length() > 0) ? description : "", algorithmNameUsedAsTitle, descComponent); // sBundle.getString("run.dialog.desc")
 
 		// algorithmName + " parameters"
 
@@ -490,11 +494,13 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 	 * @param parameters
 	 * @return The return value depends on the selected button (OK/Cancel).
 	 */
-	@SuppressWarnings("unchecked")
 	public static Object[] getInput(Object description, String title,
 						Object... parameters) {
 
 		title = StringManipulationTools.removeHTMLtags(title);
+
+		if (title != null && title.endsWith("..."))
+			title = title.substring(0, title.length() - "...".length());
 
 		// Buttons: OK => close and return input values
 		// Cancel => close and return null

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.26 2010/12/14 07:02:12 morla Exp $
+// $Id: GraffitiInternalFrame.java,v 1.27 2010/12/19 02:54:15 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -217,7 +217,13 @@ public class GraffitiInternalFrame
 		if (SystemInfo.isMac()) {
 			if (startTitle == null)
 				startTitle = MainFrame.getInstance().getTitle();
-
+			// on mac when using the mac os x native style the frame border
+			// for internal frames may be disabled (which looks better as the
+			// internal frames in maximized state otherwise have a large border
+			// and shadow), in this case (getBorder() == null) instead of setting
+			// the internal frame title, the main application title is modified
+			// for maximized internal frames, this a custom, sometimes also used
+			// in other operating systems
 			if (isSelected())
 				if (getBorder() == null) {
 					MainFrame.getInstance().setTitle(startTitle + " - " + frameTitle);

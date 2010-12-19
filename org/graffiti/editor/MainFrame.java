@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.156 2010/12/16 14:37:22 morla Exp $
+// $Id: MainFrame.java,v 1.157 2010/12/19 02:54:15 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.156 $
+ * @version $Revision: 1.157 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -3629,7 +3629,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					frame.putClientProperty("windowModified", mod);
 				if (mod) {
 					oneModified = true;
-					frame.setTitle(frame.getTitle() + "*");
+					frame.setTitle(frame.getInitTitle() + "*");
 				}
 			}
 			getRootPane().putClientProperty("windowModified", oneModified);
