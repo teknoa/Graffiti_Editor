@@ -25,84 +25,84 @@ import org.graffiti.selection.Selection;
  * and plugins.
  * 
  * @author Christian Klukas, IPK Gatersleben
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class ThreadSafeOptions implements HelperClass {
-
+	
 	/**
 	 * Init parameter. This parameter needs to be removed later to make this
 	 * class more general.
 	 */
 	public boolean doRandomInit = false;
-
+	
 	/**
 	 * Init parameter. This parameter needs to be removed later to make this
 	 * class more general.
 	 */
 	public boolean doCopyPatternLayout = false;
-
+	
 	public boolean doMultiplyByNodeDegree = true;
-
+	
 	public boolean doRemoveAllBends = true;
-
+	
 	/**
 	 * Parameter which is evaluated by the springEmbedder layouter at the end of
 	 * the run. This parameter needs to be removed later to make this class more
 	 * general.
 	 */
 	public boolean doFinishMoveToTop = true;
-
+	
 	public boolean doFinishRemoveOverlapp = true;
-
+	
 	/**
 	 * Rand-Abstoßung links und oben
 	 */
 	public double borderWidth = 250;
-
+	
 	/**
 	 * Abstoßungs-Kraft direkt am Rand
 	 */
 	public double maxBorderForce = 100;
-
+	
 	/**
 	 * Run parameter. This parameter needs to be removed later to make this class
 	 * more general.
 	 */
 	public double temperature_max_move = 300; // Double.MAX_VALUE;
-
+	
 	/**
 	 * Run parameter. This parameter needs to be removed later to make this class
 	 * more general.
 	 */
 	public double temp_alpha = 0.998;
-
+	
 	/**
 	 * Maximale Anzahl an Threads, die vom Algorithmus verwendet werden sollen
 	 */
 	public int maxThreads = 0;
-
+	
 	/**
 	 * If true, distances are calculated with respect to node dimensions.
 	 * Intersections of Nodes in Layout should then be impossible.
 	 */
 	public boolean respectNodeDimensionsForLayout = false;
-
+	
 	/**
 	 * Rand-Abstoßung verwenden, ja/nein
 	 */
 	public boolean borderForce = false;
-
+	
 	/**
 	 * If set to true, a redraw should be done.
 	 */
 	public boolean redraw = false;
-
+	
 	/**
 	 * If true, the algorithm should auto-update the view. If false, the
 	 * algorithm should only redraw, if the value <code>redraw</code> is true.
 	 */
 	public boolean autoRedraw = false;
-
+	
 	/**
 	 * Vecor node array, contains <code>patternNodeStruct</code> objects, which
 	 * saves/caches the information about pattern type and number for all nodes
@@ -110,13 +110,13 @@ public class ThreadSafeOptions implements HelperClass {
 	 */
 	@SuppressWarnings("unchecked")
 	public ArrayList nodeArray;
-
+	
 	/**
 	 * Used for search from Node to NodeCacheEntry (which includes the Node)
 	 */
 	@SuppressWarnings("unchecked")
 	public HashMap nodeSearch;
-
+	
 	/**
 	 * Can be interpreted by the algorithm like desired. 0 should be
 	 * "not started", 1 should be "running", 2 should be "idle", 3 should be
@@ -124,44 +124,44 @@ public class ThreadSafeOptions implements HelperClass {
 	 * descriptions match.
 	 */
 	public int runStatus = 0;
-
+	
 	// ////////////////////////////////////////////////////////////////
-
+	
 	// /**
 	// * DOCUMENT ME!
 	// */
 	// protected volatile boolean redrawNeeded = false;
-
+	
 	/**
 	 * Stores the graph reference.
 	 */
 	private Graph g;
-
+	
 	/**
 	 * Stores the selection.
 	 */
 	private Selection sel;
-
+	
 	/**
 	 * If true, the settigns should be re-read by the plugin.
 	 */
 	protected volatile boolean settingsChanged = false; // if set to true
-
+	
 	/**
 	 * If true, the plugin should stop its run.
 	 */
 	private volatile boolean abortWanted = false;
-
+	
 	/**
 	 * A second variable for changed settigns. ToDo (CK): check purpose
 	 */
 	public volatile boolean threadSettingsChanged = false;
-
+	
 	/**
 	 * Vector of parameter objects.
 	 */
 	private Vector<Object> paramObjects;
-
+	
 	/**
 	 * Use this call to indicate that the plugin should stop it work
 	 * 
@@ -171,7 +171,7 @@ public class ThreadSafeOptions implements HelperClass {
 	public void setAbortWanted(boolean value) {
 		abortWanted = value;
 	}
-
+	
 	/**
 	 * Check if the plugin should stop.
 	 * 
@@ -181,7 +181,7 @@ public class ThreadSafeOptions implements HelperClass {
 	public boolean isAbortWanted() {
 		return abortWanted;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -191,7 +191,7 @@ public class ThreadSafeOptions implements HelperClass {
 	public synchronized void setGraphInstance(Graph newG) {
 		g = newG;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -200,7 +200,7 @@ public class ThreadSafeOptions implements HelperClass {
 	public synchronized Graph getGraphInstance() {
 		return g;
 	}
-
+	
 	/**
 	 * Get a parameter object
 	 * 
@@ -216,14 +216,14 @@ public class ThreadSafeOptions implements HelperClass {
 		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
-
+		
 		try {
 			return paramObjects.get(index);
 		} catch (Exception e) {
 			return defaultValue;
 		}
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -237,28 +237,28 @@ public class ThreadSafeOptions implements HelperClass {
 		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
-
+		
 		threadSettingsChanged = true;
-
+		
 		if (paramObjects.size() <= index) {
 			paramObjects.setSize(index + 1);
 		}
-
+		
 		paramObjects.setElementAt(setValue, index);
-
+		
 		return setValue;
 	}
-
+	
 	/**
 	 * Array for storing Double parameters
 	 */
 	public Double[] dValues = new Double[1];
-
+	
 	/**
 	 * Array for storing Boolean parameters
 	 */
 	public Boolean[] bValues = new Boolean[0];
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -271,15 +271,15 @@ public class ThreadSafeOptions implements HelperClass {
 		synchronized (dValues) {
 			if (index >= dValues.length) {
 				Double[] newDvalues = new Double[index + 1];
-
+				
 				System.arraycopy(dValues, 0, newDvalues, 0, dValues.length);
 				dValues = newDvalues;
 			}
-
+			
 			dValues[index] = new Double(value);
 		}
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -294,15 +294,15 @@ public class ThreadSafeOptions implements HelperClass {
 			if (index >= dValues.length) {
 				return defaultValue;
 			}
-
+			
 			if (dValues[index] == null) {
 				return defaultValue;
 			}
-
+			
 			return dValues[index].doubleValue();
 		}
 	}
-
+	
 	/**
 	 * Sets a boolean Parameter with a given Index <code>index</code> and a given
 	 * value. It is up to the plugin that uses the options to make sure, that
@@ -318,15 +318,15 @@ public class ThreadSafeOptions implements HelperClass {
 		synchronized (bValues) {
 			if (index >= bValues.length) {
 				Boolean[] newBvalues = new Boolean[index + 1];
-
+				
 				System.arraycopy(bValues, 0, newBvalues, 0, bValues.length);
 				bValues = newBvalues;
 			}
-
+			
 			bValues[index] = new Boolean(value);
 		}
 	}
-
+	
 	/**
 	 * Returns a stored boolean parameter value. If the parameter has not yet
 	 * been stored the <code>defaultValue</code> is returned.
@@ -343,22 +343,22 @@ public class ThreadSafeOptions implements HelperClass {
 			if (index >= bValues.length) {
 				return defaultValue;
 			}
-
+			
 			if (bValues[index] == null) {
 				return defaultValue;
 			}
-
+			
 			return bValues[index].booleanValue();
 		}
 	}
-
+	
 	/**
 	 * @return The selected nodes/edges for the graph.
 	 */
 	public Selection getSelection() {
 		return sel;
 	}
-
+	
 	/**
 	 * Set selection for graph.
 	 * 
@@ -368,7 +368,7 @@ public class ThreadSafeOptions implements HelperClass {
 	public void setSelection(Selection selection) {
 		sel = selection;
 	}
-
+	
 	public String getRunStatus() {
 		if (runStatus == 0)
 			return "init, not started";
@@ -380,42 +380,42 @@ public class ThreadSafeOptions implements HelperClass {
 			return "finished";
 		return "status error";
 	}
-
+	
 	private int iv = 0;
-
+	
 	public synchronized void addInt(int i) {
 		iv += i;
 	}
-
+	
 	public synchronized void setInt(int i) {
 		iv = i;
 	}
-
+	
 	public synchronized int getInt() {
 		return iv;
 	}
-
+	
 	private double dv = 0;
 	private final Double dl = 0d;
-
+	
 	public void addDouble(double d) {
 		synchronized (dl) {
 			dv += d;
 		}
 	}
-
+	
 	public void setDouble(double d) {
 		synchronized (dl) {
 			dv = d;
 		}
 	}
-
+	
 	public double getDouble() {
 		synchronized (dl) {
 			return dv;
 		}
 	}
-
+	
 	public void executeThreadSafe(Runnable runnable) {
 		if (SwingUtilities.isEventDispatchThread())
 			runnable.run();
@@ -429,24 +429,24 @@ public class ThreadSafeOptions implements HelperClass {
 			}
 		}
 	}
-
+	
 	private long l = 0;
-
+	
 	public synchronized void setLong(long l) {
 		this.l = l;
 	}
-
+	
 	public synchronized void addLong(long l) {
 		this.l += l;
 	}
-
+	
 	public synchronized long getLong() {
 		return l;
 	}
-
+	
 	public synchronized long getNextLong() {
 		l++;
 		return l;
 	}
-
+	
 }

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: InspectorTab.java,v 1.13 2010/12/14 07:02:14 morla Exp $
+// $Id: InspectorTab.java,v 1.14 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -31,28 +31,28 @@ import org.graffiti.plugin.view.View;
 public abstract class InspectorTab
 					extends JComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * The panel that holds the table of the attributes and the buttons for
 	 * adding and removing attributes as well as the "apply" button.
 	 */
 	public EditPanel editPanel;
-
+	
 	/**
 	 * The title of the <code>InspectorTab</code> which will appear as the
 	 * title of the tab.
 	 */
 	protected String title;
-
+	
 	private ImageIcon icon;
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the EditPanel of this tab.
 	 * 
@@ -61,7 +61,7 @@ public abstract class InspectorTab
 	public EditPanel getEditPanel() {
 		return this.editPanel;
 	}
-
+	
 	/**
 	 * Returns the title of the current <code>InspectorTab</code>.
 	 * 
@@ -70,16 +70,16 @@ public abstract class InspectorTab
 	public String getTitle() {
 		return this.title;
 	}
-
+	
 	@Override
 	public String getName() {
 		return getTitle();
 	}
-
+	
 	public abstract boolean visibleForView(View v);
-
+	
 	private boolean currentlyHighlight = false;
-
+	
 	public void focusAndHighlight(final InspectorTab whenFinishedHighlight, final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
 		if (currentlyHighlight)
@@ -126,7 +126,7 @@ public abstract class InspectorTab
 						currentlyHighlight = false;
 					}
 				}
-
+				
 				private void cycleHighlight(
 									final InspectorTab tab,
 									final boolean highlight, final Border oldB,
@@ -155,7 +155,7 @@ public abstract class InspectorTab
 			return;
 		}
 	}
-
+	
 	public static void focusAndHighlightComponent(final JComponent thisss, final String title, final InspectorTab whenFinishedHighlight,
 						final boolean highlight, final boolean cycleChildren) {
 		final int time = 800;
@@ -163,7 +163,7 @@ public abstract class InspectorTab
 		if (tp != null) {
 			tp.setSelectedComponent(thisss);
 			final Border oldB = thisss.getBorder();
-
+			
 			if (whenFinishedHighlight != null)
 				whenFinishedHighlight.focusAndHighlight(null, false, cycleChildren);
 			if (highlight)
@@ -196,7 +196,7 @@ public abstract class InspectorTab
 						}
 					}
 				}
-
+				
 				private void cycleHighlight(
 									final InspectorTab tab,
 									final boolean highlight, final Border oldB,
@@ -225,7 +225,7 @@ public abstract class InspectorTab
 			return;
 		}
 	}
-
+	
 	public void setEditPanelInformation(
 						Map<?, ?> valueEditComponents,
 						Map<GraphElement, GraphElement> map) {
@@ -234,15 +234,15 @@ public abstract class InspectorTab
 			getEditPanel().setGraphElementMap(map);
 		}
 	}
-
+	
 	public void setIcon(ImageIcon icon) {
 		this.icon = icon;
 	}
-
+	
 	public ImageIcon getIcon() {
 		return icon;
 	}
-
+	
 	public boolean isSelectionListener() {
 		return false;
 	}

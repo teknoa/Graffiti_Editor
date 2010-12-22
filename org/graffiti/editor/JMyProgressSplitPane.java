@@ -13,13 +13,13 @@ import org.graffiti.plugin.gui.PluginPanel;
  *         (c) 2004 IPK-Gatersleben
  */
 public class JMyProgressSplitPane extends JSplitPane {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	JPanel progressPanel;
-
+	
 	/**
 	 * @param vertical_split
 	 * @param pluginPanel
@@ -29,7 +29,7 @@ public class JMyProgressSplitPane extends JSplitPane {
 		super(vertical_split, pluginPanel, progressPanel);
 		this.progressPanel = progressPanel;
 	}
-
+	
 	@Override
 	public int getDividerLocation() {
 		return super.getDividerLocation();

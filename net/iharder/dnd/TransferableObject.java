@@ -62,7 +62,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 	 * @since 1.1
 	 */
 	public final static String MIME_TYPE = "application/x-net.iharder.dnd.TransferableObject";
-
+	
 	/**
 	 * The default {@link java.awt.datatransfer.DataFlavor} for {@link TransferableObject} has the representation class
 	 * <tt>net.iharder.dnd.TransferableObject.class</tt> and the MIME type <tt>application/x-net.iharder.dnd.TransferableObject</tt>.
@@ -71,12 +71,12 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 	 */
 	public final static java.awt.datatransfer.DataFlavor DATA_FLAVOR =
 						new java.awt.datatransfer.DataFlavor(net.iharder.dnd.TransferableObject.class, MIME_TYPE);
-
+	
 	private Fetcher fetcher;
 	private Object data;
-
+	
 	private java.awt.datatransfer.DataFlavor customFlavor;
-
+	
 	/**
 	 * Creates a new {@link TransferableObject} that wraps <var>data</var>.
 	 * Along with the {@link #DATA_FLAVOR} associated with this class,
@@ -91,7 +91,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		this.data = data;
 		this.customFlavor = new java.awt.datatransfer.DataFlavor(data.getClass(), MIME_TYPE);
 	} // end constructor
-
+	
 	/**
 	 * Creates a new {@link TransferableObject} that will return the
 	 * object that is returned by <var>fetcher</var>.
@@ -105,7 +105,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 	public TransferableObject(Fetcher fetcher) {
 		this.fetcher = fetcher;
 	} // end constructor
-
+	
 	/**
 	 * Creates a new {@link TransferableObject} that will return the
 	 * object that is returned by <var>fetcher</var>.
@@ -124,7 +124,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		this.fetcher = fetcher;
 		this.customFlavor = new java.awt.datatransfer.DataFlavor(dataClass, MIME_TYPE);
 	} // end constructor
-
+	
 	/**
 	 * Returns the custom {@link java.awt.datatransfer.DataFlavor} associated
 	 * with the encapsulated object or <tt>null</tt> if the {@link Fetcher} constructor was used without passing a {@link java.lang.Class}.
@@ -135,8 +135,8 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 	public java.awt.datatransfer.DataFlavor getCustomDataFlavor() {
 		return customFlavor;
 	} // end getCustomDataFlavor
-
-	/*   ******** T R A N S F E R A B L E M E T H O D S ******** */
+	
+	/* ******** T R A N S F E R A B L E M E T H O D S ******** */
 
 	/**
 	 * Returns a two- or three-element array containing first
@@ -155,7 +155,7 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 			return new java.awt.datatransfer.DataFlavor[] { DATA_FLAVOR,
 								java.awt.datatransfer.DataFlavor.stringFlavor }; // end flavors array
 	} // end getTransferDataFlavors
-
+	
 	/**
 	 * Returns the data encapsulated in this {@link TransferableObject}.
 	 * If the {@link Fetcher} constructor was used, then this is when
@@ -172,15 +172,15 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		// Native object
 		if (flavor.equals(DATA_FLAVOR))
 			return fetcher == null ? data : fetcher.getObject();
-
+		
 		// String
 		if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor))
 			return fetcher == null ? data.toString() : fetcher.getObject().toString();
-
+		
 		// We can't do anything else
 		throw new java.awt.datatransfer.UnsupportedFlavorException(flavor);
 	} // end getTransferData
-
+	
 	/**
 	 * Returns <tt>true</tt> if <var>flavor</var> is one of the supported
 	 * flavors. Flavors are supported using the <code>equals(...)</code> method.
@@ -194,16 +194,16 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		// Native object
 		if (flavor.equals(DATA_FLAVOR))
 			return true;
-
+		
 		// String
 		if (flavor.equals(java.awt.datatransfer.DataFlavor.stringFlavor))
 			return true;
-
+		
 		// We can't do anything else
 		return false;
 	} // end isDataFlavorSupported
-
-	/*   ******** I N N E R I N T E R F A C E F E T C H E R ******** */
+	
+	/* ******** I N N E R I N T E R F A C E F E T C H E R ******** */
 
 	/**
 	 * Instead of passing your data directly to the {@link TransferableObject} constructor, you may want to know exactly when your data was received
@@ -225,5 +225,5 @@ public class TransferableObject implements java.awt.datatransfer.Transferable {
 		 */
 		public abstract Object getObject();
 	} // end inner interface Fetcher
-
+	
 } // end class TransferableObject

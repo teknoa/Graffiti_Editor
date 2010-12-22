@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: NodePosition.java,v 1.3 2010/12/14 07:02:14 morla Exp $
+// $Id: NodePosition.java,v 1.4 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -15,22 +15,22 @@ import org.graffiti.graph.Node;
  * DOCUMENT ME!
  * 
  * @author $author$
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class NodePosition {
 	// ~ Instance fields ========================================================
-
+	
 	/** DOCUMENT ME! */
 	Node n;
-
+	
 	/** DOCUMENT ME! */
 	double x;
-
+	
 	/** DOCUMENT ME! */
 	double y;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new NodePosition object.
 	 * 

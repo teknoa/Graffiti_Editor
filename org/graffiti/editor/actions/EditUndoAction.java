@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditUndoAction.java,v 1.9 2010/12/14 07:02:12 morla Exp $
+// $Id: EditUndoAction.java,v 1.10 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,17 +23,17 @@ import org.graffiti.session.EditorSession;
 /**
  * Special class for undo capabilities.
  * 
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class EditUndoAction
 					extends GraffitiAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new EditUndoAction object.
 	 * 
@@ -44,9 +44,9 @@ public class EditUndoAction
 		super("edit.undo", mainFrame, "editmenu_undo");
 		enabled = false;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -54,7 +54,7 @@ public class EditUndoAction
 	public boolean isEnabled() {
 		return enabled;
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -62,7 +62,7 @@ public class EditUndoAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * <b>Implementation Note:</b> The status of the GUIComponents has to be
 	 * updated after actionPerformed was executed.
@@ -82,7 +82,7 @@ public class EditUndoAction
 		}
 		mainFrame.updateActions();
 	}
-
+	
 	/**
 	 * Updates the state of this action.
 	 */
@@ -100,7 +100,7 @@ public class EditUndoAction
 			putValue(NAME, sBundle.getString("menu." + getName()));
 			putValue(SHORT_DESCRIPTION, getName());
 		}
-
+		
 		putValue(SMALL_ICON,
 							iBundle.getImageIcon("toolbar." + getName() + ".icon"));
 	}

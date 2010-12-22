@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiFrame.java,v 1.19 2010/12/14 07:02:12 morla Exp $
+// $Id: GraffitiFrame.java,v 1.20 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -43,21 +43,21 @@ public class GraffitiFrame
 					extends JFrame // MaximizeFrame
 {
 	// ~ Instance fields ========================================================
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The session this frame is in. */
 	private EditorSession session;
-
+	
 	/** The view this frame contains. */
 	private View view;
-
+	
 	private int frameNumber;
-
+	
 	private String initTitle;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>GraffitiInternalFrame</code>.
 	 */
@@ -65,9 +65,9 @@ public class GraffitiFrame
 		super();
 		// Ensure that however the window is closed, it actually causes this
 		// detach() method to be fired instead.
-
+		
 		final GraffitiFrame thisFrame = this;
-
+		
 		this.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 		this.addWindowListener(new WindowAdapter() {
 			@Override
@@ -77,12 +77,12 @@ public class GraffitiFrame
 				MainFrame.getInstance().frameClosing(internalFrame.getSession(), internalFrame.getView());
 				dispose();
 			}
-
+			
 			@Override
 			public void windowActivated(WindowEvent e) {
 				MainFrame.getInstance().setActiveSession(session, view);
 				session.setActiveView(view);
-
+				
 				GravistoService.getInstance().framesDeselect();
 				super.windowActivated(e);
 				for (InternalFrameListener ifl : internalFrame.getInternalFrameListeners()) {
@@ -90,17 +90,17 @@ public class GraffitiFrame
 				}
 			}
 		});
-
+		
 		if (fullscreen) {
 			this.setUndecorated(true);
 			// setAlwaysOnTop(true);
 			this.addKeyListener(new KeyListener() {
 				public void keyTyped(KeyEvent e) {
 				}
-
+				
 				public void keyReleased(KeyEvent e) {
 				}
-
+				
 				public void keyPressed(KeyEvent e) {
 					if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
 						// fullscreenenabled1.setSelected(false);
@@ -111,26 +111,26 @@ public class GraffitiFrame
 			setVisible(true);
 			setExtendedState(Frame.MAXIMIZED_BOTH);
 		}
-
+		
 		this.session = internalFrame.getSession();
 		this.view = internalFrame.getView();
 		super.setTitle(internalFrame.getTitle());
 		this.frameNumber = internalFrame.getFrameNumber();
 		this.initTitle = internalFrame.getInitTitle();
-
+		
 		if (view.putInScrollPane()) {
 			JScrollPane jsp = new JScrollPane(view.getViewComponent());
 			jsp.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 			jsp.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-
+			
 			jsp.setWheelScrollingEnabled(true);
-
+			
 			view.getViewComponent().getParent().setBackground(Color.WHITE);
-
+			
 			if (MainFrame.isViewProvidingToolbar(view)) {
 				Container j = this;
 				MainFrame.placeViewInContainer(view, jsp, j);
-
+				
 			} else {
 				setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
 				add(jsp, "0,0");
@@ -139,16 +139,16 @@ public class GraffitiFrame
 			setLayout(TableLayout.getLayout(TableLayoutConstants.FILL, TableLayoutConstants.FILL));
 			add(view.getViewComponent(), "0,0");
 		}
-
+		
 		setIconImage(MainFrame.getInstance().getIconImage());
-
+		
 		validate();
 		pack();
-
+		
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the session this frame is opened in.
 	 * 
@@ -157,7 +157,7 @@ public class GraffitiFrame
 	public EditorSession getSession() {
 		return session;
 	}
-
+	
 	/**
 	 * Returns the view of this frame.
 	 * 
@@ -166,22 +166,22 @@ public class GraffitiFrame
 	public View getView() {
 		return view;
 	}
-
+	
 	public int getFrameNumber() {
 		return frameNumber;
 	}
-
+	
 	public String getInitTitle() {
 		return initTitle;
 	}
-
+	
 	@Override
 	public void setTitle(String title) {
 		this.initTitle = title;
 		String frameTitle = title + " - view " + frameNumber;
 		super.setTitle(frameTitle);
 	}
-
+	
 	public static void detachOrAttachActiveFrame(boolean fullscreen) {
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
 		View view = es.getActiveView();
@@ -213,7 +213,7 @@ public class GraffitiFrame
 			}
 		}
 	}
-
+	
 	/**
 	 * @param editorSessionOfTargetGraph
 	 */
@@ -221,7 +221,7 @@ public class GraffitiFrame
 		this.session = s;
 		frameNumber = session.getViews().size();
 	}
-
+	
 }
 
 // ------------------------------------------------------------------------------

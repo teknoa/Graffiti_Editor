@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiInternalFrame.java,v 1.27 2010/12/19 02:54:15 klukas Exp $
+// $Id: GraffitiInternalFrame.java,v 1.28 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -33,27 +33,27 @@ public class GraffitiInternalFrame
 					extends JInternalFrame // MaximizeFrame
 {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The session this frame is in. */
 	private EditorSession session;
-
+	
 	/** The view this frame contains. */
 	private View view;
-
+	
 	/** The number of this internal frame. */
 	private int frameNumber;
-
+	
 	private String initTitle;
-
+	
 	Border b = null;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>GraffitiInternalFrame</code>.
 	 */
@@ -63,20 +63,20 @@ public class GraffitiInternalFrame
 		this.setClosable(true);
 		this.setResizable(true);
 		this.setIconifiable(true);
-
+		
 		// this.setFocusable(false);
 		setFocusTraversalPolicyProvider(true);
 		setFocusTraversalPolicy(new ContainerOrderFocusTraversalPolicy());
-
+		
 		setPreferredSize(new Dimension(320, 200));
-
+		
 		b = getBorder();
 		// setBorder(null);
-
+		
 		GravistoService.getInstance().addFrame(this);
-
+		
 	}
-
+	
 	@Override
 	public void doLayout() {
 		super.doLayout();
@@ -91,16 +91,16 @@ public class GraffitiInternalFrame
 		 * }
 		 */
 	}
-
+	
 	public String toString() {
 		return getTitle();
 	}
-
+	
 	@Override
 	protected void processContainerEvent(ContainerEvent e) {
 		super.processContainerEvent(e);
 	}
-
+	
 	/**
 	 * Constructor that sets the session, as well as the title.
 	 * 
@@ -122,14 +122,14 @@ public class GraffitiInternalFrame
 		setTitle(title);
 		// setTitle(ErrorMsg.removeHTMLtags(title));
 		setListener();
-
+		
 		// setOpaque(true);
 		// setBackground(Color.WHITE);
-
+		
 		// if (ReleaseInfo.isRunningAsApplet())
-
+		
 	}
-
+	
 	private String getViewType(final View view) {
 		String vt = "";
 		if (view != null)
@@ -138,18 +138,18 @@ public class GraffitiInternalFrame
 			vt = "";
 		return vt;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	private void setListener() {
 		addInternalFrameListener(new InternalFrameListener() {
 			public void internalFrameOpened(InternalFrameEvent e) {
 			}
-
+			
 			public void internalFrameClosing(InternalFrameEvent e) {
-
+				
 			}
-
+			
 			public void internalFrameClosed(InternalFrameEvent e) {
 				GraffitiInternalFrame.this.session = null;
 				// ListenerManager lm = session.getGraph().getListenerManager();
@@ -162,26 +162,26 @@ public class GraffitiInternalFrame
 				// ErrorMsg.addErrorMessage(err);
 				// }
 			}
-
+			
 			public void internalFrameIconified(InternalFrameEvent e) {
 			}
-
+			
 			public void internalFrameDeiconified(InternalFrameEvent e) {
 			}
-
+			
 			public void internalFrameActivated(InternalFrameEvent e) {
 				// System.out.println("frame activated "+e.toString());
 				session.setActiveView(view);
 				MainFrame.getInstance().setActiveSession(session, view);
 			}
-
+			
 			public void internalFrameDeactivated(InternalFrameEvent e) {
 				// if (MainFrame.getInstance().getActiveSession()==session)
 				// MainFrame.getInstance().setActiveSession(null, null);
 			}
 		});
 	}
-
+	
 	// public GraffitiInternalFrame(GraffitiFrame frame) {
 	// this();
 	// this.session = frame.getSession();
@@ -190,7 +190,7 @@ public class GraffitiInternalFrame
 	// setTitle(frame.getInitTitle());
 	// setListener();
 	// }
-
+	
 	/**
 	 * Returns the session this frame is opened in.
 	 * 
@@ -199,9 +199,9 @@ public class GraffitiInternalFrame
 	public EditorSession getSession() {
 		return session;
 	}
-
+	
 	public static String startTitle = null;
-
+	
 	/**
 	 * Sets the title of this frame and its associated button and menu button.
 	 * 
@@ -231,12 +231,12 @@ public class GraffitiInternalFrame
 					MainFrame.getInstance().setTitle(startTitle);
 		}
 	}
-
+	
 	@Override
 	public String getTitle() {
 		return initTitle + " - view " + frameNumber + getViewType(view);
 	}
-
+	
 	/**
 	 * Returns the view of this frame.
 	 * 
@@ -245,15 +245,15 @@ public class GraffitiInternalFrame
 	public View getView() {
 		return view;
 	}
-
+	
 	public int getFrameNumber() {
 		return frameNumber;
 	}
-
+	
 	public String getInitTitle() {
 		return initTitle;
 	}
-
+	
 	/**
 	 * @param editorSessionOfTargetGraph
 	 */

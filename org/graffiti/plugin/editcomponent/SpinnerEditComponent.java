@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: SpinnerEditComponent.java,v 1.7 2010/12/14 07:02:13 morla Exp $
+// $Id: SpinnerEditComponent.java,v 1.8 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -28,20 +28,20 @@ import org.graffiti.plugin.parameter.IntegerParameter;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class SpinnerEditComponent
 					extends AbstractValueEditComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/** The default step width for floating point numbers. */
 	private final Double DEFAULT_STEP = new Double(0.5d);
-
+	
 	/** The spinner component used. */
 	private JSpinner jSpinner;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructor for SpinnerEditComponent.
 	 * 
@@ -50,9 +50,9 @@ public class SpinnerEditComponent
 	 */
 	public SpinnerEditComponent(Displayable disp) {
 		super(disp);
-
+		
 		SpinnerNumberModel model;
-
+		
 		if (disp instanceof IntegerAttribute || disp instanceof ByteAttribute ||
 							disp instanceof LongAttribute || disp instanceof ShortAttribute ||
 							disp instanceof IntegerParameter) {
@@ -61,23 +61,23 @@ public class SpinnerEditComponent
 			model = new SpinnerNumberModel(new Double(0d), null, null,
 								DEFAULT_STEP);
 		}
-
+		
 		this.jSpinner = new JSpinner(model);
-
+		
 		// this.spinner = new JSpinner();
 		// this.spinner.setBorder(BorderFactory.createEmptyBorder());
-
+		
 		jSpinner.setOpaque(false);
-
+		
 		// this.spinner.setSize(100, 40);
 		// this.spinner.setMinimumSize(new Dimension(40, 10));
 		// this.spinner.setPreferredSize(new Dimension(100, 40));
 		displayable = null; // ensure setDisplayable really does sth
 		this.setDisplayable(disp);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the <code>ValueEditComponent</code>'s <code>JComponent</code>.
 	 * 
@@ -89,7 +89,7 @@ public class SpinnerEditComponent
 		jSpinner.setMaximumSize(new Dimension(2000, 30));
 		return jSpinner;
 	}
-
+	
 	/**
 	 * Sets the displayable.
 	 * 
@@ -99,7 +99,7 @@ public class SpinnerEditComponent
 	public void setDisplayable(Displayable disp) {
 		this.displayable = disp;
 	}
-
+	
 	/**
 	 * Sets the current value of the <code>Attribute</code> in the
 	 * corresponding <code>JComponent</code>.
@@ -109,15 +109,15 @@ public class SpinnerEditComponent
 			((JSpinner.DefaultEditor) this.jSpinner.getEditor()).getTextField().setText(EMPTY_STRING);
 		} else {
 			jSpinner.setValue(this.displayable.getValue());
-
+			
 			ChangeEvent ce = new ChangeEvent(jSpinner);
-
+			
 			for (int i = 0; i < jSpinner.getChangeListeners().length; i++) {
 				jSpinner.getChangeListeners()[i].stateChanged(ce);
 			}
 		}
 	}
-
+	
 	/*
 	 * @see org.graffiti.plugin.editcomponent.AbstractValueEditComponent#setShowEmpty(boolean)
 	 */
@@ -126,10 +126,10 @@ public class SpinnerEditComponent
 		if (this.showEmpty != showEmpty) {
 			super.setShowEmpty(showEmpty);
 		}
-
+		
 		this.setEditFieldValue();
 	}
-
+	
 	/**
 	 * Sets the value of the displayable specified in the <code>JComponent</code>. But only if it is different.
 	 */
@@ -174,7 +174,7 @@ public class SpinnerEditComponent
 									return;
 								}
 						}
-
+				
 			} catch (NumberFormatException nfe) {
 				//
 			}

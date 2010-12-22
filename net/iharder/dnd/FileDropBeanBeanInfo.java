@@ -6,28 +6,28 @@ import java.beans.PropertyDescriptor;
 import java.beans.SimpleBeanInfo;
 
 public class FileDropBeanBeanInfo extends SimpleBeanInfo {
-
+	
 	// Properties information will be obtained from introspection.//GEN-FIRST:Properties
 	private static PropertyDescriptor[] properties = null;// GEN-HEADEREND:Properties
-
+	
 	// Here you can add code for customizing the properties array.
-
+	
 	// GEN-LAST:Properties
-
+	
 	// Event set information will be obtained from introspection.//GEN-FIRST:Events
 	private static EventSetDescriptor[] eventSets = null;// GEN-HEADEREND:Events
-
+	
 	// Here you can add code for customizing the event sets array.
-
+	
 	// GEN-LAST:Events
-
+	
 	// Method information will be obtained from introspection.//GEN-FIRST:Methods
 	private static MethodDescriptor[] methods = null;// GEN-HEADEREND:Methods
-
+	
 	// Here you can add code for customizing the methods array.
-
+	
 	// GEN-LAST:Methods
-
+	
 	private static java.awt.Image iconColor16 = null; // GEN-BEGIN:IconsDef
 	private static java.awt.Image iconColor32 = null;
 	private static java.awt.Image iconMono16 = null;
@@ -36,9 +36,9 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	private static String iconNameC32 = null;
 	private static String iconNameM16 = null;
 	private static String iconNameM32 = null;// GEN-END:Icons
-
+	
 	private static int defaultPropertyIndex = -1;// GEN-BEGIN:Idx
-
+	
 	/**
 	 * Gets the bean's <code>PropertyDescriptor</code>s.
 	 * 
@@ -53,7 +53,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	public PropertyDescriptor[] getPropertyDescriptors() {
 		return properties;
 	}
-
+	
 	/**
 	 * Gets the bean's <code>EventSetDescriptor</code>s.
 	 * 
@@ -65,7 +65,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	public EventSetDescriptor[] getEventSetDescriptors() {
 		return eventSets;
 	}
-
+	
 	/**
 	 * Gets the bean's <code>MethodDescriptor</code>s.
 	 * 
@@ -77,7 +77,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	public MethodDescriptor[] getMethodDescriptors() {
 		return methods;
 	}
-
+	
 	/**
 	 * A bean may have a "default" property that is the property that will
 	 * mostly commonly be initially chosen for update by human's who are
@@ -92,7 +92,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	public int getDefaultPropertyIndex() {
 		return defaultPropertyIndex;
 	}
-
+	
 	/**
 	 * A bean may have a "default" event that is the event that will
 	 * mostly commonly be used by human's when using the bean.
@@ -106,7 +106,7 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 	public int getDefaultEventIndex() {
 		return defaultPropertyIndex;
 	}
-
+	
 	/**
 	 * This method returns an image object that can be used to
 	 * represent the bean in toolboxes, toolbars, etc. Icon images
@@ -164,5 +164,5 @@ public class FileDropBeanBeanInfo extends SimpleBeanInfo {
 		}
 		return null;
 	}
-
+	
 }

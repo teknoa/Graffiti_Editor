@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractDialogableEditComponent.java,v 1.3 2010/12/14 07:02:13 morla Exp $
+// $Id: AbstractDialogableEditComponent.java,v 1.4 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -26,15 +26,15 @@ import org.graffiti.plugin.Displayable;
 public abstract class AbstractDialogableEditComponent
 					extends AbstractValueEditComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/** The button for opening the dialog. */
 	protected JButton button;
-
+	
 	/** The dialog for specifying the value. */
 	protected JDialog dialog;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>AbstractDialogableEditComponent</code>.
 	 * 
@@ -44,9 +44,9 @@ public abstract class AbstractDialogableEditComponent
 	protected AbstractDialogableEditComponent(Displayable disp) {
 		super(disp);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the button of the <code>AbstractDialogableEditComponent</code>.
 	 * 
@@ -55,7 +55,7 @@ public abstract class AbstractDialogableEditComponent
 	public JButton getButton() {
 		return this.button;
 	}
-
+	
 	/**
 	 * Returns the dialog of this <code>AbstractDialogableEditComponent</code>.
 	 * 

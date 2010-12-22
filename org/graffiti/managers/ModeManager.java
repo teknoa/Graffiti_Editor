@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ModeManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: ModeManager.java,v 1.5 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -15,20 +15,20 @@ import org.graffiti.plugin.mode.Mode;
 /**
  * Provides an interface for a modes manager.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @see org.graffiti.managers.pluginmgr.PluginManagerListener
  */
 public interface ModeManager
 					extends PluginManagerListener {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the specified mode from the list of modes.
 	 * 
 	 * @return the specified mode from the list of modes.
 	 */
 	public Mode getMode(String mode);
-
+	
 	/**
 	 * Adds the specified mode to the list of modes this manager contains.
 	 * 
@@ -36,7 +36,7 @@ public interface ModeManager
 	 *           the mode to be added to the list.
 	 */
 	public void addMode(Mode mode);
-
+	
 	/**
 	 * Removes the specified mode from the list of modes the manager contains.
 	 * 

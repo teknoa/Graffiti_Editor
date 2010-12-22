@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraphConstraintChecker.java,v 1.6 2010/12/14 07:02:13 morla Exp $
+// $Id: GraphConstraintChecker.java,v 1.7 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.session;
 
@@ -47,21 +47,21 @@ public class GraphConstraintChecker
 					implements TransactionListener, GraphListener, EdgeListener, NodeListener,
 					AttributeListener {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The <code>ConstraintCheckerListener</code> waiting for unsatisfied
 	 * constraints.
 	 */
 	private ConstraintCheckerListener ccl;
-
+	
 	/** The <code>Graph</code> on which to check the constraints. */
 	private Graph g;
-
+	
 	/** Contains the constraints to be checked. */
 	private HashSet<GraphConstraint> constraints;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>GraphConstraintChecker</code> checking
 	 * constraints on the specified <code>Graph</code>.
@@ -76,9 +76,9 @@ public class GraphConstraintChecker
 		this.g = g;
 		this.ccl = ccl;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the state of the constraint checker which contains a message
 	 * telling which constraints are not satisfied.
@@ -91,7 +91,7 @@ public class GraphConstraintChecker
 	public String getState() {
 		throw new RuntimeException("Implement me.");
 	}
-
+	
 	/**
 	 * Adds another constraint to the set of constraints in this constraint
 	 * checker.
@@ -103,19 +103,19 @@ public class GraphConstraintChecker
 	public void addConstraint(GraphConstraint c) {
 		constraints.add(c);
 	}
-
+	
 	/**
 	 * Checks whether all constraints are satisfied on the specified graph.
 	 */
 	public void checkConstraints() {
 		if (constraints.isEmpty())
 			return;
-
+		
 		String message = "";
-
+		
 		for (Iterator<GraphConstraint> i = constraints.iterator(); i.hasNext();) {
 			GraphConstraint gc = (GraphConstraint) i.next();
-
+			
 			try {
 				gc.validate(g);
 			} catch (UnsatisfiedConstraintException e) {
@@ -124,11 +124,11 @@ public class GraphConstraintChecker
 				message.concat("\n" + e.getMessage());
 			}
 		}
-
+		
 		if (!message.equals(""))
 			ccl.checkFailed(message);
 	}
-
+	
 	/**
 	 * Called after an attribute has been added.
 	 * 
@@ -138,7 +138,7 @@ public class GraphConstraintChecker
 	public void postAttributeAdded(AttributeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an attribute has been changed.
 	 * 
@@ -148,7 +148,7 @@ public class GraphConstraintChecker
 	public void postAttributeChanged(AttributeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an attribute has been removed.
 	 * 
@@ -158,7 +158,7 @@ public class GraphConstraintChecker
 	public void postAttributeRemoved(AttributeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after the edge was set directed or undirected.
 	 * 
@@ -168,7 +168,7 @@ public class GraphConstraintChecker
 	public void postDirectedChanged(EdgeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an edge has been added to the graph.
 	 * 
@@ -178,7 +178,7 @@ public class GraphConstraintChecker
 	public void postEdgeAdded(GraphEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an edge has been removed from the graph.
 	 * 
@@ -188,7 +188,7 @@ public class GraphConstraintChecker
 	public void postEdgeRemoved(GraphEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after the edge has been reversed.
 	 * 
@@ -198,7 +198,7 @@ public class GraphConstraintChecker
 	public void postEdgeReversed(EdgeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after method <code>clear()</code> has been called on a graph. No
 	 * other events (like remove events) are generated.
@@ -209,7 +209,7 @@ public class GraphConstraintChecker
 	public void postGraphCleared(GraphEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called just after an incoming edge has been added to the node. (For
 	 * undirected edges postUndirectedEdgeAdded is called instead.)
@@ -220,7 +220,7 @@ public class GraphConstraintChecker
 	public void postInEdgeAdded(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an incoming edge has been removed from the node. (For
 	 * undirected edges postUndirectedEdgeRemoved is called.)
@@ -231,7 +231,7 @@ public class GraphConstraintChecker
 	public void postInEdgeRemoved(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an edge has been added to the graph.
 	 * 
@@ -241,7 +241,7 @@ public class GraphConstraintChecker
 	public void postNodeAdded(GraphEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after a node has been removed from the graph. All edges incident
 	 * to this node have already been removed (preEdgeRemoved and
@@ -253,7 +253,7 @@ public class GraphConstraintChecker
 	public void postNodeRemoved(GraphEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an outgoing edge has been added to the node. (For
 	 * undirected edges postUndirectedEdgeAdded is called instead.)
@@ -264,7 +264,7 @@ public class GraphConstraintChecker
 	public void postOutEdgeAdded(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an outgoing edge has been removed from the node. (For
 	 * undirected edges postUndirectedEdgeRemoved is called.)
@@ -275,7 +275,7 @@ public class GraphConstraintChecker
 	public void postOutEdgeRemoved(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after the source node of an edge has changed.
 	 * 
@@ -285,7 +285,7 @@ public class GraphConstraintChecker
 	public void postSourceNodeChanged(EdgeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after the target node of an edge has changed.
 	 * 
@@ -295,7 +295,7 @@ public class GraphConstraintChecker
 	public void postTargetNodeChanged(EdgeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an (undirected) edge has been added to the node. (For
 	 * directed edges pre- In/Out- EdgeAdded is called.)
@@ -306,7 +306,7 @@ public class GraphConstraintChecker
 	public void postUndirectedEdgeAdded(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called after an (undirected) edge has been removed from the node. (For
 	 * directed edges pre- In/Out- EdgeRemoved is called.)
@@ -317,7 +317,7 @@ public class GraphConstraintChecker
 	public void postUndirectedEdgeRemoved(NodeEvent e) {
 		checkConstraints();
 	}
-
+	
 	/**
 	 * Called just before an attribute is added.
 	 * 
@@ -326,7 +326,7 @@ public class GraphConstraintChecker
 	 */
 	public void preAttributeAdded(AttributeEvent e) {
 	}
-
+	
 	/**
 	 * Called before a change of an attribute takes place.
 	 * 
@@ -335,7 +335,7 @@ public class GraphConstraintChecker
 	 */
 	public void preAttributeChanged(AttributeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an attribute is removed.
 	 * 
@@ -344,7 +344,7 @@ public class GraphConstraintChecker
 	 */
 	public void preAttributeRemoved(AttributeEvent e) {
 	}
-
+	
 	/**
 	 * Called before the edge is set directed or undirected.
 	 * 
@@ -353,7 +353,7 @@ public class GraphConstraintChecker
 	 */
 	public void preDirectedChanged(EdgeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an edge is added to the graph.
 	 * 
@@ -362,7 +362,7 @@ public class GraphConstraintChecker
 	 */
 	public void preEdgeAdded(GraphEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an edge is removed from the graph.
 	 * 
@@ -371,7 +371,7 @@ public class GraphConstraintChecker
 	 */
 	public void preEdgeRemoved(GraphEvent e) {
 	}
-
+	
 	/**
 	 * Called before the edge is going to be reversed.
 	 * 
@@ -380,7 +380,7 @@ public class GraphConstraintChecker
 	 */
 	public void preEdgeReversed(EdgeEvent e) {
 	}
-
+	
 	/**
 	 * Called before method <code>clear()</code> is called on a graph. No other
 	 * events (like remove events) are generated.
@@ -390,7 +390,7 @@ public class GraphConstraintChecker
 	 */
 	public void preGraphCleared(GraphEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an incoming edge is added to the node. (For
 	 * undirected edges preUndirectedEdgeAdded is called instead.)
@@ -400,7 +400,7 @@ public class GraphConstraintChecker
 	 */
 	public void preInEdgeAdded(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an incoming edge is removed from the node. (For
 	 * undirected edges preUndirectedEdgeRemoved is called.)
@@ -410,7 +410,7 @@ public class GraphConstraintChecker
 	 */
 	public void preInEdgeRemoved(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before a node is added to the graph.
 	 * 
@@ -419,7 +419,7 @@ public class GraphConstraintChecker
 	 */
 	public void preNodeAdded(GraphEvent e) {
 	}
-
+	
 	/**
 	 * Called just before a node is removed from the graph. This method is
 	 * called before the incident edges are deleted.
@@ -429,7 +429,7 @@ public class GraphConstraintChecker
 	 */
 	public void preNodeRemoved(GraphEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an outgoing edge is added to the node. (For
 	 * undirected edges preUndirectedEdgeAdded is called instead.)
@@ -439,7 +439,7 @@ public class GraphConstraintChecker
 	 */
 	public void preOutEdgeAdded(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an outgoing edge is removed from the node. (For
 	 * undirected edges preUndirectedEdgeRemoved is called.)
@@ -449,7 +449,7 @@ public class GraphConstraintChecker
 	 */
 	public void preOutEdgeRemoved(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Called before a change of the source node of an edge takes place.
 	 * 
@@ -458,7 +458,7 @@ public class GraphConstraintChecker
 	 */
 	public void preSourceNodeChanged(EdgeEvent e) {
 	}
-
+	
 	/**
 	 * Called before a change of the target node of an edge takes place.
 	 * 
@@ -467,7 +467,7 @@ public class GraphConstraintChecker
 	 */
 	public void preTargetNodeChanged(EdgeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an (undirected) edge is added to the node. (For
 	 * directed edges pre- In/Out- EdgeAdded is called.)
@@ -477,7 +477,7 @@ public class GraphConstraintChecker
 	 */
 	public void preUndirectedEdgeAdded(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Called just before an (undirected) edge is removed from the node. (For
 	 * directed edges pre- In/Out- EdgeRemoved is called.)
@@ -487,7 +487,7 @@ public class GraphConstraintChecker
 	 */
 	public void preUndirectedEdgeRemoved(NodeEvent e) {
 	}
-
+	
 	/**
 	 * Removes the specified <code>GraphConstraint</code> from the set of
 	 * constraints of this constraint checker.
@@ -504,7 +504,7 @@ public class GraphConstraintChecker
 			throw new NoSuchElementException();
 		}
 	}
-
+	
 	/**
 	 * Called when a transaction has stopped.
 	 * 
@@ -513,7 +513,7 @@ public class GraphConstraintChecker
 	 */
 	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 	}
-
+	
 	/**
 	 * Called when a transaction has started.
 	 * 

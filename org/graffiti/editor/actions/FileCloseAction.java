@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileCloseAction.java,v 1.7 2010/12/14 07:02:12 morla Exp $
+// $Id: FileCloseAction.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -26,17 +26,17 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for closing a graph.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class FileCloseAction extends GraffitiAction {
 	// ~ Constructors
 	// ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new FileCloseAction object.
 	 * 
@@ -46,10 +46,10 @@ public class FileCloseAction extends GraffitiAction {
 	public FileCloseAction(MainFrame mainFrame) {
 		super("file.close", mainFrame, "filemenu_close");
 	}
-
+	
 	// ~ Methods
 	// ================================================================
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -59,7 +59,7 @@ public class FileCloseAction extends GraffitiAction {
 	public boolean isEnabled() {
 		return mainFrame.isSessionActive();
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -67,7 +67,7 @@ public class FileCloseAction extends GraffitiAction {
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -81,7 +81,7 @@ public class FileCloseAction extends GraffitiAction {
 			closeInternalFrame(v.getViewComponent());
 		}
 	}
-
+	
 	private void closeInternalFrame(JComponent viewComponent) {
 		if (viewComponent instanceof JInternalFrame) {
 			JInternalFrame jif = (JInternalFrame) viewComponent;

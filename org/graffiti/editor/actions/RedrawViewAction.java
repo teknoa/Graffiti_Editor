@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: RedrawViewAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: RedrawViewAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,17 +22,17 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for a new graph.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class RedrawViewAction
 					extends GraffitiAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new RedrawViewAction object.
 	 * 
@@ -42,9 +42,9 @@ public class RedrawViewAction
 	public RedrawViewAction(MainFrame mainFrame) {
 		super("edit.redraw", mainFrame, "editmenu_redraw");
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -56,7 +56,7 @@ public class RedrawViewAction
 		List<?> views = dv.getViews();
 		return !views.isEmpty();
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -64,7 +64,7 @@ public class RedrawViewAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -73,13 +73,13 @@ public class RedrawViewAction
 	 */
 	public void actionPerformed(ActionEvent e) {
 		EditorSession dv = mainFrame.getActiveEditorSession();
-
+		
 		// hack till i find out how to do the enabling correctly
 		if (dv == null)
 			return;
-
+		
 		List<?> views = dv.getViews();
-
+		
 		for (Iterator<?> it = views.iterator(); it.hasNext();) {
 			View view = (View) it.next();
 			// view.postGraphCleared(new GraphEvent(getGraph()));
@@ -87,7 +87,7 @@ public class RedrawViewAction
 			view.completeRedraw();
 			mainFrame.fireSessionChanged(dv);
 		}
-
+		
 		mainFrame.updateActions();
 	}
 }

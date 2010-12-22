@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractGraffitiComponent.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: AbstractGraffitiComponent.java,v 1.5 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -16,13 +16,13 @@ import org.graffiti.editor.MainFrame;
 /**
  * Abstract class for default containers.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public abstract class AbstractGraffitiComponent
 					extends JPanel
 					implements GraffitiComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
@@ -31,16 +31,16 @@ public abstract class AbstractGraffitiComponent
 	 * The component wherer the current <code>AbstractGraffitiContainer</code> prefers to be inserted.
 	 */
 	protected String preferredComponent;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>AbstractGraffitiContainer</code>.
 	 */
 	protected AbstractGraffitiComponent() {
 		super();
 	}
-
+	
 	/**
 	 * Constructs a new <code>AbstractGraffitiContainer</code>.
 	 * 
@@ -51,15 +51,15 @@ public abstract class AbstractGraffitiComponent
 		super();
 		this.preferredComponent = prefComp;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
 	 */
 	public void setMainFrame(MainFrame mf) {
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 

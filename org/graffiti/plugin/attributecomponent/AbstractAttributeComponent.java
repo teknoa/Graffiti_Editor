@@ -5,10 +5,10 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractAttributeComponent.java,v 1.8 2010/12/14 07:02:14 morla Exp $
+// $Id: AbstractAttributeComponent.java,v 1.9 2010/12/22 13:05:55 klukas Exp $
 
 /*
- * $$Id: AbstractAttributeComponent.java,v 1.8 2010/12/14 07:02:14 morla Exp $$
+ * $$Id: AbstractAttributeComponent.java,v 1.9 2010/12/22 13:05:55 klukas Exp $$
  */
 package org.graffiti.plugin.attributecomponent;
 
@@ -24,38 +24,38 @@ import org.graffiti.plugin.view.ShapeNotFoundException;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AbstractAttributeComponent
 					extends AttributeComponent
 					implements GraffitiViewComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The attribute that this component displays. */
 	protected Attribute attr;
-
+	
 	/** The shape of the node or edge to which this attribute belongs. */
 	protected GraphElementShape geShape;
-
+	
 	/** DOCUMENT ME! */
 	protected Point shift;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Instantiates an <code>AttributeComponent</code>
 	 */
 	public AbstractAttributeComponent() {
 		super();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets an instance of attribute which this component displays.
 	 * 
@@ -65,7 +65,7 @@ public abstract class AbstractAttributeComponent
 	public void setAttribute(Attribute attr) {
 		this.attr = attr;
 	}
-
+	
 	/**
 	 * Returns the attribute that is displayed by this component.
 	 * 
@@ -75,7 +75,7 @@ public abstract class AbstractAttributeComponent
 	public Attribute getAttribute() {
 		return this.attr;
 	}
-
+	
 	/**
 	 * Sets shape of graph element to which the attribute of this component
 	 * belongs.
@@ -86,7 +86,7 @@ public abstract class AbstractAttributeComponent
 	public void setGraphElementShape(GraphElementShape geShape) {
 		this.geShape = geShape;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -97,7 +97,7 @@ public abstract class AbstractAttributeComponent
 	public void setShift(Point shift) {
 		this.shift = shift;
 	}
-
+	
 	/**
 	 * Called when a graphics attribute of the attribute represented by this
 	 * component has changed.
@@ -108,7 +108,7 @@ public abstract class AbstractAttributeComponent
 	@Override
 	public abstract void attributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Called to initialise the component of this attribute correctly. Also
 	 * calls <code>repaint()</code>.
@@ -121,7 +121,7 @@ public abstract class AbstractAttributeComponent
 						throws ShapeNotFoundException {
 		this.recreate();
 	}
-
+	
 	/**
 	 * Used when the shape changed in the datastructure. Makes the painter to
 	 * create a new shape.

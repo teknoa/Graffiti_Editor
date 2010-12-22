@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AttributeComponent.java,v 1.8 2010/12/14 07:02:13 morla Exp $
+// $Id: AttributeComponent.java,v 1.9 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -19,32 +19,32 @@ import org.graffiti.attributes.Attribute;
 /**
  * This component represents a <code>org.graffiti.attributes.Attribute</code>.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class AttributeComponent
 					extends JComponent
 					implements GraffitiViewComponent {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Sets an instance of attribute which this component displays.
 	 * 
 	 * @param attr
 	 */
 	public abstract void setAttribute(Attribute attr);
-
+	
 	/**
 	 * Returns the attribute that is displayed by this component.
 	 * 
 	 * @return the attribute that is displayed by this component.
 	 */
 	public abstract Attribute getAttribute();
-
+	
 	/**
 	 * Sets shape of graph element to which the attribute of this component
 	 * belongs.
@@ -52,9 +52,9 @@ public abstract class AttributeComponent
 	 * @param geShape
 	 */
 	public abstract void setGraphElementShape(GraphElementShape geShape);
-
+	
 	public abstract void adjustComponentSize();
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -62,7 +62,7 @@ public abstract class AttributeComponent
 	 *           DOCUMENT ME!
 	 */
 	public abstract void setShift(Point shift);
-
+	
 	/**
 	 * Called when a graphics attribute of the attribute represented by this
 	 * component has changed.
@@ -72,16 +72,16 @@ public abstract class AttributeComponent
 	 */
 	public abstract void attributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Used when the shape changed in the datastructure. Makes the painter to
 	 * create a new shape.
 	 */
 	public abstract void recreate()
 						throws ShapeNotFoundException;
-
+	
 	public void highlight(boolean value, MouseEvent e) {
-
+		
 	}
 }
 

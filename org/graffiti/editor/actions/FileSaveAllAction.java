@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAllAction.java,v 1.7 2010/12/14 07:02:12 morla Exp $
+// $Id: FileSaveAllAction.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,17 +20,17 @@ import org.graffiti.session.EditorSession;
 /**
  * The action for saving all open graphs.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class FileSaveAllAction
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new FileSaveAllAction object.
 	 * 
@@ -42,9 +42,9 @@ public class FileSaveAllAction
 	public FileSaveAllAction(MainFrame mainFrame, IOManager ioManager) {
 		super("file.saveAll", mainFrame, null);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -54,7 +54,7 @@ public class FileSaveAllAction
 	public boolean isEnabled() {
 		return false;
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -62,7 +62,7 @@ public class FileSaveAllAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -71,7 +71,7 @@ public class FileSaveAllAction
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String dv = mainFrame.getDefaultView();
-
+		
 		if (dv != null) {
 			mainFrame.createInternalFrame(dv, "", false, false);
 		} else {

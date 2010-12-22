@@ -16,7 +16,7 @@ package net.iharder.dnd;
  * @version 1.1
  */
 public interface FileDropListener extends java.util.EventListener {
-
+	
 	/**
 	 * Fired by the {@link FileDropBean} when files are dropped
 	 * onto a drop target.
@@ -26,5 +26,5 @@ public interface FileDropListener extends java.util.EventListener {
 	 * @since 1.1
 	 */
 	public abstract void filesDropped(FileDropEvent evt);
-
+	
 } // end interface FileDropListener

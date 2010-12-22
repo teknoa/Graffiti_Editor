@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ViewManager.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: ViewManager.java,v 1.5 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -17,21 +17,21 @@ import org.graffiti.util.InstanceCreationException;
 /**
  * Provides an interface for managing a list of view types.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  */
 public interface ViewManager
 					extends PluginManagerListener, ViewListener {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the class names of the registered views.
 	 * 
 	 * @return the class names of the registered views.
 	 */
 	public String[] getViewNames();
-
+	
 	public String[] getViewDescriptions();
-
+	
 	/**
 	 * Adds the given view type (class name) to the map of view types.
 	 * 
@@ -39,7 +39,7 @@ public interface ViewManager
 	 *           the new view to add to the map.
 	 */
 	public void addView(String className);
-
+	
 	/**
 	 * Adds the given list of views types (class names) to the list of
 	 * available view types.
@@ -48,7 +48,7 @@ public interface ViewManager
 	 *           the list of classNames to add to the view type list.
 	 */
 	public void addViews(String[] classNames);
-
+	
 	/**
 	 * Returns a new instance of the specified view.
 	 * 
@@ -58,7 +58,7 @@ public interface ViewManager
 	 */
 	public View createView(String className)
 						throws InstanceCreationException;
-
+	
 	/**
 	 * Returns <code>true</code>, if there is at least one registered view
 	 * plugin available. /
@@ -66,7 +66,7 @@ public interface ViewManager
 	 * @return DOCUMENT ME!
 	 */
 	public boolean hasViews();
-
+	
 	/**
 	 * Registers the given <code>ViewManagerListener</code>.
 	 * 
@@ -74,7 +74,7 @@ public interface ViewManager
 	 *           the listener to register.
 	 */
 	void addListener(ViewManagerListener viewManagerListener);
-
+	
 	/**
 	 * Registers the given <code>ViewListener</code>.
 	 * 
@@ -82,7 +82,7 @@ public interface ViewManager
 	 *           the listener to register.
 	 */
 	void addViewListener(ViewListener viewListener);
-
+	
 	/**
 	 * Returns <code>true</code>, if the given view manager listener was in the
 	 * list of listeners and could be removed.
@@ -92,7 +92,7 @@ public interface ViewManager
 	 * @return DOCUMENT ME!
 	 */
 	boolean removeListener(ViewManagerListener l);
-
+	
 	/**
 	 * Returns <code>true</code>, if the given view listener was in the list of
 	 * listeners and could be removed.
@@ -102,13 +102,13 @@ public interface ViewManager
 	 * @return DOCUMENT ME!
 	 */
 	boolean removeViewListener(ViewListener l);
-
+	
 	// ~ Inner Interfaces =======================================================
-
+	
 	/**
 	 * Interfaces a view manager listener.
 	 * 
-	 * @version $Revision: 1.4 $
+	 * @version $Revision: 1.5 $
 	 */
 	public interface ViewManagerListener {
 		/**
@@ -119,15 +119,15 @@ public interface ViewManager
 		 */
 		void viewTypeAdded(String viewType);
 	}
-
+	
 	/**
 	 * Removes the known list of views from the internal memory. Makes
 	 * it possible to remove and re-add views.
 	 */
 	public void removeViews();
-
+	
 	public String getDefaultView();
-
+	
 	public void setDefaultView(String defaultView);
 }
 

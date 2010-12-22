@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: Session.java,v 1.6 2010/12/14 07:02:13 morla Exp $
+// $Id: Session.java,v 1.7 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.session;
 
@@ -38,34 +38,34 @@ import org.graffiti.plugin.view.View;
 public class Session
 					implements ConstraintCheckerListener {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The list of <code>org.graffiti.plugin.algorithm.Algorithm</code>s the <code>Session</code> manages.
 	 */
 	protected AlgorithmManager algorithmManager;
-
+	
 	/** The graph object of this session. */
 	protected Graph graph;
-
+	
 	// /** The constraint checker of the graph. */
 	// protected GraphConstraintChecker constraintChecker;
-
+	
 	/** The list of views (class names of the views) of this session. */
 	protected List<View> views;
-
+	
 	/** The active mode of this session. */
 	protected Mode activeMode;
-
+	
 	/**
 	 * The list of <code>org.graffiti.plugin.mode.Mode</code>s the <code>Session</code> manages.
 	 */
 	protected ModeManager modeManager;
-
+	
 	/** The active view in this session. */
 	protected View activeView;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new session instance with an empty graph and the
 	 * corresponding constraint checker.
@@ -73,7 +73,7 @@ public class Session
 	public Session() {
 		this(new AdjListGraph());
 	}
-
+	
 	/**
 	 * Constructs a new session instance with the given graph.
 	 * 
@@ -84,13 +84,13 @@ public class Session
 		this.graph = graph;
 		modeManager = new DefaultModeManager();
 		algorithmManager = new DefaultAlgorithmManager();
-
+		
 		this.views = new LinkedList<View>();
 		// this.constraintChecker = new GraphConstraintChecker(graph, this);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the mode that is active in this session.
 	 * 
@@ -99,7 +99,7 @@ public class Session
 	public Mode getActiveMode() {
 		return this.activeMode;
 	}
-
+	
 	/**
 	 * Sets the activeView.
 	 * 
@@ -109,7 +109,7 @@ public class Session
 	public void setActiveView(View activeView) {
 		this.activeView = activeView;
 	}
-
+	
 	/**
 	 * Returns the activeView.
 	 * 
@@ -118,7 +118,7 @@ public class Session
 	public View getActiveView() {
 		return activeView;
 	}
-
+	
 	/**
 	 * Returns the class name of the specified algorithm. Using the <code>InstanceLoader</code> an instance of this <code>Algorithm</code> can be created.
 	 * 
@@ -132,7 +132,7 @@ public class Session
 	public String getClassName(Algorithm algorithm) {
 		throw new RuntimeException("Implement me");
 	}
-
+	
 	/**
 	 * Returns the graph of this session.
 	 * 
@@ -141,7 +141,7 @@ public class Session
 	public Graph getGraph() {
 		return this.graph;
 	}
-
+	
 	/**
 	 * Returns <code>true</code>, if the graph in this session has been
 	 * modified.
@@ -151,7 +151,7 @@ public class Session
 	public boolean isModified() {
 		return graph.isModified();
 	}
-
+	
 	/**
 	 * Returns the list of views in the manager.
 	 * 
@@ -160,7 +160,7 @@ public class Session
 	public List<View> getViews() {
 		return views;
 	}
-
+	
 	/**
 	 * Adds a new View to the inner list of views.
 	 * 
@@ -170,7 +170,7 @@ public class Session
 	public void addView(View view) {
 		views.add(view);
 	}
-
+	
 	/**
 	 * Changes the active mode of this session.
 	 * 
@@ -180,7 +180,7 @@ public class Session
 	public void changeActiveMode(Mode activeMode) {
 		this.activeMode = activeMode;
 	}
-
+	
 	/**
 	 * Handles the failed constraint check.
 	 * 
@@ -189,7 +189,7 @@ public class Session
 	 */
 	public void checkFailed(String msg) {
 	}
-
+	
 	/**
 	 * Closes this session. Closes all the views of this session.
 	 */
@@ -198,7 +198,7 @@ public class Session
 			v.close();
 		}
 	}
-
+	
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
 	 * 
@@ -209,23 +209,23 @@ public class Session
 	 */
 	public void pluginAdded(GenericPlugin plugin, PluginDescription desc) {
 		Algorithm[] algs = plugin.getAlgorithms();
-
+		
 		for (int i = 0; i < algs.length; i++) {
 			algorithmManager.addAlgorithm(algs[i]);
 		}
-
+		
 		try {
 			Mode[] ms = ((EditorPlugin) plugin).getModes();
-
+			
 			for (int i = 0; i < ms.length; i++) {
 				modeManager.addMode(ms[i]);
 			}
 		} catch (ClassCastException cce) {
 			// only EditorPlugins provide modes
 		}
-
+		
 		String[] vs = plugin.getViews();
-
+		
 		for (int i = 0; i < vs.length; i++) {
 			View v;
 			try {
@@ -243,7 +243,7 @@ public class Session
 			}
 		}
 	}
-
+	
 	/**
 	 * Removes the given view from this session.
 	 * 
@@ -257,10 +257,10 @@ public class Session
 			throw new IllegalArgumentException(
 								"trying to remove a view, which is null.");
 		}
-
+		
 		views.remove(view);
 	}
-
+	
 	// /**
 	// * Checks whether the graph satisfies all the constraints.
 	// *
@@ -271,7 +271,7 @@ public class Session
 	// {
 	// constraintChecker.checkConstraints();
 	// }
-
+	
 	@Override
 	public String toString() {
 		if (getGraph() != null)

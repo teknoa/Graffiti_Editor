@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: StandardValueEditComponent.java,v 1.3 2010/12/14 07:02:13 morla Exp $
+// $Id: StandardValueEditComponent.java,v 1.4 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -19,17 +19,17 @@ import org.graffiti.plugin.Displayable;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class StandardValueEditComponent
 					extends AbstractValueEditComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/** DOCUMENT ME! */
 	private JTextField textField;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Standard constructor.
 	 * 
@@ -43,9 +43,9 @@ public class StandardValueEditComponent
 		if (displayable.getValue() != null)
 			textField.setText(displayable.getValue().toString());
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Return the component used to display the displayable.
 	 * 
@@ -59,11 +59,11 @@ public class StandardValueEditComponent
 		textField.setMinimumSize(new Dimension(0, 20));
 		textField.setPreferredSize(new Dimension(50, 30));
 		textField.setMaximumSize(new Dimension(2000, 40));
-
+		
 		// textField.setSize(100, 30);
 		return textField;
 	}
-
+	
 	/**
 	 * Updates this component with the value from the displayable.
 	 */
@@ -76,7 +76,7 @@ public class StandardValueEditComponent
 			}
 		}
 	}
-
+	
 	/**
 	 * Standard edit component is not editable.
 	 */

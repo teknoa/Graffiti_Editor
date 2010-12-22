@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditorPluginAdapter.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: EditorPluginAdapter.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin;
 
@@ -25,7 +25,7 @@ public class EditorPluginAdapter
 					extends GenericPluginAdapter
 					implements EditorPlugin {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * Maps from an attribute class to an AttributeComponent class. old
 	 * comment: A <code>java.util.Map</code> from <code>Attribute</code> to
@@ -33,28 +33,28 @@ public class EditorPluginAdapter
 	 */
 	@SuppressWarnings("unchecked")
 	protected Map attributeComponents;
-
+	
 	/** The mapping between attribute classes and attributeComponent classes. */
 	@SuppressWarnings("unchecked")
 	protected Map valueEditComponents;
-
+	
 	/** The gui components the plugin provides. */
 	protected GraffitiComponent[] guiComponents;
-
+	
 	/** The modes the plugin provides. */
 	protected Mode[] modes;
-
+	
 	/** The shapes the plugin provides. */
 	protected GraffitiShape[] shapes;
-
+	
 	/** The tools the plugin provides. */
 	public Tool[] tools;
-
+	
 	/** The InspectorTabs the plugin provides. */
 	protected InspectorTab[] tabs;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructor for EditorPluginAdapter.
 	 */
@@ -67,9 +67,9 @@ public class EditorPluginAdapter
 		this.valueEditComponents = new HashMap<Object, Object>();
 		this.attributeComponents = new HashMap<Object, Object>();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns a mapping between attribute classnames and attributeComponent
 	 * classnames.
@@ -80,7 +80,7 @@ public class EditorPluginAdapter
 	public Map<?, ?> getAttributeComponents() {
 		return this.attributeComponents;
 	}
-
+	
 	/**
 	 * Returns the array of <code>GraffitiComponent</code>s the plugin
 	 * contains.
@@ -91,7 +91,7 @@ public class EditorPluginAdapter
 	public GraffitiComponent[] getGUIComponents() {
 		return this.guiComponents;
 	}
-
+	
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 * plugin contains.
@@ -102,7 +102,7 @@ public class EditorPluginAdapter
 	public Mode[] getModes() {
 		return this.modes;
 	}
-
+	
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 * contains.
@@ -113,7 +113,7 @@ public class EditorPluginAdapter
 	public GraffitiShape[] getShapes() {
 		return this.shapes;
 	}
-
+	
 	/**
 	 * Returns an array of <code>org.graffiti.plugin.mode.Tool</code>s the
 	 * plugin provides.
@@ -123,7 +123,7 @@ public class EditorPluginAdapter
 	public Tool[] getTools() {
 		return this.tools;
 	}
-
+	
 	/**
 	 * Returns a mapping from attribute classes to attributeComponent classes.
 	 * 
@@ -132,7 +132,7 @@ public class EditorPluginAdapter
 	public Map<?, ?> getValueEditComponents() {
 		return this.valueEditComponents;
 	}
-
+	
 	public InspectorTab[] getInspectorTabs() {
 		return tabs;
 	}

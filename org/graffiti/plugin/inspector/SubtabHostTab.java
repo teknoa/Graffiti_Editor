@@ -29,19 +29,19 @@ import org.graffiti.session.SessionListener;
 public class SubtabHostTab extends InspectorTab
 					implements SessionListener, ViewListener, ContainsTabbedPane, SelectionListener, AttributeListener {
 	private static final long serialVersionUID = -3810951162912767447L;
-
+	
 	private Collection<InspectorTab> subtabs;
-
+	
 	JTabbedPane hc = new JTabbedPane();
-
+	
 	private LinkedHashSet<InspectorTab> hiddenTabs = new LinkedHashSet<InspectorTab>();
-
+	
 	public SubtabHostTab(String title, Collection<InspectorTab> subtabs) {
 		this.title = title;
 		this.subtabs = subtabs;
 		initComponents();
 	}
-
+	
 	public SubtabHostTab(String title, InspectorTab[] inspectorTabs) {
 		Collection<InspectorTab> tabs = new ArrayList<InspectorTab>();
 		for (InspectorTab it : inspectorTabs)
@@ -50,24 +50,24 @@ public class SubtabHostTab extends InspectorTab
 		this.subtabs = tabs;
 		initComponents();
 	}
-
+	
 	private void initComponents() {
 		double[][] sizeM = { { TableLayoutConstants.FILL }, // Columns
 				{ TableLayoutConstants.FILL } }; // Rows
-
+		
 		setLayout(new TableLayout(sizeM));
 		setBackground(null);
 		setOpaque(false);
-
+		
 		for (InspectorTab tab : subtabs) {
 			hc.addTab(tab.getTitle(), tab);
 		}
 		hc.validate();
 		add(hc, "0,0");
-
+		
 		validate();
 	}
-
+	
 	@Override
 	public boolean visibleForView(View v) {
 		boolean visible = false;
@@ -75,7 +75,7 @@ public class SubtabHostTab extends InspectorTab
 			visible = visible || ((tab.visibleForView(v) && (v == null || (v != null && v.worksWithTab(tab)))));
 		return visible;
 	}
-
+	
 	public void sessionChanged(Session s) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof SessionListener) {
@@ -84,11 +84,11 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public Collection<InspectorTab> getTabs() {
 		return subtabs;
 	}
-
+	
 	public void sessionDataChanged(Session s) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof SessionListener) {
@@ -97,7 +97,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void viewChanged(final View v) {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -116,15 +116,15 @@ public class SubtabHostTab extends InspectorTab
 			}
 		});
 	}
-
+	
 	public JTabbedPane getTabbedPane() {
 		return hc;
 	}
-
+	
 	public boolean isSelectionListener() {
 		return true;
 	}
-
+	
 	public void selectionChanged(SelectionEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab.isSelectionListener()) {
@@ -133,7 +133,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void selectionListChanged(SelectionEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab.isSelectionListener()) {
@@ -142,7 +142,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void postAttributeAdded(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -151,7 +151,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void postAttributeChanged(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -160,7 +160,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void postAttributeRemoved(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -169,7 +169,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void preAttributeAdded(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -178,7 +178,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void preAttributeChanged(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -187,7 +187,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void preAttributeRemoved(AttributeEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -196,7 +196,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -205,7 +205,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	public void transactionStarted(TransactionEvent e) {
 		for (InspectorTab tab : subtabs) {
 			if (tab instanceof AttributeListener) {
@@ -214,7 +214,7 @@ public class SubtabHostTab extends InspectorTab
 			}
 		}
 	}
-
+	
 	@Override
 	public void setEditPanelInformation(
 						Map<?, ?> valueEditComponents,

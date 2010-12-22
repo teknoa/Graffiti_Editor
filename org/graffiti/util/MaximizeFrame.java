@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MaximizeFrame.java,v 1.4 2010/12/14 07:02:12 morla Exp $
+// $Id: MaximizeFrame.java,v 1.5 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.util;
 
@@ -25,19 +25,19 @@ import javax.swing.JInternalFrame;
  * </pre>
  * 
  * @author Michael Forster
- * @version $Revision: 1.4 $ $Date: 2010/12/14 07:02:12 $
+ * @version $Revision: 1.5 $ $Date: 2010/12/22 13:05:53 $
  * @see org.graffiti.util.MaximizeManager
  * @see org.graffiti.util.MaximizeLayout
  */
 public class MaximizeFrame
 					extends JInternalFrame {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -47,7 +47,7 @@ public class MaximizeFrame
 		super();
 		init();
 	}
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -57,7 +57,7 @@ public class MaximizeFrame
 		super(title);
 		init();
 	}
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -67,7 +67,7 @@ public class MaximizeFrame
 		super(title, resizable);
 		init();
 	}
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -77,7 +77,7 @@ public class MaximizeFrame
 		super(title, resizable, closable);
 		init();
 	}
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -88,7 +88,7 @@ public class MaximizeFrame
 		super(title, resizable, closable, maximizable);
 		init();
 	}
-
+	
 	/**
 	 * Create a MaximizeFrame object.
 	 * 
@@ -99,9 +99,9 @@ public class MaximizeFrame
 		super(title, resizable, closable, maximizable, iconifiable);
 		init();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Wrap the frame&quot;s layout into a {@link MaximizeLayout}.
 	 */

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditorPlugin.java,v 1.7 2010/12/14 07:02:14 morla Exp $
+// $Id: EditorPlugin.java,v 1.8 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin;
 
@@ -23,7 +23,7 @@ import org.graffiti.plugin.view.GraffitiShape;
 public interface EditorPlugin
 					extends GenericPlugin {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns a mapping between attribute paths and attributeComponent
 	 * classes.
@@ -31,7 +31,7 @@ public interface EditorPlugin
 	 * @return DOCUMENT ME!
 	 */
 	public Map<?, ?> getAttributeComponents();
-
+	
 	/**
 	 * Returns the array of <code>GraffitiComponent</code>s the plugin
 	 * contains.
@@ -40,7 +40,7 @@ public interface EditorPlugin
 	 *         contains.
 	 */
 	public GraffitiComponent[] getGUIComponents();
-
+	
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.mode.Mode</code>s the
 	 * plugin contains.
@@ -49,7 +49,7 @@ public interface EditorPlugin
 	 *         plugin contains.
 	 */
 	public Mode[] getModes();
-
+	
 	/**
 	 * Returns the array of <code>org.graffiti.plugin.view.GraffitiShape</code>s the plugin
 	 * contains.
@@ -58,7 +58,7 @@ public interface EditorPlugin
 	 *         contains.
 	 */
 	public GraffitiShape[] getShapes();
-
+	
 	/**
 	 * Returns an array of <code>org.graffiti.plugin.mode.Tool</code>s the
 	 * plugin provides.
@@ -66,7 +66,7 @@ public interface EditorPlugin
 	 * @return an array of tools the plugin provides.
 	 */
 	public Tool[] getTools();
-
+	
 	/**
 	 * Returns a mapping between attribute classnames and attributeComponent
 	 * classes.
@@ -75,7 +75,7 @@ public interface EditorPlugin
 	 */
 	@SuppressWarnings("unchecked")
 	public Map getValueEditComponents();
-
+	
 	public InspectorTab[] getInspectorTabs();
 }
 

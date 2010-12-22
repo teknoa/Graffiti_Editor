@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DialogableTextField.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: DialogableTextField.java,v 1.5 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.editcomponent;
 
@@ -21,7 +21,7 @@ import org.graffiti.plugin.Displayable;
  * textfield and a dialog for setting the value of the textfield. The value of
  * the displayable can then be set to the value within the textfield.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @see AbstractDialogableEditComponent
  * @see javax.swing.JTextField
  * @see javax.swing.JButton
@@ -31,14 +31,14 @@ import org.graffiti.plugin.Displayable;
 public class DialogableTextField
 					extends AbstractDialogableEditComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The <code>ValueField</code> containing the components of this <code>DialogableTextField</code>.
 	 */
 	private ValueField valueField;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>DialogableTextField</code>.
 	 * 
@@ -48,7 +48,7 @@ public class DialogableTextField
 	public DialogableTextField(Displayable disp) {
 		super(disp);
 	}
-
+	
 	/**
 	 * Constructs a new <code>DialogableTextField</code>.
 	 * 
@@ -64,9 +64,9 @@ public class DialogableTextField
 	public DialogableTextField(Displayable disp, JButton button, JDialog dialog) {
 		super(disp);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the <code>JComponent</code> containing the <code>ValueEditComponent</code>.
 	 * 
@@ -75,7 +75,7 @@ public class DialogableTextField
 	public JComponent getComponent() {
 		return this.valueField;
 	}
-
+	
 	/**
 	 * Sets the current value of the <code>Attribute</code> in the
 	 * corresponding <code>JComponent</code>.
@@ -83,16 +83,16 @@ public class DialogableTextField
 	public void setEditFieldValue() {
 		valueField.setText(displayable.getValue().toString());
 	}
-
+	
 	/**
 	 * Sets the value of the displayable specified in the <code>JComponent</code>.
 	 */
 	public void setValue() {
 		displayable.setValue(valueField.getText());
 	}
-
+	
 	// ~ Inner Classes ==========================================================
-
+	
 	/**
 	 * The inner class <code>ValueEditField</code> manages the interaction
 	 * between the textfield and the dialog used to specify the value. It is
@@ -105,7 +105,7 @@ public class DialogableTextField
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-
+		
 		// /**
 		// * Constructs a new <code>ValueField</code> and adds its components.
 		// *
@@ -123,7 +123,7 @@ public class DialogableTextField
 		// // add the components using a layout such that they are placed in
 		// // one row.
 		// }
-
+		
 		/**
 		 * Sets the String to be set within the textfield.
 		 * 
@@ -132,7 +132,7 @@ public class DialogableTextField
 		 */
 		public void setText(String text) {
 		}
-
+		
 		/**
 		 * Returns the text in the textfield.
 		 * 

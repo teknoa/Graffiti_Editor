@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractMode.java,v 1.4 2010/12/14 07:02:14 morla Exp $
+// $Id: AbstractMode.java,v 1.5 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -21,43 +21,43 @@ import org.graffiti.plugin.tool.Tool;
 public class AbstractMode
 					implements Mode {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The array of <code>Tool</code>s belonging to the current <code>Mode</code>.
 	 */
 	protected List<Tool> tools;
-
+	
 	/**
 	 * The name of this mode. Also important for tools:
 	 * 
 	 * @see #getId()
 	 */
 	protected String id;
-
+	
 	/** The active tool of the current <code>Mode</code>. */
-
+	
 	// needed? - where?
 	// protected Tool activeTool;
-
+	
 	/**
 	 * The array of <code>GraphConstraints</code> belonging to the current <code>Mode</code>.
 	 */
 	protected GraphConstraint[] constraints;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	// cf. Mode.java
 	// public void addTool(Tool t){ }
 	// public void removeTool(){ }
-
+	
 	/**
 	 * Constructs an <code>AbstractMode</code>.
 	 */
 	protected AbstractMode() {
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns an array containing the <code>GraphConstraint</code>s of the
 	 * current <code>Mode</code>.
@@ -68,7 +68,7 @@ public class AbstractMode
 	public GraphConstraint[] getConstraints() {
 		return constraints;
 	}
-
+	
 	/**
 	 * Returns the name of this mode. Tools can be added to a mode by adding
 	 * their ToolButtons to the toolbar with the same name as this mode.
@@ -78,7 +78,7 @@ public class AbstractMode
 	public String getId() {
 		return this.id;
 	}
-
+	
 	/**
 	 * Returns an array containing all the tools belonging <code>Mode</code>.
 	 * 
@@ -87,7 +87,7 @@ public class AbstractMode
 	public List<Tool> getTools() {
 		return tools;
 	}
-
+	
 	/**
 	 * Adds the given tool to the mode.
 	 * 

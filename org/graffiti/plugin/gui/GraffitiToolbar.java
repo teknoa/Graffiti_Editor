@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiToolbar.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: GraffitiToolbar.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -18,27 +18,27 @@ public class GraffitiToolbar
 					extends JToolBar
 					implements GraffitiContainer {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The id of the toolbar. */
 	protected String id;
-
+	
 	/** The id of the component the toolbar prefers to be inserted in. */
 	protected String preferredComponent;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Standardconstructor for <code>GraffitiToolbar</code>.
 	 */
 	public GraffitiToolbar() {
 		this("[not named toolbar]");
 	}
-
+	
 	/**
 	 * Constructor that sets the id of this <code>GraffitiToolbar</code>.
 	 * 
@@ -49,11 +49,11 @@ public class GraffitiToolbar
 		super(name);
 		this.id = name;
 		this.preferredComponent = "toolbarPanel";
-
+		
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the id of this toolbar.
 	 * 
@@ -62,7 +62,7 @@ public class GraffitiToolbar
 	public String getId() {
 		return this.id;
 	}
-
+	
 	/**
 	 * Returns the id of the component the toolbar prefers to be inserted.
 	 * 

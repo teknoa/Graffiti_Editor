@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PopupAction.java,v 1.6 2010/12/14 22:31:07 klukas Exp $
+// $Id: PopupAction.java,v 1.7 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -19,17 +19,17 @@ import org.graffiti.help.HelpContext;
  * Represents an action, which is called, if there should be displayed a popup
  * menu.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class PopupAction
 					extends SelectionAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new popup action.
 	 * 
@@ -39,9 +39,9 @@ public class PopupAction
 	public PopupAction(MainFrame mainFrame) {
 		super("action.popup", mainFrame);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the help context for the action.
 	 * 
@@ -51,7 +51,7 @@ public class PopupAction
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-
+	
 	/**
 	 * Returns the name of this action.
 	 * 
@@ -61,7 +61,7 @@ public class PopupAction
 	public String getName() {
 		return null; // TODO
 	}
-
+	
 	/**
 	 * Executes this action.
 	 * 
@@ -70,7 +70,7 @@ public class PopupAction
 	 */
 	public void actionPerformed(ActionEvent e) {
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
@@ -81,14 +81,14 @@ public class PopupAction
 	@Override
 	protected void enable(List<?> items) {
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()
 	 */
 	@Override
 	public boolean isEnabled() {
-		// 
+		//
 		return false;
 	}
 }

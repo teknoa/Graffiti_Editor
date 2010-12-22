@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ExitAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: ExitAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -21,12 +21,12 @@ import org.graffiti.plugin.actions.GraffitiAction;
 public class ExitAction
 					extends GraffitiAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new ExitAction object.
 	 * 
@@ -36,9 +36,9 @@ public class ExitAction
 	public ExitAction(MainFrame mainFrame) {
 		super("file.exit", mainFrame, "filemenu_exit");
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -46,7 +46,7 @@ public class ExitAction
 	public boolean isEnabled() {
 		return true;
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -54,7 +54,7 @@ public class ExitAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 

@@ -21,7 +21,7 @@ import org.graffiti.graphics.NodeLabelAttribute;
  * @see org.graffiti.util.GeneralUtils
  */
 public class GeneralEditorUtils {
-
+	
 	/**
 	 * Searches if the given Attributable already contains a LabelAttribute.
 	 * If yes, its value is set to the given String. If not, a new label
@@ -35,7 +35,7 @@ public class GeneralEditorUtils {
 	public static void setLabel(GraphElement ge, String val) {
 		LabelAttribute labelAttr = (LabelAttribute) GeneralUtils
 							.searchForAttribute(ge.getAttribute(""), LabelAttribute.class);
-
+		
 		if (labelAttr != null) {
 			labelAttr.setLabel(val);
 		} else { // no label found
@@ -51,7 +51,7 @@ public class GeneralEditorUtils {
 			ge.addAttribute(labelAttr, "");
 		}
 	}
-
+	
 	/**
 	 * Draws a rectangle on the given graphics context.
 	 * 
@@ -71,13 +71,13 @@ public class GeneralEditorUtils {
 		tly = (int) Math.min(p1.getY(), p2.getY());
 		w = (int) Math.abs(p1.getX() - p2.getX());
 		h = (int) Math.abs(p1.getY() - p2.getY());
-
+		
 		Graphics g = comp.getGraphics();
 		comp.paintImmediately(comp.getVisibleRect());
-
+		
 		g.drawRect(tlx, tly, w, h);
-
+		
 		comp.revalidate();
 	}
-
+	
 }

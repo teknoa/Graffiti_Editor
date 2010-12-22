@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: SelectionAction.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: SelectionAction.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -20,16 +20,16 @@ import org.graffiti.session.EditorSession;
 /**
  * Represents an action, which depends on a selection.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class SelectionAction extends GraffitiAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new selection action with the given name.
 	 * 
@@ -41,12 +41,12 @@ public abstract class SelectionAction extends GraffitiAction {
 	public SelectionAction(String name, MainFrame mainFrame) {
 		super(name, mainFrame, null);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	@Override
 	public abstract boolean isEnabled();
-
+	
 	/**
 	 * Returns the current list of selected items of this action.
 	 * 
@@ -62,7 +62,7 @@ public abstract class SelectionAction extends GraffitiAction {
 		}
 		return result;
 	}
-
+	
 	public Selection getSelection() {
 		EditorSession session = MainFrame.getInstance().getActiveEditorSession();
 		if (session != null) {
@@ -71,7 +71,7 @@ public abstract class SelectionAction extends GraffitiAction {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Returns <code>true</code>, if this action should survive a focus change.
 	 * 
@@ -80,7 +80,7 @@ public abstract class SelectionAction extends GraffitiAction {
 	public boolean surviveFocusChange() {
 		return false;
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.

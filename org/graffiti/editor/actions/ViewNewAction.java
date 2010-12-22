@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ViewNewAction.java,v 1.6 2010/12/14 07:02:12 morla Exp $
+// $Id: ViewNewAction.java,v 1.7 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -23,16 +23,16 @@ import org.graffiti.plugin.actions.GraffitiAction;
 public class ViewNewAction
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** DOCUMENT ME! */
 	private StringBundle sBundle;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new ViewNewAction object.
 	 * 
@@ -45,9 +45,9 @@ public class ViewNewAction
 		super("file.newView", mainFrame, "filemenu_new");
 		this.sBundle = sBundle;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -55,7 +55,7 @@ public class ViewNewAction
 	public boolean isEnabled() {
 		return mainFrame.isSessionActive();
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -63,7 +63,7 @@ public class ViewNewAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -73,7 +73,7 @@ public class ViewNewAction
 	public void actionPerformed(ActionEvent e) {
 		if (mainFrame.isSessionActive()) {
 			String dv = mainFrame.getDefaultView();
-
+			
 			if (dv != null) {
 				mainFrame.createInternalFrame(dv, "", false, false);
 			} else {

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ModeToolbar.java,v 1.6 2010/12/14 07:02:13 morla Exp $
+// $Id: ModeToolbar.java,v 1.7 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -22,18 +22,18 @@ import org.graffiti.plugin.tool.Tool;
  * This toolbar is designed to be used as a representation of <code>ogr.graffiti.plugin.mode.Mode</code>. It handles toolbuttons in a
  * special way.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @see org.graffiti.plugin.mode.Mode
  */
 public class ModeToolbar
 					extends GraffitiToolbar {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructor that sets the id of this toolbar. The id is set to the name
 	 * of the mode. Tools can be added to the mode represented by this toolbar
@@ -47,7 +47,7 @@ public class ModeToolbar
 		super(m.getId());
 		this.setOrientation(SwingConstants.VERTICAL);
 	}
-
+	
 	/**
 	 * Constructor that sets the id of this toolbar to the name of the given
 	 * mode and the orientation to the given value.
@@ -61,9 +61,9 @@ public class ModeToolbar
 		super(m.getId());
 		this.setOrientation(orientation);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the tool that is selected in this ModeToolbar's button group.
 	 * 
@@ -72,7 +72,7 @@ public class ModeToolbar
 	public Tool getActiveTool() {
 		return AbstractTool.getActiveTool();
 	}
-
+	
 	/**
 	 * Returns the tools that are represented by buttons in this toolbar.
 	 * 
@@ -89,7 +89,7 @@ public class ModeToolbar
 		}
 		return (Tool[]) ll.toArray();
 	}
-
+	
 	/**
 	 * This function add the specified component to this toolbar. Additionaly,
 	 * if the component is of type <code>ToolButton</code> it is also added to
@@ -110,7 +110,7 @@ public class ModeToolbar
 			return super.add(comp);
 		}
 	}
-
+	
 	// /////////////////////////////////////////////////
 	// // TODO: overwriting the other add() methods ////
 	// /////////////////////////////////////////////////

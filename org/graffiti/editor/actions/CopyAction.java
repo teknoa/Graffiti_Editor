@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CopyAction.java,v 1.7 2010/12/16 14:37:21 morla Exp $
+// $Id: CopyAction.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,16 +39,16 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class CopyAction extends SelectionAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new copy action.
 	 * 
@@ -58,9 +58,9 @@ public class CopyAction extends SelectionAction {
 	public CopyAction(MainFrame mainFrame) {
 		super("edit.copy", mainFrame);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the help context for the action.
 	 * 
@@ -70,7 +70,7 @@ public class CopyAction extends SelectionAction {
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-
+	
 	/**
 	 * Executes this action.
 	 * 
@@ -79,34 +79,34 @@ public class CopyAction extends SelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
-
+		
 		Selection selection = getSelection();
-
+		
 		// for all edges we also include the source and target nodes to the selection
 		for (Edge edge : selection.getEdges()) {
 			selection.add(edge.getSource());
 			selection.add(edge.getTarget());
 		}
-
+		
 		doCopyGraphMethodImproved(sourceGraph, selection);
 	}
-
+	
 	public static void doCopyGraph(Graph sourceGraph, Selection selection) {
 		AdjListGraph copyGraph = new AdjListGraph(sourceGraph, new ListenerManager());
-
+		
 		try {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+			
 			if (selection.getNodes().size() > 0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
 				for (org.graffiti.graph.Node n : selection.getNodes())
 					validNodeIds.add(new Long(n.getID()));
-
+				
 				ArrayList<org.graffiti.graph.Node> toBeDeleted = new ArrayList<org.graffiti.graph.Node>();
 				for (org.graffiti.graph.Node n : copyGraph.getNodes()) {
 					if (!validNodeIds.contains(new Long(n.getID()))) {
@@ -132,14 +132,14 @@ public class CopyAction extends SelectionAction {
 			ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
 		}
 	}
-
+	
 	public static void doCopyGraphMethodImproved(Graph sourceGraph, Selection selection) {
 		doCopyGraphMethodImproved(sourceGraph, selection, false);
 	}
-
+	
 	public static Graph doCopyGraphMethodImproved(Graph sourceGraph, Selection selection, boolean returnGraphInsteadPastingInClipboard) {
 		Graph resultGraph = new AdjListGraph(new ListenerManager());
-
+		
 		try {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
@@ -156,7 +156,7 @@ public class CopyAction extends SelectionAction {
 						tg.getAttribute(a.getId()).setValue(a.getValue());
 					}
 				}
-
+				
 				HashMap<Node, Node> sourceGraphNode2resultGraphNode = new HashMap<Node, Node>();
 				for (Node n : selection.getNodes()) {
 					Node newNode = resultGraph.addNodeCopy(n);
@@ -186,7 +186,7 @@ public class CopyAction extends SelectionAction {
 				StringWriter sw = new StringWriter();
 				((SupportsWriterOutput) os).write(sw, resultGraph);
 				ClipboardService.writeToClipboardAsText(sw.toString());
-
+				
 			} else {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				os.write(baos, resultGraph);
@@ -206,7 +206,7 @@ public class CopyAction extends SelectionAction {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
@@ -217,7 +217,7 @@ public class CopyAction extends SelectionAction {
 	@Override
 	protected void enable(List<?> items) {
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()

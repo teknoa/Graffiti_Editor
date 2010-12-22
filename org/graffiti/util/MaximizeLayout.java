@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MaximizeLayout.java,v 1.3 2010/12/14 07:02:12 morla Exp $
+// $Id: MaximizeLayout.java,v 1.4 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.util;
 
@@ -22,19 +22,19 @@ import javax.swing.JInternalFrame;
  * used together with {@link org.graffiti.util.MaximizeManager}.
  * 
  * @author Michael Forster
- * @version $Revision: 1.3 $ $Date: 2010/12/14 07:02:12 $
+ * @version $Revision: 1.4 $ $Date: 2010/12/22 13:05:53 $
  * @see org.graffiti.util.MaximizeManager
  * @see org.graffiti.util.MaximizeFrame
  */
 public class MaximizeLayout
 					implements LayoutManager {
 	// ~ Instance fields ========================================================
-
+	
 	/** Original layout of the frame. Handles most of the method calls. */
 	private LayoutManager originalLayout;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Wrap an existing layout and overide its behaviour for maximized frames.
 	 * 
@@ -44,48 +44,48 @@ public class MaximizeLayout
 	public MaximizeLayout(LayoutManager originalLayout) {
 		this.originalLayout = originalLayout;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/*
 	 * @see java.awt.LayoutManager#addLayoutComponent(java.lang.String, java.awt.Component)
 	 */
 	public void addLayoutComponent(String name, Component comp) {
 		originalLayout.addLayoutComponent(name, comp);
 	}
-
+	
 	/*
 	 * @see java.awt.LayoutManager#layoutContainer(java.awt.Container)
 	 */
 	public void layoutContainer(Container parent) {
 		if ((parent != null) && parent instanceof JInternalFrame) {
 			JInternalFrame frame = (JInternalFrame) parent;
-
+			
 			if (frame.isMaximum()) {
 				frame.getRootPane().setBounds(0, 0, frame.getWidth(),
 									frame.getHeight());
-
+				
 				return;
 			}
 		}
-
+		
 		originalLayout.layoutContainer(parent);
 	}
-
+	
 	/*
 	 * @see java.awt.LayoutManager#minimumLayoutSize(java.awt.Container)
 	 */
 	public Dimension minimumLayoutSize(Container parent) {
 		return originalLayout.minimumLayoutSize(parent);
 	}
-
+	
 	/*
 	 * @see java.awt.LayoutManager#preferredLayoutSize(java.awt.Container)
 	 */
 	public Dimension preferredLayoutSize(Container parent) {
 		return originalLayout.preferredLayoutSize(parent);
 	}
-
+	
 	/*
 	 * @see java.awt.LayoutManager#removeLayoutComponent(java.awt.Component)
 	 */

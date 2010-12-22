@@ -12,7 +12,7 @@ import javax.swing.SwingUtilities;
 
 public class MyScrollLabel extends JPanel {
 	private static final long serialVersionUID = 1L;
-
+	
 	public MyScrollLabel(String msg) {
 		this.setLayout(TableLayout.getLayout(500, 300));
 		final JScrollPane jsp = new JScrollPane(new JEditorPane("text/html", msg));
@@ -24,7 +24,7 @@ public class MyScrollLabel extends JPanel {
 		add(jsp, "0,0");
 		validate();
 	}
-
+	
 	public MyScrollLabel(String msg, double width, double height) {
 		this.setLayout(TableLayout.getLayout(width, height));
 		final JScrollPane jsp = new JScrollPane(new JEditorPane("text/html", msg));

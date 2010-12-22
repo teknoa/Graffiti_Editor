@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractGraffitiValueEditContainer.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: AbstractGraffitiValueEditContainer.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -27,16 +27,16 @@ import org.graffiti.plugin.editcomponent.ValueEditComponent;
 public class AbstractGraffitiValueEditContainer
 					extends AbstractValueEditContainer {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The table containing the component for editing values. */
 	private NameValueTable nvt;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructor for AbstractGraffitiValueEditContainer.
 	 */
@@ -44,9 +44,9 @@ public class AbstractGraffitiValueEditContainer
 		super();
 		nvt = new NameValueTable(javax.swing.JSplitPane.VERTICAL_SPLIT);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns a <code>java.util.List</code> containing all the edit components
 	 * of this <code>ValueEditContainer</code>.
@@ -59,7 +59,7 @@ public class AbstractGraffitiValueEditContainer
 	public List<?> getEditComponents() {
 		throw new RuntimeException("implement me");
 	}
-
+	
 	/**
 	 * Adds a <code>ValueEditComponent</code> to the value edit container.
 	 * 
@@ -70,7 +70,7 @@ public class AbstractGraffitiValueEditContainer
 	public void addValueEditComponent(ValueEditComponent vec) {
 		nvt.addValueEditComponent(vec);
 	}
-
+	
 	/**
 	 * Adds the specified <code>ValueEditComponent</code> to the container.
 	 * 
@@ -81,9 +81,9 @@ public class AbstractGraffitiValueEditContainer
 	@Override
 	protected void doAddValueEditComponent(ValueEditComponent vec) {
 	}
-
+	
 	// ~ Inner Classes ==========================================================
-
+	
 	/**
 	 * <code>NameValueTable</code> provides a graffiti style table for editing
 	 * name value pairs packed into a <code>ValueEditComponent</code>.
@@ -96,13 +96,13 @@ public class AbstractGraffitiValueEditContainer
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
-
+		
 		/** DOCUMENT ME! */
 		private JPanel left = new JPanel();
-
+		
 		/** DOCUMENT ME! */
 		private JPanel right = new JPanel();
-
+		
 		/**
 		 * Constructor for NameValueTable.
 		 * 
@@ -117,7 +117,7 @@ public class AbstractGraffitiValueEditContainer
 			setRightComponent(right);
 			setDividerSize(3);
 		}
-
+		
 		/**
 		 * Adds a <code>ValueEditComponent</code> to the value edit container.
 		 * 

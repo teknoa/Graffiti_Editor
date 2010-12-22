@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraphConstraint.java,v 1.4 2010/12/14 07:02:14 morla Exp $
+// $Id: GraphConstraint.java,v 1.5 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -20,7 +20,7 @@ import org.graffiti.session.UnsatisfiedConstraintException;
  */
 public interface GraphConstraint {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Checks whether the specified graph satisfies the defined constraint.
 	 * 

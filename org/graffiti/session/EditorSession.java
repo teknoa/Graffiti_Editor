@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditorSession.java,v 1.17 2010/12/19 02:54:20 klukas Exp $
+// $Id: EditorSession.java,v 1.18 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.session;
 
@@ -27,20 +27,20 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  * 
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  * @see org.graffiti.session.Session
  */
 public class EditorSession
 					extends Session
 					implements ActionListener {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The map between new and old graph elements for proper undoing of their
 	 * deleting
 	 */
 	private Map<GraphElement, GraphElement> graphElementsMap;
-
+	
 	/**
 	 * The selectionModel in this session.
 	 * 
@@ -48,28 +48,28 @@ public class EditorSession
 	 * @clientCardinality 1
 	 */
 	private SelectionModel selectionModel;
-
+	
 	/** The undoManager for this session. */
 	private UndoManager um;
-
+	
 	/**
 	 * The &quot;closing&quot; state of this session. <code>true</code>, if
 	 * this session is currently closing.
 	 */
 	private boolean closing = false;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new <code>EditorSession</code> with an empty graph
 	 * instance.
 	 */
 	public EditorSession() {
 		this(new AdjListGraph());
-
+		
 		// this.selectionModel = new SelectionModel();
 	}
-
+	
 	/**
 	 * Constructs a new <code>EditorSession</code>.
 	 * 
@@ -81,14 +81,14 @@ public class EditorSession
 		um = new UndoManager();
 		um.setLimit(5);
 		graphElementsMap = new HashMap<GraphElement, GraphElement>();
-
+		
 		// this.selectionModel = new SelectionModel();
 		// this.selectionModel.add(new Selection(ACTIVE));
 		// this.selectionModel.setActiveSelection(ACTIVE);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets the closing state of this session. This may only be done once.
 	 * 
@@ -103,7 +103,7 @@ public class EditorSession
 			closing = true;
 		}
 	}
-
+	
 	/**
 	 * Returns <code>true</code>, if the session is currently closing.
 	 * 
@@ -112,7 +112,7 @@ public class EditorSession
 	public boolean isClosing() {
 		return closing;
 	}
-
+	
 	/**
 	 * Sets the fileName.
 	 * 
@@ -122,7 +122,7 @@ public class EditorSession
 	public void setFileName(String fileName) {
 		graph.setName(fileName);
 	}
-
+	
 	/**
 	 * Returns the full fileName including path of this session's graph.
 	 * 
@@ -131,7 +131,7 @@ public class EditorSession
 	public String getFileNameFull() {
 		return graph.getName(true);
 	}
-
+	
 	/**
 	 * Get just the file name excluding the path
 	 * 
@@ -140,7 +140,7 @@ public class EditorSession
 	public String getFileName() {
 		return graph.getName(false);
 	}
-
+	
 	/**
 	 * Returns the graphElementMap.
 	 * 
@@ -149,7 +149,7 @@ public class EditorSession
 	public Map<GraphElement, GraphElement> getGraphElementsMap() {
 		return graphElementsMap;
 	}
-
+	
 	/**
 	 * Sets the selectionModel.
 	 * 
@@ -159,7 +159,7 @@ public class EditorSession
 	public void setSelectionModel(SelectionModel selectionModel) {
 		this.selectionModel = selectionModel;
 	}
-
+	
 	/**
 	 * Returns the selectionModel.
 	 * 
@@ -168,7 +168,7 @@ public class EditorSession
 	public SelectionModel getSelectionModel() {
 		return this.selectionModel;
 	}
-
+	
 	/**
 	 * Returns the undoManager for this session.
 	 * 
@@ -177,7 +177,7 @@ public class EditorSession
 	public UndoManager getUndoManager() {
 		return um;
 	}
-
+	
 	/**
 	 * Registrates the selected <code>Tool</code> as an <code>MouseInputListener</code> at the view.
 	 * 
@@ -186,7 +186,7 @@ public class EditorSession
 	 */
 	public void actionPerformed(ActionEvent e) {
 	}
-
+	
 	public String getWorkSessionFilePath() {
 		String path = getFileNameFull();
 		if (!new File(path).exists())
@@ -194,7 +194,7 @@ public class EditorSession
 		else
 			return new File(path).getParent() + "/";
 	}
-
+	
 	public boolean isSaved() {
 		try {
 			return new File(getFileNameFull()).exists();
@@ -202,7 +202,7 @@ public class EditorSession
 			return false;
 		}
 	}
-
+	
 }
 
 // ------------------------------------------------------------------------------

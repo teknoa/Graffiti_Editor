@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ArrowShape.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: ArrowShape.java,v 1.5 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -15,13 +15,13 @@ import java.awt.geom.Point2D;
 /**
  * DOCUMENT ME!
  * 
- * @author $Author: morla $
- * @version $Revision: 1.4 $
+ * @author $Author: klukas $
+ * @version $Revision: 1.5 $
  */
 public interface ArrowShape extends Shape {
 	// ~ Methods
 	// ================================================================
-
+	
 	/**
 	 * Returns the anchor of the arrow, i.e. the point where the line should be
 	 * attached to the arrow. This is only valid after a call to <code>affix</code>.
@@ -29,7 +29,7 @@ public interface ArrowShape extends Shape {
 	 * @return the anchor of the arrow.
 	 */
 	public Point2D getAnchor();
-
+	
 	/**
 	 * Sets this arrow to the target point and rotates it according to the line
 	 * given by the connection between points target and other.
@@ -46,7 +46,7 @@ public interface ArrowShape extends Shape {
 	 * @return DOCUMENT ME!
 	 */
 	public Shape affix(Point2D target, Point2D other, double lineWidth);
-
+	
 	public void updateSize(double sz);
 }
 

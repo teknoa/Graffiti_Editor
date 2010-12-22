@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: Mode.java,v 1.4 2010/12/14 07:02:14 morla Exp $
+// $Id: Mode.java,v 1.5 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.mode;
 
@@ -19,7 +19,7 @@ import org.graffiti.plugin.tool.Tool;
  */
 public interface Mode {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns an array containing the <code>GraphConstraint</code>s of the
 	 * current <code>Mode</code>.
@@ -28,7 +28,7 @@ public interface Mode {
 	 *         current <code>Mode</code>.
 	 */
 	public GraphConstraint[] getConstraints();
-
+	
 	/**
 	 * Returns the name of this mode. Tools can be added to a mode by adding
 	 * their ToolButtons to the toolbar with the same name as this mode.
@@ -36,18 +36,18 @@ public interface Mode {
 	 * @return the name of this mode.
 	 */
 	public String getId();
-
+	
 	/**
 	 * Returns an array containing all the tools belonging <code>Mode</code>.
 	 * 
 	 * @return an array containing all the tools belonging <code>Mode</code>.
 	 */
 	public List<Tool> getTools();
-
+	
 	// do they really make sense in our definition of mode?
 	// public void addTool(Tool t);
 	// public void removeTool();
-
+	
 	/**
 	 * Adds the given tool to the mode.
 	 * 

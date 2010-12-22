@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CutAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: CutAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -30,16 +30,16 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class CutAction extends SelectionAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new cut action.
 	 * 
@@ -49,9 +49,9 @@ public class CutAction extends SelectionAction {
 	public CutAction(MainFrame mainFrame) {
 		super("edit.cut", mainFrame);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the help context for the action.
 	 * 
@@ -61,7 +61,7 @@ public class CutAction extends SelectionAction {
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-
+	
 	/**
 	 * Executes this action.
 	 * 
@@ -70,24 +70,24 @@ public class CutAction extends SelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		Graph sourceGraph = getGraph();
-
+		
 		Selection selection = getSelection();
-
+		
 		AdjListGraph copyGraph = new AdjListGraph(sourceGraph, new ListenerManager());
-
+		
 		try {
 			String ext = "gml";
 			IOManager ioManager = MainFrame.getInstance().getIoManager();
 			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
+			
 			if (selection.getNodes().size() > 0) {
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
 				for (org.graffiti.graph.Node n : selection.getNodes())
 					validNodeIds.add(new Long(n.getID()));
-
+				
 				ArrayList<org.graffiti.graph.Node> toBeDeleted = new ArrayList<org.graffiti.graph.Node>();
 				for (org.graffiti.graph.Node n : copyGraph.getNodes()) {
 					if (!validNodeIds.contains(new Long(n.getID()))) {
@@ -113,9 +113,9 @@ public class CutAction extends SelectionAction {
 		} catch (InstantiationException ie) {
 			ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
 		}
-
+		
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
@@ -126,7 +126,7 @@ public class CutAction extends SelectionAction {
 	@Override
 	protected void enable(List<?> items) {
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()

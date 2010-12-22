@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractEditorAlgorithm.java,v 1.9 2010/12/14 07:02:14 morla Exp $
+// $Id: AbstractEditorAlgorithm.java,v 1.10 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -19,22 +19,22 @@ public abstract class AbstractEditorAlgorithm
 					extends AbstractAlgorithm
 					implements EditorAlgorithm {
 	// ~ Methods ================================================================
-
+	
 	/*
 	 * @see org.graffiti.plugin.algorithm.EditorAlgorithm#getParameterDialog(org.graffiti.selection.Selection)
 	 */
 	public ParameterDialog getParameterDialog(Selection s) {
 		return null;
 	}
-
+	
 	protected MainFrame getMainFrame() {
 		return MainFrame.getInstance();
 	}
-
+	
 	public String getShortName() {
 		return getName();
 	}
-
+	
 	/**
 	 * Returns the icon of the algorithm (used, e.g. in the menu bar).
 	 * Icon is only shown if showMenuIcon returns true.

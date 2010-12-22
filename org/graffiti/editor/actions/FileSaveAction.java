@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAction.java,v 1.12 2010/12/07 09:35:51 morla Exp $
+// $Id: FileSaveAction.java,v 1.13 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -27,22 +27,22 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  * 
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class FileSaveAction
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/** DOCUMENT ME! */
 	private IOManager ioManager;
-
+	
 	/** DOCUMENT ME! */
 	private SessionManager sessionManager;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new FileSaveAction object.
 	 * 
@@ -59,9 +59,9 @@ public class FileSaveAction
 		this.ioManager = ioManager;
 		this.sessionManager = sessionManager;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -80,18 +80,18 @@ public class FileSaveAction
 		} catch (Exception e) {
 			return false;
 		}
-
+		
 		if (session != null && session.getActiveView() instanceof SuppressSaveActionsView)
 			return false;
-
+		
 		try {
 			String ext = getFileExt(fullName);
-
+			
 			File file = new File(fullName);
-
+			
 			if (file.canWrite()) {
 				ioManager.createOutputSerializer("." + ext);
-
+				
 				// runtime error check, if exception, ioManager can not
 				// handle current file for saving.
 			} else {
@@ -100,10 +100,10 @@ public class FileSaveAction
 		} catch (Exception e) {
 			return false;
 		}
-
+		
 		return (ioManager.hasOutputSerializer() && sessionManager.isSessionActive());
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -111,7 +111,7 @@ public class FileSaveAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -122,7 +122,7 @@ public class FileSaveAction
 		// CK, 1.Juli.2003 Copied and modified from SaveAsAction
 		EditorSession session;
 		String fullName;
-
+		
 		try {
 			session = (EditorSession) mainFrame.getActiveSession();
 			fullName = session.getFileNameFull();
@@ -133,11 +133,11 @@ public class FileSaveAction
 			ErrorMsg.addErrorMessage(err);
 			return;
 		}
-
+		
 		String ext = getFileExt(fullName);
-
+		
 		File file = new File(fullName);
-
+		
 		if (file.canWrite()) {
 			try {
 				OutputSerializer os = ioManager.createOutputSerializer(ext);
@@ -156,7 +156,7 @@ public class FileSaveAction
 				ErrorMsg.addErrorMessage(ioe);
 				MainFrame.getInstance().warnUserAboutFileSaveProblem(ioe);
 			}
-
+			
 			mainFrame.fireSessionDataChanged(session);
 		} else {
 			MainFrame.showMessage("Error: file not writable.",
@@ -164,7 +164,7 @@ public class FileSaveAction
 			System.err.println("Error: file not writable. (FileSave-Action).");
 		}
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -173,18 +173,18 @@ public class FileSaveAction
 	 */
 	public static String getFileExt(String fileName) {
 		String workName;
-
+		
 		int lastSep = fileName.lastIndexOf(File.pathSeparator);
-
+		
 		if (lastSep == -1) {
 			// no extension
 			workName = fileName;
 		} else {
 			workName = fileName.substring(lastSep + 1);
 		}
-
+		
 		int lastDot = workName.lastIndexOf('.');
-
+		
 		if (lastDot == -1) {
 			return "";
 		} else {

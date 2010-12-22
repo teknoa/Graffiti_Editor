@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileOpenAction.java,v 1.7 2010/12/14 07:02:12 morla Exp $
+// $Id: FileOpenAction.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -32,23 +32,23 @@ import org.graffiti.plugin.actions.GraffitiAction;
  */
 public class FileOpenAction extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** DOCUMENT ME! */
 	private static IOManager ioManager;
-
+	
 	/** DOCUMENT ME! */
 	private static StringBundle sBundle;
-
+	
 	/** DOCUMENT ME! */
 	private ViewManager viewManager;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new FileOpenAction object.
 	 * 
@@ -68,9 +68,9 @@ public class FileOpenAction extends GraffitiAction {
 		this.viewManager = viewManager;
 		FileOpenAction.sBundle = sBundle;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * This action is enabled, if the editor's io manager contains an input
 	 * serializer.
@@ -82,7 +82,7 @@ public class FileOpenAction extends GraffitiAction {
 	public boolean isEnabled() {
 		return ioManager.hasInputSerializer() && viewManager.hasViews();
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -90,7 +90,7 @@ public class FileOpenAction extends GraffitiAction {
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fc = ioManager.createOpenFileChooser();
 		OpenFileDialogService.setActiveDirectoryFor(fc);
@@ -98,9 +98,9 @@ public class FileOpenAction extends GraffitiAction {
 		// fc.resetChoosableFileFilters();
 		int returnVal = fc.showDialog(mainFrame, sBundle
 							.getString("menu.file.open"));
-
+		
 		OpenFileDialogService.setActiveDirectoryFrom(fc.getCurrentDirectory());
-
+		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] selfiles = fc.getSelectedFiles();
 			try {
@@ -119,7 +119,7 @@ public class FileOpenAction extends GraffitiAction {
 		}
 		fc.setMultiSelectionEnabled(false);
 	}
-
+	
 	public static Collection<File> getGraphFilesFromUser() {
 		ArrayList<File> result = new ArrayList<File>();
 		JFileChooser fc = ioManager.createOpenFileChooser();
@@ -128,9 +128,9 @@ public class FileOpenAction extends GraffitiAction {
 		// fc.resetChoosableFileFilters();
 		int returnVal = fc.showDialog(MainFrame.getInstance(), sBundle
 							.getString("menu.file.open"));
-
+		
 		OpenFileDialogService.setActiveDirectoryFrom(fc.getCurrentDirectory());
-
+		
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			File[] selfiles = fc.getSelectedFiles();
 			for (File f : selfiles)
@@ -142,7 +142,7 @@ public class FileOpenAction extends GraffitiAction {
 		}
 		return result;
 	}
-
+	
 	// private void openFile(File sf, JFileChooser fc, boolean loadInBackground) {
 	// File selfile = sf;
 	// File file = sf;

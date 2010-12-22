@@ -20,17 +20,17 @@ package net.iharder.dnd;
  */
 public class FileDropBean
 					implements java.io.Serializable {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private javax.swing.event.EventListenerList listenerList = new javax.swing.event.EventListenerList();
-
+	
 	/** Creates new FileDropBean */
 	public FileDropBean() {
 	}
-
+	
 	/**
 	 * Registers a component as a drop target.
 	 * If the component is a container, then all elements contained
@@ -53,7 +53,7 @@ public class FileDropBean
 		boolean recursive = true;
 		new FileDrop(comp, recursive, listener);
 	} // end newDropTarget
-
+	
 	/**
 	 * Unregisters a component as a drop target.
 	 * 
@@ -64,7 +64,7 @@ public class FileDropBean
 	public boolean removeFileDropTarget(java.awt.Component comp) {
 		return FileDrop.remove(comp);
 	} // end removeFileDropTarget
-
+	
 	/**
 	 * Register a listener for {@link FileDropEvent}s.
 	 * 
@@ -75,7 +75,7 @@ public class FileDropBean
 	public void addFileDropListener(FileDropListener listener) {
 		listenerList.add(FileDropListener.class, listener);
 	} // end addFileDropListener
-
+	
 	/**
 	 * Unregister a listener for {@link FileDropEvent}s.
 	 * 
@@ -86,7 +86,7 @@ public class FileDropBean
 	public void removeFileDropListener(FileDropListener listener) {
 		listenerList.remove(FileDropListener.class, listener);
 	} // end addFileDropListener
-
+	
 	/**
 	 * Fires a {@link FileDropEvent} with the given non-null
 	 * list of dropped files.
@@ -97,10 +97,10 @@ public class FileDropBean
 	 */
 	protected void fireFileDropHappened(java.io.File[] files) {
 		FileDropEvent evt = new FileDropEvent(files, this);
-
+		
 		// Guaranteed to return a non-null array
 		Object[] listeners = listenerList.getListenerList();
-
+		
 		// Process the listeners last to first, notifying
 		// those that are interested in this event
 		for (int i = listeners.length - 2; i >= 0; i -= 2) {
@@ -109,5 +109,5 @@ public class FileDropBean
 			} // end if: correct listener type
 		} // end for: each listener
 	} // end fireFileDropHappened
-
+	
 } // end clas FileDropBean

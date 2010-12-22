@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraphElementComponentInterface.java,v 1.6 2010/12/14 07:02:13 morla Exp $
+// $Id: GraphElementComponentInterface.java,v 1.7 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -20,7 +20,7 @@ import org.graffiti.graph.GraphElement;
  */
 public interface GraphElementComponentInterface {
 	// ~ Methods ================================================================
-
+	
 	// /**
 	// * Draws the shape of the node contained in this component according to the
 	// * graphic attributes of the node.
@@ -36,7 +36,7 @@ public interface GraphElementComponentInterface {
 	// */
 	// public void recreate()
 	// throws ShapeNotFoundException;
-
+	
 	/**
 	 * Returns the attributeComponents of given attribute.
 	 * 
@@ -44,30 +44,30 @@ public interface GraphElementComponentInterface {
 	 * @return Map
 	 */
 	public AttributeComponent getAttributeComponent(Attribute attr);
-
+	
 	/**
 	 * Returns the attributeComponents of given attribute.
 	 * 
 	 * @return Map
 	 */
 	public Iterator<?> getAttributeComponentIterator();
-
+	
 	public Collection<?> getAttributeComponents();
-
+	
 	/**
 	 * Returns the graphElement.
 	 * 
 	 * @return GraphElement
 	 */
 	public GraphElement getGraphElement();
-
+	
 	/**
 	 * Returns GraphElementShape object
 	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public GraphElementShape getShape();
-
+	
 	/**
 	 * Adds an <code>Attribute</code> and its <code>GraffitiViewComponent</code> to the list of registered attributes
 	 * that can be displayed. This attribute is then treated as dependent on
@@ -80,7 +80,7 @@ public interface GraphElementComponentInterface {
 	 *           the component that will be used to display the attribute.
 	 */
 	public void addAttributeComponent(Attribute attr, GraffitiViewComponent ac);
-
+	
 	/**
 	 * Adds a <code>GraphElementComponent</code> to the list of dependent <code>GraphElementComponent</code>s. These will nearly always be
 	 * <code>EdgeComponent</code>s that are dependent on their source or
@@ -91,7 +91,7 @@ public interface GraphElementComponentInterface {
 	 *           list of dependent components.
 	 */
 	public void addDependentComponent(GraphElementComponent comp);
-
+	
 	/**
 	 * Called when an attribute of the GraphElement represented by this
 	 * component has changed.
@@ -103,17 +103,17 @@ public interface GraphElementComponentInterface {
 	 */
 	public void attributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Removes all entries in the attributeComponent list.
 	 */
 	public void clearAttributeComponentList();
-
+	
 	/**
 	 * Removes a <code>GraphElementComponent</code> from the list of dependent <code>GraphElementComponent</code>s.
 	 */
 	public void clearDependentComponentList();
-
+	
 	/**
 	 * Called to initialise the shape of the NodeComponent correctly. Also
 	 * calls <code>repaint()</code>.
@@ -126,13 +126,13 @@ public interface GraphElementComponentInterface {
 	 */
 	public void createNewShape(CoordinateSystem coordSys)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Called to initialise and draw a standard shape, if the specified
 	 * shapeclass could not be found.
 	 */
 	public void createStandardShape();
-
+	
 	/**
 	 * Called when a graphic attribute of the GraphElement represented by this
 	 * component has changed.
@@ -144,7 +144,7 @@ public interface GraphElementComponentInterface {
 	 */
 	public void graphicAttributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Called when a non-graphic attribute of the GraphElement represented by
 	 * this component has changed.
@@ -156,7 +156,7 @@ public interface GraphElementComponentInterface {
 	 */
 	public void nonGraphicAttributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Removes a <code>GraffitiViewComponent</code> of an <code>Attribute</code> from collection of attribute components.
 	 * 
@@ -164,7 +164,7 @@ public interface GraphElementComponentInterface {
 	 *           the attribute that has to be removed
 	 */
 	public void removeAttributeComponent(Attribute attr);
-
+	
 	/**
 	 * Removes a <code>GraphElementComponent</code> from the list of dependent <code>GraphElementComponent</code>s.
 	 * 
@@ -173,7 +173,7 @@ public interface GraphElementComponentInterface {
 	 *           the list of dependent components.
 	 */
 	public void removeDependentComponent(GraphElementComponent comp);
-
+	
 	// /**
 	// * Retrieve the zoom value from the view this component is displayed in.
 	// *

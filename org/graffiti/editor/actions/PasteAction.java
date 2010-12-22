@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PasteAction.java,v 1.10 2010/12/14 07:02:12 morla Exp $
+// $Id: PasteAction.java,v 1.11 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,18 +33,18 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  * 
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  */
 public class PasteAction extends SelectionAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	private static final int pasteOffset = 50;
-
+	
 	/**
 	 * Constructs a new popup action.
 	 * 
@@ -54,9 +54,9 @@ public class PasteAction extends SelectionAction {
 	public PasteAction(MainFrame mainFrame) {
 		super("edit.paste", mainFrame);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the help context for the action.
 	 * 
@@ -66,11 +66,11 @@ public class PasteAction extends SelectionAction {
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-
+	
 	HashMap<String, Integer> pasteHash2Offset = new HashMap<String, Integer>();
-
+	
 	public static String pastedNodeID = "pastedNode";
-
+	
 	/**
 	 * Executes this action.
 	 * 
@@ -87,7 +87,7 @@ public class PasteAction extends SelectionAction {
 			MainFrame.showMessageDialog("Clipboard data could not be read. Can not proceed.", "Information");
 			return;
 		}
-
+		
 		String ext = "gml";
 		IOManager ioManager = MainFrame.getInstance().getIoManager();
 		try {
@@ -116,24 +116,24 @@ public class PasteAction extends SelectionAction {
 				workGraph = new AdjListGraph();
 				showGraphInNewView = true;
 			}
-
+			
 			String hashCode = gml.hashCode() + "§" + workGraph.hashCode();
-
+			
 			if (!pasteHash2Offset.containsKey(hashCode))
 				pasteHash2Offset.put(hashCode, 0);
 			pasteHash2Offset.put(hashCode, pasteHash2Offset.get(hashCode) + pasteOffset);
 			int off = pasteHash2Offset.get(hashCode);
 			AttributeHelper.moveGraph(newGraph, off, off);
-
+			
 			newGraph.setModified(false);
-
+			
 			Collection<GraphElement> newElements = workGraph.addGraph(newGraph);
 			Selection sel = getSelection();
 			if (sel == null)
 				sel = new Selection();
 			sel.clear();
 			sel.addAll(newElements);
-
+			
 			if (!showGraphInNewView) {
 				// MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
 				MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().completeRedraw();
@@ -145,7 +145,7 @@ public class PasteAction extends SelectionAction {
 			ErrorMsg.addErrorMessage(err);
 		}
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.
@@ -156,7 +156,7 @@ public class PasteAction extends SelectionAction {
 	@Override
 	protected void enable(List<?> items) {
 	}
-
+	
 	/*
 	 * (non-Javadoc)
 	 * @see org.graffiti.plugin.actions.SelectionAction#isEnabled()

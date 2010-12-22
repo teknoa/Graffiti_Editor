@@ -5,18 +5,18 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiComponent.java,v 1.3 2010/12/14 07:02:13 morla Exp $
+// $Id: GraffitiComponent.java,v 1.4 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
 /**
  * Interface for all GUIComponents used in the editor. Provides the <code>getPreferredComponent()</code> method.
  * 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface GraffitiComponent {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the id of the component this component should be placed in.
 	 * 

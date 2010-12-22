@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditComponentManager.java,v 1.7 2010/12/14 07:02:13 morla Exp $
+// $Id: EditComponentManager.java,v 1.8 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -26,26 +26,26 @@ import org.graffiti.util.InstanceLoader;
  * Contains the mapping between displayable classes and their representation as <code>AttributeComponent</code> classes.
  * 
  * @author ph
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class EditComponentManager
 					implements PluginManagerListener {
 	// ~ Instance fields ========================================================
-
+	
 	/** Maps displayable classes to ValueEditComponent classes. */
 	private Map<Displayable, ValueEditComponent> valueEditComponents;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs an EditComponentManager.
 	 */
 	public EditComponentManager() {
 		this.valueEditComponents = new HashMap<Displayable, ValueEditComponent>();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns the map of value edit components.
 	 * 
@@ -54,7 +54,7 @@ public class EditComponentManager
 	public Map<Displayable, ValueEditComponent> getEditComponents() {
 		return valueEditComponents;
 	}
-
+	
 	/**
 	 * Returns an instance of the ValueEditComponent that is capable of
 	 * providing a possibility to alter the value of the displayable with type <code>aType</code>.
@@ -72,19 +72,19 @@ public class EditComponentManager
 								"No registered ValueEditComponent for displayable type " +
 													aType);
 		}
-
+		
 		ValueEditComponent ac = valueEditComponents.get(aType);
-
+		
 		try {
 			ValueEditComponent component = (ValueEditComponent) InstanceLoader.createInstance(ac.getClass(),
 								null);
-
+			
 			return component;
 		} catch (InstanceCreationException ice) {
 			throw new EditComponentNotFoundException(ice.getMessage());
 		}
 	}
-
+	
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
 	 * 

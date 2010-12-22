@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractParameterDialog.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: AbstractParameterDialog.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -27,16 +27,16 @@ public abstract class AbstractParameterDialog
 					extends JDialog
 					implements ParameterDialog {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The <code>ValueEditContainer</code> for this dialog. */
 	protected ValueEditContainer valueEditContainer;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new abstract parameter dialog.
 	 * 
@@ -48,9 +48,9 @@ public abstract class AbstractParameterDialog
 	public AbstractParameterDialog(Frame parent, boolean modal) {
 		super(parent, modal);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets the <code>ValueEditContainer</code> of this <code>ParameterDialog</code> to the specified value.
 	 * 
@@ -60,7 +60,7 @@ public abstract class AbstractParameterDialog
 	public void setValueEditContainer(ValueEditContainer vec) {
 		this.valueEditContainer = vec;
 	}
-
+	
 	/**
 	 * Checks if all the edit components have a syntactically correct input.
 	 * 
@@ -69,14 +69,14 @@ public abstract class AbstractParameterDialog
 	 */
 	public List<?> validateComponents() {
 		List<?> badComponents = new ArrayList<Object>();
-
+		
 		for (Iterator<?> i = valueEditContainer.getEditComponents().iterator(); i.hasNext();) {
 			// check each of the components
 			// e.g. by looking if an exception is thrown when settin the
 			// value
 			// create a list with all the components having bad entries
 		}
-
+		
 		return badComponents;
 	}
 }

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: StatusBar.java,v 1.20 2010/12/14 07:02:12 morla Exp $
+// $Id: StatusBar.java,v 1.21 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -53,50 +53,50 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  * 
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  */
 public class StatusBar
 					extends JPanel
 					implements SessionListener, SelectionListener, GraphListener {
 	// ~ Static fields/initializers =============================================
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The time, a message is displayed in the status line. */
 	private static final int DELAY = 5000;
-
+	
 	/** The font, which is used to display an info message. */
 	private static final Font PLAIN_FONT = new Font("dialog", Font.PLAIN, 12);
-
+	
 	/** The font, which is used to display an error message. */
 	private static final Font BOLD_FONT = new Font("dialog", Font.BOLD, 12);
-
+	
 	// ~ Instance fields ========================================================
-
+	
 	/** The nodes- and edges label in the status bar. */
 	private JLabel edgesLabel;
-
+	
 	/** The nodes- and edges label in the status bar. */
 	private JLabel nodesLabel;
-
+	
 	/** The ui component, which contains the status text. */
 	JLabel statusLine;
-
+	
 	/** The current session, this status bar is listening to. */
 	private Session currentSession;
-
+	
 	/** The number of edges. */
 	private int edges;
-
+	
 	/** The number of nodes. */
 	private int nodes;
-
+	
 	private int ignoreUpdate = 0;
-
+	
 	private Selection activeSelection = null;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new status bar.
 	 * 
@@ -105,12 +105,12 @@ public class StatusBar
 	 */
 	public StatusBar(StringBundle sBundle) {
 		super();
-
+		
 		nodes = 0;
 		edges = 0;
-
+		
 		setLayout(new GridBagLayout());
-
+		
 		statusLine = new MyJLabel("");
 		statusLine.setBorder(BorderFactory.createEtchedBorder());
 		// statusLine.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
@@ -129,12 +129,12 @@ public class StatusBar
 		c.weightx = 1.0;
 		c.weighty = 0.0;
 		c.insets = new Insets(1, 1, 1, 1);
-
+		
 		add(statusLine, c);
-
+		
 		nodesLabel = new JLabel(" ");
 		nodesLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
+		
 		// nodesLabel.addActionListener(new ActionListener() {
 		// public void actionPerformed(ActionEvent e) {
 		// }});
@@ -142,16 +142,16 @@ public class StatusBar
 			public void mouseClicked(MouseEvent e) {
 				processRightClick(e, true);
 			}
-
+			
 			public void mousePressed(MouseEvent e) {
 			}
-
+			
 			public void mouseReleased(MouseEvent e) {
 			}
-
+			
 			public void mouseEntered(MouseEvent e) {
 			}
-
+			
 			public void mouseExited(MouseEvent e) {
 			}
 		});
@@ -162,23 +162,23 @@ public class StatusBar
 		 * BorderFactory.createLoweredBevelBorder(), nodesLabel.getBorder()));
 		 */
 		nodesLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-
+		
 		edgesLabel = new JLabel(" ");
 		edgesLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		edgesLabel.addMouseListener(new MouseListener() {
 			public void mouseClicked(MouseEvent e) {
 				processRightClick(e, false);
 			}
-
+			
 			public void mousePressed(MouseEvent e) {
 			}
-
+			
 			public void mouseReleased(MouseEvent e) {
 			}
-
+			
 			public void mouseEntered(MouseEvent e) {
 			}
-
+			
 			public void mouseExited(MouseEvent e) {
 			}
 		});
@@ -189,38 +189,38 @@ public class StatusBar
 		 * BorderFactory.createLoweredBevelBorder(), edgesLabel.getBorder()));
 		 */
 		edgesLabel.setVerticalAlignment(SwingConstants.BOTTOM);
-
+		
 		c.gridx = 3;
 		c.weightx = 0.0;
-
+		
 		JLabel memLabel = GravistoService.getMemoryInfoLabel(true);
 		memLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		// memLabel.setBorder(BorderFactory.createEtchedBorder());
 		memLabel.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		memLabel.setVerticalAlignment(SwingConstants.BOTTOM);
 		add(memLabel, c);
-
+		
 		c.gridx = 1;
 		add(nodesLabel, c);
-
+		
 		c.gridx = 2;
 		add(edgesLabel, c);
-
+		
 		c.gridx = 4;
 		JLabel space = new JLabel();
 		space.setPreferredSize(new Dimension(15, 5));
 		space.setMinimumSize(new Dimension(15, 5));
 		if (AttributeHelper.macOSrunning())
 			add(space, c);
-
+		
 		nodesLabel.setVisible(false);
 		edgesLabel.setVisible(false);
-
+		
 		updateGraphInfo();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Clears the current text of the status bar.
 	 */
@@ -228,7 +228,7 @@ public class StatusBar
 		statusLine.setText(" ");
 		// setToolTipText(null);
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#postEdgeAdded(GraphEvent)
 	 */
@@ -236,7 +236,7 @@ public class StatusBar
 		edges++;
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#postEdgeRemoved(GraphEvent)
 	 */
@@ -244,7 +244,7 @@ public class StatusBar
 		edges--;
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#postGraphCleared(GraphEvent)
 	 */
@@ -254,7 +254,7 @@ public class StatusBar
 		activeSelection = null;
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#postNodeAdded(GraphEvent)
 	 */
@@ -262,7 +262,7 @@ public class StatusBar
 		nodes++;
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#postNodeRemoved(GraphEvent)
 	 */
@@ -270,37 +270,37 @@ public class StatusBar
 		nodes--;
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#preEdgeAdded(GraphEvent)
 	 */
 	public void preEdgeAdded(GraphEvent e) {
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#preEdgeRemoved(GraphEvent)
 	 */
 	public void preEdgeRemoved(GraphEvent e) {
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#preGraphCleared(GraphEvent)
 	 */
 	public void preGraphCleared(GraphEvent e) {
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#preNodeAdded(GraphEvent)
 	 */
 	public void preNodeAdded(GraphEvent e) {
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.GraphListener#preNodeRemoved(GraphEvent)
 	 */
 	public void preNodeRemoved(GraphEvent e) {
 	}
-
+	
 	/**
 	 * @see org.graffiti.selection.SelectionListener#selectionChanged(SelectionEvent)
 	 */
@@ -308,7 +308,7 @@ public class StatusBar
 		activeSelection = e.getSelection();
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti.selection.SelectionEvent)
 	 */
@@ -316,19 +316,19 @@ public class StatusBar
 		activeSelection = e.getSelection();
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionChanged(Session)
 	 */
 	public void sessionChanged(Session session) {
 		ListenerManager lm = null;
-
+		
 		if (currentSession != null) {
 			// remove the status bar from the graph listener list of the
 			// old session ...
 			if (currentSession.getGraph() != null) {
 				lm = currentSession.getGraph().getListenerManager();
-
+				
 				try {
 					if (lm != null)
 						lm.removeGraphListener(this);
@@ -337,13 +337,13 @@ public class StatusBar
 				}
 			}
 		}
-
+		
 		// remember the new session
 		currentSession = session;
-
+		
 		if (session != null) {
 			lm = session.getGraph().getListenerManager();
-
+			
 			// and add the status bar to the listener list of the new session.
 			if (lm != null)
 				lm.addDelayedGraphListener(this);
@@ -360,17 +360,17 @@ public class StatusBar
 			edgesLabel.setVisible(false);
 			activeSelection = null;
 		}
-
+		
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionDataChanged(Session)
 	 */
 	public void sessionDataChanged(Session s) {
 		updateGraphInfo();
 	}
-
+	
 	/**
 	 * Shows the given error message in the status bar for <tt>DELAY</tt> seconds.
 	 * 
@@ -380,7 +380,7 @@ public class StatusBar
 	public synchronized void showError(String status) {
 		showError(status, DELAY);
 	}
-
+	
 	/**
 	 * Shows the given error message in the status bar for the given interval.
 	 * 
@@ -410,7 +410,7 @@ public class StatusBar
 				}
 			}
 		});
-
+		
 		statusLine.setFont(BOLD_FONT);
 		statusLine.setForeground(Color.red);
 		statusLine.setText(status);
@@ -418,7 +418,7 @@ public class StatusBar
 		timer.setRepeats(false);
 		timer.start();
 	}
-
+	
 	/**
 	 * Shows the given message in the status bar for <tt>DELAY</tt> seconds.
 	 * 
@@ -428,7 +428,7 @@ public class StatusBar
 	public synchronized void showInfo(String message) {
 		showInfo(message, DELAY);
 	}
-
+	
 	/**
 	 * Shows the given message in the status bar for the given interval.
 	 * 
@@ -458,7 +458,7 @@ public class StatusBar
 				}
 			}
 		});
-
+		
 		statusLine.setFont(PLAIN_FONT);
 		statusLine.setForeground(Color.black);
 		statusLine.setText(message);
@@ -466,35 +466,35 @@ public class StatusBar
 		timer.setRepeats(false);
 		timer.start();
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.TransactionListener#transactionFinished(TransactionEvent)
 	 */
 	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 		// ignoreUpdate--;
 		ignoreUpdate = 0;
-
+		
 		if (currentSession != null) {
 			nodes = currentSession.getGraph().getNumberOfNodes();
 			edges = currentSession.getGraph().getNumberOfEdges();
 			updateGraphInfo();
 		}
 	}
-
+	
 	/**
 	 * @see org.graffiti.event.TransactionListener#transactionStarted(TransactionEvent)
 	 */
 	public void transactionStarted(TransactionEvent e) {
 		ignoreUpdate++;
 	}
-
+	
 	ThreadSafeOptions tso = new ThreadSafeOptions();
-
+	
 	/**
 	 * Updates the graph information ui components.
 	 */
 	private void updateGraphInfo() {
-
+		
 		if (!SwingUtilities.isEventDispatchThread()) {
 			if (!tso.getBval(0, false)) {
 				tso.setBval(0, true);
@@ -507,12 +507,12 @@ public class StatusBar
 			}
 			return;
 		}
-
+		
 		if (ignoreUpdate > 0) {
 			// System.out.println("some transaction not yet finished");
 			return;
 		}
-
+		
 		boolean changed = false;
 		ArrayList<Node> nl = new ArrayList<Node>();
 		if (activeSelection != null)
@@ -529,7 +529,7 @@ public class StatusBar
 		if (changed) {
 			((EditorSession) currentSession).getSelectionModel().selectionChanged();
 		}
-
+		
 		String selInfo1 = "";
 		String selInfo2 = "";
 		String selInfoE1 = "";
@@ -560,7 +560,7 @@ public class StatusBar
 				nodeText = "<html><small><br>no nodes";
 			else
 				nodeText = "<html>" + selInfo1 + nodes + "<small>" + br + "nodes" + selInfo2;
-
+		
 		if (edges == 1)
 			edgeText = "<html>" + selInfoE1 + edges + "<small>" + br + "edge" + selInfoE2;
 		else
@@ -576,7 +576,7 @@ public class StatusBar
 		nodesLabel.setText(nodeText);
 		edgesLabel.setText(edgeText);
 	}
-
+	
 	private void processRightClick(MouseEvent e, final boolean processNodesTrue_otherwiseEdges) {
 		if (true) { // SwingUtilities.isRightMouseButton(e) || SwingUtilities.isLeftMouseButton(e)) {
 			JPopupMenu popup = new JPopupMenu();
@@ -596,7 +596,7 @@ public class StatusBar
 				}
 			});
 			popup.add(selAll);
-
+			
 			JMenuItem selClear = new JMenuItem("Clear Selection");
 			selClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -608,14 +608,14 @@ public class StatusBar
 							sel.addAll(((EditorSession) currentSession).getSelectionModel().getActiveSelection().getNodes());
 						((EditorSession) currentSession).getSelectionModel().setActiveSelection(sel);
 					}
-
+					
 				}
 			});
 			popup.add(selClear);
 			popup.show(e.getComponent(), e.getX(), e.getY());
 		}
 	}
-
+	
 	public String getCurrentText() {
 		String res = statusLine.getText();
 		if (res != null)

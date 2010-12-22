@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AttributeComponentManager.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: AttributeComponentManager.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.managers;
 
@@ -25,31 +25,31 @@ import org.graffiti.util.InstanceLoader;
  * Contains the mapping between attribute classes and their representation as <code>AttributeComponent</code> classes.
  * 
  * @author ph
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class AttributeComponentManager
 					implements PluginManagerListener {
 	// ~ Instance fields ========================================================
-
+	
 	/** Maps attribute classes to attributeComponent classes. */
 	@SuppressWarnings("unchecked")
 	private Map attributeComponents;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs an AttributeComponentManager.
 	 */
 	public AttributeComponentManager() {
 		this.attributeComponents = new HashMap<Object, Object>();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	public boolean hasAttributeComponent(Class<?> aType) {
 		return attributeComponents.containsKey(aType);
 	}
-
+	
 	/**
 	 * Returns an instance of the AttributeComponent that is capable of drawing
 	 * the attribute with type <code>aType</code>.
@@ -67,18 +67,18 @@ public class AttributeComponentManager
 								"No registered GraffitiViewComponent for AttributeType " +
 													aType);
 		}
-
+		
 		Class<?> ac = (Class<?>) attributeComponents.get(aType);
-
+		
 		try {
 			AttributeComponent component = (AttributeComponent) InstanceLoader.createInstance(ac);
-
+			
 			return component;
 		} catch (InstanceCreationException ice) {
 			throw new AttributeComponentNotFoundException(ice.getMessage());
 		}
 	}
-
+	
 	/**
 	 * Returns the map of attribute components.
 	 * 
@@ -87,7 +87,7 @@ public class AttributeComponentManager
 	public Map<?, ?> getAttributeComponents() {
 		return attributeComponents;
 	}
-
+	
 	/**
 	 * Called by the plugin manager, iff a plugin has been added.
 	 * 

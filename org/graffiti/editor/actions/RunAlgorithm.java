@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: RunAlgorithm.java,v 1.12 2010/12/14 14:51:20 klukas Exp $
+// $Id: RunAlgorithm.java,v 1.13 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -22,21 +22,21 @@ import org.graffiti.plugin.algorithm.EditorAlgorithm;
 /**
  * Runs an algorithm.
  * 
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  */
 public class RunAlgorithm
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	private static final long serialVersionUID = 1L;
-
+	
 	/** The class name of the algorithm to run. */
 	private final String algorithmClassName;
-
+	
 	private final Algorithm algorithm;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructor for RunAlgorithm.
 	 * 
@@ -53,9 +53,9 @@ public class RunAlgorithm
 		this.algorithmClassName = algorithmClassName;
 		this.algorithm = instance;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Get the name of the algorithm that this action will run.
 	 * 
@@ -64,7 +64,7 @@ public class RunAlgorithm
 	public String getAlgorithmClassName() {
 		return algorithmClassName;
 	}
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -83,7 +83,7 @@ public class RunAlgorithm
 			return true;
 		}
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -91,7 +91,7 @@ public class RunAlgorithm
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * @see java.awt.event.ActionListener#actionPerformed(ActionEvent)
 	 */

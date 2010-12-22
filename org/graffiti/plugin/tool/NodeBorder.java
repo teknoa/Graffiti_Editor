@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: NodeBorder.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: NodeBorder.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,28 +21,28 @@ import javax.swing.border.AbstractBorder;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.5 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.6 $ Provides a border used to mark selected nodes.
  */
 public class NodeBorder
 					extends AbstractBorder {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** DOCUMENT ME! */
 	// private final AffineTransform IDENTITY = new AffineTransform();
-
+	
 	/** Color used to paint border. */
 	private Color color;
-
+	
 	/** Width of the border. */
 	private int borderWidth;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructor for NodeBorder.
 	 * 
@@ -56,9 +56,9 @@ public class NodeBorder
 		this.color = color;
 		this.borderWidth = width;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets the insets to the value of <code>width</code>.
 	 * 
@@ -71,7 +71,7 @@ public class NodeBorder
 		insets.left = this.borderWidth;
 		insets.bottom = this.borderWidth;
 		insets.right = this.borderWidth;
-
+		
 		// } else {
 		// AffineTransform trafo = ((Graphics2D)graphics).getTransform();
 		// int horSize = (int)Math.ceil(this.borderWidth * trafo.getScaleX());
@@ -84,7 +84,7 @@ public class NodeBorder
 		// }
 		return insets;
 	}
-
+	
 	/**
 	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
 	 */
@@ -92,7 +92,7 @@ public class NodeBorder
 	public Insets getBorderInsets(Component c) {
 		return getBorderInsets(c, new Insets(0, 0, 0, 0));
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -103,7 +103,7 @@ public class NodeBorder
 	public boolean isBorderOpaque() {
 		return true;
 	}
-
+	
 	/**
 	 * Paints the border.
 	 * 
@@ -129,49 +129,49 @@ public class NodeBorder
 								at.getTranslateY());
 			width += 1;
 		}
-
+		
 		if ((c.getY() % 2) == 1) {
 			AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();
 			((Graphics2D) g).translate(at.getTranslateX(),
 								at.getTranslateY() - 1);
 			height += 1;
 		}
-
+		
 		Insets insets = getBorderInsets(c);
 		Color oldColor = g.getColor();
-
+		
 		g.translate(x, y);
 		g.setColor(this.color);
-
+		
 		// Paint top left and right
 		Graphics cg;
 		cg = g.create();
-
+		
 		// cg.setClip(0, 0, 2*width, insets.top);
 		cg.fillRect(0, 0, this.borderWidth, this.borderWidth);
-
+		
 		// Point p = new Point((int)Math.ceil(width/((Graphics2D)cg).getTransform().getScaleX() - insets.right), 0);
 		// cg.fillRect(p.x, p.y, this.borderWidth, this.borderWidth);
 		cg.fillRect(width - insets.right, 0, this.borderWidth, this.borderWidth);
-
+		
 		cg.dispose();
-
+		
 		// Paint bottom left and right
 		cg = g.create();
-
+		
 		// int h_ib = (int)Math.ceil(height/((Graphics2D)cg).getTransform().getScaleY() - insets.bottom);
 		// cg.setClip(0, h_ib, width, insets.bottom);
 		// Point p = new Point(0, h_ib);
 		cg.fillRect(0, height - insets.bottom, this.borderWidth,
 							this.borderWidth);
-
+		
 		// p = new Point((int)Math.ceil(width/((Graphics2D)cg).getTransform().getScaleX() - insets.right),
 		// (int)Math.ceil(height/((Graphics2D)cg).getTransform().getScaleY() - insets.bottom));
 		cg.fillRect(width - insets.right, height - insets.bottom,
 							this.borderWidth, this.borderWidth);
-
+		
 		cg.dispose();
-
+		
 		g.translate(-x, -y);
 		g.setColor(oldColor);
 	}

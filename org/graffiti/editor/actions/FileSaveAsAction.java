@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAsAction.java,v 1.17 2010/12/07 09:35:51 morla Exp $
+// $Id: FileSaveAsAction.java,v 1.18 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -35,24 +35,24 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  * 
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  */
 public class FileSaveAsAction
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
 	private static final long serialVersionUID = 1L;
-
+	
 	/** DOCUMENT ME! */
 	private IOManager ioManager;
-
+	
 	/** DOCUMENT ME! */
 	private SessionManager sessionManager;
-
+	
 	/** DOCUMENT ME! */
 	private StringBundle sBundle;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	// private JFileChooser fc;
 	public FileSaveAsAction(MainFrame mainFrame, IOManager ioManager,
 						SessionManager sessionManager, StringBundle sBundle) {
@@ -60,12 +60,12 @@ public class FileSaveAsAction
 		this.ioManager = ioManager;
 		this.sessionManager = sessionManager;
 		this.sBundle = sBundle;
-
+		
 		// fc = new JFileChooser();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -76,11 +76,11 @@ public class FileSaveAsAction
 		EditorSession session = (EditorSession) mainFrame.getActiveSession();
 		if (session != null && session.getActiveView() instanceof SuppressSaveActionsView)
 			return false;
-
+		
 		return ioManager.hasOutputSerializer() &&
 							sessionManager.isSessionActive();
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -88,7 +88,7 @@ public class FileSaveAsAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -97,9 +97,9 @@ public class FileSaveAsAction
 	 */
 	public void actionPerformed(ActionEvent e) {
 		JFileChooser fc = ioManager.createSaveFileChooser();
-
+		
 		OpenFileDialogService.setActiveDirectoryFor(fc);
-
+		
 		try {
 			String n = getGraph().getName(true);
 			String on = n;
@@ -115,35 +115,35 @@ public class FileSaveAsAction
 		} catch (Exception err) {
 			// empty
 		}
-
+		
 		boolean needFile = true;
 		while (needFile) {
 			int returnVal = fc.showDialog(mainFrame, sBundle.getString("menu.file.saveAs"));
-
+			
 			if (returnVal == JFileChooser.APPROVE_OPTION) {
-
+				
 				File oldfile = null;
 				try {
 					oldfile = new File(mainFrame.getActiveEditorSession().getFileNameFull()).getParentFile();
 				} catch (Exception e1) {
 				}
-
+				
 				File file = fc.getSelectedFile();
 				String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
 				needFile = safeFile(file, ext, getGraph());
-
+				
 				FileHandlingManager.getInstance().throwFileSavedAs(oldfile, file.getParentFile());
-
+				
 				if (!needFile) {
 					EditorSession session = (EditorSession) mainFrame.getActiveSession();
-
+					
 					if (!file.getName().endsWith(ext))
 						file = new File(file.getAbsolutePath() + ext);
 					session.setFileName(file.getAbsolutePath());
-
+					
 					if (session != null && session.getUndoManager() != null)
 						session.getUndoManager().discardAllEdits();
-
+					
 					mainFrame.fireSessionDataChanged(session);
 					OpenFileDialogService.setActiveDirectoryFrom(fc.getCurrentDirectory());
 				}
@@ -153,19 +153,19 @@ public class FileSaveAsAction
 			}
 		}
 	}
-
+	
 	public static boolean safeFile(File file, String ext, Graph graph) {
 		String fileName = file.getName();
 		boolean needFile = true;
 		// System.err.println(fileName);
-
+		
 		if (fileName.indexOf(".") == -1) {
 			fileName = file.getName() + ext;
 			file = new File(file.getAbsolutePath() + ext);
 		} else {
 			ext = FileSaveAction.getFileExt(fileName);
 		}
-
+		
 		// System.err.println(fileName);
 		if (file.exists()) {
 			if (JOptionPane.showConfirmDialog(MainFrame.getInstance(),
@@ -177,7 +177,7 @@ public class FileSaveAsAction
 		} else {
 			needFile = false;
 		}
-
+		
 		if (!needFile) {
 			try {
 				IOManager ioManager = MainFrame.getInstance().getIoManager();

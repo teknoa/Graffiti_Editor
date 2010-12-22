@@ -16,13 +16,13 @@ package net.iharder.dnd;
  * @version 1.1
  */
 public class FileDropEvent extends java.util.EventObject {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private java.io.File[] files;
-
+	
 	/**
 	 * Constructs a {@link FileDropEvent} with the array
 	 * of files that were dropped and the {@link FileDropBean} that initiated the event.
@@ -36,7 +36,7 @@ public class FileDropEvent extends java.util.EventObject {
 		super(source);
 		this.files = files;
 	} // end constructor
-
+	
 	/**
 	 * Returns an array of files that were dropped on a
 	 * registered drop target.
@@ -47,5 +47,5 @@ public class FileDropEvent extends java.util.EventObject {
 	public java.io.File[] getFiles() {
 		return files;
 	} // end getFiles
-
+	
 } // end class FileDropEvent

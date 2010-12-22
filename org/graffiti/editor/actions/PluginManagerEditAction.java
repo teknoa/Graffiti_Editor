@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PluginManagerEditAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: PluginManagerEditAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,21 +20,21 @@ import org.graffiti.plugin.actions.GraffitiAction;
 /**
  * Called, if the plugin manager dialog should be shown.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class PluginManagerEditAction
 					extends GraffitiAction {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** DOCUMENT ME! */
 	PluginManager pluginmgr;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new PluginManagerEditAction object.
 	 * 
@@ -47,9 +47,9 @@ public class PluginManagerEditAction
 		super("pluginmgr.edit", mainFrame, null);
 		this.pluginmgr = pluginmgr;
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -57,7 +57,7 @@ public class PluginManagerEditAction
 	public boolean isEnabled() {
 		return true;
 	}
-
+	
 	/**
 	 * @see org.graffiti.plugin.actions.GraffitiAction#getHelpContext()
 	 */
@@ -65,7 +65,7 @@ public class PluginManagerEditAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 

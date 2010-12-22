@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PluginPanel.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: PluginPanel.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -14,17 +14,17 @@ import java.awt.Component;
 /**
  * The panel to which plugins can add bigger view-like components.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class PluginPanel
 					extends AbstractGraffitiContainer {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Creates a new PluginPanel object.
 	 */
@@ -32,9 +32,9 @@ public class PluginPanel
 		id = "pluginPanel";
 		preferredComponent = "";
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see java.awt.Container#addImpl(Component, Object, int)
 	 */

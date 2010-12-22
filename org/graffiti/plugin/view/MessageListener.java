@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MessageListener.java,v 1.3 2010/12/14 07:02:13 morla Exp $
+// $Id: MessageListener.java,v 1.4 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -15,13 +15,13 @@ import org.graffiti.editor.MessageType;
  * Represents listener which gets messsages for theirs displaying on the GUI
  * components (e.g. status bar).
  * 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public interface MessageListener {
 	// ~ Static fields/initializers =============================================
-
+	
 	// ~ Methods ================================================================
-
+	
 	// /**
 	// * The constants specify GUI components where the messages recieved by this
 	// * listener have to be displayed.
@@ -37,7 +37,7 @@ public interface MessageListener {
 	// * @param whereto a location for displaying this message
 	// */
 	// public void showMesssage(String message, int type, String whereto);
-
+	
 	/**
 	 * Method <code>showMesssage</code> displays a message on GUI components
 	 * according to the specified type.

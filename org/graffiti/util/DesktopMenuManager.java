@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DesktopMenuManager.java,v 1.7 2010/12/14 07:02:12 morla Exp $
+// $Id: DesktopMenuManager.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.util;
 
@@ -45,23 +45,23 @@ import org.graffiti.session.SessionListener;
  * actions for arranging the frames are added to the menu.
  * 
  * @author Michael Forster
- * @version $Revision: 1.7 $ $Date: 2010/12/14 07:02:12 $
+ * @version $Revision: 1.8 $ $Date: 2010/12/22 13:05:53 $
  */
 public class DesktopMenuManager
 					implements MenuListener, SessionListener {
 	// ~ Instance fields ========================================================
-
+	
 	/** The associated desktop */
 	private JDesktopPane desktop;
-
+	
 	/** The associated menu */
 	private JMenu menu;
-
+	
 	/** Menu items created by this manager */
 	private List<JComponent> windowItems = new LinkedList<JComponent>();
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Create a MenuManager object and associate it with a desktop and a menu.
 	 * 
@@ -75,18 +75,18 @@ public class DesktopMenuManager
 	public DesktopMenuManager(JDesktopPane desktop, JMenu menu) {
 		if (desktop == null)
 			throw new NullPointerException("desktop must not be null");
-
+		
 		if (menu == null)
 			throw new NullPointerException("menu must not be null");
-
+		
 		this.desktop = desktop;
 		this.menu = menu;
-
+		
 		menu.addMenuListener(this);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Dispose this manager. Reset the menu, remove all listeners and make this
 	 * class eligible for garbage collection.
@@ -95,7 +95,7 @@ public class DesktopMenuManager
 		clearMenu();
 		menu.removeMenuListener(this);
 	}
-
+	
 	/**
 	 * Ignored.
 	 * 
@@ -103,7 +103,7 @@ public class DesktopMenuManager
 	 */
 	public void menuCanceled(MenuEvent e) {
 	}
-
+	
 	/**
 	 * Ignored.
 	 * 
@@ -111,7 +111,7 @@ public class DesktopMenuManager
 	 */
 	public void menuDeselected(MenuEvent e) {
 	}
-
+	
 	/**
 	 * Updates the associated menu.
 	 * 
@@ -121,7 +121,7 @@ public class DesktopMenuManager
 		clearMenu();
 		fillMenu();
 	}
-
+	
 	/**
 	 * Add a separator to the associated menu.
 	 */
@@ -130,39 +130,39 @@ public class DesktopMenuManager
 		menu.add(sep);
 		windowItems.add(sep);
 	}
-
+	
 	/**
 	 * Arrange all internal frames in cascading order.
 	 */
 	public void cascade() {
 		final int DX = 26; // horizontal displacement
 		final int DY = 26; // vertical displacement
-
+		
 		restoreFrames();
-
+		
 		JInternalFrame[] frames = desktop.getAllFrames();
-
+		
 		Dimension deskSize = desktop.getSize();
 		Dimension minSize = minimumFrameSize();
-
+		
 		// number of frames to be placed in one turn
 		int horizontal = 1 + ((deskSize.width - minSize.width) / DX);
 		int vertical = 1 + ((deskSize.height - minSize.height) / DY);
 		int framesCount = Math.min(frames.length, Math.min(horizontal, vertical));
-
+		
 		// calculate frame positions
 		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
-
+			
 			int x = ((frames.length - i - 1) % framesCount * DX);
 			int y = ((frames.length - i - 1) % framesCount * DY);
 			int width = deskSize.width - (DX * (framesCount - 1));
 			int height = deskSize.height - (DY * (framesCount - 1));
-
+			
 			frame.setBounds(x, y, width, height);
 		}
 	}
-
+	
 	/**
 	 * Remove all created menu entries.
 	 */
@@ -172,17 +172,17 @@ public class DesktopMenuManager
 			Component item = (Component) it.next();
 			menu.remove(item);
 		}
-
+		
 		windowItems.clear();
 	}
-
+	
 	/**
 	 * Fill entries into the menu.
 	 */
 	private void fillMenu() {
 		if (menu.getMenuComponentCount() > 0)
 			addSeparator();
-
+		
 		final JCheckBoxMenuItem item = new JCheckBoxMenuItem("Tile", false);
 		item.setMnemonic('T');
 		menu.add(item);
@@ -195,7 +195,7 @@ public class DesktopMenuManager
 			}
 		});
 		windowItems.add(item);
-
+		
 		final JCheckBoxMenuItem item2 = new JCheckBoxMenuItem("Cascade");
 		item2.setMnemonic('C');
 		menu.add(item2);
@@ -208,13 +208,13 @@ public class DesktopMenuManager
 			}
 		});
 		windowItems.add(item2);
-
+		
 		addSeparator();
-
+		
 		JInternalFrame currentFrame = desktop.getSelectedFrame();
 		JInternalFrame[] frames = desktop.getAllFrames();
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
-
+		
 		for (int i = 0; i < frames.length; i++) {
 			final JInternalFrame frame = frames[i];
 			JMenuItem item3 = new FrameMenuItem(frame);
@@ -226,12 +226,12 @@ public class DesktopMenuManager
 					item3.setSelected(false);
 			} else
 				item3.setSelected(frame == currentFrame);
-
+			
 			menu.add(item3);
 			windowItems.add(item3);
 		}
 	}
-
+	
 	/**
 	 * Calculate the smallest minimum size of all frames.
 	 * 
@@ -239,28 +239,28 @@ public class DesktopMenuManager
 	 */
 	private Dimension minimumFrameSize() {
 		JInternalFrame[] frames = desktop.getAllFrames();
-
+		
 		Dimension result = desktop.getSize();
-
+		
 		for (int i = 0; i < frames.length; i++) {
 			Dimension minSize = frames[i].getMinimumSize();
-
+			
 			result.width = Math.min(result.width, minSize.width);
 			result.height = Math.min(result.height, minSize.height);
 		}
-
+		
 		return result;
 	}
-
+	
 	/**
 	 * De-iconify and de-maximize all frames.
 	 */
 	private void restoreFrames() {
 		JInternalFrame[] frames = desktop.getAllFrames();
-
+		
 		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
-
+			
 			try {
 				frame.setMaximum(false);
 				frame.setIcon(false);
@@ -271,58 +271,58 @@ public class DesktopMenuManager
 			}
 		}
 	}
-
+	
 	/**
 	 * Arrange all internal frames in grid fashion.
 	 */
 	void tile() {
 		restoreFrames();
-
+		
 		JInternalFrame[] frames = desktop.getAllFrames();
-
+		
 		Dimension deskSize = desktop.getSize();
 		Dimension minSize = minimumFrameSize();
-
+		
 		// number of rows & columns
 		double maxColumns = (double) deskSize.width / minSize.width;
 		double maxRows = (double) deskSize.height / minSize.height;
-
+		
 		int cols = Math.max((int) Math.rint(Math.sqrt(
 							(frames.length * maxColumns) / maxRows)), 1);
 		int rows = (frames.length / cols);
-
+		
 		while ((cols * rows) < frames.length)
 			rows++;
-
+		
 		// calculate frame positions
 		for (int i = 0; i < frames.length; i++) {
 			JInternalFrame frame = frames[i];
-
+			
 			int width = deskSize.width / cols;
 			int height = deskSize.height / rows;
-
+			
 			int x = (i % cols) * width;
 			int y = (i / cols) * height;
-
+			
 			// fill up last row and column
 			if ((i % cols) == (cols - 1))
 				width = deskSize.width - x;
-
+			
 			if ((i / cols) == (rows - 1))
 				height = deskSize.height - y;
-
+			
 			frame.setBounds(x, y, width, height);
 		}
 	}
-
+	
 	// ~ Inner Classes ==========================================================
-
+	
 	/**
 	 * A menu item associated to a frame. Selecting the item selects the
 	 * associated frame
 	 * 
 	 * @author Michael Forster
-	 * @version $Revision: 1.7 $ $Date: 2010/12/14 07:02:12 $
+	 * @version $Revision: 1.8 $ $Date: 2010/12/22 13:05:53 $
 	 */
 	class FrameMenuItem
 						extends JRadioButtonMenuItem
@@ -333,7 +333,7 @@ public class DesktopMenuManager
 		private static final long serialVersionUID = 1L;
 		/** The associated frame */
 		private JInternalFrame frame;
-
+		
 		/**
 		 * Create a WindowMenuItem object and associated it to a frame.
 		 * 
@@ -345,7 +345,7 @@ public class DesktopMenuManager
 			this.frame = frame;
 			addActionListener(this);
 		}
-
+		
 		/**
 		 * Selects the associated frame
 		 * 
@@ -374,11 +374,11 @@ public class DesktopMenuManager
 			}
 		}
 	}
-
+	
 	public void sessionChanged(Session s) {
 		clearMenu();
 	}
-
+	
 	public void sessionDataChanged(Session s) {
 		// empty
 	}

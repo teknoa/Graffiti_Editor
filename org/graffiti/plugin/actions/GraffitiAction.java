@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiAction.java,v 1.8 2010/12/14 07:02:14 morla Exp $
+// $Id: GraffitiAction.java,v 1.9 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.actions;
 
@@ -24,35 +24,35 @@ import org.graffiti.help.HelpContext;
 /**
  * Represents the basic action in the graffiti system.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  */
 public abstract class GraffitiAction
 					extends AbstractAction {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	private static HashSet<GraffitiAction> knownActions = new HashSet<GraffitiAction>();
-
+	
 	/** The <code>ImageBundle</code> instance. */
 	protected ImageBundle iBundle = ImageBundle.getInstance();
-
+	
 	/** The main frame. */
 	protected MainFrame mainFrame;
-
+	
 	/** The abstract name of the action. */
 	protected String name;
-
+	
 	protected String helpID;
-
+	
 	/** The <code>StringBundle</code> instance. */
 	protected StringBundle sBundle = StringBundle.getInstance();
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Constructs a new GraffitiAction from the given name.
 	 * 
@@ -69,7 +69,7 @@ public abstract class GraffitiAction
 		this.helpID = helpID;
 		knownActions.add(this);
 	}
-
+	
 	public static boolean performAction(String name) {
 		GraffitiAction ka = null;
 		for (GraffitiAction g : knownActions) {
@@ -84,16 +84,16 @@ public abstract class GraffitiAction
 		} else
 			return false;
 	}
-
+	
 	protected Graph getGraph() {
 		if (mainFrame == null || mainFrame.getActiveSession() == null)
 			return null;
 		else
 			return mainFrame.getActiveSession().getGraph();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns <code>true</code>, if this action is enabled.
 	 * 
@@ -101,7 +101,7 @@ public abstract class GraffitiAction
 	 */
 	@Override
 	public abstract boolean isEnabled();
-
+	
 	/**
 	 * Returns the help context for this action.
 	 * 
@@ -110,7 +110,7 @@ public abstract class GraffitiAction
 	public HelpContext getHelpContext() {
 		return new HelpContext(helpID);
 	}
-
+	
 	/**
 	 * @see javax.swing.AbstractAction#setEnabled(boolean)
 	 */
@@ -123,7 +123,7 @@ public abstract class GraffitiAction
 			super.setEnabled(!enableNow);
 		super.setEnabled(enableNow);
 	}
-
+	
 	/**
 	 * Returns the abstract name of the action.
 	 * 
@@ -132,14 +132,14 @@ public abstract class GraffitiAction
 	public String getName() {
 		return name;
 	}
-
+	
 	/**
 	 * Updates the state of the action. Calls: <code>setEnabled(isEnabled());</code>.
 	 */
 	public void update() {
 		setEnabled(isEnabled());
 	}
-
+	
 	/**
 	 * Shows an error in a modal dialog box.
 	 * 
@@ -151,7 +151,7 @@ public abstract class GraffitiAction
 							StringBundle.getInstance().getString("message.dialog.title"),
 							JOptionPane.ERROR_MESSAGE);
 	}
-
+	
 	/**
 	 * Shows a warning in a modal dialog box.
 	 * 
@@ -163,7 +163,7 @@ public abstract class GraffitiAction
 							StringBundle.getInstance().getString("message.dialog.title"),
 							JOptionPane.WARNING_MESSAGE);
 	}
-
+	
 	public static void updateAllActions() {
 		if (MainFrame.blockUpdates)
 			return;

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: InspectorPlugin.java,v 1.4 2010/12/14 07:02:14 morla Exp $
+// $Id: InspectorPlugin.java,v 1.5 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -26,14 +26,14 @@ import org.graffiti.plugin.EditorPlugin;
 public interface InspectorPlugin
 					extends EditorPlugin {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns an array containing all the <code>InspectorTab</code>s of the <code>InspectorPlugin</code>.
 	 * 
 	 * @return an array containing all the <code>InspectorTab</code>s of the <code>InspectorPlugin</code>.
 	 */
 	public InspectorTab[] getTabs();
-
+	
 	/**
 	 * Adds another <code>InspectorTab</code> to the current <code>InspectorPlugin</code>.
 	 * 
@@ -41,7 +41,7 @@ public interface InspectorPlugin
 	 *           the <code>InspectorTab</code> to be added to the <code>InspectorPlugin</code>.
 	 */
 	public void addTab(InspectorTab tab);
-
+	
 	public void setSelectedTab(InspectorTab tab);
 }
 

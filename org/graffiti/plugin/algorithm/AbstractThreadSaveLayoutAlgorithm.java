@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: AbstractThreadSaveLayoutAlgorithm.java,v 1.6 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.algorithm;
 
@@ -21,24 +21,24 @@ import org.graffiti.graphics.GraphicAttributeConstants;
 public abstract class AbstractThreadSaveLayoutAlgorithm
 					extends AbstractAlgorithm {
 	// ~ Instance fields ========================================================
-
+	
 	/** DOCUMENT ME! */
 	protected boolean redrawNeeded = false;
-
+	
 	/** DOCUMENT ME! */
 	protected boolean settingsChanged = false; // if set to true
-
+	
 	/** DOCUMENT ME! */
 	protected boolean threadSettingsChanged = false;
-
+	
 	/** DOCUMENT ME! */
 	private Vector<Object> paramObjects;
-
+	
 	/** DOCUMENT ME! */
 	private NodePosition[] nodePos; // cache for nodepositions
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets or gets a Parameter Threadsafe for the Algorithm.
 	 * 
@@ -56,7 +56,7 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
 		if (paramObjects == null) {
 			paramObjects = new Vector<Object>();
 		}
-
+		
 		if (getParam) {
 			try {
 				return paramObjects.get(index);
@@ -65,18 +65,18 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
 			}
 		} else {
 			threadSettingsChanged = true;
-
+			
 			if (paramObjects.size() <= index) {
 				paramObjects.setSize(index + 1);
 			}
-
+			
 			paramObjects.setElementAt(setValue, index);
-
+			
 			// paramObjects.add(index, setValue);
 			return setValue;
 		}
 	}
-
+	
 	/**
 	 * Stores a node position (from the layout thread) or sets the node
 	 * position of a node to a stored position (from the FrameMain thread).
@@ -101,16 +101,16 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
 			if (nodePos == null) {
 				nodePos = new NodePosition[0];
 			}
-
+			
 			if (setAllNodePositions) {
 				if (redrawNeeded) {
 					redrawNeeded = false;
-
+					
 					for (int i = 0; i < nodePos.length; i++) {
 						if (nodePos[i] != null) {
 							NodePosition np = nodePos[i];
 							CoordinateAttribute cn = (CoordinateAttribute) np.n.getAttribute(GraphicAttributeConstants.COORD_PATH);
-
+							
 							cn.setX(np.x);
 							cn.setY(np.y);
 						}
@@ -120,11 +120,11 @@ public abstract class AbstractThreadSaveLayoutAlgorithm
 				if ((nodePos == null) || (index >= nodePos.length)) {
 					// Enlarge nodePos array
 					NodePosition[] nodePosNew = new NodePosition[index + 1];
-
+					
 					System.arraycopy(nodePos, 0, nodePosNew, 0, nodePos.length);
 					nodePos = nodePosNew;
 				}
-
+				
 				nodePos[index] = new NodePosition(n, x, y);
 				redrawNeeded = true;
 			}

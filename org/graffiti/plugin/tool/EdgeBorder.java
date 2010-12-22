@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EdgeBorder.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: EdgeBorder.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -28,31 +28,31 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.5 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.6 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
 					extends AbstractBorder {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/** Color used to paint border. */
 	protected Color color;
-
+	
 	/** DOCUMENT ME! */
 	protected boolean showBends;
-
+	
 	/** Size of bullets used to mark bends. */
 	protected int bulletSize;
-
+	
 	/** DOCUMENT ME! */
 	// private final AffineTransform IDENTITY = new AffineTransform();
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	// /**
 	// * Edge to mark.
 	// */
@@ -61,7 +61,7 @@ public class EdgeBorder
 	// * Collection of bends.
 	// */
 	// protected SortedCollectionAttribute bends;
-
+	
 	/**
 	 * Constructor for NodeBorder.
 	 * 
@@ -72,22 +72,22 @@ public class EdgeBorder
 	 * @param showBends
 	 *           DOCUMENT ME!
 	 */
-
+	
 	// public EdgeBorder(Color color, int size, Edge edge) {
 	public EdgeBorder(Color color, int size, boolean showBends) {
 		super();
 		this.color = color;
 		this.bulletSize = size;
 		this.showBends = showBends;
-
+		
 		// this.edge = edge;
 		// this.bends = (SortedCollectionAttribute)edge.getAttribute
 		// (GraphicAttributeConstants.GRAPHICS +
 		// Attribute.SEPARATOR + GraphicAttributeConstants.BENDS);
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Sets the insets to the value of <code>width</code>.
 	 * 
@@ -104,10 +104,10 @@ public class EdgeBorder
 		insets.left = bounds.width;
 		insets.bottom = bounds.height;
 		insets.right = bounds.width;
-
+		
 		return insets;
 	}
-
+	
 	/**
 	 * @see javax.swing.border.AbstractBorder#getBorderInsets(java.awt.Component)
 	 */
@@ -115,7 +115,7 @@ public class EdgeBorder
 	public Insets getBorderInsets(Component c) {
 		return getBorderInsets(c, new Insets(0, 0, 0, 0));
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -126,7 +126,7 @@ public class EdgeBorder
 	public boolean isBorderOpaque() {
 		return true;
 	}
-
+	
 	/**
 	 * Paints the border.
 	 * 
@@ -147,28 +147,28 @@ public class EdgeBorder
 	public void paintBorder(Component c, Graphics g, int bx, int by, int width,
 						int height) {
 		double bulletSizeHalf = bulletSize / 2d;
-
+		
 		Graphics cg;
 		cg = g.create();
 		cg.translate(bx, by);
 		cg.setColor(this.color);
-
+		
 		if (showBends) {
 			Color lightColor = this.color.darker().darker();
 			cg.setColor(lightColor);
-
+			
 			int bendBulletSize = (int) (bulletSize / 2d);
-
+			
 			if (bendBulletSize == 0) {
 				bendBulletSize = 1;
 			}
-
+			
 			SortedCollectionAttribute bends = (SortedCollectionAttribute) ((EdgeComponentInterface) c).getGraphElement()
 								.getAttribute(GraphicAttributeConstants.BENDS_PATH);
-
+			
 			for (Iterator<?> it = bends.getCollection().values().iterator(); it.hasNext();) {
 				CoordinateAttribute bendCoord = (CoordinateAttribute) it.next();
-
+				
 				// cg.setClip(0, 0, width, height);
 				// cg.fillOval((int)bendCoord.getX()-(c.getBounds().x),
 				// (int)bendCoord.getY()-(c.getBounds().y),
@@ -177,70 +177,70 @@ public class EdgeBorder
 									(bendBulletSize / 2d)),
 									(int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
 									bendBulletSize, bendBulletSize);
-
+				
 				// cg.fillOval((int) (bendCoord.getX() - c.getX() -
 				// (bendBulletSize / 2d)),
 				// (int) (bendCoord.getY() - c.getY() - (bendBulletSize / 2d)),
 				// bendBulletSize, bendBulletSize);
 			}
-
+			
 			cg.setColor(this.color);
 		}
-
+		
 		GraphElementShape grShape = ((EdgeComponentInterface) c).getShape();
-
+		
 		// GeneralPath grPath = new GeneralPath(grShape);
 		PathIterator pi = grShape.getPathIterator(null);
 		double[] seg = new double[6];
 		int type;
 		double x = 0;
 		double y = 0;
-
+		
 		try {
 			type = pi.currentSegment(seg);
 			x = seg[0];
 			y = seg[1];
 			cg.fillRect((int) (x - bulletSizeHalf), (int) (y - bulletSizeHalf),
 								bulletSize, bulletSize);
-
+			
 			// cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
 			while (!pi.isDone()) {
 				pi.next();
 				type = pi.currentSegment(seg);
-
+				
 				switch (type) {
 					case java.awt.geom.PathIterator.SEG_MOVETO:
 
 						// x = seg[0];
 						// y = seg[1];
 						break;
-
+					
 					case java.awt.geom.PathIterator.SEG_LINETO:
 						x = seg[0];
 						y = seg[1];
-
+						
 						break;
-
+					
 					case java.awt.geom.PathIterator.SEG_QUADTO:
 						x = seg[2];
 						y = seg[3];
-
+						
 						break;
-
+					
 					case java.awt.geom.PathIterator.SEG_CUBICTO:
 						x = seg[4];
 						y = seg[5];
-
+						
 						break;
 				}
-
+				
 				// cg.fillOval((int)x-2, (int)y-2, bulletSize, bulletSize);
 				cg.fillRect((int) (x - bulletSizeHalf),
 									(int) (y - bulletSizeHalf), bulletSize, bulletSize);
 			}
 		} catch (java.util.NoSuchElementException e) {
 		}
-
+		
 		cg.dispose();
 	}
 }

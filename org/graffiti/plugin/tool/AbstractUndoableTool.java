@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: AbstractUndoableTool.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: AbstractUndoableTool.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -21,24 +21,24 @@ import org.graffiti.undo.Undoable;
 /**
  * Superclass for all tools that provide undo information for their actions.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public abstract class AbstractUndoableTool
 					extends AbstractTool
 					implements Undoable {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * The reference for the map between graph elements recreated after undo
 	 * processing and original graph elements
 	 */
 	protected static Map<GraphElement, GraphElement> geMap;
-
+	
 	/** This object helps doing undo properly. */
 	protected static UndoableEditSupport undoSupport;
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Specifies if this tool wants to receive selectionChanged events.
 	 * 
@@ -48,7 +48,7 @@ public abstract class AbstractUndoableTool
 	public boolean isSelectionListener() {
 		return true;
 	}
-
+	
 	/**
 	 * Specifies if this tool wants to receive sessionChanged events.
 	 * 
@@ -58,7 +58,7 @@ public abstract class AbstractUndoableTool
 	public boolean isSessionListener() {
 		return true;
 	}
-
+	
 	/**
 	 * Sets the undo support object this object uses.
 	 * 
@@ -68,19 +68,19 @@ public abstract class AbstractUndoableTool
 	public void setUndoSupport(UndoableEditSupport us) {
 		AbstractUndoableTool.undoSupport = us;
 	}
-
+	
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionChanged(Session)
 	 */
 	@Override
 	public void sessionChanged(Session s) {
 		super.sessionChanged(s);
-
+		
 		if (s != null) {
 			AbstractUndoableTool.geMap = ((EditorSession) s).getGraphElementsMap();
 		}
 	}
-
+	
 	/**
 	 * Empty method.
 	 * 
@@ -89,7 +89,7 @@ public abstract class AbstractUndoableTool
 	public void sessionDataChanged(Session s) {
 		// nothing to do here
 	}
-
+	
 	/**
 	 * Returne a new graph element reference through the mapping from old ones
 	 * 
@@ -99,15 +99,15 @@ public abstract class AbstractUndoableTool
 	 */
 	protected GraphElement getCurrentGraphElement(GraphElement ge) {
 		GraphElement newGE = ge;
-
+		
 		if (geMap.containsKey(ge)) {
 			newGE = geMap.get(ge);
-
+			
 			while (geMap.containsKey(newGE)) {
 				newGE = geMap.get(newGE);
 			}
 		}
-
+		
 		return newGE;
 	}
 }

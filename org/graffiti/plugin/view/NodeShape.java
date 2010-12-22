@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: NodeShape.java,v 1.5 2010/12/14 07:02:13 morla Exp $
+// $Id: NodeShape.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -23,7 +23,7 @@ import org.graffiti.graphics.NodeGraphicAttribute;
 public interface NodeShape
 					extends GraphElementShape {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Calculates the intersection point between this node shape and a line.
 	 * For irregularly shaped objects, the intersection that is nearest to the
@@ -34,7 +34,7 @@ public interface NodeShape
 	 * @return the intersection point between this node shape and the line.
 	 */
 	public Point2D getIntersection(Line2D line);
-
+	
 	/**
 	 * Shapes itself according to the graphics attribute found in the
 	 * CollectionAttribute <code>graphics</code>
@@ -45,9 +45,9 @@ public interface NodeShape
 	 */
 	public void buildShape(NodeGraphicAttribute graphics)
 						throws ShapeNotFoundException;
-
+	
 	public int shapeWidthCorrection();
-
+	
 	public int shapeHeightCorrection();
 }
 

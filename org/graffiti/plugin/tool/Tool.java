@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: Tool.java,v 1.5 2010/12/14 07:02:14 morla Exp $
+// $Id: Tool.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -22,28 +22,28 @@ import org.graffiti.options.GravistoPreferences;
 public interface Tool
 					extends MouseInputListener {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Returns true if the tool is active.
 	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isActive();
-
+	
 	/**
 	 * States whether this class wants to be registered as a <code>SelectionListener</code>.
 	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isSelectionListener();
-
+	
 	/**
 	 * States whether this class wants to be registered as a <code>SessionListener</code>.
 	 * 
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isSessionListener();
-
+	
 	/**
 	 * States whether this class wants to be registered as a <code>ViewListener</code>, i.e. if it wants to get informed when
 	 * another view in the same session becomes active. This method is not
@@ -53,17 +53,17 @@ public interface Tool
 	 * @return DOCUMENT ME!
 	 */
 	public boolean isViewListener();
-
+	
 	/**
 	 * Called when the tool is activated.
 	 */
 	public void activate();
-
+	
 	/**
 	 * Resets the state of the tool. Called when another tool is activated.
 	 */
 	public void deactivate();
-
+	
 	/**
 	 * Sets the graph this tool works on.
 	 * 
@@ -71,7 +71,7 @@ public interface Tool
 	 *           the graph this tool should work on.
 	 */
 	void setGraph(Graph g);
-
+	
 	/**
 	 * Sets the preferences of this tool.
 	 * 
@@ -79,13 +79,13 @@ public interface Tool
 	 *           the preferences of this tool.
 	 */
 	void setPrefs(GravistoPreferences p);
-
+	
 	public void deactivateAll();
-
+	
 	public void preProcessImageCreation();
-
+	
 	public void postProcessImageCreation();
-
+	
 	public String getToolName();
 }
 

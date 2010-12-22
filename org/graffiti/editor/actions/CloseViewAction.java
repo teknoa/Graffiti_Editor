@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CloseViewAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+// $Id: CloseViewAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,21 +20,21 @@ import org.graffiti.plugin.actions.GraffitiAction;
 public class CloseViewAction
 					extends GraffitiAction {
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new close view action.
 	 */
 	public CloseViewAction() {
 		super("action.view.close", null, "filemenu_close"); // TODO
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see javax.swing.Action#isEnabled()
 	 */
@@ -42,7 +42,7 @@ public class CloseViewAction
 	public boolean isEnabled() {
 		return false;
 	}
-
+	
 	/**
 	 * Returns the help context for this action.
 	 * 
@@ -52,7 +52,7 @@ public class CloseViewAction
 	public HelpContext getHelpContext() {
 		return null;
 	}
-
+	
 	/**
 	 * Returns the name of this action.
 	 * 
@@ -62,7 +62,7 @@ public class CloseViewAction
 	public String getName() {
 		return null;
 	}
-
+	
 	/**
 	 * Executes this action.
 	 * 

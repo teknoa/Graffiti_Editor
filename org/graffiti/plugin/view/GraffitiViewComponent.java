@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiViewComponent.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: GraffitiViewComponent.java,v 1.5 2010/12/22 13:05:53 klukas Exp $
 
 package org.graffiti.plugin.view;
 
@@ -18,7 +18,7 @@ import org.graffiti.attributes.Attribute;
  */
 public interface GraffitiViewComponent {
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * Called when a graphics attribute of the GraphElement represented by this
 	 * component has changed.
@@ -28,7 +28,7 @@ public interface GraffitiViewComponent {
 	 */
 	public void attributeChanged(Attribute attr)
 						throws ShapeNotFoundException;
-
+	
 	/**
 	 * Called to initialise the shape of the NodeComponent correctly. Also
 	 * calls <code>repaint()</code>.

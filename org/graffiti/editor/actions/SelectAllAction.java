@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2003 IPK Gatersleben
- * $Id: SelectAllAction.java,v 1.5 2010/12/14 07:02:12 morla Exp $
+ * $Id: SelectAllAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
  */
 
 package org.graffiti.editor.actions;
@@ -16,16 +16,16 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a &quot;select all graph elements&quot; action.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  */
 public class SelectAllAction
 					extends SelectionAction {
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
 	/**
 	 * Constructs a new copy action.
 	 * 
@@ -35,7 +35,7 @@ public class SelectAllAction
 	public SelectAllAction(MainFrame mainFrame) {
 		super("edit.selectAll", mainFrame);
 	}
-
+	
 	/**
 	 * Returns the help context for the action.
 	 * 
@@ -45,7 +45,7 @@ public class SelectAllAction
 	public HelpContext getHelpContext() {
 		return null; // TODO
 	}
-
+	
 	/**
 	 * Executes this action.
 	 * 
@@ -62,15 +62,15 @@ public class SelectAllAction
 		Selection selection =
 							mainFrame.getActiveEditorSession().getSelectionModel()
 												.getActiveSelection();
-
+		
 		selection.clear();
 		selection.addAll(getGraph().getGraphElements());
-
+		
 		mainFrame.getActiveEditorSession().getSelectionModel()
 							.selectionChanged();
 		getGraph().getListenerManager().transactionFinished(this);
 	}
-
+	
 	/**
 	 * DOCUMENT ME!
 	 * 
@@ -81,10 +81,10 @@ public class SelectAllAction
 		if (!mainFrame.isSessionActive()) {
 			return false;
 		}
-
+		
 		return true;
 	}
-
+	
 	/**
 	 * Sets the internal <code>enable</code> flag, which depends on the given
 	 * list of selected items.

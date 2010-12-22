@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: GraffitiButton.java,v 1.4 2010/12/14 07:02:13 morla Exp $
+// $Id: GraffitiButton.java,v 1.5 2010/12/22 13:05:54 klukas Exp $
 
 package org.graffiti.plugin.gui;
 
@@ -22,16 +22,16 @@ public abstract class GraffitiButton
 					extends JButton
 					implements GraffitiComponent {
 	// ~ Instance fields ========================================================
-
+	
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	/** The preffered component of this button. */
 	protected String preferredComponent;
-
+	
 	// ~ Constructors ===========================================================
-
+	
 	/**
 	 * Creates a new GraffitiButton object.
 	 * 
@@ -41,7 +41,7 @@ public abstract class GraffitiButton
 	public GraffitiButton(String preferredComp) {
 		preferredComponent = preferredComp;
 	}
-
+	
 	/**
 	 * Creates a new GraffitiButton object.
 	 * 
@@ -54,7 +54,7 @@ public abstract class GraffitiButton
 		super(text);
 		preferredComponent = preferredComp;
 	}
-
+	
 	/**
 	 * Creates a new GraffitiButton object.
 	 * 
@@ -67,7 +67,7 @@ public abstract class GraffitiButton
 		super(i);
 		preferredComponent = preferredComp;
 	}
-
+	
 	/**
 	 * Creates a new GraffitiButton object.
 	 * 
@@ -80,22 +80,22 @@ public abstract class GraffitiButton
 		super(a);
 		preferredComponent = preferredComp;
 	}
-
+	
 	/**
 	 * Constructs a new <code>GraffitiButton</code>.
 	 */
 	protected GraffitiButton() {
 		super();
 	}
-
+	
 	// ~ Methods ================================================================
-
+	
 	/**
 	 * @see org.graffiti.plugin.gui.GraffitiComponent#setMainFrame(org.graffiti.editor.MainFrame)
 	 */
 	public void setMainFrame(MainFrame mf) {
 	}
-
+	
 	/**
 	 * Returns the id of the component the button prefers to be inserted in.
 	 * 
