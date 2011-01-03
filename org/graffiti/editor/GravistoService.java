@@ -12,11 +12,14 @@ import java.beans.PropertyVetoException;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.math.BigInteger;
 import java.net.URL;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -44,6 +47,7 @@ import javax.swing.Timer;
 import org.ApplicationStatus;
 import org.ErrorMsg;
 import org.HelperClass;
+import org.ObjectRef;
 import org.Release;
 import org.ReleaseInfo;
 import org.StringManipulationTools;
@@ -1101,8 +1105,47 @@ public class GravistoService implements HelperClass {
 		comp.setEnabled(enabled);
 	}
 	
+	public static String getHashFromFile(String filename, HashType type) throws Exception {
+		File f = new File(filename);
+		return getHashFromFile(f, type);
+	}
+	
+	public static String getHashFromFile(File f, HashType type) throws Exception {
+		return getHashFromInputStream(new FileInputStream(f), null, type);
+	}
+	
+	public static String getHashFromInputStream(InputStream is, HashType type) throws Exception {
+		return getHashFromInputStream(is, null, type);
+	}
+	
+	public static String getHashFromInputStream(InputStream is, ObjectRef optFileSize, HashType type) throws Exception {
+		if (is == null)
+			return null;
+		String res = null;
+		MessageDigest digest = MessageDigest.getInstance(type.toString());
+		byte[] buffer = new byte[1024 * 1024];
+		int read = 0;
+		long len = 0;
+		try {
+			while ((read = is.read(buffer)) > 0) {
+				len += read;
+				digest.update(buffer, 0, read);
+			}
+			byte[] md5sum = digest.digest();
+			BigInteger bigInt = new BigInteger(1, md5sum);
+			String output = bigInt.toString(16);
+			res = output;
+			if (optFileSize != null)
+				optFileSize.addLong(len);
+		} catch (IOException e) {
+			ErrorMsg.addErrorMessage(e);
+		} finally {
+			try {
+				is.close();
+			} catch (IOException e) {
+				ErrorMsg.addErrorMessage(e);
+			}
+		}
+		return res;
+	}
 }
-
-// ------------------------------------------------------------------------------
-// end of file
-// ------------------------------------------------------------------------------

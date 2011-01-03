@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.158 2010/12/22 13:05:53 klukas Exp $
+// $Id: MainFrame.java,v 1.159 2011/01/03 12:34:28 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.158 $
+ * @version $Revision: 1.159 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -764,7 +764,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	}
 	
 	public static Set<Session> getSessions() {
-		if (instance != null)
+		if (getInstance() != null)
 			return instance.sessions;
 		else
 			return new HashSet<Session>();
@@ -1614,6 +1614,10 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			graphLoadingInProgress = false;
 		}
 		return newGraph;
+	}
+	
+	public Graph getGraph(IOurl url) throws Exception {
+		return getGraph(url, url.getFileName());
 	}
 	
 	/**
