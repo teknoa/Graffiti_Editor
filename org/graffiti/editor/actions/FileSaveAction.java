@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAction.java,v 1.13 2010/12/22 13:05:53 klukas Exp $
+// $Id: FileSaveAction.java,v 1.14 2011/01/04 13:11:55 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -20,6 +20,8 @@ import org.graffiti.help.HelpContext;
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.io.OutputSerializer;
+import org.graffiti.plugin.io.resources.IOurl;
+import org.graffiti.plugin.io.resources.ResourceIOManager;
 import org.graffiti.plugin.view.SuppressSaveActionsView;
 import org.graffiti.session.EditorSession;
 import org.graffiti.session.SessionManager;
@@ -27,7 +29,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  * 
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  */
 public class FileSaveAction
 					extends GraffitiAction {
@@ -36,10 +38,10 @@ public class FileSaveAction
 	private static final long serialVersionUID = 1L;
 	
 	/** DOCUMENT ME! */
-	private IOManager ioManager;
+	private final IOManager ioManager;
 	
 	/** DOCUMENT ME! */
-	private SessionManager sessionManager;
+	private final SessionManager sessionManager;
 	
 	// ~ Constructors ===========================================================
 	
@@ -95,7 +97,13 @@ public class FileSaveAction
 				// runtime error check, if exception, ioManager can not
 				// handle current file for saving.
 			} else {
-				return false;
+				if (true) // new method for vanted v2.1
+					return false;
+				IOurl url = new IOurl(fullName);
+				if (ResourceIOManager.getHandlerFromPrefix(url.getPrefix()) != null)
+					return true;
+				else
+					return false;
 			}
 		} catch (Exception e) {
 			return false;
@@ -129,7 +137,7 @@ public class FileSaveAction
 			if (session != null && session.getUndoManager() != null)
 				session.getUndoManager().discardAllEdits();
 		} catch (Exception err) {
-			MainFrame.showMessage("Could not save graph to file.", MessageType.ERROR);
+			MainFrame.showMessageDialog("Could not save graph.", "Error");
 			ErrorMsg.addErrorMessage(err);
 			return;
 		}
@@ -159,9 +167,17 @@ public class FileSaveAction
 			
 			mainFrame.fireSessionDataChanged(session);
 		} else {
-			MainFrame.showMessage("Error: file not writable.",
-								MessageType.ERROR);
-			System.err.println("Error: file not writable. (FileSave-Action).");
+			if (true) {// new method for vanted v2.1
+				MainFrame.showMessageDialog("<html>Error: Graph could not be saved (file not writeable).", "Error");
+				System.err.println("Error: file not writable. (FileSave-Action).");
+			} else {
+				try {
+					IOurl url = new IOurl(fullName);
+					url.save();
+				} catch (Exception e1) {
+					MainFrame.getInstance().saveActiveFileAs();
+				}
+			}
 		}
 	}
 	

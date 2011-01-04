@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.159 2011/01/03 12:34:28 klukas Exp $
+// $Id: MainFrame.java,v 1.160 2011/01/04 13:11:55 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.159 $
+ * @version $Revision: 1.160 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1644,7 +1644,10 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
 			}
 			if (newGraph != null) {
-				newGraph.setName(fileName);
+			if(false) //new method for vanted v2.1
+				newGraph.setName(url.toString());
+				else
+								newGraph.setName(fileName);
 				newGraph.setModified(false);
 			}
 		} finally {
