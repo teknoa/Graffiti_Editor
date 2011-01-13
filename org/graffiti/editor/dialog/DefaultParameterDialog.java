@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.22 2010/12/21 13:59:23 morla Exp $
+// $Id: DefaultParameterDialog.java,v 1.23 2011/01/13 10:42:07 klukas Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -39,6 +39,7 @@ import javax.swing.JScrollBar;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 
+import org.ObjectRef;
 import org.ReleaseInfo;
 import org.StringManipulationTools;
 import org.graffiti.core.ImageBundle;
@@ -64,7 +65,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  * 
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 					ActionListener, WindowListener {
@@ -360,36 +361,84 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		};
 		getContentPane().setLayout(new TableLayout(size));
 		
+		ok.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		// paramsPanel.setBorder(BorderFactory.createEtchedBorder());
 		//
 		getContentPane().add(paramsPanel, "1,1");
+		
+		JComponent abc = null;
+		
+		if (allowMultipleGraphTargets) {
+			final ObjectRef ml = new ObjectRef();
+			abc = getSessionSelectionPanel(ml);
+			final JComponent abcf = abc;
+			ok.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					((MouseListener) ml.getObject()).mouseExited(e);
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					((MouseListener) ml.getObject()).mouseEntered(e);
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+			});
+		}
 		if (!noButton)
 			getContentPane().add(
 								TableLayout.get4Split(
 													null,
 													ok,
 													okOnly ? null : cancel,
-													allowMultipleGraphTargets ? getSessionSelectionPanel() : null, TableLayout.FILL, TableLayoutConstants.PREFERRED,
+													abc,
+													TableLayout.FILL, TableLayoutConstants.PREFERRED,
 													TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 									"1,3"
 								);
 		getContentPane().validate();
 	}
 	
-	private JComponent getSessionSelectionPanel() {
+	private JComponent getSessionSelectionPanel(ObjectRef ml) {
 		MainFrame.getInstance();
 		if (MainFrame.getSessions().size() <= 1)
 			return new JLabel();
 		else {
-			final String pre = "<html><font color='#777777'><small>&nbsp;&nbsp;&nbsp;";
+			final String pre = "<html><font color='#777777'><small>"; // <small>
 			final JLabel res = new JLabel(pre + getActiveWorkingSetDescription());
 			
 			Cursor c = new Cursor(Cursor.HAND_CURSOR);
 			res.setCursor(c);
-			final String hint = "Click here to modify working set";
+			final String hint = "Click &gt;here&lt; to modify working set";
 			res.setOpaque(false);
 			res.setToolTipText(getActiveWorkingSetDescriptionDetails());
-			res.addMouseListener(new MouseListener() {
+			MouseListener m = new MouseListener() {
 				public void mouseReleased(MouseEvent e) {
 				}
 				
@@ -425,7 +474,9 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 					res.setToolTipText(getActiveWorkingSetDescriptionDetails());
 					res.setText(pre + getActiveWorkingSetDescription());
 				}
-			});
+			};
+			ml.setObject(m);
+			res.addMouseListener(m);
 			
 			return res;
 		}
