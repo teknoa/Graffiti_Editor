@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.160 2011/01/04 13:11:55 morla Exp $
+// $Id: MainFrame.java,v 1.161 2011/01/17 10:23:51 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.160 $
+ * @version $Revision: 1.161 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -457,6 +457,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		// }
 		instance = this;
 		
+		this.pluginmgr = pluginmgr;
+		
 		this.setTitle(getDefaultFrameTitle());
 		GraffitiInternalFrame.startTitle = getDefaultFrameTitle();
 		this.sessionListeners = new HashSet<SessionListener>();
@@ -492,8 +494,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		undoSupport.addUndoableEditListener(this);
 		
 		graffitiFrameListener = new GraffitiFrameListener(this);
-		
-		this.pluginmgr = pluginmgr;
 		
 		this.uiPrefs = prefs;
 		
@@ -1028,7 +1028,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 						boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed,
 						ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 		
-		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance() != null
+		if (!returnGraffitiFrame && !returnScrollPane && instance != null
 							&& !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
@@ -1093,7 +1093,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			SelectionModel selModel = new SelectionModel();
 			session.setSelectionModel(selModel);
 			
-			if (MainFrame.getInstance() != null) {
+			if (instance != null) {
 				this.fireSessionChanged(session);
 				
 				for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
@@ -1644,10 +1644,10 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
 			}
 			if (newGraph != null) {
-			if(false) //new method for vanted v2.1
-				newGraph.setName(url.toString());
+				if (false) // new method for vanted v2.1
+					newGraph.setName(url.toString());
 				else
-								newGraph.setName(fileName);
+					newGraph.setName(fileName);
 				newGraph.setModified(false);
 			}
 		} finally {
@@ -1765,16 +1765,12 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		}
 		
 		if (plugin instanceof InspectorPlugin) {
-			if (inspectorPlugin != null) {
-				ErrorMsg.addErrorMessage("Tried to load more than one InpsectorPlugin!");
-			} else {
-				inspectorPlugin = (InspectorPlugin) plugin;
-				for (PluginEntry p : pluginmgr.getPluginEntries()) {
-					if (p.getPlugin() != null && p.getPlugin() instanceof EditorPlugin) {
-						EditorPlugin ep = (EditorPlugin) p.getPlugin();
-						if (ep != plugin) {
-							processTabs(ep);
-						}
+			inspectorPlugin = (InspectorPlugin) plugin;
+			for (PluginEntry p : pluginmgr.getPluginEntries()) {
+				if (p.getPlugin() != null && p.getPlugin() instanceof EditorPlugin) {
+					EditorPlugin ep = (EditorPlugin) p.getPlugin();
+					if (ep != plugin) {
+						processTabs(ep);
 					}
 				}
 			}
@@ -2197,23 +2193,23 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 								JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				// save current graph
-				Session as = MainFrame.getInstance().getActiveSession();
+				Session as = getActiveSession();
 				View av;
 				try {
-					av = MainFrame.getInstance().getActiveEditorSession().getActiveView();
+					av = getActiveEditorSession().getActiveView();
 				} catch (Exception e) {
 					av = null;
 				}
-				MainFrame.getInstance().setActiveSession(session, null);
+				setActiveSession(session, null);
 				fileSaveAs.actionPerformed(new ActionEvent(this, 0, null));
-				MainFrame.getInstance().setActiveSession(as, av);
+				setActiveSession(as, av);
 			}
 			if (res == JOptionPane.CANCEL_OPTION) {
 				final Graph gg = new AdjListGraph(new ListenerManager());
 				gg.addGraph(session.getGraph());
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						MainFrame.getInstance().showGraph(gg, null);
+						showGraph(gg, null);
 					}
 				});
 			}
@@ -2448,7 +2444,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * @param type
 	 */
 	private static void showMessageDirect(String message, MessageType type, int timeMillis) {
-		if (getInstance() == null) {
+		if (instance == null) {
 			System.out.println(type.toString() + ": " + message);
 			return;
 		}
@@ -2529,7 +2525,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 */
 	public JScrollPane showViewChooserDialog(final EditorSession session, boolean returnScrollPane, ActionEvent e,
 						LoadSetting interaction, final ConfigureViewAction configNewView) {
-		if (!returnScrollPane && MainFrame.getInstance() != null && !SwingUtilities.isEventDispatchThread())
+		if (!returnScrollPane && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		String[] views;
 		if (viewManager != null)
@@ -2589,7 +2585,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 										+ session.getGraph().getNumberOfNodes() + " nodes, " + session.getGraph().getNumberOfEdges()
 										+ " edges)", viewManager.getViewDescriptions());
 					
-					viewChooser.setLocationRelativeTo(MainFrame.getInstance());
+					viewChooser.setLocationRelativeTo(this);
 					viewChooser.setVisible(true);
 					
 					// The user did not select a view.
@@ -3910,7 +3906,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
-			MainFrame.getInstance().closeSession(session);
+			closeSession(session);
 		}
 		// fireSessionChanged(null);
 		// activeSession = null;
@@ -3984,7 +3980,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		GraffitiFrame gf = new GraffitiFrame(gif, fullscreen);
 		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
-		MainFrame.getInstance().addDetachedFrame(gf);
+		addDetachedFrame(gf);
 		return gif.getView();
 	}
 	
