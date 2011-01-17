@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.23 2011/01/13 10:42:07 klukas Exp $
+// $Id: DefaultParameterDialog.java,v 1.24 2011/01/17 11:10:05 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -65,7 +65,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  * 
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 					ActionListener, WindowListener {
@@ -361,65 +361,54 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		};
 		getContentPane().setLayout(new TableLayout(size));
 		
-		ok.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		
 		// paramsPanel.setBorder(BorderFactory.createEtchedBorder());
 		//
 		getContentPane().add(paramsPanel, "1,1");
 		
-		JComponent abc = null;
+		JComponent sessionselpan = null;
 		
 		if (allowMultipleGraphTargets) {
 			final ObjectRef ml = new ObjectRef();
-			abc = getSessionSelectionPanel(ml);
-			final JComponent abcf = abc;
+			sessionselpan = getSessionSelectionPanel(ml);
 			ok.addMouseListener(new MouseListener() {
 				
 				@Override
 				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 				
 				@Override
 				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 				
 				@Override
 				public void mouseExited(MouseEvent e) {
-					((MouseListener) ml.getObject()).mouseExited(e);
+					if (ml != null && ml.getObject() != null)
+						((MouseListener) ml.getObject()).mouseExited(e);
 				}
 				
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					((MouseListener) ml.getObject()).mouseEntered(e);
+					if (ml != null && ml.getObject() != null)
+						((MouseListener) ml.getObject()).mouseEntered(e);
 				}
 				
 				@Override
 				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
 					
 				}
 			});
 		}
 		if (!noButton)
 			getContentPane().add(
-								TableLayout.get4Split(
-													null,
-													ok,
-													okOnly ? null : cancel,
-													abc,
-													TableLayout.FILL, TableLayoutConstants.PREFERRED,
-													TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
+								TableLayout.get3Split(
+													sessionselpan,
+													TableLayout.getSplitVertical(null,
+															TableLayout.get3Split(ok, null, okOnly ? null : cancel, TableLayoutConstants.PREFERRED, border,
+																	TableLayoutConstants.PREFERRED),
+															TableLayout.FILL, TableLayoutConstants.PREFERRED), null,
+													TableLayout.FILL, TableLayoutConstants.PREFERRED, TableLayout.FILL, border, 0),
 									"1,3"
 								);
 		getContentPane().validate();
@@ -430,7 +419,7 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		if (MainFrame.getSessions().size() <= 1)
 			return new JLabel();
 		else {
-			final String pre = "<html><font color='#777777'><small>"; // <small>
+			final String pre = "<html><font color='#777777'><small>";
 			final JLabel res = new JLabel(pre + getActiveWorkingSetDescription());
 			
 			Cursor c = new Cursor(Cursor.HAND_CURSOR);
