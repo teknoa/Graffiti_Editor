@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.161 2011/01/17 10:23:51 klukas Exp $
+// $Id: MainFrame.java,v 1.162 2011/01/18 10:20:47 klukas Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.161 $
+ * @version $Revision: 1.162 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -451,10 +451,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 */
 	public MainFrame(PluginManager pluginmgr, GravistoPreferences prefs, JPanel progressPanel, boolean showVantedHelp) {
 		super();
-		// if (instance != null) {
-		// System.err.println("Only one MainFrame instance is allowed. Application is shut down.");
-		// System.exit(1);
-		// }
+		ErrorMsg.setRethrowErrorMessages(false);
+		
 		instance = this;
 		
 		this.pluginmgr = pluginmgr;
