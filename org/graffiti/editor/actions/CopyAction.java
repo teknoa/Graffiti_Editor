@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CopyAction.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
+// $Id: CopyAction.java,v 1.8.2.1 2011/01/18 09:32:50 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.8.2.1 $
  */
 public class CopyAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -138,72 +138,74 @@ public class CopyAction extends SelectionAction {
 	}
 	
 	public static Graph doCopyGraphMethodImproved(Graph sourceGraph, Selection selection, boolean returnGraphInsteadPastingInClipboard) {
+		String ext = "gml";
+		OutputSerializer os = null;
+		try {
+			IOManager ioManager = MainFrame.getInstance().getIoManager();
+			os = ioManager.createOutputSerializer("." + ext);
+			return doCopyGraphMethodImproved(sourceGraph, selection, returnGraphInsteadPastingInClipboard, os);
+		} catch (Exception ioe) {
+			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
+			return null;
+		}
+	}
+	
+	public static Graph doCopyGraphMethodImproved(Graph sourceGraph, Selection selection, boolean returnGraphInsteadPastingInClipboard, OutputSerializer os)
+			throws IOException {
+		
 		Graph resultGraph = new AdjListGraph(new ListenerManager());
 		
-		try {
-			String ext = "gml";
-			IOManager ioManager = MainFrame.getInstance().getIoManager();
-			OutputSerializer os = ioManager.createOutputSerializer("." + ext);
-			new StringBuffer();
-			Collection<Node> selNodes = selection.getNodes();
-			if (selNodes.size() > 0 && selNodes.size() != sourceGraph.getNumberOfNodes()) {
-				CollectionAttribute ca = sourceGraph.getAttributes();
-				CollectionAttribute tg = resultGraph.getAttributes();
-				for (Attribute a : ca.getCollection().values()) {
-					try {
-						tg.add((Attribute) a.copy());
-					} catch (AttributeExistsException aee) {
-						tg.getAttribute(a.getId()).setValue(a.getValue());
-					}
+		new StringBuffer();
+		Collection<Node> selNodes = selection.getNodes();
+		if (selNodes.size() > 0 && selNodes.size() != sourceGraph.getNumberOfNodes()) {
+			CollectionAttribute ca = sourceGraph.getAttributes();
+			CollectionAttribute tg = resultGraph.getAttributes();
+			for (Attribute a : ca.getCollection().values()) {
+				try {
+					tg.add((Attribute) a.copy());
+				} catch (AttributeExistsException aee) {
+					tg.getAttribute(a.getId()).setValue(a.getValue());
 				}
-				
-				HashMap<Node, Node> sourceGraphNode2resultGraphNode = new HashMap<Node, Node>();
-				for (Node n : selection.getNodes()) {
-					Node newNode = resultGraph.addNodeCopy(n);
-					if (newNode == null)
-						ErrorMsg.addErrorMessage("Error: Node " + n.getID() + " could not be copied!");
-					else
-						sourceGraphNode2resultGraphNode.put(n, newNode);
-				}
-				for (Node n : selNodes) {
-					for (Edge e : n.getAllOutEdges()) {
-						if (e.getSource() == n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
-							Node a = sourceGraphNode2resultGraphNode.get(e.getSource());
-							Node b = sourceGraphNode2resultGraphNode.get(e.getTarget());
-							if (a != null && b != null)
-								resultGraph.addEdgeCopy(
-													e,
-													a,
-													b);
-						}
-					}
-				}
-			} else
-				resultGraph = sourceGraph;
-			if (returnGraphInsteadPastingInClipboard)
-				return resultGraph;
-			if (os instanceof SupportsWriterOutput) {
-				StringWriter sw = new StringWriter();
-				((SupportsWriterOutput) os).write(sw, resultGraph);
-				ClipboardService.writeToClipboardAsText(sw.toString());
-				
-			} else {
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				os.write(baos, resultGraph);
-				ClipboardService.writeToClipboardAsText(baos.toString());
 			}
-			MainFrame.showMessage(resultGraph.getNumberOfNodes()
+			
+			HashMap<Node, Node> sourceGraphNode2resultGraphNode = new HashMap<Node, Node>();
+			for (Node n : selection.getNodes()) {
+				Node newNode = resultGraph.addNodeCopy(n);
+				if (newNode == null)
+					ErrorMsg.addErrorMessage("Error: Node " + n.getID() + " could not be copied!");
+				else
+					sourceGraphNode2resultGraphNode.put(n, newNode);
+			}
+			for (Node n : selNodes) {
+				for (Edge e : n.getAllOutEdges()) {
+					if (e.getSource() == n && (selNodes.contains(e.getSource()) || selNodes.contains(e.getTarget()))) {
+						Node a = sourceGraphNode2resultGraphNode.get(e.getSource());
+						Node b = sourceGraphNode2resultGraphNode.get(e.getTarget());
+						if (a != null && b != null)
+							resultGraph.addEdgeCopy(e, a, b);
+					}
+				}
+			}
+		} else
+			resultGraph = sourceGraph;
+		if (returnGraphInsteadPastingInClipboard)
+			return resultGraph;
+		if (os instanceof SupportsWriterOutput) {
+			StringWriter sw = new StringWriter();
+			((SupportsWriterOutput) os).write(sw, resultGraph);
+			ClipboardService.writeToClipboardAsText(sw.toString());
+			
+		} else {
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			os.write(baos, resultGraph);
+			ClipboardService.writeToClipboardAsText(baos.toString());
+		}
+		MainFrame.showMessage(resultGraph.getNumberOfNodes()
 								+ " node(s) and "
 								+ resultGraph.getNumberOfEdges()
 								+ " edge(s) copied to clipboard",
 								MessageType.INFO, 3000);
-		} catch (IOException ioe) {
-			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
-		} catch (IllegalAccessException iae) {
-			ErrorMsg.addErrorMessage(iae.getLocalizedMessage());
-		} catch (InstantiationException ie) {
-			ErrorMsg.addErrorMessage(ie.getLocalizedMessage());
-		}
+		
 		return null;
 	}
 	
