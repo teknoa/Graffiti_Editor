@@ -1119,33 +1119,42 @@ public class GravistoService implements HelperClass {
 	}
 	
 	public static String getHashFromInputStream(InputStream is, ObjectRef optFileSize, HashType type) throws Exception {
-		if (is == null)
+		return getHashFromInputStream(new InputStream[] { is }, optFileSize, type);
+	}
+	
+	public static String getHashFromInputStream(InputStream[] iss, ObjectRef optFileSize, HashType type) throws Exception {
+		if (iss == null)
 			return null;
 		String res = null;
 		MessageDigest digest = MessageDigest.getInstance(type.toString());
-		byte[] buffer = new byte[1024 * 1024];
-		int read = 0;
-		long len = 0;
-		try {
-			while ((read = is.read(buffer)) > 0) {
-				len += read;
-				digest.update(buffer, 0, read);
-			}
-			byte[] md5sum = digest.digest();
-			BigInteger bigInt = new BigInteger(1, md5sum);
-			String output = bigInt.toString(16);
-			res = output;
-			if (optFileSize != null)
-				optFileSize.addLong(len);
-		} catch (IOException e) {
-			ErrorMsg.addErrorMessage(e);
-		} finally {
+		
+		for (InputStream is : iss) {
+			if (is == null)
+				continue;
+			byte[] buffer = new byte[1024 * 1024];
+			int read = 0;
+			long len = 0;
 			try {
-				is.close();
+				while ((read = is.read(buffer)) > 0) {
+					len += read;
+					digest.update(buffer, 0, read);
+				}
+				if (optFileSize != null)
+					optFileSize.addLong(len);
 			} catch (IOException e) {
 				ErrorMsg.addErrorMessage(e);
+			} finally {
+				try {
+					is.close();
+				} catch (IOException e) {
+					ErrorMsg.addErrorMessage(e);
+				}
 			}
 		}
+		byte[] md5sum = digest.digest();
+		BigInteger bigInt = new BigInteger(1, md5sum);
+		String output = bigInt.toString(16);
+		res = output;
 		return res;
 	}
 }
