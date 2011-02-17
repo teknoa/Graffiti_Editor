@@ -516,7 +516,8 @@ public class GravistoService implements HelperClass {
 		}
 		Parameter[] parameters = algorithm.getParameters();
 		ThreadSafeOptions tsoParamDialogReturn = new ThreadSafeOptions();
-		if ((parameters != null) && (parameters.length != 0) || (algorithm instanceof AlgorithmWithComponentDescription)) {
+		if ((parameters != null) && (parameters.length != 0)
+				|| (algorithm instanceof AlgorithmWithComponentDescription && ((AlgorithmWithComponentDescription) algorithm).getDescriptionComponent() != null)) {
 			boolean doReturn = false;
 			
 			doReturn = doThreadSafe(algorithm, selection, enableMultipleSessionProcessing, parameters, doReturn,

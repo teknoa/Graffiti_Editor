@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ParameterEditPanel.java,v 1.14 2010/12/22 13:05:54 klukas Exp $
+// $Id: ParameterEditPanel.java,v 1.14.2.1 2011/02/17 07:57:45 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -37,6 +37,7 @@ import org.graffiti.plugin.ToolTipHelper;
 import org.graffiti.plugin.editcomponent.StandardValueEditComponent;
 import org.graffiti.plugin.editcomponent.ValueEditComponent;
 import org.graffiti.plugin.parameter.AbstractSingleParameter;
+import org.graffiti.plugin.parameter.BooleanParameter;
 import org.graffiti.plugin.parameter.Parameter;
 import org.graffiti.plugin.parameter.SelectionParameter;
 import org.graffiti.selection.Selection;
@@ -46,7 +47,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  * 
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.14.2.1 $
  */
 public class ParameterEditPanel extends JPanel {
 	// ~ Instance fields ========================================================
@@ -175,7 +176,7 @@ public class ParameterEditPanel extends JPanel {
 	 */
 	public Parameter[] getUpdatedParameters() {
 		for (Iterator<ValueEditComponent> it = displayedVEC.iterator(); it.hasNext();) {
-			((ValueEditComponent) it.next()).setValue();
+			(it.next()).setValue();
 		}
 		
 		return this.parameters;
@@ -260,8 +261,11 @@ public class ParameterEditPanel extends JPanel {
 		// idPanel.add(textField);
 		if (parameter != null && (
 							(parameter instanceof AbstractSingleParameter && ((AbstractSingleParameter) parameter).isLeftAligned()))) {
-			myPanel.addGuiComponentRow(editCompComp, null, false);
-			editCompComp.setToolTipText(parameter.getDescription());
+			if (parameter instanceof BooleanParameter) {
+				myPanel.addGuiComponentRow(editCompComp, null, false);
+				editCompComp.setToolTipText(parameter.getDescription());
+			} else
+				myPanel.addGuiComponentRow(TableLayout.get3Split(editCompComp, null, descLabel, TableLayout.PREFERRED, 5, TableLayout.PREFERRED), null, false);
 		} else
 			myPanel.addGuiComponentRow(descLabel, editCompComp, false);
 		displayedVEC.add(editComp);

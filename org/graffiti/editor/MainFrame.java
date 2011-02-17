@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.160.2.1 2011/01/19 12:19:34 morla Exp $
+// $Id: MainFrame.java,v 1.160.2.2 2011/02/17 07:57:45 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.160.2.1 $
+ * @version $Revision: 1.160.2.2 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -3030,6 +3030,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 *           the message to be shown.
 	 */
 	public static void showMessageDialog(final String msg, final String title) {
+		if (MainFrame.getInstance() == null)
+			return;
 		if (SwingUtilities.isEventDispatchThread()) {
 			SwingUtilities.invokeLater(new Runnable() {
 				public void run() {
