@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.160.2.3 2011/04/20 05:40:19 morla Exp $
+// $Id: MainFrame.java,v 1.160.2.4 2011/04/26 12:43:43 morla Exp $
 
 package org.graffiti.editor;
 
@@ -193,7 +193,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.160.2.3 $
+ * @version $Revision: 1.160.2.4 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1166,9 +1166,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					}
 				}
 			});
-			// maximize view at beginning
-			
-			if (maxx) {
+			// anyway maximize view at beginning
+			if (true) {// maxx) {
 				try {
 					frame.setMaximum(true);
 				} catch (PropertyVetoException pve) {
