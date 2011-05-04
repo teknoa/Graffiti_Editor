@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DesktopMenuManager.java,v 1.8.2.1 2011/04/20 05:40:19 morla Exp $
+// $Id: DesktopMenuManager.java,v 1.8.2.2 2011/05/04 07:04:14 morla Exp $
 
 package org.graffiti.util;
 
@@ -14,6 +14,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -45,7 +46,7 @@ import org.graffiti.session.SessionListener;
  * actions for arranging the frames are added to the menu.
  * 
  * @author Michael Forster
- * @version $Revision: 1.8.2.1 $ $Date: 2011/04/20 05:40:19 $
+ * @version $Revision: 1.8.2.2 $ $Date: 2011/05/04 07:04:14 $
  */
 public class DesktopMenuManager
 					implements MenuListener, SessionListener {
@@ -215,7 +216,13 @@ public class DesktopMenuManager
 		JInternalFrame[] frames = desktop.getAllFrames();
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
 		
-		TreeSet<FrameMenuItem> items = new TreeSet<FrameMenuItem>();
+		TreeSet<FrameMenuItem> items = new TreeSet<FrameMenuItem>(new Comparator<FrameMenuItem>() {
+			@Override
+			public int compare(FrameMenuItem o1, FrameMenuItem o2) {
+				// dont merge frames with equal titles
+				return new String(o1 + " " + o1.hashCode()).compareTo(new String(o2 + " " + o2.hashCode()));
+			}
+		});
 		
 		for (int i = 0; i < frames.length; i++) {
 			final JInternalFrame frame = frames[i];
@@ -329,7 +336,7 @@ public class DesktopMenuManager
 	 * associated frame
 	 * 
 	 * @author Michael Forster
-	 * @version $Revision: 1.8.2.1 $ $Date: 2011/04/20 05:40:19 $
+	 * @version $Revision: 1.8.2.2 $ $Date: 2011/05/04 07:04:14 $
 	 */
 	class FrameMenuItem
 						extends JRadioButtonMenuItem
@@ -383,7 +390,7 @@ public class DesktopMenuManager
 		
 		@Override
 		public int compareTo(FrameMenuItem o) {
-			return frame.getTitle().compareTo(o.frame.getTitle());
+			return new String(frame.getTitle() + " " + frame.hashCode()).compareTo(new String(frame.getTitle() + " " + frame.hashCode()));
 		}
 	}
 	
