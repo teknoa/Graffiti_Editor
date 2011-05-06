@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAction.java,v 1.14 2011/01/04 13:11:55 morla Exp $
+// $Id: FileSaveAction.java,v 1.14.2.1 2011/05/06 10:51:38 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -29,7 +29,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  * 
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.14.2.1 $
  */
 public class FileSaveAction
 					extends GraffitiAction {
@@ -167,17 +167,8 @@ public class FileSaveAction
 			
 			mainFrame.fireSessionDataChanged(session);
 		} else {
-			if (true) {// new method for vanted v2.1
-				MainFrame.showMessageDialog("<html>Error: Graph could not be saved (file not writeable).", "Error");
-				System.err.println("Error: file not writable. (FileSave-Action).");
-			} else {
-				try {
-					IOurl url = new IOurl(fullName);
-					url.save();
-				} catch (Exception e1) {
-					MainFrame.getInstance().saveActiveFileAs();
-				}
-			}
+			MainFrame.showMessageDialog("<html>Error: Graph could not be saved (file not writeable).", "Error");
+			System.err.println("Error: file not writable. (FileSave-Action).");
 		}
 	}
 	

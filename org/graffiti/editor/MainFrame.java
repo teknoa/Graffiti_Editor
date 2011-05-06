@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.160.2.4 2011/04/26 12:43:43 morla Exp $
+// $Id: MainFrame.java,v 1.160.2.5 2011/05/06 10:51:37 morla Exp $
 
 package org.graffiti.editor;
 
@@ -30,6 +30,7 @@ import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
@@ -48,6 +49,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -84,11 +86,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -193,7 +198,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.160.2.4 $
+ * @version $Revision: 1.160.2.5 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -4122,6 +4127,97 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	
 	public boolean isGraphLoadingInProgress() {
 		return graphLoadingInProgress;
+	}
+	
+	public static void showWarningPopup(String text, int time) {
+		showWarningPopup(text, time, null);
+	}
+	
+	public static void showWarningPopup(final String text, final int time, final Collection<WarningButton> bts) {
+		
+		Thread show = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				PopupFactory fac = new PopupFactory();
+				
+				final JPanel border = new JPanel();
+				border.setBackground(new Color(255, 255, 220));
+				border.setBorder(new BevelBorder(BevelBorder.RAISED));
+				
+				JLabel lbl = new JLabel(text);
+				lbl.setBackground(new Color(255, 255, 220));
+				lbl.setForeground(Color.DARK_GRAY);
+				if (bts == null || bts.size() <= 0)
+					border.setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
+				else {
+					border.setLayout(TableLayout.getLayout(TableLayout.FILL, new double[] { TableLayout.FILL, TableLayout.PREFERRED }));
+					ArrayList<JComponent> comps = new ArrayList<JComponent>();
+					for (WarningButton bt : bts) {
+						comps.add(bt.getButton());
+					}
+					border.add(TableLayout.getMultiSplit(comps), "0,1");
+				}
+				border.add(lbl, "0,0");
+				
+				lbl.validate();
+				border.validate();
+				
+				MainFrame f = MainFrame.getInstance();
+				
+				final Popup pop = fac.getPopup(f, border, f.getX() + f.vertSplitter.getDividerLocation(), f.getY() + 35);
+				
+				border.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						pop.hide();
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						pop.hide();
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						border.setBorder(new BevelBorder(BevelBorder.RAISED));
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						border.setBorder(new BevelBorder(BevelBorder.LOWERED));
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						pop.hide();
+					}
+				});
+				
+				if (bts != null)
+					for (WarningButton bt : bts) {
+						bt.getButton().addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								pop.hide();
+							}
+						});
+					}
+				
+				pop.show();
+				
+				if (time > 0) {
+					try {
+						Thread.sleep(time);
+					} catch (InterruptedException e) {
+						ErrorMsg.addErrorMessage(e);
+					}
+					pop.hide();
+				}
+			}
+		});
+		show.start();
+		
 	}
 }
 
