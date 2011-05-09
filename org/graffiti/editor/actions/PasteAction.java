@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PasteAction.java,v 1.11.2.2 2011/05/06 12:44:52 morla Exp $
+// $Id: PasteAction.java,v 1.11.2.3 2011/05/09 14:52:25 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  * 
- * @version $Revision: 1.11.2.2 $
+ * @version $Revision: 1.11.2.3 $
  */
 public class PasteAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -130,9 +130,6 @@ public class PasteAction extends SelectionAction {
 			AttributeHelper.moveGraph(newGraph, off, off);
 			
 			newGraph.setModified(false);
-			
-			MainFrame.showWarningPopup("<html>Attention: All graph attributes are overwritten by the attributes<br>" +
-					"of the graph you copied from", 5000, null);
 			
 			Collection<GraphElement> newElements = workGraph.addGraph(newGraph);
 			Selection sel = getSelection();
