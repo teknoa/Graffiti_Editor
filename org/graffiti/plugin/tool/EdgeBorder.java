@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EdgeBorder.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
+// $Id: EdgeBorder.java,v 1.6.2.1 2011/06/15 11:40:29 morla Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -28,7 +28,7 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.6 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.6.2.1 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
 					extends AbstractBorder {
@@ -239,6 +239,8 @@ public class EdgeBorder
 									(int) (y - bulletSizeHalf), bulletSize, bulletSize);
 			}
 		} catch (java.util.NoSuchElementException e) {
+		} catch (ArrayIndexOutOfBoundsException e) {
+			// why does this happen?!?
 		}
 		
 		cg.dispose();
