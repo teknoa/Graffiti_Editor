@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.163 2011/02/17 08:02:33 morla Exp $
+// $Id: MainFrame.java,v 1.164 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.editor;
 
@@ -30,6 +30,7 @@ import java.awt.dnd.DropTargetListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.WindowEvent;
@@ -48,6 +49,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
@@ -84,11 +86,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JToolBar;
 import javax.swing.KeyStroke;
+import javax.swing.Popup;
+import javax.swing.PopupFactory;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.WindowConstants;
+import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
@@ -193,7 +198,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.163 $
+ * @version $Revision: 1.164 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 					UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -422,6 +427,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	private Component enclosingseparator;
 	private final File recentlist = new File(ReleaseInfo.getAppFolderWithFinalSep() + "recentfiles.txt");
 	
+	// private FrameTabbedPane jtp;
+	
 	// ~ Constructors ===========================================================
 	
 	public MainFrame() {
@@ -454,8 +461,6 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		ErrorMsg.setRethrowErrorMessages(false);
 		
 		instance = this;
-		
-		this.pluginmgr = pluginmgr;
 		
 		this.setTitle(getDefaultFrameTitle());
 		GraffitiInternalFrame.startTitle = getDefaultFrameTitle();
@@ -492,6 +497,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		undoSupport.addUndoableEditListener(this);
 		
 		graffitiFrameListener = new GraffitiFrameListener(this);
+		
+		this.pluginmgr = pluginmgr;
 		
 		this.uiPrefs = prefs;
 		
@@ -535,6 +542,14 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		} else {
 			sidepanel = pluginPanel;
 		}
+		
+		// JPanel p = new JPanel();
+		// p.setLayout(TableLayout.getLayout(TableLayout.FILL, new double[] { TableLayout.PREFERRED, TableLayout.FILL }));
+		// jtp = new FrameTabbedPane();
+		// addViewListener(jtp);
+		
+		// p.add(jtp, "0,0");
+		// p.add(desktop, "0,1");
 		
 		vertSplitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, desktop, sidepanel);
 		this.progressPanel = progressPanel;
@@ -1026,7 +1041,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 						boolean returnScrollPane, boolean returnGraffitiFrame, boolean otherViewWillBeClosed,
 						ConfigureViewAction configNewView, boolean addViewToEditorSession) {
 		
-		if (!returnGraffitiFrame && !returnScrollPane && instance != null
+		if (!returnGraffitiFrame && !returnScrollPane && MainFrame.getInstance() != null
 							&& !SwingUtilities.isEventDispatchThread()) {
 			ErrorMsg.addErrorMessage("Internal Error: Creating Frame in Background Thread");
 		}
@@ -1091,7 +1106,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			SelectionModel selModel = new SelectionModel();
 			session.setSelectionModel(selModel);
 			
-			if (instance != null) {
+			if (MainFrame.getInstance() != null) {
 				this.fireSessionChanged(session);
 				
 				for (Iterator<SelectionListener> it = selectionListeners.iterator(); it.hasNext();) {
@@ -1156,9 +1171,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					}
 				}
 			});
-			// maximize view at beginning
-			
-			if (maxx) {
+			// anyway maximize view at beginning
+			if (true) {// maxx) {
 				try {
 					frame.setMaximum(true);
 				} catch (PropertyVetoException pve) {
@@ -1763,12 +1777,16 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		}
 		
 		if (plugin instanceof InspectorPlugin) {
-			inspectorPlugin = (InspectorPlugin) plugin;
-			for (PluginEntry p : pluginmgr.getPluginEntries()) {
-				if (p.getPlugin() != null && p.getPlugin() instanceof EditorPlugin) {
-					EditorPlugin ep = (EditorPlugin) p.getPlugin();
-					if (ep != plugin) {
-						processTabs(ep);
+			if (inspectorPlugin != null) {
+				ErrorMsg.addErrorMessage("Tried to load more than one InpsectorPlugin!");
+			} else {
+				inspectorPlugin = (InspectorPlugin) plugin;
+				for (PluginEntry p : pluginmgr.getPluginEntries()) {
+					if (p.getPlugin() != null && p.getPlugin() instanceof EditorPlugin) {
+						EditorPlugin ep = (EditorPlugin) p.getPlugin();
+						if (ep != plugin) {
+							processTabs(ep);
+						}
 					}
 				}
 			}
@@ -2191,23 +2209,23 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 								JOptionPane.YES_NO_CANCEL_OPTION);
 			if (res == JOptionPane.YES_OPTION) {
 				// save current graph
-				Session as = getActiveSession();
+				Session as = MainFrame.getInstance().getActiveSession();
 				View av;
 				try {
-					av = getActiveEditorSession().getActiveView();
+					av = MainFrame.getInstance().getActiveEditorSession().getActiveView();
 				} catch (Exception e) {
 					av = null;
 				}
-				setActiveSession(session, null);
+				MainFrame.getInstance().setActiveSession(session, null);
 				fileSaveAs.actionPerformed(new ActionEvent(this, 0, null));
-				setActiveSession(as, av);
+				MainFrame.getInstance().setActiveSession(as, av);
 			}
 			if (res == JOptionPane.CANCEL_OPTION) {
 				final Graph gg = new AdjListGraph(new ListenerManager());
 				gg.addGraph(session.getGraph());
 				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
-						showGraph(gg, null);
+						MainFrame.getInstance().showGraph(gg, null);
 					}
 				});
 			}
@@ -2361,6 +2379,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				oneModified = true;
 		}
 		getRootPane().putClientProperty("windowModified", oneModified);
+		
+		// jtp.sessionChanged();
 	}
 	
 	/**
@@ -2442,7 +2462,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 * @param type
 	 */
 	private static void showMessageDirect(String message, MessageType type, int timeMillis) {
-		if (instance == null) {
+		if (getInstance() == null) {
 			System.out.println(type.toString() + ": " + message);
 			return;
 		}
@@ -2523,7 +2543,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 */
 	public JScrollPane showViewChooserDialog(final EditorSession session, boolean returnScrollPane, ActionEvent e,
 						LoadSetting interaction, final ConfigureViewAction configNewView) {
-		if (!returnScrollPane && !SwingUtilities.isEventDispatchThread())
+		if (!returnScrollPane && MainFrame.getInstance() != null && !SwingUtilities.isEventDispatchThread())
 			ErrorMsg.addErrorMessage("Internal Error: showViewChooserDialog not on event dispatch thread");
 		String[] views;
 		if (viewManager != null)
@@ -2583,7 +2603,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 										+ session.getGraph().getNumberOfNodes() + " nodes, " + session.getGraph().getNumberOfEdges()
 										+ " edges)", viewManager.getViewDescriptions());
 					
-					viewChooser.setLocationRelativeTo(this);
+					viewChooser.setLocationRelativeTo(MainFrame.getInstance());
 					viewChooser.setVisible(true);
 					
 					// The user did not select a view.
@@ -3906,7 +3926,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		} else {
 			// remove the session if we are closing the last view
 			view.close();
-			closeSession(session);
+			MainFrame.getInstance().closeSession(session);
 		}
 		// fireSessionChanged(null);
 		// activeSession = null;
@@ -3980,7 +4000,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		GraffitiFrame gf = new GraffitiFrame(gif, fullscreen);
 		gf.addWindowListener(graffitiFrameListener);
 		gf.setVisible(true);
-		addDetachedFrame(gf);
+		MainFrame.getInstance().addDetachedFrame(gf);
 		return gif.getView();
 	}
 	
@@ -4107,6 +4127,97 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	
 	public boolean isGraphLoadingInProgress() {
 		return graphLoadingInProgress;
+	}
+	
+	public static void showWarningPopup(String text, int time) {
+		showWarningPopup(text, time, null);
+	}
+	
+	public static void showWarningPopup(final String text, final int time, final Collection<WarningButton> bts) {
+		
+		Thread show = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				PopupFactory fac = new PopupFactory();
+				
+				final JPanel border = new JPanel();
+				border.setBackground(new Color(255, 255, 220));
+				border.setBorder(new BevelBorder(BevelBorder.RAISED));
+				
+				JLabel lbl = new JLabel(text);
+				lbl.setBackground(new Color(255, 255, 220));
+				lbl.setForeground(Color.DARK_GRAY);
+				if (bts == null || bts.size() <= 0)
+					border.setLayout(TableLayout.getLayout(TableLayout.FILL, TableLayout.FILL));
+				else {
+					border.setLayout(TableLayout.getLayout(TableLayout.FILL, new double[] { TableLayout.FILL, TableLayout.PREFERRED }));
+					ArrayList<JComponent> comps = new ArrayList<JComponent>();
+					for (WarningButton bt : bts) {
+						comps.add(bt.getButton());
+					}
+					border.add(TableLayout.getMultiSplit(comps), "0,1");
+				}
+				border.add(lbl, "0,0");
+				
+				lbl.validate();
+				border.validate();
+				
+				MainFrame f = MainFrame.getInstance();
+				
+				final Popup pop = fac.getPopup(f, border, f.getX() + f.vertSplitter.getDividerLocation(), f.getY() + 35);
+				
+				border.addMouseListener(new MouseListener() {
+					
+					@Override
+					public void mouseReleased(MouseEvent e) {
+						pop.hide();
+					}
+					
+					@Override
+					public void mousePressed(MouseEvent e) {
+						pop.hide();
+					}
+					
+					@Override
+					public void mouseExited(MouseEvent e) {
+						border.setBorder(new BevelBorder(BevelBorder.RAISED));
+					}
+					
+					@Override
+					public void mouseEntered(MouseEvent e) {
+						border.setBorder(new BevelBorder(BevelBorder.LOWERED));
+					}
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						pop.hide();
+					}
+				});
+				
+				if (bts != null)
+					for (WarningButton bt : bts) {
+						bt.getButton().addActionListener(new ActionListener() {
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								pop.hide();
+							}
+						});
+					}
+				
+				pop.show();
+				
+				if (time > 0) {
+					try {
+						Thread.sleep(time);
+					} catch (InterruptedException e) {
+						ErrorMsg.addErrorMessage(e);
+					}
+					pop.hide();
+				}
+			}
+		});
+		show.start();
+		
 	}
 }
 

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DefaultParameterDialog.java,v 1.24 2011/01/17 11:10:05 morla Exp $
+// $Id: DefaultParameterDialog.java,v 1.25 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -18,6 +18,7 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -65,7 +66,7 @@ import org.graffiti.session.Session;
 /**
  * The default implementation of a parameter dialog.
  * 
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.25 $
  */
 public class DefaultParameterDialog extends AbstractParameterDialog implements
 					ActionListener, WindowListener {
@@ -235,7 +236,21 @@ public class DefaultParameterDialog extends AbstractParameterDialog implements
 		pack();
 		pack();
 		setLocationRelativeTo(parent);
+		
+		// fixing dialogs, which are way too big for the screen -> scrollpanes may be useful
+		Dimension size = getSize();
+		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
+		if (size.height > screen.height - 50)
+			size.height = screen.height - 50;
+		if (size.width > screen.width - 50)
+			size.width = screen.width - 50;
+		
+		setSize(size);
+		
+		// end fixing
+		
 		setVisible(true);
+		
 	}
 	
 	// ~ Methods ================================================================

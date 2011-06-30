@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: ParameterEditPanel.java,v 1.15 2011/02/17 08:02:33 morla Exp $
+// $Id: ParameterEditPanel.java,v 1.16 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.editor.dialog;
 
@@ -47,7 +47,7 @@ import org.graffiti.util.InstanceLoader;
 /**
  * Represents a parameter edit panel.
  * 
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.16 $
  */
 public class ParameterEditPanel extends JPanel {
 	// ~ Instance fields ========================================================

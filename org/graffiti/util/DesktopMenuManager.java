@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: DesktopMenuManager.java,v 1.8 2010/12/22 13:05:53 klukas Exp $
+// $Id: DesktopMenuManager.java,v 1.9 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.util;
 
@@ -14,16 +14,17 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyVetoException;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.TreeSet;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComponent;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSeparator;
@@ -45,20 +46,20 @@ import org.graffiti.session.SessionListener;
  * actions for arranging the frames are added to the menu.
  * 
  * @author Michael Forster
- * @version $Revision: 1.8 $ $Date: 2010/12/22 13:05:53 $
+ * @version $Revision: 1.9 $ $Date: 2011/06/30 06:55:30 $
  */
 public class DesktopMenuManager
 					implements MenuListener, SessionListener {
 	// ~ Instance fields ========================================================
 	
 	/** The associated desktop */
-	private JDesktopPane desktop;
+	private final JDesktopPane desktop;
 	
 	/** The associated menu */
-	private JMenu menu;
+	private final JMenu menu;
 	
 	/** Menu items created by this manager */
-	private List<JComponent> windowItems = new LinkedList<JComponent>();
+	private final List<JComponent> windowItems = new LinkedList<JComponent>();
 	
 	// ~ Constructors ===========================================================
 	
@@ -215,9 +216,17 @@ public class DesktopMenuManager
 		JInternalFrame[] frames = desktop.getAllFrames();
 		EditorSession es = MainFrame.getInstance().getActiveEditorSession();
 		
+		TreeSet<FrameMenuItem> items = new TreeSet<FrameMenuItem>(new Comparator<FrameMenuItem>() {
+			@Override
+			public int compare(FrameMenuItem o1, FrameMenuItem o2) {
+				// dont merge frames with equal titles
+				return new String(o1 + " " + o1.hashCode()).compareTo(new String(o2 + " " + o2.hashCode()));
+			}
+		});
+		
 		for (int i = 0; i < frames.length; i++) {
 			final JInternalFrame frame = frames[i];
-			JMenuItem item3 = new FrameMenuItem(frame);
+			FrameMenuItem item3 = new FrameMenuItem(frame);
 			if (frame instanceof GraffitiInternalFrame) {
 				GraffitiInternalFrame gif = (GraffitiInternalFrame) frame;
 				if (es != null && (gif.getView() == es.getActiveView()))
@@ -227,9 +236,14 @@ public class DesktopMenuManager
 			} else
 				item3.setSelected(frame == currentFrame);
 			
-			menu.add(item3);
-			windowItems.add(item3);
+			items.add(item3);
 		}
+		
+		for (FrameMenuItem fmi : items) {
+			menu.add(fmi);
+			windowItems.add(fmi);
+		}
+		
 	}
 	
 	/**
@@ -322,17 +336,17 @@ public class DesktopMenuManager
 	 * associated frame
 	 * 
 	 * @author Michael Forster
-	 * @version $Revision: 1.8 $ $Date: 2010/12/22 13:05:53 $
+	 * @version $Revision: 1.9 $ $Date: 2011/06/30 06:55:30 $
 	 */
 	class FrameMenuItem
 						extends JRadioButtonMenuItem
-						implements ActionListener {
+						implements ActionListener, Comparable<FrameMenuItem> {
 		/**
 		 * 
 		 */
 		private static final long serialVersionUID = 1L;
 		/** The associated frame */
-		private JInternalFrame frame;
+		private final JInternalFrame frame;
 		
 		/**
 		 * Create a WindowMenuItem object and associated it to a frame.
@@ -372,6 +386,11 @@ public class DesktopMenuManager
 					ErrorMsg.addErrorMessage(e1);
 				}
 			}
+		}
+		
+		@Override
+		public int compareTo(FrameMenuItem o) {
+			return new String(frame.getTitle() + " " + frame.hashCode()).compareTo(new String(frame.getTitle() + " " + frame.hashCode()));
 		}
 	}
 	

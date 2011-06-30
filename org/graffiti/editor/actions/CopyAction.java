@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CopyAction.java,v 1.9 2011/01/18 09:34:38 morla Exp $
+// $Id: CopyAction.java,v 1.10 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -39,7 +39,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element copy action.
  * 
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  */
 public class CopyAction extends SelectionAction {
 	// ~ Constructors ===========================================================

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: PasteAction.java,v 1.11 2010/12/22 13:05:53 klukas Exp $
+// $Id: PasteAction.java,v 1.12 2011/06/30 06:55:30 morla Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a graph element paste action.
  * 
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  */
 public class PasteAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -79,6 +79,10 @@ public class PasteAction extends SelectionAction {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		String gml = ClipboardService.readFromClipboardAsText();
+		//remove leading comments
+		while (gml.startsWith("#") && gml.contains("\n"))
+			gml = gml.substring(gml.indexOf("\n") + "\n".length(), gml.length());
+		
 		boolean isGMLformat = true;
 		if (!(gml != null && gml.startsWith("graph ["))) {
 			isGMLformat = false;
