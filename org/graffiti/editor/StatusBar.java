@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: StatusBar.java,v 1.21 2010/12/22 13:05:53 klukas Exp $
+// $Id: StatusBar.java,v 1.21.2.1 2011/12/08 05:23:59 morla Exp $
 
 package org.graffiti.editor;
 
@@ -21,6 +21,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
@@ -40,6 +42,8 @@ import org.graffiti.event.GraphListener;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.event.ListenerNotFoundException;
 import org.graffiti.event.TransactionEvent;
+import org.graffiti.graph.Edge;
+import org.graffiti.graph.GraphElement;
 import org.graffiti.graph.Node;
 import org.graffiti.plugin.algorithm.ThreadSafeOptions;
 import org.graffiti.selection.Selection;
@@ -53,7 +57,7 @@ import org.graffiti.session.SessionListener;
  * Represents a status line ui component, which can display info and error
  * messages.
  * 
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.21.2.1 $
  */
 public class StatusBar
 					extends JPanel
@@ -74,10 +78,10 @@ public class StatusBar
 	// ~ Instance fields ========================================================
 	
 	/** The nodes- and edges label in the status bar. */
-	private JLabel edgesLabel;
+	private final JLabel edgesLabel;
 	
 	/** The nodes- and edges label in the status bar. */
-	private JLabel nodesLabel;
+	private final JLabel nodesLabel;
 	
 	/** The ui component, which contains the status text. */
 	JLabel statusLine;
@@ -139,19 +143,24 @@ public class StatusBar
 		// public void actionPerformed(ActionEvent e) {
 		// }});
 		nodesLabel.addMouseListener(new MouseListener() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				processRightClick(e, true);
 			}
 			
+			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseExited(MouseEvent e) {
 			}
 		});
@@ -166,19 +175,24 @@ public class StatusBar
 		edgesLabel = new JLabel(" ");
 		edgesLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		edgesLabel.addMouseListener(new MouseListener() {
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				processRightClick(e, false);
 			}
 			
+			@Override
 			public void mousePressed(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseReleased(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseEntered(MouseEvent e) {
 			}
 			
+			@Override
 			public void mouseExited(MouseEvent e) {
 			}
 		});
@@ -232,6 +246,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#postEdgeAdded(GraphEvent)
 	 */
+	@Override
 	public void postEdgeAdded(GraphEvent e) {
 		edges++;
 		updateGraphInfo();
@@ -240,6 +255,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#postEdgeRemoved(GraphEvent)
 	 */
+	@Override
 	public void postEdgeRemoved(GraphEvent e) {
 		edges--;
 		updateGraphInfo();
@@ -248,6 +264,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#postGraphCleared(GraphEvent)
 	 */
+	@Override
 	public void postGraphCleared(GraphEvent e) {
 		edges = 0;
 		nodes = 0;
@@ -258,6 +275,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#postNodeAdded(GraphEvent)
 	 */
+	@Override
 	public void postNodeAdded(GraphEvent e) {
 		nodes++;
 		updateGraphInfo();
@@ -266,6 +284,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#postNodeRemoved(GraphEvent)
 	 */
+	@Override
 	public void postNodeRemoved(GraphEvent e) {
 		nodes--;
 		updateGraphInfo();
@@ -274,36 +293,42 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.GraphListener#preEdgeAdded(GraphEvent)
 	 */
+	@Override
 	public void preEdgeAdded(GraphEvent e) {
 	}
 	
 	/**
 	 * @see org.graffiti.event.GraphListener#preEdgeRemoved(GraphEvent)
 	 */
+	@Override
 	public void preEdgeRemoved(GraphEvent e) {
 	}
 	
 	/**
 	 * @see org.graffiti.event.GraphListener#preGraphCleared(GraphEvent)
 	 */
+	@Override
 	public void preGraphCleared(GraphEvent e) {
 	}
 	
 	/**
 	 * @see org.graffiti.event.GraphListener#preNodeAdded(GraphEvent)
 	 */
+	@Override
 	public void preNodeAdded(GraphEvent e) {
 	}
 	
 	/**
 	 * @see org.graffiti.event.GraphListener#preNodeRemoved(GraphEvent)
 	 */
+	@Override
 	public void preNodeRemoved(GraphEvent e) {
 	}
 	
 	/**
 	 * @see org.graffiti.selection.SelectionListener#selectionChanged(SelectionEvent)
 	 */
+	@Override
 	public void selectionChanged(SelectionEvent e) {
 		activeSelection = e.getSelection();
 		updateGraphInfo();
@@ -312,6 +337,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.selection.SelectionListener#selectionListChanged(org.graffiti.selection.SelectionEvent)
 	 */
+	@Override
 	public void selectionListChanged(SelectionEvent e) {
 		activeSelection = e.getSelection();
 		updateGraphInfo();
@@ -320,6 +346,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionChanged(Session)
 	 */
+	@Override
 	public void sessionChanged(Session session) {
 		ListenerManager lm = null;
 		
@@ -367,6 +394,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.session.SessionListener#sessionDataChanged(Session)
 	 */
+	@Override
 	public void sessionDataChanged(Session s) {
 		updateGraphInfo();
 	}
@@ -398,6 +426,7 @@ public class StatusBar
 		Timer timer = new Timer(0,
 							new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				if (isShowing())
@@ -446,6 +475,7 @@ public class StatusBar
 		Timer timer = new Timer(timeMillis,
 							new ActionListener()
 		{
+			@Override
 			public void actionPerformed(ActionEvent e)
 			{
 				if (isShowing())
@@ -470,6 +500,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.TransactionListener#transactionFinished(TransactionEvent)
 	 */
+	@Override
 	public void transactionFinished(TransactionEvent e, BackgroundTaskStatusProviderSupportingExternalCall status) {
 		// ignoreUpdate--;
 		ignoreUpdate = 0;
@@ -484,6 +515,7 @@ public class StatusBar
 	/**
 	 * @see org.graffiti.event.TransactionListener#transactionStarted(TransactionEvent)
 	 */
+	@Override
 	public void transactionStarted(TransactionEvent e) {
 		ignoreUpdate++;
 	}
@@ -499,6 +531,7 @@ public class StatusBar
 			if (!tso.getBval(0, false)) {
 				tso.setBval(0, true);
 				SwingUtilities.invokeLater(new Runnable() {
+					@Override
 					public void run() {
 						tso.setBval(0, false);
 						updateGraphInfo();
@@ -582,6 +615,7 @@ public class StatusBar
 			JPopupMenu popup = new JPopupMenu();
 			JMenuItem selAll = new JMenuItem("Select All");
 			selAll.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					if (currentSession instanceof EditorSession) {
 						Selection sel = new Selection("id");
@@ -597,8 +631,36 @@ public class StatusBar
 			});
 			popup.add(selAll);
 			
+			JMenuItem invert = new JMenuItem("Invert Selection");
+			invert.addActionListener(new ActionListener() {
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if (currentSession instanceof EditorSession) {
+						Selection sel = new Selection("id");
+						List<GraphElement> activeSel = ((EditorSession) currentSession).getSelectionModel().getActiveSelection().getElements();
+						if (processNodesTrue_otherwiseEdges) {
+							List<Node> nodes2 = currentSession.getGraph().getNodes();
+							for (GraphElement ge : nodes2)
+								if (!activeSel.contains(ge))
+									sel.add(ge);
+							sel.addAll(((EditorSession) currentSession).getSelectionModel().getActiveSelection().getEdges());
+						} else {
+							Collection<Edge> edges2 = currentSession.getGraph().getEdges();
+							for (GraphElement ge : edges2)
+								if (!activeSel.contains(ge))
+									sel.add(ge);
+							sel.addAll(((EditorSession) currentSession).getSelectionModel().getActiveSelection().getNodes());
+						}
+						((EditorSession) currentSession).getSelectionModel().setActiveSelection(sel);
+						// ((EditorSession)currentSession).getSelectionModel().selectionChanged();
+					}
+				}
+			});
+			popup.add(invert);
+			
 			JMenuItem selClear = new JMenuItem("Clear Selection");
 			selClear.addActionListener(new ActionListener() {
+				@Override
 				public void actionPerformed(ActionEvent e) {
 					Selection sel = new Selection("id");
 					if (currentSession instanceof EditorSession) {
