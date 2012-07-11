@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: InspectorTab.java,v 1.14 2010/12/22 13:05:55 klukas Exp $
+// $Id: InspectorTab.java,v 1.14.2.1 2012/07/11 13:03:53 klapperipk Exp $
 
 package org.graffiti.plugin.inspector;
 
@@ -21,6 +21,7 @@ import javax.swing.border.Border;
 import org.ErrorMsg;
 import org.graffiti.graph.GraphElement;
 import org.graffiti.plugin.view.View;
+import org.graffiti.selection.SelectionListener;
 
 /**
  * An <code>InspectorTab</code> is a generic component for an <code>InspectorPlugin</code>.
@@ -244,7 +245,7 @@ public abstract class InspectorTab
 	}
 	
 	public boolean isSelectionListener() {
-		return false;
+		return (this instanceof SelectionListener);
 	}
 }
 
