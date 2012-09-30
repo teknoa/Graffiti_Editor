@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: StatusBar.java,v 1.23 2012/07/13 12:35:13 klapperipk Exp $
+// $Id: StatusBar.java,v 1.24 2012/09/30 15:53:07 klapperipk Exp $
 
 package org.graffiti.editor;
 
@@ -71,7 +71,7 @@ import org.graffiti.session.SessionListener;
  * messages.
  * It also let's the user scroll through the selected nodes and edges, which will be zoomed into
  * the view
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  */
 public class StatusBar
 extends JPanel
@@ -843,7 +843,7 @@ implements SessionListener, SelectionListener, GraphListener {
 			elements.add(scrollListEdges.get(idxScrollEdges--));
 		}
 
-		zoomView(e, MainFrame.getInstance().getActiveEditorSession().getActiveView(), elements, 40);
+		zoomView(e, MainFrame.getInstance().getActiveEditorSession().getActiveView(), elements, 5);
 	}
 
 	/*
@@ -885,23 +885,36 @@ implements SessionListener, SelectionListener, GraphListener {
 		if (selectionViewRect == null)
 			return;
 		targetViewRect = selectionViewRect;
-		boolean changed = false;
 
-		if (targetViewRect.width < currentViewRect.width && targetViewRect.height < currentViewRect.height &&
-				Math.abs(targetViewRect.getCenterX() - currentViewRect.getCenterX()) > targetViewRect.width / 20d &&
-				Math.abs(targetViewRect.getCenterY() - currentViewRect.getCenterY()) > targetViewRect.height / 20d) {
-			Rectangle tryNewRect = new Rectangle(targetViewRect);
-			tryNewRect.grow((currentViewRect.width - targetViewRect.width) / zoomIntoValue,
-					(currentViewRect.height - targetViewRect.height) / zoomIntoValue);
-			if ((tryNewRect.getCenterX() >= tryNewRect.width / 2 && tryNewRect.getCenterX() <= view.getViewComponent().getWidth() - tryNewRect.width / 2)
-					|| (tryNewRect.getCenterY() >= tryNewRect.height / 2 && tryNewRect.getCenterY() <= view.getViewComponent().getHeight()
-					- tryNewRect.height / 2)) {
-				targetViewRect = tryNewRect;
-				changed = true;
-			}
+		double selWidth = selectionViewRect.width;
+		double selHeight = selectionViewRect.height;
+		double selX = selectionViewRect.x;
+		double selY = selectionViewRect.y;
+		double viewWidth = view.getViewComponent().getWidth();
+		double viewHeight = view.getViewComponent().getHeight();
+		
+		Point viewWidthHeight = new Point((int)viewWidth, (int)viewHeight);
+		try {
+			/*
+			 * the size of the jcomponent view depends on the zoom value for the canvas
+			 * so we have to inverse transform it to get the real size values
+			 */
+			currentZoom.inverseTransform(viewWidthHeight, viewWidthHeight);
+		} catch (NoninvertibleTransformException e1) {
+			e1.printStackTrace();
 		}
-		if (!changed)
-			targetViewRect.grow((int) (targetViewRect.width / (zoomIntoValue / 3d)), (int) (targetViewRect.height / (zoomIntoValue / 3d)));
+		
+		/*
+		 * zoom to factor 1 (100%) if selection is smaller than "unzoomed" view
+		 */
+		if(selWidth < scrollPaneSize.width && selHeight < scrollPaneSize.height) {
+			targetViewRect.x = (int)((selX + selWidth/2) - scrollPaneSize.width / 2);
+			targetViewRect.y = (int)((selY + selHeight/2) - scrollPaneSize.height / 2);
+			targetViewRect.width = (int)scrollPaneSize.width;
+			targetViewRect.height = (int)scrollPaneSize.height;
+		} 
+		targetViewRect = selectionViewRect;
+		
 		
 		final double srcSmallestX = currentViewRect.getX();
 		final double srcSmallestY = currentViewRect.getY();
@@ -1056,20 +1069,20 @@ implements SessionListener, SelectionListener, GraphListener {
 				viewRect = r;
 			else
 				viewRect.add(r);
-			if (gvc != null)
-				try {
-					for (Object o : gvc.getAttributeComponents()) {
-						if (o instanceof JComponent) {
-							JComponent jc = (JComponent) o;
-							if (viewRect == null)
-								viewRect = jc.getBounds();
-							else
-								viewRect.add(jc.getBounds());
-						}
-					}
-				} catch (ConcurrentModificationException cc) {
-
-				}
+//			if (gvc != null)
+//				try {
+//					for (Object o : gvc.getAttributeComponents()) {
+//						if (o instanceof JComponent) {
+//							JComponent jc = (JComponent) o;
+//							if (viewRect == null)
+//								viewRect = jc.getBounds();
+//							else
+//								viewRect.add(jc.getBounds());
+//						}
+//					}
+//				} catch (ConcurrentModificationException cc) {
+//
+//				}
 		}
 		return viewRect;
 	}
