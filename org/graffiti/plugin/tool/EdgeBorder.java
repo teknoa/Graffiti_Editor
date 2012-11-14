@@ -5,15 +5,19 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EdgeBorder.java,v 1.7 2011/06/30 06:55:30 morla Exp $
+// $Id: EdgeBorder.java,v 1.8 2012/11/14 12:17:12 klapperipk Exp $
 
 package org.graffiti.plugin.tool;
 
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.PathIterator;
 import java.util.Iterator;
 
@@ -28,7 +32,7 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.7 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.8 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
 					extends AbstractBorder {
@@ -146,6 +150,24 @@ public class EdgeBorder
 	@Override
 	public void paintBorder(Component c, Graphics g, int bx, int by, int width,
 						int height) {
+		
+		AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();
+		Point pWH = new Point(bulletSize, bulletSize);
+		try {
+			at.inverseTransform(pWH, pWH);
+		} catch (NoninvertibleTransformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		double factor = (double)pWH.x / (double)bulletSize;
+		
+		
+		int bulletSize = (int)(factor * (double)this.bulletSize);
+		if(bulletSize <= 1)
+			bulletSize = 1;
+		if(bulletSize >= 15)
+			bulletSize = 15;
+
 		double bulletSizeHalf = bulletSize / 2d;
 		
 		Graphics cg;
@@ -157,7 +179,7 @@ public class EdgeBorder
 			Color lightColor = this.color.darker().darker();
 			cg.setColor(lightColor);
 			
-			int bendBulletSize = (int) (bulletSize / 2d);
+			int bendBulletSize = (int) (bulletSize );
 			
 			if (bendBulletSize == 0) {
 				bendBulletSize = 1;

@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: NodeBorder.java,v 1.6 2010/12/22 13:05:55 klukas Exp $
+// $Id: NodeBorder.java,v 1.7 2012/11/14 12:17:12 klapperipk Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -14,14 +14,16 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
+import java.awt.Point;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.NoninvertibleTransformException;
 
 import javax.swing.border.AbstractBorder;
 
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.6 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.7 $ Provides a border used to mark selected nodes.
  */
 public class NodeBorder
 					extends AbstractBorder {
@@ -123,36 +125,50 @@ public class NodeBorder
 	@Override
 	public void paintBorder(Component c, Graphics g, int x, int y, int width,
 						int height) {
-		if ((c.getX() % 2) == 1) {
-			AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();
-			((Graphics2D) g).translate(at.getTranslateX() - 1,
-								at.getTranslateY());
-			width += 1;
+		int zoomedBorderWidth;
+		AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();
+		Point pWH = new Point(borderWidth, borderWidth);
+		try {
+			at.inverseTransform(pWH, pWH);
+		} catch (NoninvertibleTransformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		double factor = (double)pWH.x / (double)borderWidth;
 		
-		if ((c.getY() % 2) == 1) {
-			AffineTransform at = ((Graphics2D) c.getParent().getGraphics()).getTransform();
-			((Graphics2D) g).translate(at.getTranslateX(),
-								at.getTranslateY() - 1);
-			height += 1;
-		}
-		
+//		if ((c.getX() % 2) == 1) {
+//			((Graphics2D) g).translate(at.getTranslateX() - 1,
+//								at.getTranslateY());
+//			width += 1;
+//		}
+//		
+//		if ((c.getY() % 2) == 1) {
+//			((Graphics2D) g).translate(at.getTranslateX(),
+//								at.getTranslateY() - 1);
+//			height += 1;
+//		}
 		Insets insets = getBorderInsets(c);
 		Color oldColor = g.getColor();
-		
 		g.translate(x, y);
 		g.setColor(this.color);
+		zoomedBorderWidth = (int)(factor * (double)borderWidth);
 		
+		if(zoomedBorderWidth <= 1)
+			zoomedBorderWidth = 1;
+		if(zoomedBorderWidth >= 15)
+			zoomedBorderWidth = 15;
+
 		// Paint top left and right
 		Graphics cg;
 		cg = g.create();
 		
 		// cg.setClip(0, 0, 2*width, insets.top);
-		cg.fillRect(0, 0, this.borderWidth, this.borderWidth);
+		cg.fillRect(1, 1, zoomedBorderWidth, zoomedBorderWidth);
 		
 		// Point p = new Point((int)Math.ceil(width/((Graphics2D)cg).getTransform().getScaleX() - insets.right), 0);
-		// cg.fillRect(p.x, p.y, this.borderWidth, this.borderWidth);
-		cg.fillRect(width - insets.right, 0, this.borderWidth, this.borderWidth);
+		// cg.fillRect(p.x, p.y, zoomedBorderWidth, zoomedBorderWidth);
+//		cg.fillRect(width - insets.right, 0, zoomedBorderWidth, zoomedBorderWidth);
+		cg.fillRect(width - zoomedBorderWidth, 1, zoomedBorderWidth, zoomedBorderWidth);
 		
 		cg.dispose();
 		
@@ -162,13 +178,13 @@ public class NodeBorder
 		// int h_ib = (int)Math.ceil(height/((Graphics2D)cg).getTransform().getScaleY() - insets.bottom);
 		// cg.setClip(0, h_ib, width, insets.bottom);
 		// Point p = new Point(0, h_ib);
-		cg.fillRect(0, height - insets.bottom, this.borderWidth,
-							this.borderWidth);
+		cg.fillRect(1, height - zoomedBorderWidth, zoomedBorderWidth,
+							zoomedBorderWidth);
 		
 		// p = new Point((int)Math.ceil(width/((Graphics2D)cg).getTransform().getScaleX() - insets.right),
 		// (int)Math.ceil(height/((Graphics2D)cg).getTransform().getScaleY() - insets.bottom));
-		cg.fillRect(width - insets.right, height - insets.bottom,
-							this.borderWidth, this.borderWidth);
+		cg.fillRect(width - zoomedBorderWidth, height - zoomedBorderWidth,
+							zoomedBorderWidth, zoomedBorderWidth);
 		
 		cg.dispose();
 		
