@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CutAction.java,v 1.6 2010/12/22 13:05:53 klukas Exp $
+// $Id: CutAction.java,v 1.7 2012/11/15 14:13:15 klapperipk Exp $
 
 package org.graffiti.editor.actions;
 
@@ -19,8 +19,10 @@ import org.ErrorMsg;
 import org.graffiti.editor.MainFrame;
 import org.graffiti.event.ListenerManager;
 import org.graffiti.graph.AdjListGraph;
+import org.graffiti.graph.Edge;
 import org.graffiti.graph.Graph;
 import org.graffiti.graph.GraphElement;
+import org.graffiti.graph.Node;
 import org.graffiti.help.HelpContext;
 import org.graffiti.managers.IOManager;
 import org.graffiti.plugin.actions.SelectionAction;
@@ -30,7 +32,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  * 
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  */
 public class CutAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -72,7 +74,8 @@ public class CutAction extends SelectionAction {
 		Graph sourceGraph = getGraph();
 		
 		Selection selection = getSelection();
-		
+		if(selection.isEmpty())
+			return;
 		AdjListGraph copyGraph = new AdjListGraph(sourceGraph, new ListenerManager());
 		
 		try {
@@ -82,7 +85,8 @@ public class CutAction extends SelectionAction {
 			new StringBuffer();
 			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 			
-			if (selection.getNodes().size() > 0) {
+			if (selection.getElements().size() > 0 /*selection.getNodes().size() > 0*/) {
+				
 				// remove all other nodes from copied graph
 				ArrayList<Long> validNodeIds = new ArrayList<Long>();
 				for (org.graffiti.graph.Node n : selection.getNodes())
@@ -97,8 +101,28 @@ public class CutAction extends SelectionAction {
 				for (org.graffiti.graph.Node n : toBeDeleted) {
 					copyGraph.deleteNode(n);
 				}
-			} else
+				
+			// remove all other edges from copied graph
+				ArrayList<Long> validEdgeIds = new ArrayList<Long>();
+				for (Edge curEdge : copyGraph.getEdges())
+					validEdgeIds.add(new Long(curEdge.getID()));
+				
+				ArrayList<Edge> toBeDeletedEdges = new ArrayList<Edge>();
+				for (Edge curEdge : copyGraph.getEdges()) {
+					if (!validEdgeIds.contains(new Long(curEdge.getID()))) {
+						toBeDeletedEdges.add(curEdge);
+					}
+				}
+				for (Edge curEdge : toBeDeletedEdges) {
+					copyGraph.deleteEdge(curEdge);
+				}
+			}
+			// removed cut-action, when no elements are selected
+			/*
+			  else
 				selection.addAll(getGraph().getGraphElements());
+			 */
+			
 			os.write(baos, copyGraph);
 			ClipboardService.writeToClipboardAsText(baos.toString());
 			ArrayList<GraphElement> del = new ArrayList<GraphElement>();
