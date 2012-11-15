@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CutAction.java,v 1.7 2012/11/15 14:13:15 klapperipk Exp $
+// $Id: CutAction.java,v 1.8 2012/11/15 14:35:27 klapperipk Exp $
 
 package org.graffiti.editor.actions;
 
@@ -25,6 +25,7 @@ import org.graffiti.graph.GraphElement;
 import org.graffiti.graph.Node;
 import org.graffiti.help.HelpContext;
 import org.graffiti.managers.IOManager;
+import org.graffiti.plugin.actions.GraffitiAction;
 import org.graffiti.plugin.actions.SelectionAction;
 import org.graffiti.plugin.io.OutputSerializer;
 import org.graffiti.selection.Selection;
@@ -32,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  * 
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  */
 public class CutAction extends SelectionAction {
 	// ~ Constructors ===========================================================
@@ -125,11 +126,19 @@ public class CutAction extends SelectionAction {
 			
 			os.write(baos, copyGraph);
 			ClipboardService.writeToClipboardAsText(baos.toString());
+			/*
+			 * this code didn't use the Undo Manager so it's outcommented
+			 * Now CTRL+X and a following CTRL+Z (undo) works
+			 */
+/*
 			ArrayList<GraphElement> del = new ArrayList<GraphElement>();
 			del.addAll(selection.getElements());
 			selection.clear();
 			getGraph().deleteAll(del);
 			MainFrame.getInstance().getSessionManager().getActiveSession().getActiveView().repaint(null);
+*/
+			GraffitiAction.performAction("edit.delete");
+			
 		} catch (IOException ioe) {
 			ErrorMsg.addErrorMessage(ioe.getLocalizedMessage());
 		} catch (IllegalAccessException iae) {
