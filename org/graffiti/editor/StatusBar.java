@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: StatusBar.java,v 1.24 2012/09/30 15:53:07 klapperipk Exp $
+// $Id: StatusBar.java,v 1.23.2.1 2012/12/13 12:51:14 klapperipk Exp $
 
 package org.graffiti.editor;
 
@@ -71,7 +71,7 @@ import org.graffiti.session.SessionListener;
  * messages.
  * It also let's the user scroll through the selected nodes and edges, which will be zoomed into
  * the view
- * @version $Revision: 1.24 $
+ * @version $Revision: 1.23.2.1 $
  */
 public class StatusBar
 extends JPanel

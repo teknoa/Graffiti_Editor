@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EdgeBorder.java,v 1.8 2012/11/14 12:17:12 klapperipk Exp $
+// $Id: EdgeBorder.java,v 1.7.2.1 2012/12/13 12:51:12 klapperipk Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -32,7 +32,7 @@ import org.graffiti.plugin.view.GraphElementShape;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.8 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.7.2.1 $ Provides a border used to mark selected nodes.
  */
 public class EdgeBorder
 					extends AbstractBorder {

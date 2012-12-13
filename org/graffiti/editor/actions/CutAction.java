@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: CutAction.java,v 1.8 2012/11/15 14:35:27 klapperipk Exp $
+// $Id: CutAction.java,v 1.6.4.1 2012/12/13 12:51:14 klapperipk Exp $
 
 package org.graffiti.editor.actions;
 
@@ -33,7 +33,7 @@ import org.graffiti.selection.Selection;
 /**
  * Represents a cut of graph elements action.
  * 
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.6.4.1 $
  */
 public class CutAction extends SelectionAction {
 	// ~ Constructors ===========================================================

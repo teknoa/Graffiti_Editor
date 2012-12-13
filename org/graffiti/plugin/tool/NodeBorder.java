@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: NodeBorder.java,v 1.7 2012/11/14 12:17:12 klapperipk Exp $
+// $Id: NodeBorder.java,v 1.6.4.1 2012/12/13 12:51:12 klapperipk Exp $
 
 package org.graffiti.plugin.tool;
 
@@ -23,7 +23,7 @@ import javax.swing.border.AbstractBorder;
 /**
  * DOCUMENT ME!
  * 
- * @version $Revision: 1.7 $ Provides a border used to mark selected nodes.
+ * @version $Revision: 1.6.4.1 $ Provides a border used to mark selected nodes.
  */
 public class NodeBorder
 					extends AbstractBorder {
