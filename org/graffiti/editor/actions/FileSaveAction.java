@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAction.java,v 1.15 2011/06/30 06:55:30 morla Exp $
+// $Id: FileSaveAction.java,v 1.15.2.1 2013/03/27 13:45:00 tczauderna Exp $
 
 package org.graffiti.editor.actions;
 
@@ -29,10 +29,10 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph.
  * 
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.15.2.1 $
  */
 public class FileSaveAction
-					extends GraffitiAction {
+		extends GraffitiAction {
 	// ~ Instance fields ========================================================
 	
 	private static final long serialVersionUID = 1L;
@@ -56,7 +56,7 @@ public class FileSaveAction
 	 *           DOCUMENT ME!
 	 */
 	public FileSaveAction(MainFrame mainFrame, IOManager ioManager,
-						SessionManager sessionManager) {
+			SessionManager sessionManager) {
 		super("file.save", mainFrame, "filemenu_save");
 		this.ioManager = ioManager;
 		this.sessionManager = sessionManager;
@@ -73,12 +73,14 @@ public class FileSaveAction
 	@Override
 	public boolean isEnabled() {
 		String fullName;
+		String fileTypeDescription;
 		EditorSession session = null;
 		try {
 			// these commands fail if the session has not yet been saved to
 			// a file
 			session = (EditorSession) mainFrame.getActiveSession();
 			fullName = session.getFileNameFull();
+			fileTypeDescription = session.getFileTypeDescription();
 		} catch (Exception e) {
 			return false;
 		}
@@ -92,7 +94,7 @@ public class FileSaveAction
 			File file = new File(fullName);
 			
 			if (file.canWrite()) {
-				ioManager.createOutputSerializer("." + ext);
+				ioManager.createOutputSerializer("." + ext, fileTypeDescription);
 				
 				// runtime error check, if exception, ioManager can not
 				// handle current file for saving.
@@ -130,10 +132,12 @@ public class FileSaveAction
 		// CK, 1.Juli.2003 Copied and modified from SaveAsAction
 		EditorSession session;
 		String fullName;
+		String fileTypeDescription;
 		
 		try {
 			session = (EditorSession) mainFrame.getActiveSession();
 			fullName = session.getFileNameFull();
+			fileTypeDescription = session.getFileTypeDescription();
 			if (session != null && session.getUndoManager() != null)
 				session.getUndoManager().discardAllEdits();
 		} catch (Exception err) {
@@ -148,7 +152,7 @@ public class FileSaveAction
 		
 		if (file.canWrite()) {
 			try {
-				OutputSerializer os = ioManager.createOutputSerializer(ext);
+				OutputSerializer os = ioManager.createOutputSerializer(ext, fileTypeDescription);
 				if (os == null) {
 					MainFrame.showMessageDialog("Unknown outputserializer for file extension " + ext, "Error");
 				} else {

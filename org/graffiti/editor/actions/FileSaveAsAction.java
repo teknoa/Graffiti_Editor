@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: FileSaveAsAction.java,v 1.19 2012/07/19 07:42:58 tczauderna Exp $
+// $Id: FileSaveAsAction.java,v 1.19.2.1 2013/03/27 13:45:00 tczauderna Exp $
 
 package org.graffiti.editor.actions;
 
@@ -41,7 +41,7 @@ import org.graffiti.session.SessionManager;
 /**
  * The action for saving a graph to a named file.
  * 
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.19.2.1 $
  */
 public class FileSaveAsAction
 		extends GraffitiAction {
@@ -57,6 +57,7 @@ public class FileSaveAsAction
 	/** DOCUMENT ME! */
 	private StringBundle sBundle;
 	
+	String fileTypeDescription;
 	JTextField jTextFieldFileName;
 	boolean isTextFieldFileNameSearchDone;
 	
@@ -109,6 +110,7 @@ public class FileSaveAsAction
 		
 		OpenFileDialogService.setActiveDirectoryFor(fc);
 		
+		this.fileTypeDescription = null;
 		this.jTextFieldFileName = null;
 		this.isTextFieldFileNameSearchDone = false;
 		PropertyChangeListener propertyChangeListener = new PropertyChangeListener() {
@@ -121,11 +123,20 @@ public class FileSaveAsAction
 						fileChooser.getSelectedFile() != null) {
 					String fileName = fileChooser.getSelectedFile().getName();
 					// try to set file filter to current file extension
-					for (FileFilter filterFilter : fileChooser.getChoosableFileFilters())
-						if (fileName.endsWith(((GenericFileFilter) filterFilter).getExtension())) {
-							fileChooser.setFileFilter(filterFilter);
-							break;
-						}
+					if (FileSaveAsAction.this.fileTypeDescription != null) {
+						for (FileFilter filterFilter : fileChooser.getChoosableFileFilters())
+							if (((GenericFileFilter) filterFilter).getDescription().startsWith(FileSaveAsAction.this.fileTypeDescription) &&
+									fileName.endsWith(((GenericFileFilter) filterFilter).getExtension())) {
+								fileChooser.setFileFilter(filterFilter);
+								break;
+							}
+					}
+					else
+						for (FileFilter filterFilter : fileChooser.getChoosableFileFilters())
+							if (fileName.endsWith(((GenericFileFilter) filterFilter).getExtension())) {
+								fileChooser.setFileFilter(filterFilter);
+								break;
+							}
 					// try to find file name text field in file save as dialog
 					FileSaveAsAction.this.jTextFieldFileName = getTextFieldFileName(fileChooser.getComponents(), fileName);
 					FileSaveAsAction.this.isTextFieldFileNameSearchDone = true;
@@ -162,6 +173,7 @@ public class FileSaveAsAction
 		
 		try {
 			String n = getGraph().getName(true);
+			this.fileTypeDescription = getGraph().getFileTypeDescription();
 			String on = n;
 			if (n.endsWith("*"))
 				n = n.substring(0, n.length() - 1);
@@ -197,6 +209,8 @@ public class FileSaveAsAction
 				
 				File file = fc.getSelectedFile();
 				String ext = ((GenericFileFilter) fc.getFileFilter()).getExtension();
+				String description = ((GenericFileFilter) fc.getFileFilter()).getDescription();
+				description = description.substring(0, description.lastIndexOf("(") - 1);
 				
 				String path = fc.getCurrentDirectory().getAbsolutePath();
 				String fileName = file.getName();
@@ -224,7 +238,7 @@ public class FileSaveAsAction
 				if (!fileName.endsWith(ext))
 					file = new File(path + File.separator + fileName + ext);
 				
-				needFile = safeFile(file, ext, getGraph());
+				needFile = safeFile(file, ext, description, getGraph());
 				
 				FileHandlingManager.getInstance().throwFileSavedAs(oldfile, file.getParentFile());
 				
@@ -234,6 +248,7 @@ public class FileSaveAsAction
 					if (!file.getName().endsWith(ext))
 						file = new File(file.getAbsolutePath() + ext);
 					session.setFileName(file.getAbsolutePath());
+					session.setFileTypeDescription(description);
 					
 					if (session != null && session.getUndoManager() != null)
 						session.getUndoManager().discardAllEdits();
@@ -249,7 +264,7 @@ public class FileSaveAsAction
 		fc.removePropertyChangeListener(propertyChangeListener);
 	}
 	
-	public static boolean safeFile(File file, String ext, Graph graph) {
+	public static boolean safeFile(File file, String ext, String fileTypeDescription, Graph graph) {
 		String fileName = file.getName();
 		boolean needFile = true;
 		// System.err.println(fileName);
@@ -276,7 +291,7 @@ public class FileSaveAsAction
 		if (!needFile) {
 			try {
 				IOManager ioManager = MainFrame.getInstance().getIoManager();
-				OutputSerializer os = ioManager.createOutputSerializer(ext);
+				OutputSerializer os = ioManager.createOutputSerializer(ext, fileTypeDescription);
 				if (os == null)
 					MainFrame.getInstance().showMessageDialog("Output serializer unknown for file extension '" + ext + "'.");
 				else {
@@ -284,6 +299,7 @@ public class FileSaveAsAction
 					os.write(new FileOutputStream(file), graph);
 					graph.setModified(false);
 					graph.setName(file.getAbsolutePath());
+					graph.setFileTypeDescription(fileTypeDescription);
 					long fs = file.length();
 					MainFrame.showMessage("Graph saved to file " + file.getAbsolutePath() + " (" + (fs / 1024) + "KB)", MessageType.INFO);
 					MainFrame.getInstance().addNewRecentFileMenuItem(file);

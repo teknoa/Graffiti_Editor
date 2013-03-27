@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: MainFrame.java,v 1.164.2.1 2013/02/26 08:34:43 tczauderna Exp $
+// $Id: MainFrame.java,v 1.164.2.2 2013/03/27 13:45:01 tczauderna Exp $
 
 package org.graffiti.editor;
 
@@ -198,7 +198,7 @@ import scenario.ScenarioService;
 /**
  * Constructs a new graffiti frame, which contains the main gui components.
  * 
- * @version $Revision: 1.164.2.1 $
+ * @version $Revision: 1.164.2.2 $
  */
 public class MainFrame extends JFrame implements SessionManager, SessionListener, PluginManagerListener,
 		UndoableEditListener, EditorDefaultValues, IOManager.IOManagerListener, ViewManager.ViewManagerListener,
@@ -1330,6 +1330,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			}
 			g.setName(fileName);
 			g.setModified(false);
+			String[] fileTypeDescriptions = is.getFileTypeDescriptions();
+			if (fileTypeDescriptions != null && fileTypeDescriptions.length > 0)
+				g.setFileTypeDescription(fileTypeDescriptions[0]);
 			EditorSession es = new EditorSession(g);
 			
 			try {
@@ -1377,6 +1380,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			}
 			g.setName(u);
 			g.setModified(false);
+			String[] fileTypeDescriptions = is.getFileTypeDescriptions();
+			if (fileTypeDescriptions != null && fileTypeDescriptions.length > 0)
+				g.setFileTypeDescription(fileTypeDescriptions[0]);
 			return g;
 		} catch (org.graffiti.plugin.io.ParserException e1) {
 			ErrorMsg.addErrorMessage(e1);
@@ -1593,6 +1599,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	
 	public Graph getGraph(File file) throws Exception {
 		Graph newGraph = null;
+		String[] fileTypeDescriptions = null;
 		graphLoadingInProgress = true;
 		try {
 			String fileName = file.getName();
@@ -1610,6 +1617,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					is.read(file.getAbsolutePath(), tempGraph);
 				}
 				newGraph = tempGraph;
+				fileTypeDescriptions = is.getFileTypeDescriptions();
 			} else {
 				InputSerializer is;
 				MyInputStreamCreator inputStream = new MyInputStreamCreator(gz, file.getAbsolutePath());
@@ -1618,6 +1626,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 					synchronized (ioManager) {
 						newGraph = is.read(inputStream.getNewInputStream());
 					}
+					fileTypeDescriptions = is.getFileTypeDescriptions();
 				} else {
 					showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
 				}
@@ -1625,6 +1634,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 			if (newGraph != null) {
 				newGraph.setName(file.getAbsolutePath());
 				newGraph.setModified(false);
+				if (fileTypeDescriptions != null && fileTypeDescriptions.length > 0)
+					newGraph.setFileTypeDescription(fileTypeDescriptions[0]);
 			}
 		} finally {
 			graphLoadingInProgress = false;
@@ -1647,6 +1658,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 	 */
 	public Graph getGraph(IOurl url, String fileName) throws Exception {
 		Graph newGraph = null;
+		String[] fileTypeDescriptions = null;
 		graphLoadingInProgress = true;
 		try {
 			String ext = fileName.contains(".") ? fileName.substring(fileName.lastIndexOf(".")) : "";
@@ -1656,6 +1668,7 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				synchronized (ioManager) {
 					newGraph = is.read(url.getInputStream());
 				}
+				fileTypeDescriptions = is.getFileTypeDescriptions();
 			} else {
 				showMessageDialog("No known input serializer for file extension " + ext + "!", "Error");
 			}
@@ -1665,6 +1678,8 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 				else
 					newGraph.setName(fileName);
 				newGraph.setModified(false);
+				if (fileTypeDescriptions != null && fileTypeDescriptions.length > 0)
+					newGraph.setFileTypeDescription(fileTypeDescriptions[0]);
 			}
 		} finally {
 			graphLoadingInProgress = false;
@@ -1697,9 +1712,9 @@ public class MainFrame extends JFrame implements SessionManager, SessionListener
 		}
 	}
 	
-	public void saveGraphAs(Graph graph, String fileName) throws Exception {
+	public void saveGraphAs(Graph graph, String fileName, String fileTypeDescription) throws Exception {
 		String ext = FileSaveAction.getFileExt(fileName);
-		OutputSerializer os = ioManager.createOutputSerializer(ext);
+		OutputSerializer os = ioManager.createOutputSerializer(ext, fileTypeDescription);
 		OutputStream outpS = new FileOutputStream(fileName);
 		if (os == null)
 			ErrorMsg.addErrorMessage("Invalid outputstream serializer for extension " + ext);
