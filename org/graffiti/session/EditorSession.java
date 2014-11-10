@@ -5,7 +5,7 @@
 // Copyright (c) 2001-2004 Gravisto Team, University of Passau
 //
 // ==============================================================================
-// $Id: EditorSession.java,v 1.18 2010/12/22 13:05:54 klukas Exp $
+// $Id: EditorSession.java,v 1.19 2014/11/10 00:10:09 klapperipk Exp $
 
 package org.graffiti.session;
 
@@ -27,12 +27,12 @@ import org.graffiti.selection.SelectionModel;
  * which can manipulate the graph object. It also contains the current editor
  * mode and the selection model.
  * 
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  * @see org.graffiti.session.Session
  */
 public class EditorSession
-					extends Session
-					implements ActionListener {
+		extends Session
+		implements ActionListener {
 	// ~ Instance fields ========================================================
 	
 	/**
@@ -98,7 +98,7 @@ public class EditorSession
 	public void setClosing() {
 		if (closing) {
 			throw new RuntimeException("The session \"" + this.toString() +
-								"\" is already in the closing state.");
+					"\" is already in the closing state.");
 		} else {
 			closing = true;
 		}
@@ -201,6 +201,29 @@ public class EditorSession
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	
+	/**
+	 * Sets a file type description which can be used to choose
+	 * an appropriate output serializer independent of the file
+	 * extension.
+	 * @param fileTypeDescription
+	 */
+	public void setFileTypeDescription(String fileTypeDescription) {
+		
+		this.graph.setFileTypeDescription(fileTypeDescription);
+		
+	}
+	
+	/**
+	 * Returns a file type description which can be used to choose an
+	 * appropriate output serializer independent of the file extension.
+	 * @return a file type description
+	 */
+	public String getFileTypeDescription() {
+		
+		return this.graph.getFileTypeDescription();
+		
 	}
 	
 }
